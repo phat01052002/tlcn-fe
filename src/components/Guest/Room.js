@@ -1,7 +1,9 @@
 import React from 'react'
-
-export default function Room() {
+import './css/Room.css'
+export default function Room({key,room}) {
   return (
-    <div>Room</div>
+    <div className='room'>
+        {room.roomName}
+    </div>
   )
 }

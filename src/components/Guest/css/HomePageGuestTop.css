@@ -4,6 +4,12 @@
     height: 50px;
     text-align: center;
 }
+.homepage-top-new{
+    font: bold 1.2rem "Fira Sans", serif;
+    margin-top: 0px;
+    height: 30px;
+    text-align: center;
+}
 
 .all-product{
     height: 50px;
@@ -15,6 +21,19 @@
     border-radius:10px;
     justify-content: center;
     margin-right: 20px;
+
+}
+.all-product-new{
+    height: 30px;
+    width: 100%;
+    display: flex;
+    background-color: #505050;
+    color:aliceblue;
+    align-items: center;
+    border-radius:10px;
+    justify-content: center;
+    margin-right: 20px;
+    font-size: 16px;
 
 }
 
@@ -39,6 +58,15 @@
     justify-content: center;
     border-radius:50px;
 }
+.naviga-new{
+    height: 30px;
+    display: flex;
+    background-color: #505050;
+    color:aliceblue;
+    align-items: center;
+    justify-content: center;
+    border-radius:50px;
+}
 .naviga:hover{
     opacity: 0.8;
     cursor: pointer;
@@ -47,3 +75,4 @@
     margin-top: 50px;
     background-color: white;
 }
+

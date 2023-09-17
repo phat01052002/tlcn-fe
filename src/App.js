@@ -2,8 +2,7 @@ import './App.css';
 import { BrowserRouter, Route,Routes,Switch } from 'react-router-dom';
 import PageLogin from './components/PageLogin';
 import PageGuest from './components/Guest/PageGuest';
-import PageCart from './components/PageCart';
-
+import PageCart from './components/PageCart'
 function App() {
   return(
     <BrowserRouter> 
@@ -17,6 +16,7 @@ function App() {
         <Route path="/cart"  element={<PageCart/>}> </Route>
       </Routes>
     </BrowserRouter>
+    
   )
 }
 export default App;

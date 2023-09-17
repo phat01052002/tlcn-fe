@@ -1,0 +1,22 @@
+.lst-room{
+    width: 100%;
+    border-style: solid;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+.room{
+    padding:40px 0;
+    font: bold 1.2rem "Fira Sans", serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.room:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    background: aliceblue;
+    ;
+    font-size: 25px;
+}
