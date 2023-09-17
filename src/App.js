@@ -1,32 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
-import PageAdmin from './components/Admin/PageAdmin';
-import { useState } from 'react';
+import { BrowserRouter, Route,Routes,Switch } from 'react-router-dom';
+import PageLogin from './components/PageLogin';
 import PageGuest from './components/Guest/PageGuest';
-import PageUser from './components/User/PageUser';
-import PageShipper from './components/Shipper/PageShipper';
+import PageCart from './components/PageCart';
 
 function App() {
-  const [roleUser,setRoleUser] = useState("admin");
-  if(roleUser=="guest"){
-    return (
-      <PageGuest/>
-    );
-  }
-  if(roleUser=="admin"){
-    return (
-      <PageAdmin/>
-    );
-  }
-  if(roleUser=="user"){
-    return (
-      <PageUser/>
-    );
-  }
-  if(roleUser=="shipper"){
-    return (
-      <PageShipper/>
-    );
-  }
+  return(
+    <BrowserRouter> 
+      <Routes>
+        <Route path="/guest"  element={<PageGuest/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/login"  element={<PageLogin/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/cart"  element={<PageCart/>}> </Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 export default App;

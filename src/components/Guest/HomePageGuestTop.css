@@ -1,0 +1,49 @@
+.homepage-top{
+    font: bold 1.2rem "Fira Sans", serif;
+    margin-top: 40px;
+    height: 50px;
+    text-align: center;
+}
+
+.all-product{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    background-color: #505050;
+    color:aliceblue;
+    align-items: center;
+    border-radius:10px;
+    justify-content: center;
+    margin-right: 20px;
+
+}
+
+.list-all-product{
+    margin-right: 5px;
+}
+
+.all-product:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.info-homepage-top{
+    border-radius:6px;
+}
+
+.naviga{
+    height: 50px;
+    display: flex;
+    background-color: #505050;
+    color:aliceblue;
+    align-items: center;
+    justify-content: center;
+    border-radius:50px;
+}
+.naviga:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.img-homepage{
+    margin-top: 50px;
+    background-color: white;
+}

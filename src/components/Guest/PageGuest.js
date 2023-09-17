@@ -1,7 +1,12 @@
 import React from 'react'
+import HeaderGuest from '../Header/HeaderGuest'
+import HomePageGuestTop from './HomePageGuestTop'
 
 export default function PageGuest() {
   return (
-    <div>PageGuest</div>
+    <div>
+      <HeaderGuest/>
+      <HomePageGuestTop/>
+    </div>
   )
 }
