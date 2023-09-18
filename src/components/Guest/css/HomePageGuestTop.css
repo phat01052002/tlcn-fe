@@ -76,3 +76,10 @@
     background-color: white;
 }
 
+.list-room-header{
+    visibility: hidden;
+}
+
+.list-room-header-new{
+    visibility: visible;
+}

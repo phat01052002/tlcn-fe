@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Room from './Room'
 import './css/Room.css'
 
-export default function ListRoom() {
+export default function ListRoom({onMouseOverRoom}) {
   const [listRoom,setListRoom]=useState([])
   useEffect(()=>{
     axios.get('/room')
@@ -12,7 +12,7 @@ export default function ListRoom() {
   },[])
   return (
     <div className='lst-room'>
-        {listRoom.map((room)=><Room key={room.id} room={room}/>)}
+        {listRoom.map((room)=><Room key={room.id} room={room} onMouseOverRoom={onMouseOverRoom}/>)}
     </div>
   )
 }

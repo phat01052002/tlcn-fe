@@ -1,0 +1,13 @@
+.category{
+    font: bold 1.2rem "Fira Sans", serif;
+    text-align: center;
+    padding:20px 0;
+}
+
+.category:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    background: aliceblue;
+    ;
+    font-size: 25px;
+}

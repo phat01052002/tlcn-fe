@@ -2,7 +2,7 @@
     width: 100%;
     border-style: solid;
     border-radius: 6px;
-    margin-top: 10px;
+    border-width: 1px;
 }
 .room{
     padding:40px 0;
@@ -20,3 +20,41 @@
     ;
     font-size: 25px;
 }
+.navigaCategory{
+    background-color: white;
+    z-index: 1;
+    position: absolute;
+    border-style: solid;
+    border-radius: 6px;
+    border-width: 1px;
+    color: black;
+    visibility: hidden;
+    margin-top: 10px;
+    width: 50%;
+    height: 50%;
+
+}
+
+.navigaCategory-new{
+    background-color: white;
+    z-index: 1;
+    position: absolute;
+    color: black;
+    border-style:solid;
+    border-radius: 6px;
+    border-width: 1px;
+    visibility: visible;
+    animation-name: category;
+    animation-duration: 0.5s;
+    width: 50%;
+    height: 50%;
+}
+
+@keyframes category{
+    0%{
+      opacity: 0.5;
+    }
+    100%{
+      opacity: 1;
+    }   
+  }

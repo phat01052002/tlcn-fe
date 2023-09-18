@@ -2,4 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    visibility: visible;
+}
+.list-room-view-new{
+    visibility: hidden;
+}
+.img-page{
+    object-fit:fill;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 6px;
 }
