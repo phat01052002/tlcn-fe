@@ -1,11 +1,13 @@
 .homepage-top{
-    font: bold 1.2rem "Fira Sans", serif;
+    font: "Roboto","Arial",sans-serif;
+    font-style: bold;
     margin-top: 40px;
     height: 50px;
     text-align: center;
 }
 .homepage-top-new{
-    font: bold 1.2rem "Fira Sans", serif;
+    font: "Roboto","Arial",sans-serif;
+    font-style: bold;
     margin-top: 0px;
     height: 30px;
     text-align: center;
@@ -15,7 +17,7 @@
     height: 50px;
     width: 100%;
     display: flex;
-    background-color: #505050;
+    background-color: #D02090;
     color:aliceblue;
     align-items: center;
     border-radius:10px;
@@ -27,13 +29,14 @@
     height: 30px;
     width: 100%;
     display: flex;
-    background-color: #505050;
+    background-color: #D02090;
     color:aliceblue;
     align-items: center;
     border-radius:10px;
     justify-content: center;
     margin-right: 20px;
     font-size: 16px;
+    
 
 }
 
@@ -52,8 +55,8 @@
 .naviga{
     height: 50px;
     display: flex;
-    background-color: #505050;
-    color:aliceblue;
+    background-color: #D02090;
+    color:white;
     align-items: center;
     justify-content: center;
     border-radius:50px;
@@ -61,8 +64,9 @@
 .naviga-new{
     height: 30px;
     display: flex;
-    background-color: #505050;
-    color:aliceblue;
+    background-color: #D02090
+    ed		;
+    color:white;
     align-items: center;
     justify-content: center;
     border-radius:50px;
@@ -76,10 +80,10 @@
     background-color: white;
 }
 
-.list-room-header{
+.list-category-header{
     visibility: hidden;
 }
 
-.list-room-header-new{
+.list-category-header-new{
     visibility: visible;
 }

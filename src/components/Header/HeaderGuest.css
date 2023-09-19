@@ -7,13 +7,13 @@
     }   
   }
 .header-guest{
- 
     width: 100%;
     height: 150px;
     padding: 10px 10px;
     font: italic 1.2rem "Fira Sans", serif;
-    background-color: aliceblue;
+    background-color: #f2f2f2		;
     z-index: 99;
+    color:black	;
     ;
 }
 .header-guest-new{
@@ -22,14 +22,16 @@
         width: 100%;
         padding: 1px 10px;
         font: italic 1.2rem "Fira Sans", serif;
-        background-color: aliceblue;
+        background-color: #f2f2f2		;
         animation-name: header ;
         animation-duration: 0.5s;
         z-index: 99;
+        color:black	;
 }
 
 .logo-img{
-    object-fit:contain;
+    object-fit:cover;
+    width: 100px;
 }
 
 .icon-search{
@@ -41,17 +43,21 @@
 .input-search{
     text-align: center;
     margin-top: 20px;
+    border-radius: 20px !important;
+    border-color: #FF00FF !important;
 }
 .login-btn{
     padding-top: 20px;
     margin-left: 40px;
 }
 .login{
-    color:black;
     text-decoration: none;
+    color:black	;
+    
 }
 .login:hover{
-    text-decoration:underline;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .cart-btn{
@@ -60,23 +66,26 @@
 }
 .cart-btn:hover{
     cursor: pointer;
+    font-weight: bold;
 
 }
 .cart{
-    color:black;
     text-decoration: none;
+    color:black	;
 }
 
 .demo{
     text-align: center;
     font: italic 1.2rem "Fira Sans", serif;
     font-size: 17px;
+    color:black	;
 }
 
 .hotline{
     text-align: center;
     font: italic 1.2rem "Fira Sans", serif;
     font-size: 17px;
+    color:black	;
 
 }
 
