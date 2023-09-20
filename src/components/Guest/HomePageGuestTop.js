@@ -48,15 +48,15 @@ export default function HomePageGuestTop({hide,guestOrUser}) {
                             <ListCategory />
                     </div> 
                 </div>
-                <div className='col-9 info-homepage-top row'>
+                <div className='col-9 row info-homepage-top'>
                     <div  className='col-4 naviga'>
-                        BEST SELLER
+                        BỘ SƯU TẬP
                     </div>
                     <div className='col-4 naviga'>
-                        DISCOUNT
+                        THIẾT KẾ NỘI THẤT
                     </div>
                     <div className='col-4 naviga'>
-                        BLOG
+                        NGUỒN CẢM HỨNG
                     </div>
                 </div>
             </div>

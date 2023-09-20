@@ -10,23 +10,21 @@
     width: 100%;
     height: 150px;
     padding: 10px 10px;
-    font: italic 1.2rem "Fira Sans", serif;
-    background-color: #f2f2f2		;
+    border-bottom:solid	;
+    border-color:gray;
+    border-width:1px;
     z-index: 99;
     color:black	;
-    ;
 }
 .header-guest-new{
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 1px 10px;
-        font: italic 1.2rem "Fira Sans", serif;
-        background-color: #f2f2f2		;
-        animation-name: header ;
-        animation-duration: 0.5s;
-        z-index: 99;
-        color:black	;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1px 10px;
+    background-color: #f2f2f2		;
+    animation-name: header ;
+    animation-duration: 0.5s;
+    color:black	;
 }
 
 .logo-img{
@@ -36,19 +34,20 @@
 
 .icon-search{
     position: absolute;
-    margin-top: 19px;
+    margin-top: 17px;
     z-index: 1;
+    
 }
 
 .input-search{
     text-align: center;
     margin-top: 20px;
     border-radius: 20px !important;
-    border-color: #FF00FF !important;
+    border-color: #FF00CC !important;
 }
 .login-btn{
     padding-top: 20px;
-    margin-left: 40px;
+    text-align: center;
 }
 .login{
     text-decoration: none;
@@ -62,6 +61,7 @@
 
 .cart-btn{
     padding-top: 15px;
+    text-align: center;
     
 }
 .cart-btn:hover{

@@ -1,0 +1,40 @@
+.product{
+    display: inline-table;
+    width: 23.7% ;
+    margin: 40px 10px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+.img-product{
+    height: 200px;
+}
+
+.product-content{
+    display: inline-table;
+}
+
+.btn-addtocart-product{
+    display: flex;
+    text-align: center;
+    border-radius: 6px;
+    border-width: 1px;
+    padding:8px 10px;
+    visibility: hidden;
+
+}
+
+.product:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    border: solid;
+    border-radius: 20px;
+    border-color: #FF00CC;
+    border-width: 1px;
+}
+.product:hover .btn-addtocart-product{
+    visibility: visible;
+}
+.btn-addtocart-product:hover{
+    background-color: #FF00CC;
+    color: white;
+}

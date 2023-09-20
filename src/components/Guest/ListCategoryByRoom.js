@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-import Category from './Category'
+import Category from '../Category/Category'
+import CategoryTop from './CategoryTop'
 
 let room1=[]
 let room2=[]
@@ -40,7 +41,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room1.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
@@ -49,7 +50,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room2.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
@@ -58,7 +59,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room3.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
@@ -67,7 +68,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room4.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
@@ -76,7 +77,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room5.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
@@ -85,7 +86,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room6.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
@@ -94,7 +95,7 @@ export default function ListCategoryByRoom({roomId}) {
         return (
             <div>
                 {room7.map((cat)=>
-                    <Category key={cat.categoryId} category={cat}/>
+                    <CategoryTop key={cat.categoryId} category={cat}/>
                 )}
             </div>
         )
