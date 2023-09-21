@@ -1,12 +1,13 @@
 .product{
-    display: inline-table;
-    width: 23.7% ;
-    margin: 40px 10px;
+    display: inline-block;
+    width: 33.33% ;
     text-align: center;
     padding-bottom: 20px;
+    padding: 20px;
 }
 .img-product{
-    height: 200px;
+    width: 100%;
+    object-fit: cover;
 }
 
 .product-content{
@@ -19,6 +20,7 @@
     border-radius: 6px;
     border-width: 1px;
     padding:8px 10px;
+    margin-top: 20px;
     visibility: hidden;
 
 }
@@ -26,10 +28,7 @@
 .product:hover{
     opacity: 0.8;
     cursor: pointer;
-    border: solid;
-    border-radius: 20px;
-    border-color: #FF00CC;
-    border-width: 1px;
+  
 }
 .product:hover .btn-addtocart-product{
     visibility: visible;

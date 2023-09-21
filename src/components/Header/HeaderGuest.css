@@ -24,24 +24,35 @@
     background-color: #f2f2f2		;
     animation-name: header ;
     animation-duration: 0.5s;
+    z-index: 99;
     color:black	;
 }
-
+.linkToGuest{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
 .logo-img{
     object-fit:cover;
     width: 100px;
 }
 
 .icon-search{
-    position: absolute;
-    margin-top: 17px;
+    position:absolute;
     z-index: 1;
+    margin-bottom: 3px;
+    left: 3%;
     
 }
 
 .input-search{
     text-align: center;
-    margin-top: 20px;
     border-radius: 20px !important;
     border-color: #FF00CC !important;
 }
@@ -60,7 +71,7 @@
 }
 
 .cart-btn{
-    padding-top: 15px;
+    padding-top: 18px;
     text-align: center;
     
 }
