@@ -9,12 +9,12 @@
 .header-guest{
     width: 100%;
     height: 150px;
-    padding: 10px 10px;
+    padding: 10px 0px;
     font: italic 1.2rem "Fira Sans", serif;
     background-color: #f2f2f2		;
     z-index: 99;
     color:black	;
-    ;
+    margin-left: 0px !important;
 }
 .header-guest-new{
         position: fixed;
