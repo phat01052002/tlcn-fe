@@ -26,7 +26,7 @@ export default function PageGuest() {
       <div id='content'>
         <div id='list-room' className='list-room row' >
                 <div className='col-1'></div>
-                <div className='col-10 row' onMouseLeave={onMouseLeave}>
+                <div className='img-home-page col-10 row' onMouseLeave={onMouseLeave}>
                   <div id='list-room-view' className='list-room-view col-3'>
                       <ListRoom onMouseOverRoom={onMouseOverRoom}/>
                   </div>
@@ -34,7 +34,7 @@ export default function PageGuest() {
                     <div id='navigaCategory' className='navigaCategory' onMouseLeave={onMouseLeave}>
                         <ListCategoryByRoom roomId={roomId}/>
                     </div>
-                    <img className='img-page' src='https://shinedesign.vn/wp-content/uploads/2021/06/km-san-se-noi-lo-voi-khach-hang-noi-that.jpg'></img>
+          
                   </div>
                 </div>
                 <div className='col-1'></div>

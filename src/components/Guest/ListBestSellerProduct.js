@@ -12,7 +12,6 @@ export default function ListBestSellerProduct() {
     },[])
   return (
     <div >
-        {console.log(listProductBestSeller)}
         {listProductBestSeller.map((product)=>
             <Product key={product.productId} product={product}/>
         )}

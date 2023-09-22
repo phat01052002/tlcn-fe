@@ -25,7 +25,7 @@
 
 }
 
-.product:hover{
+.img-product:hover{
     opacity: 0.8;
     cursor: pointer;
   
@@ -34,7 +34,7 @@
     visibility: visible;
 }
 .btn-addtocart-product:hover{
-    background-color: #FF00CC;
+    background-color: rgb(10, 124, 255);
     color: white;
 }
 

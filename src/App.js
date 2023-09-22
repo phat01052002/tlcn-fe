@@ -4,6 +4,7 @@ import PageLogin from './components/PageLogin';
 import PageGuest from './components/Guest/PageGuest';
 import PageCart from './components/PageCart'
 import PageCategory from './components/Category/PageCategory';
+import PageProductDetail from './components/Product/PageProductDetail';
 function App() {
   return(
     <BrowserRouter> 
@@ -18,6 +19,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/category/:categoryId" element={<PageCategory/>}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/product/:productId" element={<PageProductDetail/>}></Route>
       </Routes>
     </BrowserRouter>
     

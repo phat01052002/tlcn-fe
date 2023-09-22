@@ -1,26 +1,26 @@
 .lst-room{
     width: 100%;
     color:black;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 }
 .room{
     padding:20px 0;
     padding-left: 30px;
-    font: bold 1.2rem "Fira Sans", serif;
+    font-weight: bold;
     display: flex;
     align-items: center;
     width: 100%;
     height: 100%;
-    color: 0066FF;
     border-radius: 6px;
 }
 .room:hover{
     opacity: 0.8;
     cursor: pointer;
-    background: #FF00CC	;
+    background: rgb(10, 124, 255);	;
     ;
     color: white;
-    font-size: 25px;
+    font-size: 20px;
 }
 .navigaCategory{
     background-color: white;
@@ -29,7 +29,7 @@
     border-style: solid;
     border-radius: 6px;
     border-width: 1px;
-    border-color: #FF00CC	 !important;
+    border-color: rgb(10, 124, 255) !important;
     color: black;
     visibility: hidden;
     margin-top: 10px;

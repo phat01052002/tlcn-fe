@@ -7,13 +7,12 @@
     }   
   }
 .header-guest{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 150px;
+    height: 120px;
     padding: 10px 0px;
-    font: italic 1.2rem "Fira Sans", serif;
-    border-bottom: solid;
-    border-width: 1px;
-    border-color: black;
     z-index: 99;
     color:black;
 }
@@ -55,35 +54,47 @@
 .input-search{
     text-align: center;
     border-radius: 20px !important;
-    border-color: #FF00CC !important;
+    border-color: rgb(10, 124, 255) !important;
 }
 .login-btn{
-    padding-top: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 .login{
     text-decoration: none;
     color:black	;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
-.login:hover{
+.login-btn:hover .login{
     cursor: pointer;
     font-weight: bold;
-}
-
-.cart-btn{
-    padding-top: 18px;
-    text-align: center;
-    
-}
-.cart-btn:hover{
-    cursor: pointer;
-    font-weight: bold;
-
+    color: rgb(10, 124, 255);
 }
 .cart{
     text-decoration: none;
     color:black	;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+}
+.cart-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px; 
+}
+.cart-btn:hover .cart{
+    cursor: pointer;
+    font-weight: bold;
+    color: rgb(10, 124, 255);
+
 }
 
 .demo{

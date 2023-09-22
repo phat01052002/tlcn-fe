@@ -1,24 +1,19 @@
 .homepage-top{
-    font: "Roboto","Arial",sans-serif;
-    font-style: bold;
-    margin-top: 40px;
-    height: 50px;
+    margin-top: 10px;
+    height: 40px;
     text-align: center;
-    margin-right: 0 !important;
 }
 .homepage-top-new{
-    font: "Roboto","Arial",sans-serif;
-    font-style: bold;
     margin-top: 0px;
-    height: 30px;
+    height: 20px;
     text-align: center;
 }
 
 .all-product{
-    height: 50px;
+    height: 40px;
     width: 100%;
     display: flex;
-    background-color: #FF00CC	;
+    background-color: rgb(10, 124, 255);	;
     color:black;
     align-items: center;
     border-radius:10px;
@@ -30,7 +25,7 @@
     height: 30px;
     width: 100%;
     display: flex;
-    background-color: #FF00CC	;
+    background-color: rgb(10, 124, 255);	;
     color:black;
     align-items: center;
     border-radius:10px;
@@ -50,12 +45,12 @@
 }
 .info-homepage-top{
     border-radius:10px;
-    background-color:#FF00CC	 ;
+    background-color:rgb(10, 124, 255);	 
     margin-left: 2px;
 }
 
 .naviga{
-    height: 50px;
+    height: 40px;
     display: flex;
     color:black;
     align-items: center;
