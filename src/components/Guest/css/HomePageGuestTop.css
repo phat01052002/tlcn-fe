@@ -4,6 +4,7 @@
     margin-top: 40px;
     height: 50px;
     text-align: center;
+    margin-right: 0 !important;
 }
 .homepage-top-new{
     font: "Roboto","Arial",sans-serif;

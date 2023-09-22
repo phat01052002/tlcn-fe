@@ -32,7 +32,7 @@ export default function HeaderGuest({guestOrUser}) {
             <div className='header-guest row'>
                 <div className='col-1'>
                 </div>
-                <div className='col-1 linkToGuest'>
+                <div className='col-1'>
                 <a href='/guest'>
                         <img src={logo} className='logo-img'></img>
                     </a>
@@ -48,20 +48,21 @@ export default function HeaderGuest({guestOrUser}) {
                     <input className='form-control input-search' placeholder='Tìm kiếm sản phẩm'></input> 
                 
                 </div>
-                <div className='col-1'></div>
                 <div className='login-btn col-2'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                     </svg>
                     &nbsp;
-                    <a className='login' href='/login'>Đăng nhập | Đăng ký</a>
+
+                    <a className='login' href='/login'>Đăng nhập</a>
                 </div>
-                <div className='cart-btn col-1'>
+                <div className='cart-btn col-2'>
                     <a className='cart' href='/cart'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
+                        <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/>
                     </svg>
                         &nbsp;
+
                         Giỏ hàng
                     </a>
                 </div>
@@ -89,15 +90,15 @@ export default function HeaderGuest({guestOrUser}) {
             <div className='row'>
                 <div className='col-1'>
                 </div>
-                <div className='col-1 linkToGuest' >
-                    <a href='/guest'>
+                <div className='col-1'>
+                <a href='/guest'>
                         <img src={logo} className='logo-img'></img>
                     </a>
                 </div>
                 <div className='col-5 search'>
                     <span className='icon-search'>
                         <button className='btn btn-search'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                         </svg>
                         </button>
@@ -105,19 +106,19 @@ export default function HeaderGuest({guestOrUser}) {
                     <input className='form-control input-search' placeholder='Tìm kiếm sản phẩm'></input> 
                 
                 </div>
-                <div className='col-1'></div>
                 <div className='login-btn col-2'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                     </svg>
                     &nbsp;
-                    <a className='login' href='/login'>Đăng nhập | Đăng ký</a>
+                    <a className='login' href='/login'>Đăng nhập</a>
                 </div>
-                <div className='cart-btn col-1'>
+                <div className='cart-btn col-2'>
                     <a className='cart' href='/cart'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
+                        <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/>
+                    </svg>
+                        &nbsp;
                         Giỏ hàng
                     </a>
                 </div>
