@@ -3,6 +3,7 @@ import HeaderGuest from '../Header/HeaderGuest'
 import ListRoom from './ListRoom'
 import './css/PageGuest.css'
 import ListCategoryByRoom from './ListCategoryByRoom'
+import ListBestSellerProduct from './ListBestSellerProduct'
 
 export default function PageGuest() {
   const imgPage=['https://img4.thuthuatphanmem.vn/uploads/2020/12/25/hinh-anh-noi-that-trong-nha_115826496.jpg',
@@ -22,7 +23,7 @@ export default function PageGuest() {
   return (
     <div>
       <HeaderGuest guestOrUser={true}/>
-      <div>
+      <div id='content'>
         <div id='list-room' className='list-room row' >
                 <div className='col-1'></div>
                 <div className='col-10 row' onMouseLeave={onMouseLeave}>
@@ -30,15 +31,26 @@ export default function PageGuest() {
                       <ListRoom onMouseOverRoom={onMouseOverRoom}/>
                   </div>
                   <div className='col-9'>
-                    <div id='navigaCategory' className='navigaCategory'>
+                    <div id='navigaCategory' className='navigaCategory' onMouseLeave={onMouseLeave}>
                         <ListCategoryByRoom roomId={roomId}/>
                     </div>
                     <img className='img-page' src='https://shinedesign.vn/wp-content/uploads/2021/06/km-san-se-noi-lo-voi-khach-hang-noi-that.jpg'></img>
                   </div>
                 </div>
                 <div className='col-1'></div>
-          </div>  
+        </div> 
+        <div  className='row product-bestSeller'>
+          <div className='col-1'></div>
+          <div className='col-10' id='product-bestSeller'>
+              <h3>Sản Phẩm Bán Chạy</h3>
+              <div className='list-product-bestSeller'>
+                <ListBestSellerProduct/>
+              </div>
+          </div>
+          <div className='col-1'></div>
+        </div>  
       </div>
+
       <br/>
       <br/>
       <br/>
@@ -62,20 +74,7 @@ export default function PageGuest() {
       <br/>
       <br/>
       <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+  
     </div>
 
   )

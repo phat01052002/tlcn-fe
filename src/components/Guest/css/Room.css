@@ -17,7 +17,7 @@
 .room:hover{
     opacity: 0.8;
     cursor: pointer;
-    background: #FF00FF;
+    background: #FF00CC	;
     ;
     color: white;
     font-size: 25px;
@@ -29,12 +29,10 @@
     border-style: solid;
     border-radius: 6px;
     border-width: 1px;
-    border-color: #FF00FF !important;
+    border-color: #FF00CC	 !important;
     color: black;
     visibility: hidden;
     margin-top: 10px;
-    width: 30%;
-    height: 50%;
 
 }
 
@@ -48,16 +46,17 @@
     border-width: 2px;
     visibility: visible;
     animation-name: category;
-    animation-duration: 0.5s;
-    width: 30%;
-    height: 50%;
+    animation-duration: 0.7s;
 }
 
 @keyframes category{
     0%{
       opacity: 0.5;
+      transform: translateX(-100px)
+
     }
     100%{
       opacity: 1;
+      transform: translateX(0px)
     }       
   }

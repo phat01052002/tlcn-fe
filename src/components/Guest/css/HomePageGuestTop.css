@@ -17,8 +17,8 @@
     height: 50px;
     width: 100%;
     display: flex;
-    background-color: #D02090;
-    color:aliceblue;
+    background-color: #FF00CC	;
+    color:black;
     align-items: center;
     border-radius:10px;
     justify-content: center;
@@ -29,14 +29,13 @@
     height: 30px;
     width: 100%;
     display: flex;
-    background-color: #D02090;
-    color:aliceblue;
+    background-color: #FF00CC	;
+    color:black;
     align-items: center;
     border-radius:10px;
     justify-content: center;
     margin-right: 20px;
     font-size: 16px;
-    
 
 }
 
@@ -49,31 +48,29 @@
     cursor: pointer;
 }
 .info-homepage-top{
-    border-radius:6px;
+    border-radius:10px;
+    background-color:#FF00CC	 ;
+    margin-left: 2px;
 }
 
 .naviga{
     height: 50px;
     display: flex;
-    background-color: #D02090;
-    color:white;
+    color:black;
     align-items: center;
     justify-content: center;
-    border-radius:50px;
 }
 .naviga-new{
     height: 30px;
-    display: flex;
-    background-color: #D02090
-    ed		;
-    color:white;
+    display: flex;	
+    color:black;
     align-items: center;
     justify-content: center;
-    border-radius:50px;
 }
 .naviga:hover{
     opacity: 0.8;
     cursor: pointer;
+    color: white;
 }
 .img-homepage{
     margin-top: 50px;
@@ -86,4 +83,23 @@
 
 .list-category-header-new{
     visibility: visible;
+}
+
+@keyframes listCategory{
+    0%{
+      transform: translateY(-200px)
+    }
+    100%{
+      transform: translateY(0);
+    }   
+  }
+  
+.list-category{
+    position: absolute;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: white;
+    width: 80%;
+    height: 450px;
+    animation-name: listCategory;
+    animation-duration: 0.5s;
 }

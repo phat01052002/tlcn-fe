@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect ,useState} from 'react'
-import Category from './Category'
-import './css/Category.css'
+import Category from '../Category/Category'
+import './css/PageGuest.css'
 export default function ListCategory() {
     const [listCategory,setListCategory]=useState([])
     useEffect(()=>{

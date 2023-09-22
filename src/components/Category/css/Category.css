@@ -14,7 +14,7 @@
     color: black;
     padding-left: 10px;
     font-size: 17px;
-    width: 16,7%;
+    width: 16.6%;
   }
 
 .category:hover{
@@ -23,12 +23,3 @@
     font-weight: bold ;
 }
 
-.list-category{
-    position: absolute;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    background-color: white;
-    width: 80%;
-    height: 450px;
-    animation-name: listCategory;
-    animation-duration: 0.5s;
-}
