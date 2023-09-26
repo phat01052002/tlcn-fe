@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import './css/Product.css'
 export default function Product({key,product}) {
   const naviga=useNavigate()
+  //format
   const formatter = new Intl.NumberFormat('vi', {
     style: 'currency',
     currency: 'VND',
   })
+  //add to cart
   const handleClickAddToCart=useCallback((productId)=>{
     console.log(productId)
   },[])
+  //handle click product
   const handleClickProduct=useCallback((productId)=>{
-    var nav=`/product/${productId}`
+    var nav=`/productdetail/${productId}`
     naviga(nav)
   },[])
   return (

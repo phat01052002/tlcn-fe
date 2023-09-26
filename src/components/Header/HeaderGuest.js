@@ -6,7 +6,9 @@ import HomePageGuestTop from '../Guest/HomePageGuestTop';
 let guestOrUsers;
 export default function HeaderGuest({guestOrUser}) {
     const [headerHide,setHeaderHide]=useState(false)
+    //
     guestOrUsers=guestOrUser
+    //event scroll window 
     useEffect(()=>{
         const handleScroll=()=>{
           if(window.scrollY>=250){
@@ -37,7 +39,7 @@ export default function HeaderGuest({guestOrUser}) {
                 </div>
                 <div className='col-1'>
                 <a href='/guest'>
-                        <img src={logo} className='logo-img'></img>
+                        <img src={"https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg"} className='logo-img'></img>
                     </a>
                 </div>
                 <div className='col-5 search'>
@@ -84,7 +86,7 @@ export default function HeaderGuest({guestOrUser}) {
                 </div>
                 <div className='col-1'>
                 <a href='/guest'>
-                        <img src={logo} className='logo-img'></img>
+                        <img src={"https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg"} className='logo-img-new'></img>
                     </a>
                 </div>
                 <div className='col-5 search'>

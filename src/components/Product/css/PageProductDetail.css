@@ -1,0 +1,98 @@
+.image-product{
+    object-fit: contain;
+    width: 100%;
+}
+.product-detail{
+    margin-top:100px
+}
+
+.info-product{
+    margin-top: 40px;
+    padding-left: 10px;
+}
+
+.info-product h5{
+    display: inline;
+}
+.btn-productdetail{
+    height: 40px;
+}
+.chose-number{
+    display: flex;
+    justify-content: center;
+}
+.number-product{
+    width: 33%;
+    text-align: center;
+}
+.decrease-btn{
+    background: #fff;
+    width: 33%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.increase-btn{
+    background: #fff;
+    width: 33%;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.decrease-btn:hover{
+    background-color: rgb(10, 124, 255);
+    opacity: 0.8;
+}
+.increase-btn:hover{
+    background-color: rgb(10, 124, 255);
+    opacity: 0.8;
+}
+.buynow{
+    display: flex;
+    justify-content: center;
+}
+.addtocart{
+    display: flex;
+    justify-content: center;
+}
+.btn-buynow{
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    width: 100%;
+}
+.btn-addtocart{
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+    width: 100%;
+}
+
+.btn-buynow:hover{
+    opacity: 0.8;
+}
+
+.btn-addtocart:hover{
+    opacity: 0.8;
+    background-color: #f1f1f1;
+}
+.behind-productdetail-content{
+    margin-top: 50px;
+    display: flex;
+}
+.behind-productdetail{
+    margin-bottom: 10px;
+    padding: 20px;
+    font-weight: bold;
+    border-bottom: solid;
+    border-width: 2px;
+}
+.behind-productdetail-current{
+    color:rgb(10, 124, 255) !important;
+}
+.behind-productdetail:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.componant-insuranse ul{
+    list-style:none;
+}

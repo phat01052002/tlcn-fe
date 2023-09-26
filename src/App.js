@@ -21,7 +21,7 @@ function App() {
         <Route path="/category/:categoryId" element={<PageCategory/>}></Route>
       </Routes>
       <Routes>
-        <Route path="/product/:productId" element={<PageProductDetail/>}></Route>
+        <Route path="/productdetail/:productId" element={<PageProductDetail/>}></Route>
       </Routes>
     </BrowserRouter>
     

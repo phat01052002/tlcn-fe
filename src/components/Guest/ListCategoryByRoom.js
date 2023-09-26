@@ -13,6 +13,7 @@ let room6=[]
 let room7=[]
 
 export default function ListCategoryByRoom({roomId}) {
+    // get data room
     useEffect(()=>{
         axios.get(`/room/categories/1`)
         .then(res=>room1=res.data)
@@ -36,7 +37,7 @@ export default function ListCategoryByRoom({roomId}) {
         .then(res=>room7=res.data)
         .catch(error=>console.log(error))
     },[])
-
+    //check room with Id
     if(roomId==1){
         return (
             <div>

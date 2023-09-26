@@ -4,15 +4,8 @@ import './css/HomePageGuestTop.css'
 import ListCategory from './ListCategory';
 export default function HomePageGuestTop({hide,guestOrUser}) {
     const onMouseEnterBtnProduct=useCallback((e)=>{
-        if(window.scrollY<50)
-        {
-            
-        }
-        else if(window.scrollY>50&&
-                 window.getComputedStyle(document.getElementById('list-category-header')).visibility === "hidden"){
             document.getElementById('list-category-header').classList.add('list-category-header-new')
 
-        }
     },[])
     const onMouseLeaveBtnProduct=useCallback((e)=>{
         document.getElementById('list-category-header').classList.remove('list-category-header-new')

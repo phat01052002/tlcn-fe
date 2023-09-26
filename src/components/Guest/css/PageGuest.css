@@ -22,7 +22,7 @@
     border-radius: 6px;
 }
 .img-home-page{
-    margin-top: 40px;
+    
 }
 
 .product-bestSeller{
@@ -39,27 +39,9 @@
     border-radius: 8px;
 }
 
-.btn-mess{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 55px;
-    height: 55px;
-    margin-right: 20px;
-    margin-bottom: 40px;
-    border-radius: 50px;
-    border-color: rgb(10, 124, 255);
-    background-color: rgb(10, 124, 255);
-}
-
 .icon-chat{
     padding: 2px;
     color: black;
 }
 
-.btn-mess:hover .icon-chat{
-    cursor: pointer;
-    opacity: 0.8;
-    color: white;
-}
 

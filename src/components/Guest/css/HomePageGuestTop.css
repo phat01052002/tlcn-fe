@@ -22,7 +22,7 @@
 
 }
 .all-product-new{
-    height: 30px;
+    height: 20px;
     width: 100%;
     display: flex;
     background-color: rgb(10, 124, 255);	;
@@ -31,7 +31,7 @@
     border-radius:10px;
     justify-content: center;
     margin-right: 20px;
-    font-size: 16px;
+    font-size: 12px;
 
 }
 
@@ -57,11 +57,12 @@
     justify-content: center;
 }
 .naviga-new{
-    height: 30px;
+    height: 20px;
     display: flex;	
     color:black;
     align-items: center;
     justify-content: center;
+    font-size: 12px;
 }
 .naviga:hover{
     opacity: 0.8;
@@ -98,4 +99,22 @@
     height: 450px;
     animation-name: listCategory;
     animation-duration: 0.5s;
+}
+
+.btn-mess{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 55px;
+    height: 55px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+    border-radius: 50px;
+    border-color: rgb(10, 124, 255);
+    background-color: #fff;
+}
+.btn-mess:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    background-color:rgb(10, 124, 255);
 }
