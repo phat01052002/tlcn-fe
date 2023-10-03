@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import logo from '../logo.svg'
 import './HeaderGuest.css'
 import "bootstrap/dist/css/bootstrap.css";
 import HomePageGuestTop from '../Guest/HomePageGuestTop';
+import ListSearch from '../Search/ListSearch';
 let guestOrUsers;
 export default function HeaderGuest({guestOrUser}) {
     const [headerHide,setHeaderHide]=useState(false)
+    //value input
+    const [inputSearch,setInputSearch] =useState("")
     //
     guestOrUsers=guestOrUser
+    //input search onChange
+    const handleChangeInputSearch=useCallback((e)=>{
+        setInputSearch(e.target.value)
+    },[])
     //event scroll window 
     useEffect(()=>{
         const handleScroll=()=>{
@@ -50,8 +57,8 @@ export default function HeaderGuest({guestOrUser}) {
                         </svg>
                         </button>
                     </span>
-                    <input className='form-control input-search' placeholder='Tìm kiếm sản phẩm'></input> 
-                
+                    <input className='form-control input-search' placeholder='Tìm kiếm sản phẩm' onChange={handleChangeInputSearch} value={inputSearch}></input> 
+                    <ListSearch nameContaining={inputSearch}/>
                 </div>
                 <div className='login-btn col-2'>
                     <a className='login' href='/login'>
