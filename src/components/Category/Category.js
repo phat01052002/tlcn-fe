@@ -8,6 +8,7 @@ export default function Category({key,category}) {
   const handleClickCategory=useCallback((e)=>{  
     var nav=`/category/${category.categoryId}`
     navigate(nav)
+    window.location.reload()
   },[])
   return (
     <div className='category' onClick={handleClickCategory}>

@@ -67,7 +67,7 @@ export default function PageProductDetail() {
     insuranse.classList.remove('behind-productdetail-current')
     transport.classList.add('behind-productdetail-current')
   },[])
-  //get product Id
+  //get product by Id
   useEffect(()=>{
     axios.get(`/product/${productId}`)
     .then(res=>setProduct(res.data))

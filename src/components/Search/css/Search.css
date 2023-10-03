@@ -5,4 +5,13 @@
     transform:translateX(-50%);
     width: 90%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+}
+.product-search{
+    z-index: 100;
+    padding: 10px;
+}
+.product-search:hover{
+    background-color: rgb(10, 145, 255);;
+    cursor: pointer;
 }
