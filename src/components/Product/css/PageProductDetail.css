@@ -38,12 +38,14 @@
     border-top-right-radius: 5px;
 }
 .decrease-btn:hover{
-    background-color: rgb(10, 124, 255);
+    background-color:  black;
     opacity: 0.8;
+    color: white;
 }
 .increase-btn:hover{
-    background-color: rgb(10, 124, 255);
+    background-color: black;
     opacity: 0.8;
+    color: white;
 }
 .buynow{
     display: flex;
@@ -81,12 +83,14 @@
 .behind-productdetail{
     margin-bottom: 10px;
     padding: 20px;
-    font-weight: bold;
     border-bottom: solid;
+    border-color: gray;
     border-width: 2px;
 }
 .behind-productdetail-current{
-    color:rgb(10, 124, 255) !important;
+    font-weight: bold;
+    color: black;
+    border-color: black;
 }
 .behind-productdetail:hover{
     cursor: pointer;

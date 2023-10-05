@@ -22,7 +22,7 @@ export default function PageCategory() {
     },[])
     return (
         <div>
-           <HeaderGuest guestOrUser={false}/>
+           <HeaderGuest/>
            <div className='page-category'>
                 <div className='page-category-img'>
                     <h3>{category.name}</h3>

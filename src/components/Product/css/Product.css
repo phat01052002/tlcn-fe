@@ -34,7 +34,7 @@
     visibility: visible;
 }
 .btn-addtocart-product:hover{
-    background-color: rgb(10, 124, 255);
+    background-color: black;
     color: white;
 }
 

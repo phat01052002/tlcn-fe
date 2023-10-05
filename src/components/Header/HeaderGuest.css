@@ -1,118 +1,116 @@
-@keyframes header{
-    0%{
-      transform: translateY(-200px)
-    }
-    100%{
-      transform: translateY(0);
-    }   
-  }
-.header-guest{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.top-header{
     width: 100%;
-    height: 120px;
-    padding: 10px 0px;
-    z-index: 99;
-    color:black;
-}
-.header-guest-new{
+    margin: 0 !important;
+    height: 40px;
+    background-color: black;
     position: fixed;
-    top: 0;
-    width: 100%;
-    animation-name: header ;
-    animation-duration: 0.5s;
     z-index: 99;
-    background-color: white;
-    color:black;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    top: 0;
 }
-.linkToGuest{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 .search{
     display: flex;
-    justify-content: center;
+    align-items: center;
+}
+
+.search input{
+    border-radius: 20px;
+    padding: 0 40px;
+    display: flex;
     align-items: center;
     position: relative;
 }
-.logo-img{
-    height: 80px;
-    object-fit:cover;
-}
-.logo-img-new{
-    height: 65px;
-    object-fit:cover;
-}
+
 .icon-search{
-    position:absolute;
-    z-index: 1;
-    margin-bottom: 3px;
-    left: 3%; 
-}
-
-.input-search{
-    text-align: center;
-    border-radius: 20px !important;
-    border-color: rgb(10, 124, 255) !important;
-}
-.login-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+    position: absolute;
+    left: 10%;
+    top:15%;
 }
 .login{
-    text-decoration: none;
-    color:black	;
-    font-size: 15px;
     display: flex;
-    justify-content: center;
     align-items: center;
+}
+.login a{
+    color: white;
+    text-decoration: none;
+}
+
+.login a:hover{
+    font-weight: bold;
+}
+
+
+.bottom-header{
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    top:40px;
+    z-index: 2;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin: 0 !important;
+    background-color: white;
+}
+
+.naviga-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
 }
-.login-btn:hover .login{
-    cursor: pointer;
+.naviga-header span{
+    margin: 0 20px;
+    height: 100%;
+    border-bottom: solid;
+    border-color: white;
     font-weight: bold;
-    color: rgb(10, 124, 255);
+    display: flex;
+    align-items: center;
+}
+.naviga-header span:hover{
+    border-color: black;
+    cursor: pointer;
 }
 .cart{
-    text-decoration: none;
-    color:black	;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 15px;
-}
-.cart-btn{
-    display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 15px; 
-}
-.cart-btn:hover .cart{
-    cursor: pointer;
     font-weight: bold;
-    color: rgb(10, 124, 255);
-
 }
 
-.demo{
-    text-align: center;
-    font: italic 1.2rem "Fira Sans", serif;
-    font-size: 17px;
-    color:black	;
+.cart:hover{
+    cursor: pointer;
+    font-size: large;
 }
 
-.hotline{
-    text-align: center;
-    font: italic 1.2rem "Fira Sans", serif;
-    font-size: 17px;
-    color:black	;
-
+.listcategory{
+    position: fixed;
+    top:89px;
+    left: 10%;
+    background-color:white;
+    width: 80%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.listcategory-visible{
+    visibility: visible;
+}
 
+.listcategory-hidden{
+    visibility: hidden;
+}
 
+.btn-mess{
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    border-radius: 20px;
+    background-color: gray;
+}
+.btn-mess:hover{
+    cursor: pointer;
+}
+
+.logo-img{
+    height: 50px;
+    object-fit:cover;
+}

@@ -24,7 +24,7 @@ export default function PageGuest() {
   },[])
   return (
     <div>
-      <HeaderGuest guestOrUser={true}/>
+      <HeaderGuest/>
       <div id='content'>
         <div id='list-room' className='list-room row' >
                 <div className='col-1'></div>

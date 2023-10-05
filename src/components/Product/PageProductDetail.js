@@ -75,7 +75,7 @@ export default function PageProductDetail() {
   },[])
   return (
     <div>
-       <HeaderGuest guestOrUser={false}/>
+       <HeaderGuest/>
         <div className='row'>
           <div className='col-1'></div>
           <div className='col-10 row product-detail'>

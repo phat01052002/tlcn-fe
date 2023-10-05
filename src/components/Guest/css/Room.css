@@ -17,8 +17,6 @@
 .room:hover{
     opacity: 0.8;
     cursor: pointer;
-    background: rgb(10, 124, 255);	;
-    ;
     color: white;
     font-size: 20px;
 }
@@ -29,7 +27,6 @@
     border-style: solid;
     border-radius: 6px;
     border-width: 1px;
-    border-color: rgb(10, 124, 255) !important;
     color: black;
     visibility: hidden;
     margin-top: 10px;

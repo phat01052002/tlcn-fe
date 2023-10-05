@@ -4,7 +4,7 @@ import HeaderGuest from './Header/HeaderGuest'
 export default function DesignPage() {
   return (
     <div>
-        <HeaderGuest guestOrUser={false}/>
+        <HeaderGuest/>
         <div className='design-page'>
             <div className='design-page-img'>
                 <div className='design-text'>
