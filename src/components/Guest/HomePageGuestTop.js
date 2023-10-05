@@ -2,13 +2,20 @@ import React, { useCallback, useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import './css/HomePageGuestTop.css'
 import ListCategory from './ListCategory';
+import { useNavigate } from 'react-router-dom';
 export default function HomePageGuestTop({hide,guestOrUser}) {
+    //navigate
+    const navigate=useNavigate
     const onMouseEnterBtnProduct=useCallback((e)=>{
             document.getElementById('list-category-header').classList.add('list-category-header-new')
 
     },[])
     const onMouseLeaveBtnProduct=useCallback((e)=>{
         document.getElementById('list-category-header').classList.remove('list-category-header-new')
+   },[])
+   //click design
+   const handleClickDesign=useCallback((e)=>{
+        window.location='/design'
    },[])
     useEffect(()=>{
         if(hide){
@@ -45,7 +52,7 @@ export default function HomePageGuestTop({hide,guestOrUser}) {
                     <div  className='col-4 naviga'>
                         BỘ SƯU TẬP
                     </div>
-                    <div className='col-4 naviga'>
+                    <div className='col-4 naviga' onClick={handleClickDesign}>
                         THIẾT KẾ NỘI THẤT
                     </div>
                     <div className='col-4 naviga'>

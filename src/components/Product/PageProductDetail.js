@@ -112,6 +112,11 @@ export default function PageProductDetail() {
                 </div>
                 <br/>
                 Liên hệ tư vấn và đặt mua: 0865762255
+                <br/>
+                <br/>
+                <h7>
+                  {product.description}
+                </h7>
                 <div className='behind-productdetail-content'>
                   <span id='review' className='behind-productdetail behind-productdetail-current review-product' onClick={handleClickReview}>Đánh Giá</span>
                   <span id='insuranse' className='behind-productdetail insuranse-product' onClick={handleClickInsuranse}>Bảo Hành</span>

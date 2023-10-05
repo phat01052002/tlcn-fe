@@ -5,6 +5,7 @@ import PageGuest from './components/Guest/PageGuest';
 import PageCart from './components/PageCart'
 import PageCategory from './components/Category/PageCategory';
 import PageProductDetail from './components/Product/PageProductDetail';
+import DesignPage from './components/DesignPage';
 function App() {
   return(
     <BrowserRouter> 
@@ -16,6 +17,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/cart"  element={<PageCart/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/design" exact element={<DesignPage/>}></Route>
       </Routes>
       <Routes>
         <Route path="/category/:categoryId" element={<PageCategory/>}></Route>
