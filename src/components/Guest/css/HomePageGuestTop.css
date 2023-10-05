@@ -99,6 +99,7 @@
     height: 450px;
     animation-name: listCategory;
     animation-duration: 0.5s;
+    z-index: 100;
 }
 
 .btn-mess{
