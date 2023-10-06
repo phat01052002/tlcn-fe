@@ -4,7 +4,7 @@
     height: 40px;
     background-color: black;
     position: fixed;
-    z-index: 99;
+    z-index: 9;
     top: 0;
 }
 
@@ -100,20 +100,6 @@
 .listcategory-hidden{
     visibility: hidden;
 }
-.icon-chat{
-    padding: 2px;
-}
-.btn-mess{
-    position: fixed;
-    bottom: 40px;
-    right: 20px;
-    border: 1px solid #DFDFE2;
-    border-radius: 10px;
-
-}
-.btn-mess:hover{
-    cursor: pointer;
-}
 
 .logo-img{
     height: 50px;
@@ -129,4 +115,41 @@
       opacity: 1;
       transform: translateY(0px)
     }       
+  }
+.page-cart-hidden{
+    position: fixed;
+    right:0;
+    top:0;
+    height: 100%;
+    width: 25%;
+    background-color: white;
+    z-index:99;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    visibility: hidden;
+}
+
+.page-cart-visible{
+    visibility: visible;
+    animation-name: pagecart;
+    animation-duration: 0.5s;
+    opacity: 1 !important;
+}
+
+#over-cart{
+    position: fixed;
+    top:0;
+    bottom: 0;
+    left:0;
+    right:0;
+    z-index: 99 !important;
+    background-color: rgba(0,0,0,0.4);
+    visibility: hidden;
+}
+@keyframes pagecart{
+    0%{
+      transform: translateX(+200px)
+    }
+    100%{
+      transform: translateX(0);
+    }   
   }
