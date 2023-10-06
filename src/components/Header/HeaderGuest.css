@@ -99,18 +99,23 @@
     visibility: hidden;
 }
 
-.btn-mess{
-    position: fixed;
-    bottom: 40px;
-    right: 20px;
-    border-radius: 20px;
-    background-color: gray;
-}
-.btn-mess:hover{
-    cursor: pointer;
-}
 
 .logo-img{
     height: 50px;
     object-fit:cover;
+}
+
+.page-cart-hidden{
+    position: fixed;
+    right:0;
+    top:0;
+    height: 100%;
+    width: 25%;
+    background-color: white;
+    z-index: 101;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.page-cart-visible{
+    visibility: visible;
 }

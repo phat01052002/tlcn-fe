@@ -4,7 +4,11 @@ import './HeaderGuest.css'
 import "bootstrap/dist/css/bootstrap.css";
 import ListSearch from '../Search/ListSearch';
 import ListCategory from '../Guest/ListCategory';
+import PageCart from '../Cart/PageCart';
+
 export default function HeaderGuest({}) {
+    //list product in cart
+    const [listProduct,setListProduct] = useState([])
     //value input
     const [inputSearch,setInputSearch] =useState("")
     //input search onChange
@@ -26,6 +30,14 @@ export default function HeaderGuest({}) {
      //click design
     const handleClickDesign=useCallback((e)=>{
     window.location='/design'
+    },[])
+    //Click cart
+    const handleClickCart=useCallback((e)=>{
+        document.getElementById('page-cart').classList.add('page-cart-visible')
+        setListProduct([])
+        for(let i=0;i< localStorage.length;i++){
+            setListProduct((prev)=>[localStorage.key(i),...prev])
+        }
     },[])
     return(
         <div className='header'>
@@ -67,7 +79,7 @@ export default function HeaderGuest({}) {
                     <span onClick={handleClickDesign}>THIẾT KẾ NỘI THẤT</span>
                     <span>BỘ SƯU TẬP</span>
                 </div>    
-                <div className='col-2 cart'>
+                <div className='col-2 cart' onClick={handleClickCart}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
                     <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
                 </svg>
@@ -76,11 +88,9 @@ export default function HeaderGuest({}) {
                 </div>
                 <div className='col-1'></div>
             </div>
-            <button className='btn-mess'>
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-messenger icon-chat" viewBox="0 0 16 16">
-                <path d="M0 7.76C0 3.301 3.493 0 8 0s8 3.301 8 7.76-3.493 7.76-8 7.76c-.81 0-1.586-.107-2.316-.307a.639.639 0 0 0-.427.03l-1.588.702a.64.64 0 0 1-.898-.566l-.044-1.423a.639.639 0 0 0-.215-.456C.956 12.108 0 10.092 0 7.76zm5.546-1.459-2.35 3.728c-.225.358.214.761.551.506l2.525-1.916a.48.48 0 0 1 .578-.002l1.869 1.402a1.2 1.2 0 0 0 1.735-.32l2.35-3.728c.226-.358-.214-.761-.551-.506L9.728 7.381a.48.48 0 0 1-.578.002L7.281 5.98a1.2 1.2 0 0 0-1.735.32z"/>
-                </svg>
-            </button>
+            <div id='page-cart' className='page-cart-hidden'>
+                <PageCart listProduct={listProduct}/>
+            </div>
         </div>
     )
 }
