@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import HeaderGuest from '../Header/HeaderGuest'
 import './css/Product.css'
 export default function Product({key,product}) {
   const naviga=useNavigate()
@@ -21,7 +22,6 @@ export default function Product({key,product}) {
     else{
       localStorage.setItem(productId,1)
     }
-
   },[])
   //handle click product
   const handleClickProduct=useCallback((productId)=>{

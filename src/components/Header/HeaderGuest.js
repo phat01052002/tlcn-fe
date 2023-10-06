@@ -5,17 +5,20 @@ import "bootstrap/dist/css/bootstrap.css";
 import ListSearch from '../Search/ListSearch';
 import ListCategory from '../Guest/ListCategory';
 import PageCart from '../Cart/PageCart';
-
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 export default function HeaderGuest({}) {
     //list product in cart
     const [listProduct,setListProduct] = useState([])
+    //count product in cart
+    const [listCountProduct,setListCountProduct] =useState([])
     //value input
     const [inputSearch,setInputSearch] =useState("")
     //input search onChange
     const handleChangeInputSearch=useCallback((e)=>{
         setInputSearch(e.target.value)
     },[])
-    //event scroll window 
+    //hide the cart page
+        
 
     //handle mouse move all product and move leave
     const handleMouseMoveAllProduct=useCallback((e)=>{
@@ -33,12 +36,36 @@ export default function HeaderGuest({}) {
     },[])
     //Click cart
     const handleClickCart=useCallback((e)=>{
-        document.getElementById('page-cart').classList.add('page-cart-visible')
+        /////
+        const pageCart =document.getElementById('page-cart')
+        ////
+       pageCart.classList.add('page-cart-visible')
         setListProduct([])
         for(let i=0;i< localStorage.length;i++){
             setListProduct((prev)=>[localStorage.key(i),...prev])
         }
-    },[])
+
+        setListCountProduct([])
+        for(let i=0;i< localStorage.length;i++){
+            setListCountProduct((prev)=>[localStorage.getItem(localStorage.key(i)),...prev])
+        }
+        document.body.style.pointerEvents='none'
+        ////
+        const overCart=document.getElementById('over-cart')
+        ////
+        pageCart.style.pointerEvents='auto'
+        overCart.style.visibility = 'visible'
+        overCart.style.pointerEvents='auto'
+        overCart.addEventListener('click',()=>{
+            pageCart.classList.remove('page-cart-visible')
+            overCart.style.visibility = 'hidden'
+            document.body.style.pointerEvents='auto'
+        })
+        pageCart.addEventListener('click',(e)=>{
+            e.stopPropagation();
+        })
+
+    })
     return(
         <div className='header'>
             <div className='row top-header'>
@@ -88,8 +115,10 @@ export default function HeaderGuest({}) {
                 </div>
                 <div className='col-1'></div>
             </div>
-            <div id='page-cart' className='page-cart-hidden'>
-                <PageCart listProduct={listProduct}/>
+            <div id='over-cart'>
+                <div id='page-cart' className='page-cart-hidden'>
+                    <PageCart listProduct={listProduct} listCountProduct={listCountProduct}/>
+                </div>
             </div>
         </div>
     )
