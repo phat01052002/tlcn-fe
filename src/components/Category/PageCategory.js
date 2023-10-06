@@ -25,10 +25,8 @@ export default function PageCategory() {
            <HeaderGuest/>
            <div className='page-category'>
                 <div className='page-category-img'>
+                    <img src={category.image}></img>
                     <h3>{category.name}</h3>
-                    <span>
-                        <a href='/guest'>Trang chủ</a>
-                    </span>
                 </div>
            </div>
            <div className='product-by-category'>

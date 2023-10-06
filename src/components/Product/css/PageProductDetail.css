@@ -3,9 +3,12 @@
     width: 100%;
 }
 .product-detail{
-    margin-top:100px
+    margin-top:150px
 }
-
+.product-detail img{
+    border: 1px solid #DFDFE2;
+    border-radius: 10px;
+}
 .info-product{
     margin-top: 40px;
     padding-left: 10px;
@@ -24,16 +27,19 @@
 .number-product{
     width: 33%;
     text-align: center;
+    border: 1px solid #DFDFE2;
 }
 .decrease-btn{
     background: #fff;
     width: 33%;
+    border: 1px solid #DFDFE2;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 .increase-btn{
     background: #fff;
     width: 33%;
+    border: 1px solid #DFDFE2;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
 }
@@ -83,9 +89,7 @@
 .behind-productdetail{
     margin-bottom: 10px;
     padding: 20px;
-    border-bottom: solid;
-    border-color: gray;
-    border-width: 2px;
+    border-bottom: 2px solid #DFDFE2;
 }
 .behind-productdetail-current{
     font-weight: bold;

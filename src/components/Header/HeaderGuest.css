@@ -15,7 +15,7 @@
 
 .search input{
     border-radius: 20px;
-    padding: 0 40px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     position: relative;
@@ -23,12 +23,13 @@
 
 .icon-search{
     position: absolute;
-    left: 10%;
-    top:15%;
+    right: 68%;
+    top:14%;
 }
 .login{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .login a{
     color: white;
@@ -76,7 +77,6 @@
     justify-content: center;
     font-weight: bold;
 }
-
 .cart:hover{
     cursor: pointer;
     font-size: large;
@@ -93,18 +93,23 @@
 
 .listcategory-visible{
     visibility: visible;
+    animation-name:all-category;
+    animation-duration: 0.5s;
 }
 
 .listcategory-hidden{
     visibility: hidden;
 }
-
+.icon-chat{
+    padding: 2px;
+}
 .btn-mess{
     position: fixed;
     bottom: 40px;
     right: 20px;
-    border-radius: 20px;
-    background-color: gray;
+    border: 1px solid #DFDFE2;
+    border-radius: 10px;
+
 }
 .btn-mess:hover{
     cursor: pointer;
@@ -112,5 +117,16 @@
 
 .logo-img{
     height: 50px;
-    object-fit:cover;
 }
+
+@keyframes all-category{
+    0%{
+      opacity: 0.5;
+      transform: translateY(-100px)
+
+    }
+    100%{
+      opacity: 1;
+      transform: translateY(0px)
+    }       
+  }

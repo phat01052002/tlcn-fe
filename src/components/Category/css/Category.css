@@ -9,49 +9,28 @@
 .category{
     display: inline-table;
     position: relative;
-    font: "Roboto","Arial",sans-serif;
     padding:50px;
     color: black;
-    padding-left: 10px;
-    font-size: 17px;
     width: 16.6%;
+    text-align: center;
   }
 
 .category:hover{
     opacity: 0.8;
     cursor: pointer;
-    font-weight: bold ;
+    font-weight: bold;
+    background-color: gray;
 }
 
-.page-category-img{
-  background-image: url(https://nhaxinh.com/wp-content/uploads/2021/11/bo-suu-tap-elegance-ban-an.jpg)!important;
-  height: 450px;
-  background-size: cover;
-  background-repeat: no-repeat !important;
-  background-position: 50% 50%;
-  margin-top: 150px;
-  position: relative;
+.page-category-img img{
+  margin-top: 50px;
+  width: 100%;
+  padding: 100px 0;
+  height: 800px;
+  object-fit: cover !important;
 }
 
 .page-category-img h3{
-  position: absolute;
-  bottom: 20%;
-  color: white;
-  left: 2%;
-}
-
-.page-category-img span{
-  position: absolute;
-  bottom: 10%;
-  left: 2%;
-  color: white;
-}
-
-.page-category-img>span>a{
-  color: white;
-  text-decoration: none;
-}
-
-.page-category-img>span>a:hover{
-  color: black;
+  z-index: 80;
+  text-align: center;
 }

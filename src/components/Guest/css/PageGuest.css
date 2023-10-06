@@ -1,7 +1,7 @@
 .list-room{
     background-image: url("https://nhaxinh.com/wp-content/uploads/2022/01/sofa-maxine-vai-vang-2.jpg");
     margin-top: 150px;
-    height: 500px;
+    height: 600px;
     background-size: cover;
     background-repeat: no-repeat !important;
     background-position: 50% 50%;
@@ -19,12 +19,6 @@
 
     
 }
-.img-page{
-    object-fit:cover;
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 6px;
-}
 
 .product-bestSeller{
     margin-top: 50px;
@@ -40,9 +34,5 @@
     border-radius: 8px;
 }
 
-.icon-chat{
-    padding: 2px;
-    color: black;
-}
 
 

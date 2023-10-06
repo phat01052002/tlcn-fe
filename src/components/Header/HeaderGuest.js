@@ -30,8 +30,7 @@ export default function HeaderGuest({}) {
     return(
         <div className='header'>
             <div className='row top-header'>
-                <div className='col-1'></div>
-                <div className='col-5 search'>
+                <div className='col-4 search'>
                     <input className='input-search form-control' value={inputSearch} onChange={handleChangeInputSearch}></input>
                     <span className='icon-search'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -40,20 +39,18 @@ export default function HeaderGuest({}) {
                     </span>
                     <ListSearch inputSearch={inputSearch}/>
                 </div>
-                <div className='col-3'></div>
+                <div className='col-6'></div>
                 <div className='col-2 login'>
-                    <a href='/login'>Đăng nhập / Đăng ký</a>
+                    <a href='/login'>Đăng nhập</a>
                 </div>
-                <div className='col-1'></div>
             </div>
             <div className='row bottom-header'>
-                <div className='col-1'></div> 
                 <div className='col-1'>
                     <a href='/guest'>
                         <img src={"https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg"} className='logo-img'></img>
                     </a>
                 </div>
-                <div className='col-7 naviga-header'>
+                <div className='col-8 naviga-header'>
                     <span onMouseMove={handleMouseMoveAllProduct} onMouseLeave={handleMouseLeaveAllProduct}>
                         SẢN PHẨM
                         &nbsp;
@@ -65,8 +62,9 @@ export default function HeaderGuest({}) {
                         </div>
                     </span>
                     <span onClick={handleClickDesign}>THIẾT KẾ NỘI THẤT</span>
-                    <span>BỘ SƯU TẬP</span>
+                    <span>NGUỒN CẢM HỨNG</span>
                 </div>    
+                <div className='col-1'></div>
                 <div className='col-2 cart'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
                     <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
@@ -74,7 +72,6 @@ export default function HeaderGuest({}) {
                 &nbsp;
                 Giỏ hàng
                 </div>
-                <div className='col-1'></div>
             </div>
             <button className='btn-mess'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-messenger icon-chat" viewBox="0 0 16 16">
