@@ -6,12 +6,13 @@ export default function ProductInCart({key,productId}) {
     const [product,setProduct]=useState([])
     //variable count that user want to order
     useEffect(()=>{
-      axios.get(`product/${productId}`)
+      axios.get(`/guest/product/${productId}`)
       .then(res=>setProduct(res.data))
       .catch(err => console.log(err))
-    },productId)
+    },[])
   return (
     <div>
+      {console.log(product)}
         {product.name}:{localStorage.getItem(productId)}
     </div>
   )

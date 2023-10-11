@@ -1,6 +1,40 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './PageLogin.css'
 export default function PageLogin() {
+  //var nav
+  const nav=useNavigate()
+  //function login
+  const handleClickLogin=useCallback(async(e)=>{
+    var username=document.getElementById('name').value
+    var password=document.getElementById('password').value
+    try{
+      let data = JSON.stringify({
+        "username": `${username}`,
+        "password": `${password}`
+      });
+
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: '/api/v1/auth/authenticate',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      const response = await axios.request(config)
+      //save access token to sessionStorage
+      sessionStorage.setItem('USER',JSON.stringify(response.data))
+      nav("/user")
+      //reload
+      window.location.reload()
+    }catch{
+      alert("Tài khoản mật khẩu không đúng")
+    }
+    
+  },[])
   return (
     <div className='page-login row'>
       <div className='col-4'></div>
@@ -9,11 +43,11 @@ export default function PageLogin() {
             <br/>
             <h5 >ĐĂNG NHẬP</h5>
             <br/>
-            <input className='form-control input-name' placeholder='Tên đăng nhập'></input>
+            <input id='name' className='form-control input-name' placeholder='Tên đăng nhập'></input>
             <br/>
-            <input type="password" className='form-control input-password' placeholder='Mật khẩu'></input>
+            <input id='password' type="password" className='form-control input-password' placeholder='Mật khẩu'></input>
             <br/>
-              <button className='form-control btn btn-primary btn-login'>Đăng Nhập</button>
+              <button className='form-control btn btn-primary btn-login' onClick={handleClickLogin}>Đăng Nhập</button>
             <br/>
             <br/>
             <button className='form-control btn btn-danger btn-login'>

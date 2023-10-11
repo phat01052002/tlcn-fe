@@ -5,11 +5,15 @@ import PageGuest from './components/Guest/PageGuest';
 import PageCategory from './components/Category/PageCategory';
 import PageProductDetail from './components/Product/PageProductDetail';
 import DesignPage from './components/DesignPage';
+import PageUser from './components/User/PageUser';
 function App() {
   return(
     <BrowserRouter> 
       <Routes>
         <Route path="/guest"  element={<PageGuest/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/user"  element={<PageUser/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/login"  element={<PageLogin/>}> </Route>

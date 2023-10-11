@@ -6,7 +6,7 @@ import Product from '../Product/Product'
 export default function ListBestSellerProduct() {
     const [listProductBestSeller,setListProductBestSeller]=useState([])
     useEffect(()=>{
-        axios.get("/product/top8Product")
+        axios.get("/guest/product/top8Product")
         .then(res=>setListProductBestSeller(res.data))
         .catch(err=>console.log(err))
     },[])

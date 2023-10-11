@@ -6,7 +6,7 @@ export default function ListSearch({inputSearch}) {
   const [listProduct,setListProduct]=useState([])
   useEffect(()=>{
     if(inputSearch){
-      axios.get(`/product/containing/${inputSearch}`)
+      axios.get(`/guest/product/containing/${inputSearch}`)
       .then(res=>setListProduct(res.data))
       .then(error=>console.log(error))
     }

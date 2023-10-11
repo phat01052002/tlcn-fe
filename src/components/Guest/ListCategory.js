@@ -5,7 +5,7 @@ import './css/PageGuest.css'
 export default function ListCategory() {
     const [listCategory,setListCategory]=useState([])
     useEffect(()=>{
-      axios.get("/category")
+      axios.get("/guest/category")
       .then(res=>setListCategory(res.data))
       .catch(error=>{console.log(error)})
     },[])

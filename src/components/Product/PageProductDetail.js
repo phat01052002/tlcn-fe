@@ -69,7 +69,7 @@ export default function PageProductDetail() {
   },[])
   //get product by Id
   useEffect(()=>{
-    axios.get(`/product/${productId}`)
+    axios.get(`/guest/product/${productId}`)
     .then(res=>setProduct(res.data))
     .then(err=> console.log(err))
   },[])

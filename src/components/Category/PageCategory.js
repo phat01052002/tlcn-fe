@@ -8,7 +8,7 @@ export default function PageCategory() {
     const [category,setCategory]=useState([])
     const [listProduct,setListProduct]=useState([])
     useEffect(()=>{
-         axios.get(`/getCategory/${categoryId}`)
+         axios.get(`/guest/getCategory/${categoryId}`)
         .then(res => setCategory(res.data))
         .catch(err => console.log(err))
     },[])
@@ -16,7 +16,7 @@ export default function PageCategory() {
     //get product by Category
 
     useEffect(()=>{
-        axios.get(`/productsByCategory/${categoryId}`)
+        axios.get(`/guest/productsByCategory/${categoryId}`)
         .then(res => setListProduct(res.data))
         .catch(err => console.log(err))
     },[])

@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import ListSearch from '../Search/ListSearch';
 import ListCategory from '../Guest/ListCategory';
 import PageCart from '../Cart/PageCart';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 export default function HeaderGuest({}) {
     //list product in cart
     const [listProduct,setListProduct] = useState([])
@@ -17,8 +16,6 @@ export default function HeaderGuest({}) {
     const handleChangeInputSearch=useCallback((e)=>{
         setInputSearch(e.target.value)
     },[])
-    //hide the cart page
-        
 
     //handle mouse move all product and move leave
     const handleMouseMoveAllProduct=useCallback((e)=>{
@@ -103,7 +100,6 @@ export default function HeaderGuest({}) {
                     <span onClick={handleClickDesign}>THIẾT KẾ NỘI THẤT</span>
                     <span>NGUỒN CẢM HỨNG</span>
                 </div>    
-
                 <div className='col-1'></div>
                 <div className='col-2 cart' onClick={handleClickCart}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">

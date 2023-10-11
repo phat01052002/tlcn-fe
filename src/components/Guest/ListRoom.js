@@ -7,7 +7,7 @@ export default function ListRoom({onMouseOverRoom}) {
   const [listRoom,setListRoom]=useState([])
   //
   useEffect(()=>{
-    axios.get('/room')
+    axios.get('/guest/room')
     .then(res=>setListRoom(res.data))
     .catch(error => console.log(error));
   },[])
