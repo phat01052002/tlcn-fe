@@ -1,3 +1,6 @@
+body{
+    overflow-x: hidden;
+}
 .top-header{
     width: 100%;
     margin: 0 !important;
@@ -16,6 +19,7 @@
 .search input{
     border-radius: 20px;
     padding: 0 20px;
+    padding-left: 50px !important;
     display: flex;
     align-items: center;
     position: relative;
@@ -23,21 +27,24 @@
 
 .icon-search{
     position: absolute;
-    right: 68%;
+    left: 2%;
     top:14%;
 }
 .login{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center
 }
 .login a{
     color: white;
     text-decoration: none;
 }
-
-.login a:hover{
+.login a label{
     font-weight: bold;
+    cursor: pointer;
+}
+.login a:hover{
+    font-size: large;
 }
 
 
@@ -61,6 +68,7 @@
 .naviga-header span{
     margin: 0 20px;
     height: 100%;
+    font-size: 16px;
     border-bottom: solid;
     border-color: white;
     font-weight: bold;
@@ -94,7 +102,7 @@
 .listcategory-visible{
     visibility: visible;
     animation-name:all-category;
-    animation-duration: 0.5s;
+    animation-duration: 1s;
 }
 
 .listcategory-hidden{
@@ -121,7 +129,7 @@
     right:0;
     top:0;
     height: 100%;
-    width: 25%;
+    width: 450px;
     background-color: white;
     z-index:99;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -133,8 +141,9 @@
     animation-name: pagecart;
     animation-duration: 0.5s;
     opacity: 1 !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
-
 #over-cart{
     position: fixed;
     top:0;
@@ -153,3 +162,4 @@
       transform: translateX(0);
     }   
   }
+

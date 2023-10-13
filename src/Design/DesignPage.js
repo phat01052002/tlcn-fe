@@ -1,6 +1,6 @@
 import React from 'react'
 import './DesignPage.css'
-import HeaderGuest from './Header/HeaderGuest'
+import HeaderGuest from '../components/Header/HeaderGuest'
 export default function DesignPage() {
   return (
     <div>

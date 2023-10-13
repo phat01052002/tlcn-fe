@@ -1,0 +1,25 @@
+
+.product-bestSeller{
+    margin-top: 50px;
+}
+#product-bestSeller{
+    text-align: center;
+}
+.list-product-bestSeller{
+    display: flex;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 40px;
+    border-radius: 8px;
+}
+
+.img-page-guest {
+    background-image: url(https://nhaxinh.com/wp-content/uploads/2023/07/bo-suu-tap-coastal-13723-1.jpg);
+    height: 600px;
+    background-position: 48% 62%;
+    object-fit: cover;
+    margin-top: 150px;
+
+}
+
+

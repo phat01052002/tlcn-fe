@@ -1,11 +1,11 @@
 import './App.css';
 import { BrowserRouter, Route,Routes,Switch } from 'react-router-dom';
-import PageLogin from './components/PageLogin';
-import PageGuest from './components/Guest/PageGuest';
+import PageLogin from './Login/PageLogin';
 import PageCategory from './components/Category/PageCategory';
 import PageProductDetail from './components/Product/PageProductDetail';
-import DesignPage from './components/DesignPage';
-import PageUser from './components/User/PageUser';
+import DesignPage from './Design/DesignPage';
+import PageUser from './User/PageUser';
+import PageGuest from './Guest/PageGuest';
 function App() {
   return(
     <BrowserRouter> 
