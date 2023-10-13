@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import './css/PageCart.css'
 import ProductInCart from './ProductInCart'
-export default function PageCart({listProduct,listCountProduct}) {
+export default function PageCart({listProduct,listCountProduct,reloadPageCart}) {
   //format
   const formatter = new Intl.NumberFormat('vi', {
     style: 'currency',
@@ -30,19 +30,33 @@ export default function PageCart({listProduct,listCountProduct}) {
     document.getElementById('over-cart').style.visibility = 'hidden'
   },[])
   //when decrease count
-  const decreaseCount = useCallback((productId,price,check,decrease)=>{
-    if(check && parseInt(localStorage.getItem(productId))>1){
+  const decreaseCount = useCallback(async(productId,price,check,decrease)=>{
+    if(check && parseInt(localStorage.getItem(productId))>=1){
       setPriceAll((prev)=>prev-=1*price)
     }
-    decrease()
-  })
+    await decrease()
+    //reload page cart when delete item
+    if(parseInt(localStorage.getItem(productId)) == 0){
+      localStorage.removeItem(productId)
+      await reloadPageCart()
+    }
+  },[])
   //when increase count
   const increaseCount = useCallback((productId,price,check,increase)=>{
     increase()
     if(check){
       setPriceAll((prev)=>prev+=1*price)
     }
-  })
+  },[])
+
+  //when click delete item
+  const deleteItem = useCallback(async(productId,price,check)=>{
+    if(check){
+      await setPriceAll((prev)=>prev-=parseInt(localStorage.getItem(productId))*price)
+    }
+    localStorage.removeItem(productId)
+    await reloadPageCart()
+  },[])
   return (
     <div className='page-cart'>
       <div className='delete-page-cart' onClickCapture={handleClickDeletePageCart}>
@@ -51,7 +65,7 @@ export default function PageCart({listProduct,listCountProduct}) {
       </svg>
       </div>
       <h5>GIỎ HÀNG</h5>
-        {listProduct.map((productId)=><ProductInCart key={productId} productId={productId} handleCheck={handleCheck} increaseCount={increaseCount} decreaseCount={decreaseCount}/>)}
+        {listProduct.map((productId)=><ProductInCart key={productId} productId={productId} handleCheck={handleCheck} increaseCount={increaseCount} decreaseCount={decreaseCount} deleteItem={deleteItem}/>)}
       <div className='buyAll-in-cart'>
         <input id='input-price-all' value={formatter.format(priceAll)}></input>
         <button>Thanh Toán</button>

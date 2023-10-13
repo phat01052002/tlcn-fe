@@ -31,12 +31,8 @@ export default function HeaderGuest({}) {
     const handleClickDesign=useCallback((e)=>{
     window.location='/design'
     },[])
-    //Click cart
-    const handleClickCart=useCallback((e)=>{
-        /////
-        const pageCart =document.getElementById('page-cart')
-        ////
-       pageCart.classList.add('page-cart-visible')
+    //function to set list product in cart
+    const setListProductInCart = useCallback(() =>{
         setListProduct([])
         for(let i=0;i< localStorage.length;i++){
             setListProduct((prev)=>[localStorage.key(i),...prev])
@@ -46,6 +42,14 @@ export default function HeaderGuest({}) {
         for(let i=0;i< localStorage.length;i++){
             setListCountProduct((prev)=>[localStorage.getItem(localStorage.key(i)),...prev])
         }
+    },[])
+    //Click cart
+    const handleClickCart=useCallback((e)=>{
+        /////
+        const pageCart =document.getElementById('page-cart')
+        ////
+       pageCart.classList.add('page-cart-visible')
+       setListProductInCart()
         document.body.style.pointerEvents='none'
         ////
         const overCart=document.getElementById('over-cart')
@@ -63,6 +67,10 @@ export default function HeaderGuest({}) {
         })
 
     })
+    //reload pagecart when delete item
+    const reloadPageCart=useCallback(()=>{
+        setListProductInCart()
+    },[])
     return(
         <div className='header'>
             <div className='row top-header'>
@@ -123,7 +131,7 @@ export default function HeaderGuest({}) {
             </div>
             <div id='over-cart'>
                 <div id='page-cart' className='page-cart-hidden'>
-                    <PageCart listProduct={listProduct} listCountProduct={listCountProduct}/>
+                    <PageCart listProduct={listProduct} listCountProduct={listCountProduct} reloadPageCart={reloadPageCart}/>
                 </div>
             </div>
         </div>

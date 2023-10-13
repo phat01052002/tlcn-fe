@@ -12,6 +12,8 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    border: 1px solid #DFDFE2;
+
 }
 .delete-page-cart:hover{
     background-color: black;
@@ -27,6 +29,7 @@
     border-width: 1px;
     padding-bottom: 30px;
     margin-top: 10px;
+
 }
 .product-in-cart-img img{
     object-fit: cover;
@@ -107,6 +110,14 @@
 }
 
 .delete-item-cart{
-    position: absolute;
-    right: 20%;
+    text-align: right;
+}
+
+.delete-item-cart svg{
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.delete-item-cart svg:hover{
+    scale: 1.2;
 }

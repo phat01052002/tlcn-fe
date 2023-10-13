@@ -1,0 +1,36 @@
+@keyframes listCategory{
+    0%{
+      transform: translateY(-200px)
+    }
+    100%{
+      transform: translateY(0);
+    }   
+  }
+.category{
+    display: inline-table;
+    position: relative;
+    padding:30px;
+    color: black;
+    width: 16.6%;
+    text-align: center;
+  }
+
+.category:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: gray;
+}
+
+.page-category-img img{
+  margin-top: 50px;
+  width: 100%;
+  padding: 100px 0;
+  height: 800px;
+  object-fit: cover !important;
+}
+
+.page-category-img h3{
+  z-index: 80;
+  text-align: center;
+}

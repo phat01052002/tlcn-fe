@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
-import HeaderGuest from '../Header/HeaderGuest'
-import ListProductByCategory from './ListProductByCategory'
+import ListProductByCategory from '../components/Category/ListProductByCategory'
+import HeaderGuest from '../components/Header/HeaderGuest'
 export default function PageCategory() {
     const {categoryId}=useParams()
     const [category,setCategory]=useState([])

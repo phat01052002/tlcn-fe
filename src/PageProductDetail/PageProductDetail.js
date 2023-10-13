@@ -1,11 +1,10 @@
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import HeaderGuest from '../Header/HeaderGuest'
 import './css/PageProductDetail.css'
 import "bootstrap/dist/css/bootstrap.css";
-import BenhindProductDetail from './BenhindProductDetail'
-
+import HeaderGuest from '../components/Header/HeaderGuest';
+import BenhindProductDetail from './BenhindProductDetail';
 export default function PageProductDetail() {
   const {productId}=useParams()
   //the product for this page
