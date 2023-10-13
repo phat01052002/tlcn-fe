@@ -2,8 +2,8 @@
     position: absolute;
     left: 34%;
     top:90%;
-    transform:translateX(-50%);
-    width: 50%;
+    transform:translateX(-80%);
+    width: 30%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: white;
     z-index: 101;

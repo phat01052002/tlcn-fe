@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function ProductReview() {
-  return (
-    <div>ProductReview</div>
-  )
+    return <div>ProductReview</div>;
 }
