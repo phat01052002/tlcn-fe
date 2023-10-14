@@ -77,7 +77,11 @@ body{
 }
 .naviga-header span:hover{
     border-color: black;
-    cursor: pointer;
+    cursor: pointer
+}
+.naviga-header span>label:hover{
+    border-color: black;
+    cursor: pointer
 }
 .cart{
     display: flex;

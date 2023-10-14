@@ -1,17 +1,33 @@
 .product{
     display: inline-block;
-    width: 33.33% ;
+    width: 25% ;
     text-align: center;
     padding-bottom: 20px;
-    padding: 20px;
+    position: relative;
 }
 .img-product{
-    width: 90%;
-    object-fit: cover;
+    width: 80%;
+    object-fit:cover;
 }
-
 .product-content{
-    display: inline-table;
+    background-color: #FFFFFA;
+    font-size: 13px;
+}
+.product-content:hover{
+    border: 1px solid #DFDFE2;
+    border-radius: 10px;
+}
+.product-content label{
+    display: block;
+    height: 40px;
+}
+.product-price{
+    margin-top: 20px;
+}
+.product-content-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-addtocart-product{
@@ -19,8 +35,9 @@
     text-align: center;
     border-radius: 6px;
     border-width: 1px;
-    padding:8px 10px;
+    padding:4px 10px;
     margin-top: 20px;
+    margin-bottom: 5px;
     visibility: hidden;
 
 }
@@ -28,7 +45,6 @@
 .img-product:hover{
     opacity: 0.8;
     cursor: pointer;
-    border: 1px solid #DFDFE2;
   
 }
 .product:hover .btn-addtocart-product{
@@ -41,4 +57,20 @@
 
 .login-more{
     text-align: center;
+}
+.product-hot-badge{
+    height: 35px;
+    width: 45px;
+    position: absolute;
+    background: url(https://nhaxinh.com/wp-content/themes/flatsome-child/assets/images/bg_bage.png) no-repeat;
+    background-size: 65% 93%;
+    background-position: 9px 2px;
+    right: 5%;
+    z-index: 1;
+    top: 2%;
+}
+.product-hot-badge label{
+    text-align: center;
+    font-size: 10px;
+    margin-top: 10px;
 }

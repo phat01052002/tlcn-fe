@@ -16,10 +16,70 @@
 .img-page-guest {
     background-image: url(https://nhaxinh.com/wp-content/uploads/2023/07/bo-suu-tap-coastal-13723-1.jpg);
     height: 600px;
-    background-position: 48% 62%;
+    background-position: 0 40%;
     object-fit: cover;
     margin-top: 150px;
+}
+.img-page-guest:hover{
+    animation-name: hover-img;
+    animation-duration: 1s;
+    background-position: 0 100%;
+}
 
+@keyframes  hover-img{
+    0%{
+        background-position: 0 40%;
+    }
+    100%{
+        background-position: 0 100%;
+    }
+}
+.content-room{
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+.img-living-room{
+    display: inline;
+    display: flex;
+    justify-content: start;
+}
+.img-living-room img{
+    object-fit: cover;
+    width: 80%;
+    border-radius: 10px;
+}
+
+.img-decor{
+    display: inline;
+    display: flex;
+    justify-content: end;
+}
+.img-decor img{
+    width: 80%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.living-decor-nav a{
+    text-decoration: none;
+    color: black;
+}
+.living-decor-nav a:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+.living-decor-nav h3{
+    font-weight: bold;
+    display: block;
+}
+
+.decor-nav{
+    margin-top: 130px;
+}
+
+.living-room-nav{
+    margin-left: -100px;
 }
 
 

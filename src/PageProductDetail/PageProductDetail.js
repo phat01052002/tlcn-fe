@@ -25,7 +25,16 @@ export default function PageProductDetail() {
     }, []);
     //handle add tocart
     const handleClickAddToCart = useCallback((e) => {
-        console.log('Addtocart');
+        console.log(productId)
+        if (localStorage.getItem(productId)) {
+            try {
+                localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            localStorage.setItem(productId, 1);
+        }
     }, []);
     //handle Decrease number
     const handleClickDecrease = useCallback((e) => {
