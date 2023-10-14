@@ -40,27 +40,19 @@
     justify-content: center;
 }
 .img-living-room{
-    display: inline;
-    display: flex;
-    justify-content: start;
+  
 }
 .img-living-room img{
     object-fit: cover;
-    width: 80%;
+    width: 100%;
     border-radius: 10px;
 }
 
-.img-decor{
-    display: inline;
-    display: flex;
-    justify-content: end;
-}
 .img-decor img{
-    width: 80%;
+    width: 100%;
     object-fit: cover;
     border-radius: 10px;
 }
-
 .living-decor-nav a{
     text-decoration: none;
     color: black;
@@ -76,10 +68,6 @@
 
 .decor-nav{
     margin-top: 130px;
-}
-
-.living-room-nav{
-    margin-left: -100px;
 }
 
 
