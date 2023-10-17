@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function ProductInCart({ key, productId, handleCheck, increaseCount, decreaseCount, deleteItem }) {
     //variable product
+    const [render, setRender] = useState(true); //set this component render,if false is not render
     const [product, setProduct] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
     //varialbe count product
@@ -13,12 +14,18 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
         style: 'currency',
         currency: 'VND',
     });
+    //get data
     useEffect(() => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `/guest/product/${productId}`,
+            headers: {},
+        };
         axios
-            .get(`/guest/product/${productId}`)
+            .request(config)
             .then((res) => setProduct(res.data))
-            .catch((err) => console.log(err));
-
+            .then((err) => console.log(err));
         document.querySelectorAll('.price-incart').forEach((element) => {
             element.style.pointerEvents = 'none';
         });
@@ -38,55 +45,76 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     const chageChecked = useCallback(() => {
         setIsChecked((prev) => (prev = !prev));
     }, []);
-    return (
-        <div className="row product-in-cart">
-            <div className="delete-item-cart">
-                <svg
-                    onClickCapture={() => deleteItem(product.productId, product.price, isChecked)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    fill="currentColor"
-                    class="bi bi-trash-fill"
-                    viewBox="0 0 16 16"
-                >
-                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                </svg>
-            </div>
-            <div className="product-in-cart-img col-4">
-                <img src={product.image}></img>
-                <input
-                    onClickCapture={() => {
-                        handleCheck(product.productId, product.price, isChecked, chageChecked);
-                    }}
-                    className="checkbox-cart"
-                    type="checkbox"
-                ></input>
-            </div>
-            <div className="col-8 row">
-                <div>{product.name}</div>
-                <div className="col-5 count-product-cart">
-                    <button
+    //when delete product incart,we setRender to false to not render
+    const deleteItemProductIncart = useCallback(() => {
+        setRender(false);
+    }, []);
+    if (render == true) {
+        return (
+            <div id={productId} className="row product-in-cart">
+                <div className="delete-item-cart">
+                    <svg
                         onClickCapture={() =>
-                            decreaseCount(product.productId, product.price, isChecked, handleClickDecreaseProductInCart)
+                            deleteItem(product.productId, product.price, isChecked, deleteItemProductIncart)
                         }
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        fill="currentColor"
+                        class="bi bi-trash-fill"
+                        viewBox="0 0 16 16"
                     >
-                        -
-                    </button>
-                    <input id="input-count-product-in-cart" value={countProduct}></input>
-                    <button
-                        onClickCapture={() =>
-                            increaseCount(product.productId, product.price, isChecked, handleClickIncreaseProductInCart)
-                        }
-                    >
-                        +
-                    </button>
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                    </svg>
                 </div>
-                <div className="col-7 buy-in-cart">
-                    <button>Thanh toán</button>
-                    <input className="price-incart" value={formatter.format(countProduct * product.price)}></input>
+                <div className="product-in-cart-img col-4">
+                    <img src={product.image}></img>
+                    <input
+                        onClickCapture={() => {
+                            handleCheck(product.productId, product.price, isChecked, chageChecked);
+                        }}
+                        className="checkbox-cart"
+                        type="checkbox"
+                    ></input>
+                </div>
+                <div className="col-8 row">
+                    <div>{product.name}</div>
+                    <div className="col-5 count-product-cart">
+                        <button
+                            onClickCapture={() =>
+                                decreaseCount(
+                                    product.productId,
+                                    product.price,
+                                    isChecked,
+                                    handleClickDecreaseProductInCart,
+                                    deleteItemProductIncart,
+                                )
+                            }
+                        >
+                            -
+                        </button>
+                        <input id="input-count-product-in-cart" value={countProduct}></input>
+                        <button
+                            onClickCapture={() =>
+                                increaseCount(
+                                    product.productId,
+                                    product.price,
+                                    isChecked,
+                                    handleClickIncreaseProductInCart,
+                                )
+                            }
+                        >
+                            +
+                        </button>
+                    </div>
+                    <div className="col-7 buy-in-cart">
+                        <button>Thanh toán</button>
+                        <input className="price-incart" value={formatter.format(countProduct * product.price)}></input>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    } else {
+        return <></>;
+    }
 }

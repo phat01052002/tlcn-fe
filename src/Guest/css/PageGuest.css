@@ -1,4 +1,27 @@
-
+@media(max-width:768px) {
+    .decor-nav{
+        position: relative;
+        left: -222%;
+        top: 80%;
+    }
+    .living-room-nav{
+        transform: translateY(35%);
+    }
+    .img-decor{
+        margin-top: 20px;
+    }
+    .visible-768{
+        display: block !important;
+    }
+    .naviga-header{
+        display: none;
+    }
+}
+@media (max-width:576px) {
+    .decor-nav{
+        position: static !important;
+    }
+}
 .product-bestSeller{
     margin-top: 50px;
 }
@@ -39,9 +62,6 @@
     display: flex;
     justify-content: center;
 }
-.img-living-room{
-  
-}
 .img-living-room img{
     object-fit: cover;
     width: 100%;
@@ -52,6 +72,9 @@
     width: 100%;
     object-fit: cover;
     border-radius: 10px;
+}
+.living-room-nav{
+    margin-top: 50px;
 }
 .living-decor-nav a{
     text-decoration: none;
@@ -68,6 +91,9 @@
 
 .decor-nav{
     margin-top: 130px;
+}
+.visible-768{
+    display: none;
 }
 
 

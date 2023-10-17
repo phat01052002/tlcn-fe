@@ -5,12 +5,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ListSearch from '../Search/ListSearch';
 import PageCart from '../Cart/Cart';
 import ListCategory from '../Category/ListCategory';
+
 export default function HeaderGuest({}) {
     //list product in cart
     const [listProduct, setListProduct] = useState([]);
     //count product in cart
     const [listCountProduct, setListCountProduct] = useState([]);
-    //value input
+    //var of the number of product in cart
+    const [numberProduct, setNumberProduct] = useState(0);
     const [inputSearch, setInputSearch] = useState('');
     //input search onChange
     const handleChangeInputSearch = useCallback((e) => {
@@ -32,8 +34,8 @@ export default function HeaderGuest({}) {
         window.location = '/design';
     }, []);
     //function to set list product in cart
-    const setListProductInCart = useCallback(() => {
-        setListProduct([]);
+    const setListProductInCart = useCallback(async () => {
+        await setListProduct([]);
         for (let i = 0; i < localStorage.length; i++) {
             setListProduct((prev) => [localStorage.key(i), ...prev]);
         }
@@ -43,13 +45,29 @@ export default function HeaderGuest({}) {
             setListCountProduct((prev) => [localStorage.getItem(localStorage.key(i)), ...prev]);
         }
     }, []);
+    //reload pagecart
+    const reloadPageCart = useCallback(() => {
+        setListProductInCart();
+    }, []);
+    //function to set number product in cart
+    const setNumber = () => {
+        var number = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            number += parseInt(localStorage.getItem(localStorage.key(i)));
+        }
+        setNumberProduct(number);
+    };
+    useEffect(() => {
+        setNumber();
+    }, []);
     //Click cart
-    const handleClickCart = useCallback((e) => {
+    const handleClickCart = useCallback(() => {
+        ////
+        reloadPageCart();
         /////
         const pageCart = document.getElementById('page-cart');
         ////
         pageCart.classList.add('page-cart-visible');
-        setListProductInCart();
         document.body.style.pointerEvents = 'none';
         ////
         const overCart = document.getElementById('over-cart');
@@ -61,20 +79,16 @@ export default function HeaderGuest({}) {
             pageCart.classList.remove('page-cart-visible');
             overCart.style.visibility = 'hidden';
             document.body.style.pointerEvents = 'auto';
+            setNumber();
         });
         pageCart.addEventListener('click', (e) => {
             e.stopPropagation();
         });
     });
-    //reload pagecart when delete item
-    const reloadPageCart = useCallback(() => {
-        setListProductInCart();
-    }, []);
     return (
         <div className="header">
             <div className="row top-header">
-                <div className='col-1'></div>
-                <div className="col-4 search">
+                <div className="col-9 col-sm-7 col-lg-4 search">
                     <input
                         className="input-search form-control"
                         value={inputSearch}
@@ -95,8 +109,8 @@ export default function HeaderGuest({}) {
                     </span>
                     <ListSearch inputSearch={inputSearch} />
                 </div>
-                <div className="col-5"></div>
-                <div className="col-2 login">
+                <div className="col-1 col-sm-3 col-lg-6 "></div>
+                <div className="col-2 col-sm-2 col-lg-2 login">
                     <a href="/login">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -114,8 +128,22 @@ export default function HeaderGuest({}) {
                 </div>
             </div>
             <div className="row bottom-header">
-                <div className='col-1'></div>
-                <div className="col-1">
+                <div className="col-1 visible-768 menu-768">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="45"
+                        height="35"
+                        fill="currentColor"
+                        class="bi bi-list"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                        />
+                    </svg>
+                </div>
+                <div className="col-md-1 icon-page-guest">
                     <a href="/guest">
                         <img
                             src={'https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg'}
@@ -123,7 +151,7 @@ export default function HeaderGuest({}) {
                         ></img>
                     </a>
                 </div>
-                <div className="col-8 naviga-header">
+                <div className="col-9 naviga-header">
                     <span onMouseMove={handleMouseMoveAllProduct} onMouseLeave={handleMouseLeaveAllProduct}>
                         <label className="label-products">SẢN PHẨM</label>
                         &nbsp;
@@ -165,7 +193,7 @@ export default function HeaderGuest({}) {
                         <label>THIẾT KẾ NỘI THẤT</label>
                     </span>
                 </div>
-                <div className="col-2 cart" onClick={handleClickCart}>
+                <div className="col-lg-2 col-2 cart " onClick={handleClickCart}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -176,16 +204,14 @@ export default function HeaderGuest({}) {
                     >
                         <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
                     </svg>
-                    &nbsp; Giỏ hàng
+                    {numberProduct}
+                    &nbsp;
+                    <label>Giỏ hàng</label>
                 </div>
             </div>
             <div id="over-cart">
                 <div id="page-cart" className="page-cart-hidden">
-                    <PageCart
-                        listProduct={listProduct}
-                        listCountProduct={listCountProduct}
-                        reloadPageCart={reloadPageCart}
-                    />
+                    <PageCart listProduct={listProduct} />
                 </div>
             </div>
         </div>

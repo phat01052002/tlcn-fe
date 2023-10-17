@@ -25,15 +25,15 @@ export default function PageProductDetail() {
     }, []);
     //handle add tocart
     const handleClickAddToCart = useCallback((e) => {
-        console.log(productId)
+        const count = document.getElementById('number-product').value
         if (localStorage.getItem(productId)) {
             try {
-                localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
+                localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + parseInt(count));
             } catch (e) {
                 console.log(e);
             }
         } else {
-            localStorage.setItem(productId, 1);
+            localStorage.setItem(productId, count);
         }
     }, []);
     //handle Decrease number

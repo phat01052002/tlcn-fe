@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
-export default function PageCart({ listProduct, listCountProduct, reloadPageCart }) {
+export default function PageCart({ listProduct }) {
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -9,7 +9,7 @@ export default function PageCart({ listProduct, listCountProduct, reloadPageCart
     });
     //var price all
     const [priceAll, setPriceAll] = useState(0);
-    /////
+    //if check we set price and change the value of state isChecked of the component ProductInCart
     const handleCheck = useCallback((productId, price, check, chageChecked) => {
         if (!check) {
             setPriceAll((prev) => (prev += parseInt(localStorage.getItem(productId)) * price));
@@ -29,7 +29,7 @@ export default function PageCart({ listProduct, listCountProduct, reloadPageCart
         document.getElementById('over-cart').style.visibility = 'hidden';
     }, []);
     //when decrease count
-    const decreaseCount = useCallback(async (productId, price, check, decrease) => {
+    const decreaseCount = useCallback(async (productId, price, check, decrease, deleteItemProductIncart) => {
         if (check && parseInt(localStorage.getItem(productId)) >= 1) {
             setPriceAll((prev) => (prev -= 1 * price));
         }
@@ -37,7 +37,7 @@ export default function PageCart({ listProduct, listCountProduct, reloadPageCart
         //reload page cart when delete item
         if (parseInt(localStorage.getItem(productId)) == 0) {
             localStorage.removeItem(productId);
-            await reloadPageCart();
+            deleteItemProductIncart();
         }
     }, []);
     //when increase count
@@ -49,12 +49,12 @@ export default function PageCart({ listProduct, listCountProduct, reloadPageCart
     }, []);
 
     //when click delete item
-    const deleteItem = useCallback(async (productId, price, check) => {
+    const deleteItem = useCallback(async (productId, price, check, deleteItemProductIncart) => {
         if (check) {
             await setPriceAll((prev) => (prev -= parseInt(localStorage.getItem(productId)) * price));
         }
         localStorage.removeItem(productId);
-        await reloadPageCart();
+        deleteItemProductIncart();
     }, []);
     return (
         <div className="page-cart">

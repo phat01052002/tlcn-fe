@@ -17,10 +17,10 @@ export default function PageGuest() {
                             <ListBestSellerProduct />
                         </div>
                         <div className="content-room row">
-                            <div className="col-6 img-living-room">
+                            <div className="col-lg-6 col-sm-8 img-living-room">
                                 <img src="https://nhaxinh.com/wp-content/uploads/2023/05/mau-phong-khach-nha-xinh-24523.jpg"></img>
                             </div>
-                            <div className="col-3 living-decor-nav">
+                            <div className="col-lg-3 col-sm-4 living-decor-nav">
                                 <div className="living-room-nav">
                                     <h3>Không gian phòng khách</h3>
                                     <a href="/guest">
@@ -60,7 +60,8 @@ export default function PageGuest() {
                                     </a>
                                 </div>
                             </div>
-                            <div className="col-3 img-decor">
+                            <div className='col-sm-4 visible-768'></div>
+                            <div className="col-lg-3 col-sm-8 img-decor">
                                 <img src="https://nhaxinh.com/wp-content/uploads/2022/09/hang-trang-tri-nx-12-9-22.jpg"></img>
                             </div>
                         </div>

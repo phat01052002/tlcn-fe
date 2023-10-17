@@ -1,6 +1,6 @@
 .list-search{
     position: absolute;
-    left: 34%;
+    left: 26% !important;
     top:90%;
     transform:translateX(-80%);
     width: 30%;
