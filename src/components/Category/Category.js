@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/Category.css';
-export default function Category({ key, category }) {
+export default function Category({category }) {
     const navigate = useNavigate();
 
     //navigate to category page with Id

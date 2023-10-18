@@ -3,9 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './css/PageProductDetail.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import HeaderGuest from '../components/Header/HeaderGuest';
+import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
 export default function PageProductDetail() {
+    const [role, setRole] = useState("");
+    //
     const { productId } = useParams();
     //the product for this page
     const [product, setProduct] = useState([]);
@@ -25,7 +27,7 @@ export default function PageProductDetail() {
     }, []);
     //handle add tocart
     const handleClickAddToCart = useCallback((e) => {
-        const count = document.getElementById('number-product').value
+        const count = document.getElementById('number-product').value;
         if (localStorage.getItem(productId)) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + parseInt(count));
@@ -81,9 +83,30 @@ export default function PageProductDetail() {
             .then((res) => setProduct(res.data))
             .then((err) => console.log(err));
     }, []);
+    //check authenticate
+    const checkUser = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            const request = await axios.request(config);
+            setRole('user');
+        } catch {
+            setRole('guest');
+        }
+    };
+    useEffect(() => {
+        checkUser();
+    }, []);
     return (
         <div>
-            <HeaderGuest />
+            <Header role={role}/>
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">

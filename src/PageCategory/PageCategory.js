@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
-import HeaderGuest from '../components/Header/HeaderGuest';
+import Header from '../components/Header/Header';
 export default function PageCategory() {
     const { categoryId } = useParams();
     const [category, setCategory] = useState([]);
@@ -22,9 +22,32 @@ export default function PageCategory() {
             .then((res) => setListProduct(res.data))
             .catch((err) => console.log(err));
     }, []);
+    //check authenticate
+    const [role, setRole] = useState('');
+    const checkUser = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            const request = await axios.request(config);
+            setRole('user');
+        } catch {
+            setRole('guest');
+        }
+    };
+    useEffect(() => {
+        checkUser();
+    }, []);
     return (
         <div>
-            <HeaderGuest />
+            <Header role={role} />
             <div className="page-category">
                 <div className="page-category-img">
                     <img src={category.image}></img>

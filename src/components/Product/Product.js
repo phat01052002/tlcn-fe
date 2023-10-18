@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderGuest from '../Header/HeaderGuest';
+import HeaderGuest from '../Header/Header';
 import './css/Product.css';
 import ProductHot from './ProductHot';
-export default function Product({ key, product, type }) {
+export default function Product({ product, type }) {
     const naviga = useNavigate();
     //format
     const formatter = new Intl.NumberFormat('vi', {

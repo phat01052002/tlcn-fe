@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
+import HomePage from '../components/HomePage/HomePage';
 
 export default function PageUser() {
   //check authenticate
   const checkUser = async ()=>{
-    const accessToken=JSON.parse(sessionStorage.getItem('USER')).token
     try{
+      const accessToken=JSON.parse(sessionStorage.getItem('USER')).token
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
@@ -15,8 +16,9 @@ export default function PageUser() {
         }
       };
 
-      const request =await axios.request(config)
+      const request = await axios.request(config)
     }catch{
+        sessionStorage.removeItem("USER")
         window.location="/login"
     }  
   }
@@ -26,7 +28,7 @@ export default function PageUser() {
   ////////////////
   return (
     <div>
-        page user
+        <HomePage role={"user"}/>
     </div>
   )
 }

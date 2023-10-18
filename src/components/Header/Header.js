@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import logo from '../logo.svg';
-import './HeaderGuest.css';
+import './Header.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ListSearch from '../Search/ListSearch';
 import PageCart from '../Cart/Cart';
 import ListCategory from '../Category/ListCategory';
+import axios from 'axios';
 
-export default function HeaderGuest({}) {
+export default function Header({ role }) {
+    //user
+    const [user, setUser] = useState(null);
     //list product in cart
     const [listProduct, setListProduct] = useState([]);
     //count product in cart
@@ -33,6 +36,19 @@ export default function HeaderGuest({}) {
     const handleClickDesign = useCallback((e) => {
         window.location = '/design';
     }, []);
+    //
+    const handleClickUser = useCallback(() => {
+        if (document.getElementById('user-nav').classList.contains('user-nav-visible')) {
+            document.getElementById('user-nav').classList.remove('user-nav-visible');
+        } else {
+            document.getElementById('user-nav').classList.add('user-nav-visible');
+        }
+    }, []);
+    //
+    const handleClickLogout = useCallback(() => {
+        sessionStorage.removeItem('USER');
+        window.location = '/guest';
+    });
     //function to set list product in cart
     const setListProductInCart = useCallback(async () => {
         await setListProduct([]);
@@ -49,6 +65,7 @@ export default function HeaderGuest({}) {
     const reloadPageCart = useCallback(() => {
         setListProductInCart();
     }, []);
+    /////////////////////
     //function to set number product in cart
     const setNumber = () => {
         var number = 0;
@@ -57,9 +74,24 @@ export default function HeaderGuest({}) {
         }
         setNumberProduct(number);
     };
-    useEffect(() => {
-        setNumber();
-    }, []);
+    //get username (if state is user)
+    const getUserName = () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/findByName',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            axios.request(config).then((res) => setUser(res.data));
+        } catch {
+            window.location = '/login';
+        }
+    };
     //Click cart
     const handleClickCart = useCallback(() => {
         ////
@@ -85,6 +117,47 @@ export default function HeaderGuest({}) {
             e.stopPropagation();
         });
     });
+    //////////////////
+    useEffect(() => {
+        if (role == 'user') {
+            getUserName();
+        }
+    });
+    useEffect(() => {
+        setNumber();
+    }, []);
+    ///icon user return
+    const iconUser = () => {
+        if (user && role == 'user') {
+            return (
+                <div className="isUser" onClick={handleClickUser}>
+                    <label>{user.name}</label>
+                    <div id="user-nav" className="user-nav-hidden">
+                        <label>Tài khoản</label>
+                        <label>Đơn hàng</label>
+                        <label onClick={handleClickLogout}>Đăng xuất</label>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <a href="/login">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-person-fill"
+                        viewBox="0 0 16 16"
+                    >
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    </svg>
+                    &nbsp;
+                    <label>Đăng nhập</label>
+                </a>
+            );
+        }
+    };
     return (
         <div className="header">
             <div className="row top-header">
@@ -110,22 +183,7 @@ export default function HeaderGuest({}) {
                     <ListSearch inputSearch={inputSearch} />
                 </div>
                 <div className="col-1 col-sm-3 col-lg-6 "></div>
-                <div className="col-2 col-sm-2 col-lg-2 login">
-                    <a href="/login">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            fill="currentColor"
-                            class="bi bi-person-fill"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                        </svg>
-                        &nbsp;
-                        <label>Đăng nhập</label>
-                    </a>
-                </div>
+                <div className="col-2 col-sm-2 col-lg-2 login">{iconUser()}</div>
             </div>
             <div className="row bottom-header">
                 <div className="col-1 visible-768 menu-768">
@@ -144,7 +202,7 @@ export default function HeaderGuest({}) {
                     </svg>
                 </div>
                 <div className="col-md-1 icon-page-guest">
-                    <a href="/guest">
+                    <a href={`/${role}`}>
                         <img
                             src={'https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg'}
                             className="logo-img"

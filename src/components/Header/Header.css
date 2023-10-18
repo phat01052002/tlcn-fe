@@ -33,7 +33,7 @@ body{
 .login{
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: end;
 }
 .login a{
     color: white;
@@ -42,8 +42,12 @@ body{
 .login a label{
     font-weight: bold;
     cursor: pointer;
+    padding-right: 20px;
 }
 .login a:hover{
+    font-size: large;
+}
+.login a label:hover{
     font-size: large;
 }
 
@@ -86,8 +90,12 @@ body{
 .cart{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     font-weight: bold;
+}
+.cart label{
+    cursor: pointer;
+    padding-right: 20px;
 }
 .cart:hover{
     cursor: pointer;
@@ -116,7 +124,33 @@ body{
 .logo-img{
     height: 50px;
 }
-
+.isUser>label{
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 30px;
+}
+.user-nav-hidden{
+    position: absolute;
+    visibility: visible;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 102;
+    display: block;
+    right: 1%;
+    visibility: hidden;
+}
+.user-nav-hidden label{
+    display: block;
+    padding: 20px 20px;
+}
+.user-nav-hidden label:hover{
+    background-color:black;
+    color: white
+}
+.user-nav-visible{
+    visibility:visible;
+}
 @keyframes all-category{
     0%{
       opacity: 0.5;
@@ -179,6 +213,13 @@ body{
     }
     .login a label{
         font-size: 13px;
+        padding-right: 0 !important;
+    }
+    .isUser>label{
+        margin-right: 10px !important;
+    }
+    .cart label {
+        padding-right: 0 !important;
     }
 }
   @media(max-width: 768px){
@@ -209,9 +250,6 @@ body{
     .cart label{
         display: none;
     }
-    .product{
-        width: 50% !important;
-    }
     .icon-page-guest{
         display: flex;
         align-items: center;
@@ -220,6 +258,9 @@ body{
     }
     .menu-768{
         transform: translateY(15%);
+    }
+    .isUser>label{
+        margin-right: 0 !important;
     }
 }
 @media (max-width:390px) {
