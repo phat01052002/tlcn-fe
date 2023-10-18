@@ -6,6 +6,7 @@ import ListSearch from '../Search/ListSearch';
 import PageCart from '../Cart/Cart';
 import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
+import ListRoom from '../Room/ListRoom';
 
 export default function Header({ role }) {
     //user
@@ -23,14 +24,24 @@ export default function Header({ role }) {
     }, []);
 
     //handle mouse move all product and move leave
-    const handleMouseMoveAllProduct = useCallback((e) => {
+    const handleMouseMoveCategory = useCallback((e) => {
         document.getElementById('listcategory').classList.add('listcategory-visible');
         document.getElementById('listcategory').classList.remove('listcategory-hidden');
     }, []);
 
-    const handleMouseLeaveAllProduct = useCallback((e) => {
+    const handleMouseLeaveCategory = useCallback((e) => {
         document.getElementById('listcategory').classList.remove('listcategory-visible');
         document.getElementById('listcategory').classList.add('listcategory-hidden');
+    }, []);
+     //handle mouse move room and move leave
+     const handleMouseMoveRoom = useCallback((e) => {
+        document.getElementById('list-room').classList.add('list-room-visible');
+        document.getElementById('list-room').classList.remove('list-room-hidden');
+    }, []);
+
+    const handleMouseLeaveRoom = useCallback((e) => {
+        document.getElementById('list-room').classList.remove('list-room-visible');
+        document.getElementById('list-room').classList.add('list-room-hidden');
     }, []);
     //click design
     const handleClickDesign = useCallback((e) => {
@@ -130,7 +141,7 @@ export default function Header({ role }) {
     const iconUser = () => {
         if (user && role == 'user') {
             return (
-                <div className="isUser" onClick={handleClickUser}>
+                <div className="col-3 isUser" onClick={handleClickUser}>
                     <label>{user.name}</label>
                     <div id="user-nav" className="user-nav-hidden">
                         <label>Tài khoản</label>
@@ -141,27 +152,28 @@ export default function Header({ role }) {
             );
         } else {
             return (
-                <a href="/login">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="currentColor"
-                        class="bi bi-person-fill"
-                        viewBox="0 0 16 16"
-                    >
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                    </svg>
-                    &nbsp;
-                    <label>Đăng nhập</label>
-                </a>
+                <div className="col-3 login">
+                    <a href="/login">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="23"
+                            height="23"
+                            fill="currentColor"
+                            class="bi bi-person-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                        </svg>
+                        &nbsp;
+                    </a>
+                </div>
             );
         }
     };
     return (
         <div className="header">
             <div className="row top-header">
-                <div className="col-9 col-sm-7 col-lg-4 search">
+                <div className="col-4 col-lg-4 search">
                     <input
                         className="input-search form-control"
                         value={inputSearch}
@@ -182,8 +194,36 @@ export default function Header({ role }) {
                     </span>
                     <ListSearch inputSearch={inputSearch} />
                 </div>
-                <div className="col-1 col-sm-3 col-lg-6 "></div>
-                <div className="col-2 col-sm-2 col-lg-2 login">{iconUser()}</div>
+                <div className="col-lg-6 support-header"></div>
+                <div className="row col-lg-2 icon">
+                    <div className="col-3 notification">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            fill="currentColor"
+                            class="bi bi-bell-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" />
+                        </svg>
+                    </div>
+                    <div className="col-6 cart " onClick={handleClickCart}>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            fill="currentColor"
+                            class="bi bi-bag-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
+                        </svg>
+                        <label>{numberProduct}</label>
+                        &nbsp;
+                    </div>
+                    {iconUser()}
+                </div>
             </div>
             <div className="row bottom-header">
                 <div className="col-1 visible-768 menu-768">
@@ -210,7 +250,7 @@ export default function Header({ role }) {
                     </a>
                 </div>
                 <div className="col-9 naviga-header">
-                    <span onMouseMove={handleMouseMoveAllProduct} onMouseLeave={handleMouseLeaveAllProduct}>
+                    <span onMouseMove={handleMouseMoveCategory} onMouseLeave={handleMouseLeaveCategory}>
                         <label className="label-products">SẢN PHẨM</label>
                         &nbsp;
                         <svg
@@ -230,7 +270,7 @@ export default function Header({ role }) {
                             <ListCategory />
                         </div>
                     </span>
-                    <span>
+                    <span onMouseMove={handleMouseMoveRoom} onMouseLeave={handleMouseLeaveRoom}>
                         <label>PHÒNG</label>
                         &nbsp;
                         <svg
@@ -246,25 +286,13 @@ export default function Header({ role }) {
                                 d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                             />
                         </svg>
+                        <div id="list-room" className="list-room list-room-hidden">
+                            <ListRoom />
+                        </div>
                     </span>
                     <span onClick={handleClickDesign}>
                         <label>THIẾT KẾ NỘI THẤT</label>
                     </span>
-                </div>
-                <div className="col-lg-2 col-2 cart " onClick={handleClickCart}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="currentColor"
-                        class="bi bi-bag-fill"
-                        viewBox="0 0 16 16"
-                    >
-                        <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
-                    </svg>
-                    {numberProduct}
-                    &nbsp;
-                    <label>Giỏ hàng</label>
                 </div>
             </div>
             <div id="over-cart">

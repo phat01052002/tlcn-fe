@@ -39,17 +39,6 @@ body{
     color: white;
     text-decoration: none;
 }
-.login a label{
-    font-weight: bold;
-    cursor: pointer;
-    padding-right: 20px;
-}
-.login a:hover{
-    font-size: large;
-}
-.login a label:hover{
-    font-size: large;
-}
 
 
 .bottom-header{
@@ -90,18 +79,19 @@ body{
 .cart{
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
     font-weight: bold;
+    color: white;
+    cursor: pointer;
+    
 }
 .cart label{
-    cursor: pointer;
-    padding-right: 20px;
+    font-size: 10px;
+    background-color: red;
+    border-radius: 10px;
+    padding: 0 5px;
+    margin-bottom: 20px;
 }
-.cart:hover{
-    cursor: pointer;
-    font-size: large;
-}
-
 .listcategory{
     position: fixed;
     top:89px;
@@ -109,6 +99,7 @@ body{
     background-color:white;
     width: 80%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
 }
 
 .listcategory-visible{
@@ -120,24 +111,47 @@ body{
 .listcategory-hidden{
     visibility: hidden;
 }
+.list-room{
+    position: fixed;
+    top:89px;
+    left: 20%;
+    background-color:white;
+    width: 60%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
+}
+.list-room-visible{
+    visibility: visible;
+    animation-name:all-category;
+    animation-duration: 1s;
+}
 
+.list-room-hidden{
+    visibility: hidden;
+}
 .logo-img{
     height: 50px;
+}
+.isUser{
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 .isUser>label{
     color: white;
     font-weight: bold;
     cursor: pointer;
-    margin-right: 30px;
 }
 .user-nav-hidden{
     position: absolute;
     visibility: visible;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
     z-index: 102;
     display: block;
     right: 1%;
+    top: 100%;
     visibility: hidden;
 }
 .user-nav-hidden label{
@@ -192,6 +206,25 @@ body{
     background-color: rgba(0,0,0,0.4);
     visibility: hidden;
 }
+.notification{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+}
+.notification svg:hover{
+    color: gray;
+}
+.cart svg:hover{
+    color: gray;
+}
+.isUser label:hover{
+    color: gray;
+}
+.login svg:hover{
+    color: gray;
+}
 @keyframes pagecart{
     0%{
       transform: translateX(+200px)
@@ -200,26 +233,48 @@ body{
       transform: translateX(0);
     }   
   }
-
-  @media (max-width:1280px) {
-    .cart{
-        font-size: 13px;
+  @media (max-width:1364px) {
+    .support-header{
+        width: 45% !important;
     }
+    .icon{
+        width: 21% !important;
+    }
+}
+  @media (max-width:1280px) {
     .icon-search{
         left: 2%;
     }
     .naviga-header span label{
         font-size: 14px;
     }
-    .login a label{
-        font-size: 13px;
-        padding-right: 0 !important;
+    .support-header{
+        width: 43% !important;
     }
-    .isUser>label{
-        margin-right: 10px !important;
+    .icon{
+        width: 23% !important;
     }
-    .cart label {
-        padding-right: 0 !important;
+    .isUser >label{
+        font-size: 13px
+    }
+}
+@media (max-width:992px) {
+    .support-header{
+        width: 20% !important;
+    }
+    .icon{
+        width: 46% !important;
+    }
+}
+@media (max-width:500px) {
+    .search{
+        width: 25% !important;
+    }
+    .support-header{
+        width: 0 !important;
+    }
+    .icon{
+        width: 75% !important;
     }
 }
   @media(max-width: 768px){
@@ -244,12 +299,6 @@ body{
         left: 3%;
         top:16%;
     }
-    .login a label{
-        display: none;
-    }
-    .cart label{
-        display: none;
-    }
     .icon-page-guest{
         display: flex;
         align-items: center;
@@ -267,4 +316,7 @@ body{
     .icon-search{
         left: 5%;
     } 
+    .search input:focus{
+        width: 300px
+    }
 }

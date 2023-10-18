@@ -1,0 +1,15 @@
+.room{
+    display: inline-table;
+    position: relative;
+    padding:30px;
+    color: black;
+    width: 50%;
+    text-align: center;
+  }
+
+.room:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: gray;
+}
