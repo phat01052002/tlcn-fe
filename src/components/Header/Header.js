@@ -33,8 +33,8 @@ export default function Header({ role }) {
         document.getElementById('listcategory').classList.remove('listcategory-visible');
         document.getElementById('listcategory').classList.add('listcategory-hidden');
     }, []);
-     //handle mouse move room and move leave
-     const handleMouseMoveRoom = useCallback((e) => {
+    //handle mouse move room and move leave
+    const handleMouseMoveRoom = useCallback((e) => {
         document.getElementById('list-room').classList.add('list-room-visible');
         document.getElementById('list-room').classList.remove('list-room-hidden');
     }, []);
@@ -179,7 +179,7 @@ export default function Header({ role }) {
                         value={inputSearch}
                         placeholder="Tìm kiếm sản phẩm"
                         onChange={handleChangeInputSearch}
-                    ></input>
+                    />
                     <span className="icon-search">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

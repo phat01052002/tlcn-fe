@@ -27,7 +27,7 @@ body{
 
 .icon-search{
     position: absolute;
-    left: 1%;
+    left: 2%;
     top:14%;
 }
 .login{
@@ -233,7 +233,7 @@ body{
       transform: translateX(0);
     }   
   }
-  @media (max-width:1364px) {
+  @media (max-width:1370px) {
     .support-header{
         width: 45% !important;
     }

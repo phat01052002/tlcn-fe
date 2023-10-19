@@ -79,7 +79,7 @@ export default function PageLogin() {
                         </div>
                         <div className="col-5"></div>
                         <div className="col-3">
-                            <a className="register-link" href="/">
+                            <a className="register-link" href="/register">
                                 Đăng ký
                             </a>
                         </div>

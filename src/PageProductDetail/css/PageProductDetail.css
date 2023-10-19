@@ -104,3 +104,11 @@
 .componant-insuranse ul{
     list-style:none;
 }
+
+@media (max-width:1280px) {
+    .btn-productdetail{
+        font-size: 12px;
+    }
+}
+@media (max-width:980px) {
+}

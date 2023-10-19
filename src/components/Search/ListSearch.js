@@ -14,9 +14,8 @@ export default function ListSearch({ inputSearch }) {
         typingTimeoutRef.current = setTimeout(() => {
             if (inputSearch) {
                 axios
-                    .get(`/guest/product/containing/${inputSearch}`)
-                    .then((res) => setListProduct(res.data))
-                    .then((error) => console.log(error));
+                .get(`/guest/product/containing/${inputSearch}`)
+                .then((res) => setListProduct(res.data))
             }
         }, 500);
     }, [inputSearch]);

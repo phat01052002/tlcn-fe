@@ -6,6 +6,7 @@ import PageUser from './User/PageUser';
 import PageGuest from './Guest/PageGuest';
 import PageCategory from './PageCategory/PageCategory';
 import PageProductDetail from './PageProductDetail/PageProductDetail';
+import Register from './Register/Register';
 function App() {
   return(
     <BrowserRouter> 
@@ -17,6 +18,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/login"  element={<PageLogin/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/register"  element={<Register/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/design" exact element={<DesignPage/>}></Route>

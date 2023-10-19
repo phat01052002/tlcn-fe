@@ -110,10 +110,10 @@ export default function PageProductDetail() {
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">
-                    <div className="col-7">
+                    <div className="col-12 col-lg-7">
                         <img className="image-product" src={product.image}></img>
                     </div>
-                    <div className="col-5 info-product">
+                    <div className="col-12 col-lg-5 info-product">
                         <h2> {product.name}</h2>
                         <br />
                         <h6>{formatter.format(product.price)}</h6>
@@ -129,7 +129,7 @@ export default function PageProductDetail() {
                         </div>
                         <br />
                         <div className="btn-productdetail row">
-                            <div className="col-4 chose-number">
+                            <div className=" col-4 chose-number">
                                 <button className="decrease-btn" onClick={handleClickDecrease}>
                                     -
                                 </button>
