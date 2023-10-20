@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Banner from '../Banner/Banner';
 import Footer from '../Footer/Footer';
 import HeaderGuest from '../Header/Header';
 import './css/HomePage.css';
@@ -7,7 +8,9 @@ export default function HomePage({role}) {
     return (
         <div>
             <HeaderGuest role={role}/>
-            <div className="img-page-guest"></div>
+            <div className="banner img-page-guest">
+                <Banner/>
+            </div>
             <div id="content">
                 <div className="row product-bestSeller">
                     <div className="col-1"></div>

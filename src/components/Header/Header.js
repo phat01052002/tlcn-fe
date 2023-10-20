@@ -7,8 +7,10 @@ import PageCart from '../Cart/Cart';
 import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
+import NotificationInPage from '../NotificationInPage/NotificationInPage';
 
 export default function Header({ role }) {
+    //
     //user
     const [user, setUser] = useState(null);
     //list product in cart
@@ -300,6 +302,7 @@ export default function Header({ role }) {
                     <PageCart listProduct={listProduct} />
                 </div>
             </div>
+            <NotificationInPage/>
         </div>
     );
 }

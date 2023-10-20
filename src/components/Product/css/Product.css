@@ -1,3 +1,13 @@
+@keyframes move-btn-product {
+    0%{
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 .product{
     display: inline-block;
     width: 25% ;
@@ -6,11 +16,12 @@
     position: relative;
 }
 .img-product{
-    width: 80%;
+    width: 70%;
     object-fit:cover;
+    margin-top: 2rem;
 }
 .product-content{
-    background-color: #FFFFFA;
+    background-color: #fffffa;
     font-size: 13px;
 }
 .product-content:hover{
@@ -25,36 +36,34 @@
     margin-top: 20px;
 }
 .product-content-btn{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    position: absolute;
+    top: 1%;
 }
 
-.btn-addtocart-product{
-    display: flex;
-    text-align: center;
+.btn-product {
+    display: block;
     border-radius: 6px;
-    border-width: 1px;
-    padding:4px 10px;
-    margin-top: 20px;
-    margin-bottom: 5px;
+    border: 1px solid #DFDFE2;
+    padding:4px 8px;
+    margin: 10px 0;
     visibility: hidden;
-
+    margin-left: 5px;
+    color: black;
 }
-
 .img-product:hover{
-    opacity: 0.8;
+    transform: scale(1.1);
     cursor: pointer;
   
 }
-.product:hover .btn-addtocart-product{
+.product:hover .btn-product{
     visibility: visible;
+    animation-name: move-btn-product;
+    animation-duration: 0.3s;
 }
-.btn-addtocart-product:hover{
-    background-color: black;
-    color: white;
+.btn-product:hover{
+    color: red;
 }
-
 .login-more{
     text-align: center;
 }

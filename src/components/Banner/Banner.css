@@ -1,0 +1,6 @@
+.img-banner{
+    object-fit: cover;
+    height: 500px;
+    width: 90% !important;
+    border-radius: 10px;
+}

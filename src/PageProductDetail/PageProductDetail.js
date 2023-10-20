@@ -5,7 +5,10 @@ import './css/PageProductDetail.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
+import {toast } from 'react-toastify';
 export default function PageProductDetail() {
+    //notification
+    const notifyAddSussess = () => toast.success('Thêm thành công');
     const [role, setRole] = useState("");
     //
     const { productId } = useParams();
@@ -31,11 +34,13 @@ export default function PageProductDetail() {
         if (localStorage.getItem(productId)) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + parseInt(count));
+                notifyAddSussess()
             } catch (e) {
                 console.log(e);
             }
         } else {
             localStorage.setItem(productId, count);
+            notifyAddSussess()
         }
     }, []);
     //handle Decrease number
