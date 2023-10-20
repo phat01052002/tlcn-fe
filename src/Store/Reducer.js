@@ -1,4 +1,4 @@
-import { CHANGE_NUMBER_CART } from './Contants';
+import { CHANGE_NUMBER_CART, CHANGE_ROLE } from './Contants';
 
 const initState = {
     numberCart: 0,
@@ -6,11 +6,11 @@ const initState = {
 function Reducer(state, action) {
     switch (action.type) {
         case CHANGE_NUMBER_CART:
-            return {numberCart:action.payload}; 
+            return { numberCart: action.payload };
         default:
-            throw new Error('Không cập nhật được giỏ hàng');
+            throw new Error('');
     }
 }
 
-export { initState };
 export default Reducer;
+export { initState };

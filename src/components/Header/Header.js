@@ -12,14 +12,12 @@ import { changeNumberCart, getNumber, useStore } from '../../Store';
 
 export default function Header({ role }) {
     //number product in cart
-    const [numberCartState, dispatch] = useStore();
-    const { numberCart } = numberCartState; //numberCart is state get from Store
+    const [state, dispatch] = useStore();
+    const { numberCart } = state; //numberCart is state get from Store
     //user
     const [user, setUser] = useState(null);
     //list product in cart
     const [listProduct, setListProduct] = useState([]);
-    //count product in cart
-    const [listCountProduct, setListCountProduct] = useState([]);
     ///
     const [inputSearch, setInputSearch] = useState('');
     //input search onChange
@@ -69,11 +67,6 @@ export default function Header({ role }) {
         await setListProduct([]);
         for (let i = 0; i < localStorage.length; i++) {
             setListProduct((prev) => [localStorage.key(i), ...prev]);
-        }
-
-        setListCountProduct([]);
-        for (let i = 0; i < localStorage.length; i++) {
-            setListCountProduct((prev) => [localStorage.getItem(localStorage.key(i)), ...prev]);
         }
     }, []);
     //reload pagecart
@@ -128,7 +121,7 @@ export default function Header({ role }) {
         if (role == 'user') {
             getUserName();
         }
-    });
+    }, [role]);
     useEffect(() => {
         dispatch(changeNumberCart(getNumber()));
     }, []);

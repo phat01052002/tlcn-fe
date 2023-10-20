@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { changeNumberCart, getNumber, useStore } from '../../Store';
 import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
 export default function PageCart({ listProduct }) {
+    const [state, dispatch] = useStore();
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -27,6 +29,7 @@ export default function PageCart({ listProduct }) {
         document.getElementById('page-cart').classList.remove('page-cart-visible');
         document.body.style.pointerEvents = 'auto';
         document.getElementById('over-cart').style.visibility = 'hidden';
+        dispatch(changeNumberCart(getNumber()))
     }, []);
     //when decrease count
     const decreaseCount = useCallback(async (productId, price, check, decrease, deleteItemProductIncart) => {

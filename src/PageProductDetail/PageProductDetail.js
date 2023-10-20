@@ -5,12 +5,14 @@ import './css/PageProductDetail.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { notifyAddToCartSussess } from '../components/NotificationInPage/NotificationInPage';
 import { changeNumberCart, getNumber, useStore } from '../Store';
 export default function PageProductDetail() {
-    const [numberCartState,dispatch]=useStore()
-    const [role, setRole] = useState("");
+    /////
+    const [state, dispatch] = useStore();
+    ///////
+    const [role, setRole] = useState('');
     //
     const { productId } = useParams();
     //the product for this page
@@ -35,14 +37,14 @@ export default function PageProductDetail() {
         if (localStorage.getItem(productId)) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + parseInt(count));
-                dispatch(changeNumberCart(getNumber()))
+                dispatch(changeNumberCart(getNumber()));
                 notifyAddToCartSussess();
             } catch (e) {
                 console.log(e);
             }
         } else {
             localStorage.setItem(productId, count);
-            dispatch(changeNumberCart(getNumber()))
+            dispatch(changeNumberCart(getNumber()));
             notifyAddToCartSussess();
         }
     }, []);
@@ -114,7 +116,7 @@ export default function PageProductDetail() {
     }, []);
     return (
         <div>
-            <Header role={role}/>
+            <Header role={role} />
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">
