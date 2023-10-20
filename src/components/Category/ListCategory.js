@@ -15,7 +15,7 @@ export default function ListCategory() {
     return (
         <div className="list-category">
             {listCategory.map((category) => (
-                <Category key={category.categoryId} category={category}/>
+                <Category category={category}/>
             ))}
         </div>
     );

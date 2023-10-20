@@ -6,9 +6,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
 import {toast } from 'react-toastify';
+import { notifyAddToCartSussess } from '../components/NotificationInPage/NotificationInPage';
+import { changeNumberCart, getNumber, useStore } from '../Store';
 export default function PageProductDetail() {
-    //notification
-    const notifyAddSussess = () => toast.success('Thêm thành công');
+    const [numberCartState,dispatch]=useStore()
     const [role, setRole] = useState("");
     //
     const { productId } = useParams();
@@ -34,13 +35,15 @@ export default function PageProductDetail() {
         if (localStorage.getItem(productId)) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + parseInt(count));
-                notifyAddSussess()
+                dispatch(changeNumberCart(getNumber()))
+                notifyAddToCartSussess();
             } catch (e) {
                 console.log(e);
             }
         } else {
             localStorage.setItem(productId, count);
-            notifyAddSussess()
+            dispatch(changeNumberCart(getNumber()))
+            notifyAddToCartSussess();
         }
     }, []);
     //handle Decrease number

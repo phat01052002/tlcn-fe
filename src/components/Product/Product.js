@@ -1,14 +1,13 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderGuest from '../Header/Header';
 import './css/Product.css';
 import ProductHot from './ProductHot';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { changeNumberCart, getNumber, useStore } from '../../Store';
+import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 export default function Product({ product, type }) {
-    //notification
-    const notifyAddSussess = () => toast.success('Thêm thành công');
-    //naviga
+    //number product in cart
+    const [numberCartState, dispatch] = useStore();
     const naviga = useNavigate();
     //format
     const formatter = new Intl.NumberFormat('vi', {
@@ -20,13 +19,15 @@ export default function Product({ product, type }) {
         if (localStorage.getItem(productId)) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
-                notifyAddSussess();
+                dispatch(changeNumberCart(getNumber()));
+                notifyAddToCartSussess()
             } catch (e) {
                 console.log(e);
             }
         } else {
             localStorage.setItem(productId, 1);
-            notifyAddSussess();
+            dispatch(changeNumberCart(getNumber()));
+            notifyAddToCartSussess();
         }
     }, []);
     //handle click product
@@ -36,7 +37,7 @@ export default function Product({ product, type }) {
         window.location.reload();
     }, []);
     const addType = () => {
-        if (type == 'hot') return <ProductHot />;
+        if (type === 'hot') return <ProductHot />;
     };
     //set type of product
     return (

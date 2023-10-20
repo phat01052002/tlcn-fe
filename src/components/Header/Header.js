@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import logo from '../logo.svg';
 import './Header.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -8,17 +8,19 @@ import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
 import NotificationInPage from '../NotificationInPage/NotificationInPage';
+import { changeNumberCart, getNumber, useStore } from '../../Store';
 
 export default function Header({ role }) {
-    //
+    //number product in cart
+    const [numberCartState, dispatch] = useStore();
+    const { numberCart } = numberCartState; //numberCart is state get from Store
     //user
     const [user, setUser] = useState(null);
     //list product in cart
     const [listProduct, setListProduct] = useState([]);
     //count product in cart
     const [listCountProduct, setListCountProduct] = useState([]);
-    //var of the number of product in cart
-    const [numberProduct, setNumberProduct] = useState(0);
+    ///
     const [inputSearch, setInputSearch] = useState('');
     //input search onChange
     const handleChangeInputSearch = useCallback((e) => {
@@ -78,15 +80,6 @@ export default function Header({ role }) {
     const reloadPageCart = useCallback(() => {
         setListProductInCart();
     }, []);
-    /////////////////////
-    //function to set number product in cart
-    const setNumber = () => {
-        var number = 0;
-        for (let i = 0; i < localStorage.length; i++) {
-            number += parseInt(localStorage.getItem(localStorage.key(i)));
-        }
-        setNumberProduct(number);
-    };
     //get username (if state is user)
     const getUserName = () => {
         try {
@@ -124,7 +117,7 @@ export default function Header({ role }) {
             pageCart.classList.remove('page-cart-visible');
             overCart.style.visibility = 'hidden';
             document.body.style.pointerEvents = 'auto';
-            setNumber();
+            dispatch(changeNumberCart(getNumber()));
         });
         pageCart.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -137,7 +130,7 @@ export default function Header({ role }) {
         }
     });
     useEffect(() => {
-        setNumber();
+        dispatch(changeNumberCart(getNumber()));
     }, []);
     ///icon user return
     const iconUser = () => {
@@ -221,7 +214,7 @@ export default function Header({ role }) {
                         >
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
                         </svg>
-                        <label>{numberProduct}</label>
+                        <label>{numberCart}</label>
                         &nbsp;
                     </div>
                     {iconUser()}
@@ -302,7 +295,7 @@ export default function Header({ role }) {
                     <PageCart listProduct={listProduct} />
                 </div>
             </div>
-            <NotificationInPage/>
+            <NotificationInPage />
         </div>
     );
 }
