@@ -1,13 +1,94 @@
 .page-login{
-    padding-top: 100px;
-}
-.form-login{
-    border-radius: 6px;
-}
-.form-login h5{
+    background-image: url('../background_login.png');
+    top : 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    background-repeat:no-repeat;
+    background-size: cover;
     text-align: center;
 }
-
-.forgot-password-link{
-    padding-left: 10px;
+.form-login{
+    top: 50px;
+    transform: translateX(47%);
+    height: 500px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    border-radius: 10px;
+    width: 50%;
+    position: relative;
 }
+.title-login{
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 10px 0;
+    font-size: large;
+    font-weight: bold;
+
+}
+.input-name{
+    margin-top: 2rem;
+    min-width: 50%;
+    text-align: center;
+}
+.input-name input {
+    border-radius: 50px;
+    border: 2px solid #DFDFE2;
+    width: 50%;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+.input-name input::placeholder {
+    text-align: center;
+}
+.input-password{
+    margin-top: 0.25rem;
+    text-align: center;
+}
+.input-password input {
+    width: 50%;
+    border-radius: 50px;
+    border: 2px solid #DFDFE2;
+    padding: 0.5rem 0;
+}
+.btn-login{
+    text-align: center;
+    margin-top: 2rem;
+}
+.btn-login button{
+    width: 50%;
+    padding: 0.5rem 0;
+    border-radius: 50px;
+    border: 1px solid #DFDFE2;
+    background-color:black ;
+    color: white;
+}
+.btn-login button:hover{
+    background-color: gray;
+}
+.btn-login-gmail{
+    text-align: center;
+    margin-top: 4rem;
+}
+.btn-login-gmail button{
+    padding: 0.35rem 0.6rem;
+    border-radius: 100px;
+    border: 1px solid #DFDFE2;
+    background-color: red;
+    color: white;
+}
+.login-link{
+    margin-top: 0.5rem;
+}
+.login-link a{
+    color: black;
+    text-decoration: none;
+    font-style: italic;
+    font-size: 13px;
+}
+.login-link a:hover{
+    opacity: 0.8;
+}
+
+
