@@ -8,12 +8,12 @@ import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
 import NotificationInPage from '../NotificationInPage/NotificationInPage';
-import { changeNumberCart, getNumber, useStore } from '../../Store';
+import { changeNumberCart, changeRole, getNumber, useStore } from '../../Store';
 
-export default function Header({ role }) {
+export default function Header() {
     //number product in cart
-    const [state, dispatch] = useStore();
-    const { numberCart } = state; //numberCart is state get from Store
+    const [globalState, dispatch] = useStore();
+    const { numberCart, roleState } = globalState; //numberCart is state get from Store
     //user
     const [user, setUser] = useState(null);
     //list product in cart
@@ -60,7 +60,8 @@ export default function Header({ role }) {
     //
     const handleClickLogout = useCallback(() => {
         sessionStorage.removeItem('USER');
-        window.location = '/guest';
+        dispatch(changeRole('guest'));
+        window.location = '/login';
     });
     //function to set list product in cart
     const setListProductInCart = useCallback(async () => {
@@ -117,17 +118,40 @@ export default function Header({ role }) {
         });
     });
     //////////////////
+    //check authenticate
+    const checkUser = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            const request = await axios.request(config);
+            dispatch(changeRole('user'));
+        } catch {
+            sessionStorage.removeItem('USER');
+        }
+    };
+    /// USE EFFECT
     useEffect(() => {
-        if (role == 'user') {
+        checkUser();
+    }, []);
+    useEffect(() => {
+        if (roleState == 'user') {
             getUserName();
         }
-    }, [role]);
+    }, [roleState]);
     useEffect(() => {
         dispatch(changeNumberCart(getNumber()));
     }, []);
     ///icon user return
     const iconUser = () => {
-        if (user && role == 'user') {
+        if (user && roleState === 'user') {
             return (
                 <div className="col-3 isUser" onClick={handleClickUser}>
                     <label>{user.name}</label>
@@ -230,7 +254,7 @@ export default function Header({ role }) {
                     </svg>
                 </div>
                 <div className="col-md-1 icon-page-guest">
-                    <a href={`/${role}`}>
+                    <a href="/">
                         <img
                             src={'https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg'}
                             className="logo-img"

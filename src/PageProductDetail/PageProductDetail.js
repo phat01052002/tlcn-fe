@@ -5,14 +5,13 @@ import './css/PageProductDetail.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
-import { toast } from 'react-toastify';
-import { notifyAddToCartSussess } from '../components/NotificationInPage/NotificationInPage';
 import { changeNumberCart, getNumber, useStore } from '../Store';
+import { notifyAddToCartSussess } from '../components/NotificationInPage/NotificationInPage';
 export default function PageProductDetail() {
     /////
-    const [state, dispatch] = useStore();
+    const [globalState, dispatch] = useStore();
     ///////
-    const [role, setRole] = useState('');
+    const { numberCart } = globalState;
     //
     const { productId } = useParams();
     //the product for this page
@@ -93,30 +92,9 @@ export default function PageProductDetail() {
             .then((res) => setProduct(res.data))
             .then((err) => console.log(err));
     }, []);
-    //check authenticate
-    const checkUser = async () => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: '/user/check',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            const request = await axios.request(config);
-            setRole('user');
-        } catch {
-            setRole('guest');
-        }
-    };
-    useEffect(() => {
-        checkUser();
-    }, []);
     return (
         <div>
-            <Header role={role} />
+            <Header />
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">

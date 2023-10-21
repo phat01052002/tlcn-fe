@@ -1,13 +1,10 @@
-import React, { useCallback} from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 import './css/Product.css';
 import ProductHot from './ProductHot';
-import 'react-toastify/dist/ReactToastify.css';
-import { changeNumberCart, getNumber, useStore } from '../../Store';
-import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 export default function Product({ product, type }) {
-    //number product in cart
-    const [numberCartState, dispatch] = useStore();
+    //naviga
     const naviga = useNavigate();
     //format
     const formatter = new Intl.NumberFormat('vi', {
@@ -19,14 +16,12 @@ export default function Product({ product, type }) {
         if (localStorage.getItem(productId)) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
-                dispatch(changeNumberCart(getNumber()));
-                notifyAddToCartSussess()
+                notifyAddToCartSussess();
             } catch (e) {
                 console.log(e);
             }
         } else {
             localStorage.setItem(productId, 1);
-            dispatch(changeNumberCart(getNumber()));
             notifyAddToCartSussess();
         }
     }, []);
@@ -37,7 +32,7 @@ export default function Product({ product, type }) {
         window.location.reload();
     }, []);
     const addType = () => {
-        if (type === 'hot') return <ProductHot />;
+        if (type == 'hot') return <ProductHot />;
     };
     //set type of product
     return (

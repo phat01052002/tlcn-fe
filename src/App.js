@@ -2,19 +2,15 @@ import './App.css';
 import { BrowserRouter, Route,Routes,Switch } from 'react-router-dom';
 import PageLogin from './Login/PageLogin';
 import DesignPage from './Design/DesignPage';
-import PageUser from './User/PageUser';
-import PageGuest from './Guest/PageGuest';
 import PageCategory from './PageCategory/PageCategory';
 import PageProductDetail from './PageProductDetail/PageProductDetail';
 import Register from './Register/Register';
+import HomePage from './HomePage/HomePage';
 function App() {
   return(
     <BrowserRouter> 
       <Routes>
-        <Route path="/guest"  element={<PageGuest/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/user"  element={<PageUser/>}> </Route>
+        <Route path="/"  element={<HomePage/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/login"  element={<PageLogin/>}> </Route>

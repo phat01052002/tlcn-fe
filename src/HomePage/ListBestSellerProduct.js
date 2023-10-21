@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Product from '../Product/Product';
-import ProductHot from '../Product/ProductHot';
+import Product from '../components/Product/Product';
 
 export default function ListBestSellerProduct() {
     const [listProductBestSeller, setListProductBestSeller] = useState([]);

@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { changeRole, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
+    const [globalState, dispatch] = useStore();
     //var nav
     const nav = useNavigate();
     //function login
@@ -27,9 +29,9 @@ export default function PageLogin() {
             const response = await axios.request(config);
             //save access token to sessionStorage
             sessionStorage.setItem('USER', JSON.stringify(response.data));
-            nav('/user');
             //reload
-            window.location.reload();
+            dispatch(changeRole('user'))
+            nav('/')
         } catch {
             alert('Tài khoản mật khẩu không đúng');
         }

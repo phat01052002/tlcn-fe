@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Banner from '../Banner/Banner';
-import Footer from '../Footer/Footer';
-import HeaderGuest from '../Header/Header';
+import Header from '../components/Header/Header';
 import './css/HomePage.css';
+import Banner from '../components/Banner/Banner';
 import ListBestSellerProduct from './ListBestSellerProduct';
-export default function HomePage({role}) {
+import axios from 'axios';
+import { changeRole, useStore } from '../Store';
+export default function HomePage() {
     return (
         <div>
-            <HeaderGuest role={role}/>
+            <Header />
             <div className="banner img-page-guest">
-                <Banner/>
+                <Banner />
             </div>
             <div id="content">
                 <div className="row product-bestSeller">
@@ -26,7 +27,7 @@ export default function HomePage({role}) {
                             <div className="col-lg-3 col-sm-4 living-decor-nav">
                                 <div className="living-room-nav">
                                     <h3>Không gian phòng khách</h3>
-                                    <a href="/guest">
+                                    <a href="/">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
@@ -45,7 +46,7 @@ export default function HomePage({role}) {
                                 </div>
                                 <div className="decor-nav">
                                     <h3>Đồ trang trí</h3>
-                                    <a href="/guest">
+                                    <a href="/">
                                         Tham khảo
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +64,7 @@ export default function HomePage({role}) {
                                     </a>
                                 </div>
                             </div>
-                            <div className='col-sm-4 visible-768'></div>
+                            <div className="col-sm-4 visible-768"></div>
                             <div className="col-lg-3 col-sm-8 img-decor">
                                 <img src="https://nhaxinh.com/wp-content/uploads/2022/09/hang-trang-tri-nx-12-9-22.jpg"></img>
                             </div>
@@ -72,7 +73,6 @@ export default function HomePage({role}) {
                     <div className="col-1"></div>
                 </div>
             </div>
-            <Footer></Footer>
         </div>
     );
 }
