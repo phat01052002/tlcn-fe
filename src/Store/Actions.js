@@ -1,4 +1,4 @@
-import { CHANGE_NUMBER_CART, CHANGE_ROLE } from './Contants';
+import { CHANGE_GMAIL, CHANGE_GMAIL_ACCESSTOKEN, CHANGE_NUMBER_CART, CHANGE_ROLE } from './Contants';
 
 export const changeNumberCart = (payload) => ({
     type: CHANGE_NUMBER_CART,
@@ -7,5 +7,14 @@ export const changeNumberCart = (payload) => ({
 
 export const changeRole = (payload) => ({
     type: CHANGE_ROLE,
+    payload,
+});
+
+export const changeGmailAccessToken = (payload) => ({
+    type: CHANGE_GMAIL_ACCESSTOKEN,
+    payload,
+});
+export const changeGmail = (payload) => ({
+    type: CHANGE_GMAIL,
     payload,
 });

@@ -1,16 +1,77 @@
 import axios from 'axios';
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GOOGLE_CLIENT_ID } from '../Contants/ContantsGmail';
-import { changeRole, useStore } from '../Store';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-router-dom';
+import {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    GOOGLE_GRANT_TYPE,
+    GOOGLE_REDIRECT_URI,
+} from '../Contants/ContantsGmail';
+import { changeGmail, changeGmailAccessToken, changeRole, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
     const [globalState, dispatch] = useStore();
+    const { gmailAccesstoken, gmail } = globalState;
+    var gmailCode = '';
     //var nav
     const nav = useNavigate();
+
+    //functions getGmail
+    const getGmailAccesstoken = async () => {
+        const query = new URLSearchParams(window.location.search);
+        gmailCode = query.get('code');
+        console.log(gmailCode);
+        if (gmailCode != '') {
+            try {
+                let data = JSON.stringify({
+                    client_id: GOOGLE_CLIENT_ID,
+                    client_secret: GOOGLE_CLIENT_SECRET,
+                    redirect_uri: GOOGLE_REDIRECT_URI,
+                    code: gmailCode,
+                    grant_type: GOOGLE_GRANT_TYPE,
+                });
+
+                let config = {
+                    method: 'post',
+                    maxBodyLength: Infinity,
+                    url: 'https://accounts.google.com/o/oauth2/token',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    data: data,
+                };
+
+                await axios
+                    .request(config)
+                    .then((res) => dispatch(changeGmailAccessToken(res.data.access_token)))
+                    .catch((err) => console.log(err));
+            } catch (e) {
+                alert('Không thể đăng nhập bằng email này');
+            }
+        }
+    };
+    const getGmail = async () => {
+        if (gmailAccesstoken != '' && gmail.email=='') {
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${gmailAccesstoken}`,
+                headers: {},
+            };
+            await axios
+                .request(config)
+                .then((res) => dispatch(changeGmail(res.data.email)))
+                .catch((err) => console.log(err));
+        }
+    };
+    //if get gmail success so we redirect to homepage
+    useEffect(() => {
+        getGmailAccesstoken();
+        getGmail();
+    }, [gmailAccesstoken]);
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
-        window.location = `https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
+        window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
     }, []);
     const handleClickLogin = useCallback(async (e) => {
         var username = document.getElementById('name').value;
