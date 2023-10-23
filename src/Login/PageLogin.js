@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GOOGLE_CLIENT_ID } from '../Contants/ContantsGmail';
 import { changeRole, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
@@ -8,6 +9,9 @@ export default function PageLogin() {
     //var nav
     const nav = useNavigate();
     //function login
+    const handleClickBtnLoginGmail = useCallback((e) => {
+        window.location = `https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
+    }, []);
     const handleClickLogin = useCallback(async (e) => {
         var username = document.getElementById('name').value;
         var password = document.getElementById('password').value;
@@ -42,9 +46,7 @@ export default function PageLogin() {
                 <div className="col-2"></div>
                 <div className="col-8 ">
                     <div className="form-login">
-                        <div className="title-login">
-                            ĐĂNG NHẬP
-                        </div>
+                        <div className="title-login">ĐĂNG NHẬP</div>
                         <div className="input-name">
                             <input id="name" placeholder="Tên đăng nhập"></input>
                         </div>
@@ -63,7 +65,7 @@ export default function PageLogin() {
                             <a href="/">Quên mật khẩu</a>
                         </div>
                         <div className="btn-login-gmail">
-                            <button className="btn-login">
+                            <button className="btn-login" onClick={handleClickBtnLoginGmail}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="16"
