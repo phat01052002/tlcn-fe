@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import logo from '../logo.svg';
+import React, { useCallback, useEffect, useState } from 'react';
 import './Header.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ListSearch from '../Search/ListSearch';
@@ -7,7 +6,7 @@ import PageCart from '../Cart/Cart';
 import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
-import NotificationInPage, { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
+import NotificationInPage from '../NotificationInPage/NotificationInPage';
 import { changeNumberCart, changeRole, getNumber, useStore } from '../../Store';
 
 export default function Header() {
@@ -74,7 +73,7 @@ export default function Header() {
     const reloadPageCart = useCallback(() => {
         setListProductInCart();
     }, []);
-    //get username (if state is user)
+    //get username (if state is user or admin)
     const getUserName = () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -119,6 +118,24 @@ export default function Header() {
     });
     //////////////////
     //check authenticate
+    //check admin fist
+    const checkAdmin = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/admin/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            const request = await axios.request(config);
+            dispatch(changeRole('admin'));
+            window.location = '/admin';
+        } catch {}
+    };
     const checkUser = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -133,12 +150,11 @@ export default function Header() {
 
             const request = await axios.request(config);
             dispatch(changeRole('user'));
-        } catch {
-            sessionStorage.removeItem('USER');
-        }
+        } catch {}
     };
     /// USE EFFECT
     useEffect(() => {
+        checkAdmin();
         checkUser();
         dispatch(changeNumberCart(getNumber()));
     }, []);

@@ -1,9 +1,14 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { changeNumberCart, getNumber, useStore } from '../../Store';
 import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 import './css/Product.css';
 import ProductHot from './ProductHot';
 export default function Product({ product, type }) {
+     /////
+     const [globalState, dispatch] = useStore();
+     ///////
+     const { numberCart } = globalState;
     //naviga
     const naviga = useNavigate();
     //format
@@ -17,11 +22,13 @@ export default function Product({ product, type }) {
             try {
                 localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
                 notifyAddToCartSussess();
+                dispatch(changeNumberCart(getNumber()))
             } catch (e) {
                 console.log(e);
             }
         } else {
             localStorage.setItem(productId, 1);
+            dispatch(changeNumberCart(getNumber()))
             notifyAddToCartSussess();
         }
     }, []);

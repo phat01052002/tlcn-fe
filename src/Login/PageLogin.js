@@ -10,11 +10,8 @@ import {
 import { changeGmail, changeGmailAccessToken, changeRole, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
-    const [globalState, dispatch] = useStore();
     var gmailCode = '';
     //var nav
-    const nav = useNavigate();
-
     //functions getGmail
     const getGmail = async () => {
         const query = new URLSearchParams(window.location.search);
@@ -74,7 +71,6 @@ export default function PageLogin() {
                         //save access token to sessionStorage
                         sessionStorage.setItem('USER', JSON.stringify(response.data));
                         //reload
-                        dispatch(changeRole('user'));
                         window.location='/'
                         sessionStorage.removeItem('gmail');
                         sessionStorage.removeItem('gmailAccesstoken');
@@ -113,8 +109,7 @@ export default function PageLogin() {
             //save access token to sessionStorage
             sessionStorage.setItem('USER', JSON.stringify(response.data));
             //reload
-            dispatch(changeRole('user'));
-            nav('/');
+            window.location='/';
         } catch {
             alert('Tài khoản mật khẩu không đúng');
         }

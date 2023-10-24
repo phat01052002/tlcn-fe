@@ -6,11 +6,15 @@ import PageCategory from './PageCategory/PageCategory';
 import PageProductDetail from './PageProductDetail/PageProductDetail';
 import Register from './Register/Register';
 import HomePage from './HomePage/HomePage';
+import PageAdmin from './Admin/PageAdmin';
 function App() {
   return(
     <BrowserRouter> 
       <Routes>
         <Route path="/"  element={<HomePage/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/admin"  element={<PageAdmin/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/login"  element={<PageLogin/>}> </Route>
