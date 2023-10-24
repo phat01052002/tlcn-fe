@@ -7,6 +7,7 @@ import PageProductDetail from './PageProductDetail/PageProductDetail';
 import Register from './Register/Register';
 import HomePage from './HomePage/HomePage';
 import PageAdmin from './Admin/PageAdmin';
+import PageRoom from './PageRoom/PageRoom';
 function App() {
   return(
     <BrowserRouter> 
@@ -30,6 +31,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/productdetail/:productId" exact element={<PageProductDetail/>}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/room/:roomId" exact element={<PageRoom/>}></Route>
       </Routes>
     </BrowserRouter>
     

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
+import ComboBoxSort from '../components/ComboBoxSort/ComboBoxSort';
 import Header from '../components/Header/Header';
 export default function PageCategory() {
     const { categoryId } = useParams();
@@ -25,49 +26,19 @@ export default function PageCategory() {
     }, []);
     return (
         <div>
-            <Header/>
+            <Header />
             <div className="page-category">
                 <div className="page-category-img">
                     <img src={category.image}></img>
                     <h3>{category.name}</h3>
                 </div>
+                <div className="select-sort">
+                    <ComboBoxSort />
+                </div>
             </div>
             <div className="product-by-category">
                 <ListProductByCategory listProduct={listProduct} />
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
         </div>
     );
 }

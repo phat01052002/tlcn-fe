@@ -27,7 +27,7 @@ export default function HomePage() {
                             <div className="col-lg-3 col-sm-4 living-decor-nav">
                                 <div className="living-room-nav">
                                     <h3>Không gian phòng khách</h3>
-                                    <a href="/">
+                                    <a href="/room/1">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
@@ -46,7 +46,7 @@ export default function HomePage() {
                                 </div>
                                 <div className="decor-nav">
                                     <h3>Đồ trang trí</h3>
-                                    <a href="/">
+                                    <a href="/room/6">
                                         Tham khảo
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"

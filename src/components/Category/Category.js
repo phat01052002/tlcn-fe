@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/Category.css';
-export default function Category({category }) {
+export default function Category({category,inRoom}) {
     const navigate = useNavigate();
 
     //navigate to category page with Id
@@ -11,7 +11,7 @@ export default function Category({category }) {
         window.location.reload();
     }, []);
     return (
-        <div className="category" onClick={handleClickCategory}>
+        <div className={`category ${inRoom}`} onClick={handleClickCategory}>
             {category.name}
         </div>
     );

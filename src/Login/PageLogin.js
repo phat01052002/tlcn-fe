@@ -71,7 +71,7 @@ export default function PageLogin() {
                         //save access token to sessionStorage
                         sessionStorage.setItem('USER', JSON.stringify(response.data));
                         //reload
-                        window.location='/'
+                        window.location = '/';
                         sessionStorage.removeItem('gmail');
                         sessionStorage.removeItem('gmailAccesstoken');
                     }
@@ -109,7 +109,7 @@ export default function PageLogin() {
             //save access token to sessionStorage
             sessionStorage.setItem('USER', JSON.stringify(response.data));
             //reload
-            window.location='/';
+            window.location = '/';
         } catch {
             alert('Tài khoản mật khẩu không đúng');
         }

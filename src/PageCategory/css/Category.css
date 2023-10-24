@@ -34,3 +34,13 @@
   z-index: 80;
   text-align: center;
 }
+.select-sort{
+  display: flex;
+  text-align: center;
+  justify-content: end;
+  padding-right: 3rem;
+  margin-top: 2rem;
+}
+.combobox-sort select{
+  text-align: center;
+}
