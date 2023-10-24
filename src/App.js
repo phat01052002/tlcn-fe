@@ -8,6 +8,7 @@ import Register from './Register/Register';
 import HomePage from './HomePage/HomePage';
 import PageAdmin from './Admin/PageAdmin';
 import PageRoom from './PageRoom/PageRoom';
+import CheckOut from './PageCheckOut/CheckOut';
 function App() {
   return(
     <BrowserRouter> 
@@ -22,6 +23,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/register"  element={<Register/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/checkout"  element={<CheckOut/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/design" exact element={<DesignPage/>}></Route>

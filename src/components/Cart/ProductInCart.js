@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useLinkClickHandler } from 'react-router-dom';
-import { useStore } from '../../Store';
+import { useLinkClickHandler, useNavigate } from 'react-router-dom';
+import { changeCheckToFalse, useStore } from '../../Store';
 
 export default function ProductInCart({ key, productId, handleCheck, increaseCount, decreaseCount, deleteItem }) {
     const [globalState, dispatch] = useStore();
@@ -11,7 +11,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     const [product, setProduct] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
     //varialbe count product
-    const [countProduct, setCountProduct] = useState(parseInt(localStorage.getItem(productId)));
+    const [countProduct, setCountProduct] = useState(0);
     //variable count that user want to order
     //format money
     const formatter = new Intl.NumberFormat('vi', {
@@ -20,6 +20,9 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     });
     //get data
     useEffect(() => {
+        if (localStorage.getItem(productId)) {
+            setCountProduct(parseInt(JSON.parse(localStorage.getItem(productId)).count));
+        }
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -36,18 +39,37 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     }, []);
     //function increase and decrease product in cart
     const handleClickDecreaseProductInCart = useCallback(() => {
-        if (parseInt(localStorage.getItem(productId)) >= 1) {
-            localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) - 1);
-            setCountProduct(parseInt(localStorage.getItem(productId)));
+        if (parseInt(JSON.parse(localStorage.getItem(productId)).count) >= 1) {
+            localStorage.setItem(
+                productId,
+                JSON.stringify({
+                    count: parseInt(JSON.parse(localStorage.getItem(productId)).count) - 1,
+                    check: JSON.parse(localStorage.getItem(productId)).check,
+                }),
+            );
+            setCountProduct(parseInt(JSON.parse(localStorage.getItem(productId)).count));
         }
     }, []);
     const handleClickIncreaseProductInCart = useCallback(() => {
-        localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
-        setCountProduct(parseInt(localStorage.getItem(productId)));
+        localStorage.setItem(
+            productId,
+            JSON.stringify({
+                count: parseInt(JSON.parse(localStorage.getItem(productId)).count) + 1,
+                check: JSON.parse(localStorage.getItem(productId)).check,
+            }),
+        );
+        setCountProduct(parseInt(JSON.parse(localStorage.getItem(productId)).count));
     }, []);
     // to chage value of checked box when click
     const chageChecked = useCallback(() => {
         setIsChecked((prev) => (prev = !prev));
+        localStorage.setItem(
+            productId,
+            JSON.stringify({
+                count: parseInt(JSON.parse(localStorage.getItem(productId)).count),
+                check: !JSON.parse(localStorage.getItem(productId)).check,
+            }),
+        );
     }, []);
     //when delete product incart,we setRender to false to not render
     const deleteItemProductIncart = useCallback(() => {
@@ -58,6 +80,13 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     const handleClickPay = useCallback(() => {
         if (roleState == 'guest') {
             window.location = '/login';
+        } else {
+            sessionStorage.setItem(
+                'checkout',
+                JSON.stringify([{ productId: productId, count: localStorage.getItem(`${productId}`) }]),
+            );
+            changeCheckToFalse();
+            window.location = '/checkout';
         }
     }, []);
     if (render == true) {

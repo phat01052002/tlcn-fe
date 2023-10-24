@@ -1,2 +1,5 @@
 export const CHANGE_NUMBER_CART = 'change_number_cart'
 export const CHANGE_ROLE = 'change_role'
+export const CHANGE_PRICE_ALL='change_price_all'
+export const INCREASE_PRICE_ALL = 'increase_price_all'
+export const DECREASE_PRICE_ALL = 'decrease_price_all'

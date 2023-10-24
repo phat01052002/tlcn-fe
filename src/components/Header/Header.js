@@ -7,12 +7,12 @@ import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
 import NotificationInPage from '../NotificationInPage/NotificationInPage';
-import { changeNumberCart, changeRole, getNumber, useStore } from '../../Store';
+import { changeCheckToFalse, changeNumberCart, changePriceAll, changeRole, getNumber, useStore } from '../../Store';
 
 export default function Header() {
     //number product in cart
     const [globalState, dispatch] = useStore();
-    const { numberCart, roleState } = globalState; //numberCart is state get from Store
+    const { numberCart, roleState} = globalState; //numberCart is state get from Store
     //user
     const [user, setUser] = useState(null);
     //list product in cart
@@ -110,6 +110,8 @@ export default function Header() {
             pageCart.classList.remove('page-cart-visible');
             overCart.style.visibility = 'hidden';
             document.body.style.pointerEvents = 'auto';
+            dispatch(changePriceAll(0))
+            changeCheckToFalse()
             dispatch(changeNumberCart(getNumber()));
         });
         pageCart.addEventListener('click', (e) => {

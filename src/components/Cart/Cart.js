@@ -1,25 +1,32 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { changeNumberCart, getNumber, useStore } from '../../Store';
+import { useNavigate } from 'react-router-dom';
+import {
+    changeCheckToFalse,
+    changeNumberCart,
+    changePriceAll,
+    decreasePriceAll,
+    getNumber,
+    increasePriceAll,
+    useStore,
+} from '../../Store';
 import { notifyAddToCartSussess, notifyWarningChooseProduct } from '../NotificationInPage/NotificationInPage';
 import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
 export default function PageCart({ listProduct }) {
     const [globalState, dispatch] = useStore();
-    const { roleState } = globalState;
+    const { roleState, priceAll } = globalState;
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
         currency: 'VND',
     });
-    //var price all
-    const [priceAll, setPriceAll] = useState(0);
     //if check we set price and change the value of state isChecked of the component ProductInCart
     const handleCheck = useCallback((productId, price, check, chageChecked) => {
         if (!check) {
-            setPriceAll((prev) => (prev += parseInt(localStorage.getItem(productId)) * price));
+            dispatch(increasePriceAll(parseInt(JSON.parse(localStorage.getItem(productId)).count) * price));
             chageChecked();
         } else {
-            setPriceAll((prev) => (prev -= parseInt(localStorage.getItem(productId)) * price));
+            dispatch(decreasePriceAll(parseInt(JSON.parse(localStorage.getItem(productId)).count) * price));
             chageChecked();
         }
     }, []);
@@ -32,16 +39,17 @@ export default function PageCart({ listProduct }) {
         document.body.style.pointerEvents = 'auto';
         document.getElementById('over-cart').style.visibility = 'hidden';
         dispatch(changeNumberCart(getNumber()));
-        setPriceAll(0)
+        dispatch(changePriceAll(0));
+        changeCheckToFalse();
     }, []);
     //when decrease count
     const decreaseCount = useCallback(async (productId, price, check, decrease, deleteItemProductIncart) => {
-        if (check && parseInt(localStorage.getItem(productId)) >= 1) {
-            setPriceAll((prev) => (prev -= 1 * price));
+        if (check && parseInt(JSON.parse(localStorage.getItem(productId)).count) >= 1) {
+            dispatch(decreasePriceAll(price));
         }
         await decrease();
         //reload page cart when delete item
-        if (parseInt(localStorage.getItem(productId)) == 0) {
+        if (parseInt(JSON.parse(localStorage.getItem(productId)).count) == 0) {
             localStorage.removeItem(productId);
             deleteItemProductIncart();
         }
@@ -50,29 +58,46 @@ export default function PageCart({ listProduct }) {
     const increaseCount = useCallback((productId, price, check, increase) => {
         increase();
         if (check) {
-            setPriceAll((prev) => (prev += 1 * price));
+            dispatch(increasePriceAll(price));
         }
     }, []);
 
     //when click delete item
     const deleteItem = useCallback(async (productId, price, check, deleteItemProductIncart) => {
         if (check) {
-            await setPriceAll((prev) => (prev -= parseInt(localStorage.getItem(productId)) * price));
+            await dispatch(decreasePriceAll(parseInt(JSON.parse(localStorage.getItem(productId)).count * price)));
         }
         localStorage.removeItem(productId);
         deleteItemProductIncart();
     }, []);
 
     //click pay all
-    const handleClickPayAll = useCallback(() => {
-        if(priceAll!=0){
+    const handleClickPayAll = useCallback((priceAll, roleState) => {
+        if (priceAll != 0) {
             if (roleState == 'guest') {
                 window.location = '/login';
+            } else {
+                //var to get products in cart are checked
+                var productInCartCheck = [];
+                for (var i = 0; i < localStorage.length; i++) {
+                    if (JSON.parse(localStorage.getItem(localStorage.key(i))).check == true) {
+                        //if product is checked,we add them to 'checkout'
+                        productInCartCheck = [
+                            {
+                                productId: JSON.parse(localStorage.key(i)),
+                                count: JSON.parse(localStorage.getItem(localStorage.key(i))).count,
+                            },
+                            ...productInCartCheck,
+                        ];
+                    }
+                }
+                sessionStorage.setItem('checkout', JSON.stringify(productInCartCheck));
+                changeCheckToFalse();
+                window.location = '/checkout';
             }
-        }else{
-            notifyWarningChooseProduct()
+        } else {
+            notifyWarningChooseProduct();
         }
-        
     }, []);
     return (
         <div className="page-cart">
@@ -101,7 +126,7 @@ export default function PageCart({ listProduct }) {
             ))}
             <div className="buyAll-in-cart">
                 <input id="input-price-all" value={formatter.format(priceAll)}></input>
-                <button onClickCapture={handleClickPayAll}>Thanh Toán</button>
+                <button onClickCapture={() => handleClickPayAll(priceAll, roleState)}>Thanh Toán</button>
             </div>
         </div>
     );

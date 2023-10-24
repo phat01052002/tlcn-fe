@@ -35,14 +35,20 @@ export default function PageProductDetail() {
         const count = document.getElementById('number-product').value;
         if (localStorage.getItem(productId)) {
             try {
-                localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + parseInt(count));
+                localStorage.setItem(
+                    productId,
+                    JSON.stringify({
+                        count: parseInt(JSON.parse(localStorage.getItem(productId)).count) + parseInt(count),
+                        check: JSON.parse(localStorage.getItem(productId)).check,
+                    }),
+                );
                 dispatch(changeNumberCart(getNumber()));
                 notifyAddToCartSussess();
             } catch (e) {
                 console.log(e);
             }
         } else {
-            localStorage.setItem(productId, count);
+            localStorage.setItem(productId, JSON.stringify({ count: count, check: false }));
             dispatch(changeNumberCart(getNumber()));
             notifyAddToCartSussess();
         }

@@ -5,10 +5,10 @@ import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage
 import './css/Product.css';
 import ProductHot from './ProductHot';
 export default function Product({ product, type }) {
-     /////
-     const [globalState, dispatch] = useStore();
-     ///////
-     const { numberCart } = globalState;
+    /////
+    const [globalState, dispatch] = useStore();
+    ///////
+    const { numberCart } = globalState;
     //naviga
     const naviga = useNavigate();
     //format
@@ -20,15 +20,21 @@ export default function Product({ product, type }) {
     const handleClickAddToCart = useCallback((productId) => {
         if (localStorage.getItem(productId)) {
             try {
-                localStorage.setItem(productId, parseInt(localStorage.getItem(productId)) + 1);
+                localStorage.setItem(
+                    productId,
+                    JSON.stringify({
+                        count: parseInt(JSON.parse(localStorage.getItem(productId)).count) + 1,
+                        check: JSON.parse(localStorage.getItem(productId)).check,
+                    }),
+                );
                 notifyAddToCartSussess();
-                dispatch(changeNumberCart(getNumber()))
+                dispatch(changeNumberCart(getNumber()));
             } catch (e) {
                 console.log(e);
             }
         } else {
-            localStorage.setItem(productId, 1);
-            dispatch(changeNumberCart(getNumber()))
+            localStorage.setItem(productId, JSON.stringify({ count: 1, check: false }));
+            dispatch(changeNumberCart(getNumber()));
             notifyAddToCartSussess();
         }
     }, []);
