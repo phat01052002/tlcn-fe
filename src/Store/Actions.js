@@ -9,12 +9,3 @@ export const changeRole = (payload) => ({
     type: CHANGE_ROLE,
     payload,
 });
-
-export const changeGmailAccessToken = (payload) => ({
-    type: CHANGE_GMAIL_ACCESSTOKEN,
-    payload,
-});
-export const changeGmail = (payload) => ({
-    type: CHANGE_GMAIL,
-    payload,
-});

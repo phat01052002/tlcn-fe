@@ -11,17 +11,16 @@ import { changeGmail, changeGmailAccessToken, changeRole, useStore } from '../St
 import './PageLogin.css';
 export default function PageLogin() {
     const [globalState, dispatch] = useStore();
-    const { gmailAccesstoken, gmail } = globalState;
     var gmailCode = '';
     //var nav
     const nav = useNavigate();
 
     //functions getGmail
-    const getGmailAccesstoken = async () => {
+    const getGmail = async () => {
         const query = new URLSearchParams(window.location.search);
         gmailCode = query.get('code');
         console.log(gmailCode);
-        if (gmailCode != '') {
+        if (gmailCode != null) {
             try {
                 let data = JSON.stringify({
                     client_id: GOOGLE_CLIENT_ID,
@@ -41,34 +40,53 @@ export default function PageLogin() {
                     data: data,
                 };
 
-                await axios
-                    .request(config)
-                    .then((res) => dispatch(changeGmailAccessToken(res.data.access_token)))
-                    .catch((err) => console.log(err));
+                const response = await axios.request(config);
+                //save access token to sessionStorage
+                await sessionStorage.setItem('gmailAccesstoken', JSON.stringify(response.data.access_token));
+                if (sessionStorage.getItem('gmailAccesstoken')) {
+                    let config = {
+                        method: 'get',
+                        maxBodyLength: Infinity,
+                        url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${sessionStorage.getItem(
+                            'gmailAccesstoken',
+                        )}`,
+                        headers: {},
+                    };
+                    const response = await axios.request(config);
+                    //save access token to sessionStorage
+                    await sessionStorage.setItem('gmail', JSON.stringify(response.data));
+                    if (sessionStorage.getItem('gmail')) {
+                        let data = JSON.stringify({
+                            username: `${JSON.parse(sessionStorage.getItem('gmail')).email}`,
+                            password: `${JSON.parse(sessionStorage.getItem('gmail')).password}`,
+                        });
+
+                        let config = {
+                            method: 'post',
+                            maxBodyLength: Infinity,
+                            url: '/api/v1/auth/login-gmail',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            data: data,
+                        };
+                        const response = await axios.request(config);
+                        //save access token to sessionStorage
+                        sessionStorage.setItem('USER', JSON.stringify(response.data));
+                        //reload
+                        dispatch(changeRole('user'));
+                        window.location='/'
+                        sessionStorage.removeItem('gmail');
+                        sessionStorage.removeItem('gmailAccesstoken');
+                    }
+                }
             } catch (e) {
-                alert('Không thể đăng nhập bằng email này');
+                console.log(e);
             }
         }
     };
-    const getGmail = async () => {
-        if (gmailAccesstoken != '' && gmail.email=='') {
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${gmailAccesstoken}`,
-                headers: {},
-            };
-            await axios
-                .request(config)
-                .then((res) => dispatch(changeGmail(res.data.email)))
-                .catch((err) => console.log(err));
-        }
-    };
     //if get gmail success so we redirect to homepage
-    useEffect(() => {
-        getGmailAccesstoken();
-        getGmail();
-    }, [gmailAccesstoken]);
+    getGmail();
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
         window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
