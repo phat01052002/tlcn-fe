@@ -53,7 +53,7 @@ export default function PageLogin() {
                         headers: {},
                     };
                     const response = await axios.request(config);
-                    //save access token to sessionStorage
+                    //save gmail to sessionStorage
                     await sessionStorage.setItem('gmail', JSON.stringify(response.data));
                     if (sessionStorage.getItem('gmail')) {
                         let data = JSON.stringify({
@@ -85,7 +85,7 @@ export default function PageLogin() {
             }
         }
     };
-    //if get gmail success so we redirect to homepage
+    ////////
     getGmail();
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {

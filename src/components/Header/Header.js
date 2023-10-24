@@ -7,7 +7,7 @@ import PageCart from '../Cart/Cart';
 import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
-import NotificationInPage from '../NotificationInPage/NotificationInPage';
+import NotificationInPage, { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 import { changeNumberCart, changeRole, getNumber, useStore } from '../../Store';
 
 export default function Header() {
@@ -140,15 +140,13 @@ export default function Header() {
     /// USE EFFECT
     useEffect(() => {
         checkUser();
+        dispatch(changeNumberCart(getNumber()));
     }, []);
     useEffect(() => {
         if (roleState == 'user') {
             getUserName();
         }
     }, [roleState]);
-    useEffect(() => {
-        dispatch(changeNumberCart(getNumber()));
-    }, []);
     ///icon user return
     const iconUser = () => {
         if (user && roleState === 'user') {
