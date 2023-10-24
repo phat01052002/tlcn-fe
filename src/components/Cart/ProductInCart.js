@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useLinkClickHandler } from 'react-router-dom';
+import { useStore } from '../../Store';
 
 export default function ProductInCart({ key, productId, handleCheck, increaseCount, decreaseCount, deleteItem }) {
+    const [globalState, dispatch] = useStore();
+    const { roleState } = globalState;
     //variable product
     const [render, setRender] = useState(true); //set this component render,if false is not render
     const [product, setProduct] = useState([]);
@@ -48,6 +52,13 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     //when delete product incart,we setRender to false to not render
     const deleteItemProductIncart = useCallback(() => {
         setRender(false);
+    }, []);
+
+    //handle click pay(if state is guest must be login,admin cant not buy because cant redirect this)
+    const handleClickPay = useCallback(() => {
+        if (roleState == 'guest') {
+            window.location = '/login';
+        }
     }, []);
     if (render == true) {
         return (
@@ -108,7 +119,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                         </button>
                     </div>
                     <div className="col-7 buy-in-cart">
-                        <button>Thanh toán</button>
+                        <button onClickCapture={handleClickPay}>Thanh toán</button>
                         <input className="price-incart" value={formatter.format(countProduct * product.price)}></input>
                     </div>
                 </div>

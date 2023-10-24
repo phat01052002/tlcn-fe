@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { changeNumberCart, getNumber, useStore } from '../../Store';
+import { notifyAddToCartSussess, notifyWarningChooseProduct } from '../NotificationInPage/NotificationInPage';
 import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
 export default function PageCart({ listProduct }) {
-    const [state, dispatch] = useStore();
+    const [globalState, dispatch] = useStore();
+    const { roleState } = globalState;
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -29,7 +31,8 @@ export default function PageCart({ listProduct }) {
         document.getElementById('page-cart').classList.remove('page-cart-visible');
         document.body.style.pointerEvents = 'auto';
         document.getElementById('over-cart').style.visibility = 'hidden';
-        dispatch(changeNumberCart(getNumber()))
+        dispatch(changeNumberCart(getNumber()));
+        setPriceAll(0)
     }, []);
     //when decrease count
     const decreaseCount = useCallback(async (productId, price, check, decrease, deleteItemProductIncart) => {
@@ -59,6 +62,18 @@ export default function PageCart({ listProduct }) {
         localStorage.removeItem(productId);
         deleteItemProductIncart();
     }, []);
+
+    //click pay all
+    const handleClickPayAll = useCallback(() => {
+        if(priceAll!=0){
+            if (roleState == 'guest') {
+                window.location = '/login';
+            }
+        }else{
+            notifyWarningChooseProduct()
+        }
+        
+    }, []);
     return (
         <div className="page-cart">
             <div className="delete-page-cart" onClickCapture={handleClickDeletePageCart}>
@@ -86,7 +101,7 @@ export default function PageCart({ listProduct }) {
             ))}
             <div className="buyAll-in-cart">
                 <input id="input-price-all" value={formatter.format(priceAll)}></input>
-                <button>Thanh Toán</button>
+                <button onClickCapture={handleClickPayAll}>Thanh Toán</button>
             </div>
         </div>
     );

@@ -49,11 +49,19 @@
     width: 100%;
     border-radius: 10px;
 }
+.img-living-room img:hover{
+    transform:scale(1.05);
+    cursor:pointer
+}
 
 .img-decor img{
     width: 100%;
     object-fit: cover;
     border-radius: 10px;
+}
+.img-decor img:hover{
+    transform:scale(1.05);
+    cursor:pointer
 }
 .living-room-nav{
     margin-top: 50px;
@@ -78,4 +86,46 @@
     display: none;
 }
 
+.bed-room-nav a{
+    text-decoration: none;
+    color: black;
+}
+
+.dining-nav a{
+    text-decoration: none;
+    color: black;
+}
+.img-bed-room{
+    margin-top: 50px;
+}
+.img-bed-room img{
+    object-fit: cover;
+    width: 80%;
+    border-radius: 10px;
+}
+.img-bed-room img:hover{
+    transform:scale(1.05);
+    cursor:pointer
+}
+.img-dining{
+    margin-top: 50px;
+}
+
+.img-dining img{
+    object-fit: cover;
+    width: 95%;
+    border-radius: 10px;
+}
+
+.img-dining img:hover{
+    transform:scale(1.05);
+    cursor:pointer
+}
+
+.bed-room-nav{
+    margin-bottom: 2rem;
+}
+.dining-nav{
+    margin-top: 2rem;
+}
 
