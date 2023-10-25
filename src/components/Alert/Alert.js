@@ -20,9 +20,16 @@ export const AlertPleaseLogin = () => {
         confirmButtonText: 'Yes',
         denyButtonText: `No`,
     }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.isConfirmed) {  
             window.location='/login'
         } else if (result.isDenied) {
         }
     });
+};
+
+export const AlertAccountIsPresent = () => {
+    Swal.fire({
+        title: 'Số điện thoại đã tồn tại',
+        confirmButtonText: 'Ok',
+    })
 };

@@ -1,15 +1,34 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header/Header';
-import { changeTotalPrice, formatter, useStore } from '../Store';
+import { changeRole, changeTotalPrice, formatter, useStore } from '../Store';
 import './CheckOut.css';
 import ListProductCheckOut from './ListProductCheckOut';
 export default function CheckOut() {
     const [globalState, dispatch] = useStore();
-    const { roleState, listProductCheckOut, listCountProductCheckOut,totalPrice} = globalState;
-    useEffect(()=>{
-        dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')))
-    },[])
+    const { roleState, listProductCheckOut, listCountProductCheckOut, totalPrice } = globalState;
+    const checkUser = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            const request = await axios.request(config);
+            dispatch(changeRole('user'));
+        } catch {
+            window.location = '/login';
+        }
+    };
+    useEffect(() => {
+        dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
+        checkUser();
+    }, []);
     return (
         <div>
             <Header />

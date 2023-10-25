@@ -7,7 +7,7 @@ import {
     GOOGLE_GRANT_TYPE,
     GOOGLE_REDIRECT_URI,
 } from '../Contants/ContantsGmail';
-import { changeGmail, changeGmailAccessToken, changeRole, useStore } from '../Store';
+import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
     var gmailCode = '';
@@ -71,9 +71,15 @@ export default function PageLogin() {
                         //save access token to sessionStorage
                         sessionStorage.setItem('USER', JSON.stringify(response.data));
                         //reload
-                        window.location = '/';
-                        sessionStorage.removeItem('gmail');
-                        sessionStorage.removeItem('gmailAccesstoken');
+                        if (sessionStorage.getItem('checkout') != undefined) {
+                            window.location = '/checkout';
+                            sessionStorage.removeItem('gmail');
+                            sessionStorage.removeItem('gmailAccesstoken');
+                        } else {
+                            window.location = '/';
+                            sessionStorage.removeItem('gmail');
+                            sessionStorage.removeItem('gmailAccesstoken');
+                        }
                     }
                 }
             } catch (e) {
@@ -109,7 +115,11 @@ export default function PageLogin() {
             //save access token to sessionStorage
             sessionStorage.setItem('USER', JSON.stringify(response.data));
             //reload
-            window.location = '/';
+            if (sessionStorage.getItem('checkout') != undefined) {
+                window.location = '/checkout';
+            } else {
+                window.location = '/';
+            }
         } catch {
             alert('Tài khoản mật khẩu không đúng');
         }
@@ -117,14 +127,26 @@ export default function PageLogin() {
     return (
         <div className="page-login">
             <div className="row">
-                <div className="col-2"></div>
-                <div className="col-8 ">
+                <div className="col-lg-2 col-1"></div>
+                <div className="col-lg-8 col-10 ">
                     <div className="form-login">
-                        <div className="title-login">ĐĂNG NHẬP</div>
-                        <div className="input-name">
-                            <input id="name" placeholder="Tên đăng nhập"></input>
+                        <div className="back-icon" onClick={handleClickBack}>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-skip-backward-fill"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V8.753l6.267 3.636c.54.313 1.233-.066 1.233-.697v-2.94l6.267 3.636c.54.314 1.233-.065 1.233-.696V4.308c0-.63-.693-1.01-1.233-.696L8.5 7.248v-2.94c0-.63-.692-1.01-1.233-.696L1 7.248V4a.5.5 0 0 0-.5-.5z" />
+                            </svg>
                         </div>
-                        <div className="input-password">
+                        <div className="title-login">ĐĂNG NHẬP</div>
+                        <div className="input input-name">
+                                <input id="name" type="number" placeholder="Số điện thoại"></input>
+                            </div>
+                        <div className="input input-password">
                             <input
                                 id="password"
                                 type="password"
@@ -157,7 +179,7 @@ export default function PageLogin() {
                         </div>
                     </div>
                 </div>
-                <div className="col-2"></div>
+                <div className="col-lg-2 col-1"></div>
             </div>
         </div>
     );

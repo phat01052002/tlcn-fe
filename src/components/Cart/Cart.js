@@ -1,17 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+    addToCheckOut,
     changeCheckToFalse,
     changeNumberCart,
     changePriceAll,
     changeTotalPrice,
     decreasePriceAll,
     getNumber,
+    getToCheckOut,
     increasePriceAll,
     useStore,
 } from '../../Store';
 import { AlertPleaseLogin } from '../Alert/Alert';
-import { notifyAddToCartSussess, notifyWarningChooseProduct, notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
+import {
+    notifyAddToCartSussess,
+    notifyWarningChooseProduct,
+    notifyWarningPleaseLogin,
+} from '../NotificationInPage/NotificationInPage';
 import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
 export default function PageCart({ listProduct }) {
@@ -78,26 +84,13 @@ export default function PageCart({ listProduct }) {
         if (priceAll != 0) {
             if (roleState == 'guest') {
                 document.body.style.pointerEvents = 'auto';
-                notifyWarningPleaseLogin()
-                AlertPleaseLogin()
+                notifyWarningPleaseLogin();
+                sessionStorage.setItem('checkout', JSON.stringify(getToCheckOut()));
+                AlertPleaseLogin();
             } else {
-                //var to get products in cart are checked
-                var productInCartCheck = [];
-                for (var i = 0; i < localStorage.length; i++) {
-                    if (JSON.parse(localStorage.getItem(localStorage.key(i))).check == true) {
-                        //if product is checked,we add them to 'checkout'
-                        productInCartCheck = [
-                            {
-                                productId: JSON.parse(localStorage.key(i)),
-                                count: JSON.parse(localStorage.getItem(localStorage.key(i))).count,
-                            },
-                            ...productInCartCheck,
-                        ];
-                    }
-                }
-                sessionStorage.setItem('checkout', JSON.stringify(productInCartCheck));
+                sessionStorage.setItem('checkout', JSON.stringify(getToCheckOut()));
                 changeCheckToFalse();
-                sessionStorage.setItem('totalPrice',priceAll)
+                sessionStorage.setItem('totalPrice', priceAll);
                 window.location = '/checkout';
             }
         } else {

@@ -20,8 +20,36 @@ export const changeCheckToFalse = () => {
     }
 };
 
- //function format price
+//function format price
 export const formatter = new Intl.NumberFormat('vi', {
     style: 'currency',
     currency: 'VND',
 });
+
+export const getToCheckOut = () => {
+    //var to get products in cart are checked
+    var productInCartCheck = [];
+    for (var i = 0; i < localStorage.length; i++) {
+        if (JSON.parse(localStorage.getItem(localStorage.key(i))).check == true) {
+            //if product is checked,we add them to 'checkout'
+            productInCartCheck = [
+                {
+                    productId: JSON.parse(localStorage.key(i)),
+                    count: JSON.parse(localStorage.getItem(localStorage.key(i))).count,
+                },
+                ...productInCartCheck,
+            ];
+        }
+    }
+    return productInCartCheck;
+};
+
+export const removeAllSession = () => {
+    sessionStorage.removeItem('USER');
+    sessionStorage.removeItem('checkout');
+    sessionStorage.removeItem('totalPrice');
+};
+
+export const handleClickBack = () => {
+    window.location = '/';
+};

@@ -17,6 +17,13 @@
     color: rgb(238, 77, 45);
     font-weight: bold;
 }
+.price-product-detail-sale{
+    color: black !important;
+    text-decoration: line-through;
+}
+.price-product-detail-sale-new{
+    margin-left: 2rem;
+}
 .info-product h5{
     display: inline;
 }
