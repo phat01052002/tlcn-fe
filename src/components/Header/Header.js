@@ -8,11 +8,12 @@ import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
 import NotificationInPage from '../NotificationInPage/NotificationInPage';
 import { changeCheckToFalse, changeNumberCart, changePriceAll, changeRole, getNumber, useStore } from '../../Store';
+import { AlertLogout } from '../Alert/Alert';
 
 export default function Header() {
     //number product in cart
     const [globalState, dispatch] = useStore();
-    const { numberCart, roleState} = globalState; //numberCart is state get from Store
+    const { numberCart, roleState } = globalState; //numberCart is state get from Store
     //user
     const [user, setUser] = useState(null);
     //list product in cart
@@ -56,11 +57,14 @@ export default function Header() {
             document.getElementById('user-nav').classList.add('user-nav-visible');
         }
     }, []);
-    //
-    const handleClickLogout = useCallback(() => {
+    //call back logout to tranfer to alert
+    const logOut = useCallback(() => {
         sessionStorage.removeItem('USER');
         dispatch(changeRole('guest'));
         window.location = '/login';
+    }, []);
+    const handleClickLogout = useCallback(() => {
+        AlertLogout(logOut);
     });
     //function to set list product in cart
     const setListProductInCart = useCallback(async () => {
@@ -110,8 +114,8 @@ export default function Header() {
             pageCart.classList.remove('page-cart-visible');
             overCart.style.visibility = 'hidden';
             document.body.style.pointerEvents = 'auto';
-            dispatch(changePriceAll(0))
-            changeCheckToFalse()
+            dispatch(changePriceAll(0));
+            changeCheckToFalse();
             dispatch(changeNumberCart(getNumber()));
         });
         pageCart.addEventListener('click', (e) => {
@@ -169,7 +173,7 @@ export default function Header() {
     const iconUser = () => {
         if (user && roleState === 'user') {
             return (
-                <div className="col-3 isUser" onClick={handleClickUser}>
+                <div className="isUser" onClick={handleClickUser}>
                     <label>{user.name}</label>
                     <div id="user-nav" className="user-nav-hidden">
                         <label>Tài khoản</label>
@@ -180,7 +184,7 @@ export default function Header() {
             );
         } else {
             return (
-                <div className="col-3 login">
+                <div className="login">
                     <a href="/login">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +228,7 @@ export default function Header() {
                 </div>
                 <div className="col-lg-6 support-header"></div>
                 <div className="row col-lg-2 icon">
-                    <div className="col-3 notification">
+                    <div className="col-lg-4 col-3 notification">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
@@ -236,7 +240,22 @@ export default function Header() {
                             <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" />
                         </svg>
                     </div>
-                    <div className="col-6 cart " onClick={handleClickCart}>
+                    <div className="col-lg-4 col-6 heart">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="17"
+                            height="18"
+                            fill="currentColor"
+                            class="bi bi-heart-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                            />
+                        </svg>
+                    </div>
+                    <div className="col-lg-4 col-3 cart " onClick={handleClickCart}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
@@ -250,7 +269,6 @@ export default function Header() {
                         <label>{numberCart}</label>
                         &nbsp;
                     </div>
-                    {iconUser()}
                 </div>
             </div>
             <div className="row bottom-header">
@@ -322,6 +340,7 @@ export default function Header() {
                         <label>THIẾT KẾ NỘI THẤT</label>
                     </span>
                 </div>
+                <div className="col-2 iconUser"> {iconUser()}</div>
             </div>
             <div id="over-cart">
                 <div id="page-cart" className="page-cart-hidden">

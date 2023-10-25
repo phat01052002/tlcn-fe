@@ -10,7 +10,8 @@ import {
     increasePriceAll,
     useStore,
 } from '../../Store';
-import { notifyAddToCartSussess, notifyWarningChooseProduct } from '../NotificationInPage/NotificationInPage';
+import { AlertPleaseLogin } from '../Alert/Alert';
+import { notifyAddToCartSussess, notifyWarningChooseProduct, notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
 export default function PageCart({ listProduct }) {
@@ -76,7 +77,9 @@ export default function PageCart({ listProduct }) {
     const handleClickPayAll = useCallback((priceAll, roleState) => {
         if (priceAll != 0) {
             if (roleState == 'guest') {
-                window.location = '/login';
+                document.body.style.pointerEvents = 'auto';
+                notifyWarningPleaseLogin()
+                AlertPleaseLogin()
             } else {
                 //var to get products in cart are checked
                 var productInCartCheck = [];

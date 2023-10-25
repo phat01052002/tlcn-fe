@@ -4,6 +4,7 @@ import { changeNumberCart, getNumber, useStore } from '../../Store';
 import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 import './css/Product.css';
 import ProductHot from './ProductHot';
+import ProductSale from './ProductSale';
 export default function Product({ product, type }) {
     /////
     const [globalState, dispatch] = useStore();
@@ -47,19 +48,47 @@ export default function Product({ product, type }) {
     const addType = () => {
         if (type == 'hot') return <ProductHot />;
     };
+    //
+    const getProductPrice = () => {
+        if (product.discount) {
+            return (
+                <div className="price-discount">
+                    <label className="price-old">{formatter.format(product.price)}</label>
+                    <label className="price-new">
+                        {formatter.format(product.price * product.discount.percentDiscount)}
+                    </label>
+                </div>
+            );
+        } else {
+            return formatter.format(product.price);
+        }
+    };
+    //discount
+    const addDiscount = () => {
+        if (product.discount) {
+            return (
+                <div className="product-sale">
+                    <ProductSale discount={product.discount} />
+                </div>
+            );
+        } else {
+            return null;
+        }
+    };
     //set type of product
     return (
         <div id="product" className="product">
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
+            {addDiscount()}
             <div className="product-content">
                 <img
                     className="img-product"
                     src={product.image}
                     onClick={() => handleClickProduct(product.productId)}
                 />
-                <label className="product-price">{formatter.format(product.price)}</label>
+                <label className="product-price">{getProductPrice()}</label>
                 <label className="product-name">{product.name}</label>
                 <div className="product-content-btn">
                     <button

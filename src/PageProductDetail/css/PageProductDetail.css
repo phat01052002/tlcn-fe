@@ -13,7 +13,10 @@
     margin-top: 40px;
     padding-left: 10px;
 }
-
+.info-product h6{
+    color: rgb(238, 77, 45);
+    font-weight: bold;
+}
 .info-product h5{
     display: inline;
 }
@@ -66,12 +69,15 @@
     border-radius: 5px;
     color: white;
     width: 100%;
+    border:1px solid #DFDFE2;
+
 }
 .btn-addtocart{
     background-color: white;
     border-radius: 5px;
     color: black;
     width: 100%;
+    border:1px solid #DFDFE2;
 }
 
 .btn-buynow:hover{

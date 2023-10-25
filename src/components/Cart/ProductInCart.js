@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 import { changeCheckToFalse, useStore } from '../../Store';
+import { AlertPleaseLogin } from '../Alert/Alert';
+import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
 export default function ProductInCart({ key, productId, handleCheck, increaseCount, decreaseCount, deleteItem }) {
     const [globalState, dispatch] = useStore();
@@ -79,14 +81,18 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     //handle click pay(if state is guest must be login,admin cant not buy because cant redirect this)
     const handleClickPay = useCallback((totalPrice) => {
         if (roleState == 'guest') {
-            window.location = '/login';
+            document.body.style.pointerEvents = 'auto';
+            notifyWarningPleaseLogin();
+            AlertPleaseLogin();
         } else {
             sessionStorage.setItem(
                 'checkout',
-                JSON.stringify([{ productId: productId, count:JSON.parse(localStorage.getItem(`${productId}`)).count }]),
+                JSON.stringify([
+                    { productId: productId, count: JSON.parse(localStorage.getItem(`${productId}`)).count },
+                ]),
             );
             changeCheckToFalse();
-            sessionStorage.setItem('totalPrice',totalPrice)
+            sessionStorage.setItem('totalPrice', totalPrice);
             window.location = '/checkout';
         }
     }, []);
@@ -149,7 +155,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                         </button>
                     </div>
                     <div className="col-7 buy-in-cart">
-                        <button onClickCapture={()=>handleClickPay(countProduct * product.price)}>Thanh toán</button>
+                        <button onClickCapture={() => handleClickPay(countProduct * product.price)}>Thanh toán</button>
                         <input className="price-incart" value={formatter.format(countProduct * product.price)}></input>
                     </div>
                 </div>

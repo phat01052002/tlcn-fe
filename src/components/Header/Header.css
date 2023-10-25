@@ -1,7 +1,7 @@
-body{
+body {
     overflow-x: hidden;
 }
-.top-header{
+.top-header {
     width: 100%;
     margin: 0 !important;
     height: 40px;
@@ -11,12 +11,12 @@ body{
     top: 0;
 }
 
-.search{
+.search {
     display: flex;
     align-items: center;
 }
 
-.search input{
+.search input {
     border-radius: 20px;
     padding: 0 20px;
     padding-left: 50px !important;
@@ -25,40 +25,40 @@ body{
     position: relative;
 }
 
-.icon-search{
+.icon-search {
     position: absolute;
     left: 2%;
-    top:14%;
+    top: 14%;
 }
-.login{
+.login {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
 }
-.login a{
-    color: white;
+.login a {
+    color: black;
     text-decoration: none;
+    margin-bottom: 10px;
+    padding-right:1rem ;
 }
 
-
-.bottom-header{
+.bottom-header {
     width: 100%;
     height: 50px;
     position: fixed;
-    top:40px;
+    top: 40px;
     z-index: 2;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin: 0 !important;
     background-color: white;
 }
 
-.naviga-header{
+.naviga-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
-.naviga-header span{
+.naviga-header span {
     margin: 0 20px;
     height: 100%;
     font-size: 16px;
@@ -68,81 +68,105 @@ body{
     display: flex;
     align-items: center;
 }
-.naviga-header span:hover{
+.naviga-header span:hover {
     border-color: black;
-    cursor: pointer
+    cursor: pointer;
 }
-.naviga-header span>label:hover{
+@keyframes rotateSvg {
+    0% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
+}
+.naviga-header span:hover Svg{
+    animation-name: rotateSvg;
+    animation-duration: 0.5s;
+}
+.naviga-header span > label:hover {
     border-color: black;
-    cursor: pointer
+    cursor: pointer;
 }
-.cart{
+.cart {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     font-weight: bold;
     color: white;
     cursor: pointer;
-    
 }
-.cart label{
+.cart label {
     font-size: 10px;
     background-color: red;
     border-radius: 10px;
     padding: 0 5px;
     margin-bottom: 20px;
 }
-.listcategory{
+.heart{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.heart svg:hover{
+    color: gray;
+    cursor: pointer;
+}
+.listcategory {
     position: fixed;
-    top:89px;
+    top: 89px;
     left: 10%;
-    background-color:white;
+    background-color: white;
     width: 80%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
 }
 
-.listcategory-visible{
+.listcategory-visible {
     visibility: visible;
-    animation-name:all-category;
+    animation-name: all-category;
     animation-duration: 1s;
 }
 
-.listcategory-hidden{
+.listcategory-hidden {
     visibility: hidden;
 }
-.list-room{
+.list-room {
     position: fixed;
-    top:89px;
+    top: 89px;
     left: 20%;
-    background-color:white;
+    background-color: white;
     width: 60%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
 }
-.list-room-visible{
+.list-room-visible {
     visibility: visible;
-    animation-name:all-category;
+    animation-name: all-category;
     animation-duration: 1s;
 }
 
-.list-room-hidden{
+.list-room-hidden {
     visibility: hidden;
 }
-.logo-img{
+.logo-img {
     height: 50px;
 }
-.isUser{
+.iconUser{
     display: flex;
     align-items: center;
     justify-content: end;
 }
-.isUser>label{
-    color: white;
+.isUser {
+    margin-bottom: 10px;
+}
+.isUser > label {
+    color: black;
     font-weight: bold;
     cursor: pointer;
 }
-.user-nav-hidden{
+.user-nav-hidden {
     position: absolute;
     visibility: visible;
     background-color: white;
@@ -154,41 +178,40 @@ body{
     top: 100%;
     visibility: hidden;
 }
-.user-nav-hidden label{
+.user-nav-hidden label {
     display: block;
     padding: 20px 20px;
 }
-.user-nav-hidden label:hover{
-    background-color:black;
-    color: white
+.user-nav-hidden label:hover {
+    background-color: black;
+    color: white;
 }
-.user-nav-visible{
-    visibility:visible;
+.user-nav-visible {
+    visibility: visible;
 }
-@keyframes all-category{
-    0%{
-      opacity: 0.5;
-      transform: translateY(-100px)
-
+@keyframes all-category {
+    0% {
+        opacity: 0.5;
+        transform: translateY(-100px);
     }
-    100%{
-      opacity: 1;
-      transform: translateY(0px)
-    }       
-  }
-.page-cart-hidden{
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+.page-cart-hidden {
     position: fixed;
-    right:0;
-    top:0;
+    right: 0;
+    top: 0;
     height: 100%;
     width: 450px;
     background-color: white;
-    z-index:99;
+    z-index: 99;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     visibility: hidden;
 }
 
-.page-cart-visible{
+.page-cart-visible {
     visibility: visible;
     animation-name: pagecart;
     animation-duration: 0.5s;
@@ -196,127 +219,131 @@ body{
     overflow-y: scroll;
     overflow-x: hidden;
 }
-#over-cart{
+#over-cart {
     position: fixed;
-    top:0;
+    top: 0;
     bottom: 0;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     z-index: 99 !important;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     visibility: hidden;
 }
-.notification{
+.notification {
     color: white;
     display: flex;
     align-items: center;
     justify-content: start;
     cursor: pointer;
 }
-.notification svg:hover{
+.notification svg:hover {
     color: gray;
 }
-.cart svg:hover{
+.cart svg:hover {
     color: gray;
 }
-.isUser label:hover{
+.isUser label:hover {
     color: gray;
 }
-.login svg:hover{
+.login svg:hover {
     color: gray;
 }
-@keyframes pagecart{
-    0%{
-      transform: translateX(+200px)
+@keyframes pagecart {
+    0% {
+        transform: translateX(+200px);
     }
-    100%{
-      transform: translateX(0);
-    }   
-  }
-  @media (max-width:1370px) {
-    .support-header{
+    100% {
+        transform: translateX(0);
+    }
+}
+@media (max-width: 1370px) {
+    .support-header {
         width: 45% !important;
     }
-    .icon{
-        width: 21% !important;
-    }
-}
-  @media (max-width:1280px) {
-    .icon-search{
-        left: 2%;
-    }
-    .naviga-header span label{
-        font-size: 14px;
-    }
-    .support-header{
-        width: 43% !important;
-    }
-    .icon{
+    .icon {
         width: 23% !important;
     }
-    .isUser >label{
-        font-size: 13px
-    }
 }
-@media (max-width:992px) {
-    .support-header{
-        width: 20% !important;
+@media (max-width: 1280px) {
+    .icon-search {
+        left: 2%;
     }
-    .icon{
-        width: 46% !important;
+    .naviga-header span label {
+        font-size: 14px;
     }
-}
-@media (max-width:500px) {
-    .search{
+    .support-header {
+        width: 43% !important;
+    }
+    .icon {
         width: 25% !important;
     }
-    .support-header{
+    .isUser > label {
+        font-size: 13px;
+    }
+}
+@media (max-width: 992px) {
+    .support-header {
+        width: 20% !important;
+    }
+    .icon {
+        width: 49% !important;
+    }
+}
+@media (max-width: 500px) {
+    .search {
+        width: 25% !important;
+    }
+    .support-header {
         width: 0 !important;
     }
-    .icon{
+    .icon {
         width: 75% !important;
     }
 }
-  @media(max-width: 768px){
-    .list-search{
+@media (max-width: 768px) {
+    .list-search {
         transform: translateX(-45%) !important;
         width: 50% !important;
     }
-    .product-bestSeller{
+    .product-bestSeller {
         max-width: 100%;
     }
-    .top-header{
+    .top-header {
         max-width: 100%;
     }
-    .bottom-header{
+    .bottom-header {
         max-width: 100%;
     }
-    .img-page-guest{
+    .img-page-guest {
         margin: 0;
     }
-    .icon-search{
+    .icon-search {
         position: absolute;
         left: 3%;
-        top:16%;
+        top: 16%;
     }
-    .icon-page-guest{
+    .icon-page-guest {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 75% !important;
     }
-    .menu-768{
+    .menu-768 {
         transform: translateY(15%);
     }
-    .isUser>label{
+    .isUser > label {
         margin-right: 0 !important;
     }
 }
-@media (max-width:390px) {
-    .icon-search{
+@media (max-width: 450px) {
+    .icon-search {
         left: 5%;
-    } 
-    .search input:focus{
-        width: 300px
+    }
+    .search input:focus {
+        width: 300px;
+    }
+    .login svg{
+        width: 20px;
+        height: 20px;
     }
 }
