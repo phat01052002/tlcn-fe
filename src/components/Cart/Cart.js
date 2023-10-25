@@ -4,6 +4,7 @@ import {
     changeCheckToFalse,
     changeNumberCart,
     changePriceAll,
+    changeTotalPrice,
     decreasePriceAll,
     getNumber,
     increasePriceAll,
@@ -14,7 +15,7 @@ import './css/PageCart.css';
 import ProductInCart from './ProductInCart';
 export default function PageCart({ listProduct }) {
     const [globalState, dispatch] = useStore();
-    const { roleState, priceAll } = globalState;
+    const { roleState, priceAll, totalPrice } = globalState;
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -93,6 +94,7 @@ export default function PageCart({ listProduct }) {
                 }
                 sessionStorage.setItem('checkout', JSON.stringify(productInCartCheck));
                 changeCheckToFalse();
+                sessionStorage.setItem('totalPrice',priceAll)
                 window.location = '/checkout';
             }
         } else {

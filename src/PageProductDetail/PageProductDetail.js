@@ -5,7 +5,7 @@ import './css/PageProductDetail.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
-import { changeNumberCart, getNumber, useStore } from '../Store';
+import { changeNumberCart, formatter, getNumber, useStore } from '../Store';
 import { notifyAddToCartSussess } from '../components/NotificationInPage/NotificationInPage';
 export default function PageProductDetail() {
     /////
@@ -21,11 +21,6 @@ export default function PageProductDetail() {
     //the current behind product detail (1:review 2:insuranse 3:transport)
     const [currentBehind, setCurrentBehind] = useState(1);
     //this vars to set color behind product detail
-    //function format price
-    const formatter = new Intl.NumberFormat('vi', {
-        style: 'currency',
-        currency: 'VND',
-    });
     //handle buy now
     const handleClickBuyNow = useCallback((e) => {
         console.log('buynow');

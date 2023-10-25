@@ -1,9 +1,11 @@
+import ListProductCheckOut from '../PageCheckOut/ListProductCheckOut';
 import {
-    CHANGE_GMAIL,
-    CHANGE_GMAIL_ACCESSTOKEN,
+    CHANGE_LIST_COUNT_PRODUCT_CHECKOUT,
+    CHANGE_LIST_PRODUCT_CHECKOUT,
     CHANGE_NUMBER_CART,
     CHANGE_PRICE_ALL,
     CHANGE_ROLE,
+    CHANGE_TOTAL_PRICE,
     DECREASE_PRICE_ALL,
     INCREASE_PRICE_ALL,
 } from './Contants';
@@ -12,6 +14,9 @@ const initState = {
     numberCart: 0,
     roleState: 'guest',
     priceAll: 0,
+    listCountProductCheckOut: [],
+    listProductCheckOut: [],
+    totalPrice: 0,
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -25,6 +30,12 @@ function Reducer(state, action) {
             return { ...state, priceAll: state.priceAll - action.payload };
         case INCREASE_PRICE_ALL:
             return { ...state, priceAll: state.priceAll + action.payload };
+        case CHANGE_LIST_COUNT_PRODUCT_CHECKOUT:
+            return { ...state, listCountProductCheckOut: action.payload };
+        case CHANGE_LIST_PRODUCT_CHECKOUT:
+            return { ...state, listProductCheckOut: action.payload };
+        case CHANGE_TOTAL_PRICE:
+            return { ...state, totalPrice: action.payload };
         default:
             throw new Error('');
     }

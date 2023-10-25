@@ -77,15 +77,16 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     }, []);
 
     //handle click pay(if state is guest must be login,admin cant not buy because cant redirect this)
-    const handleClickPay = useCallback(() => {
+    const handleClickPay = useCallback((totalPrice) => {
         if (roleState == 'guest') {
             window.location = '/login';
         } else {
             sessionStorage.setItem(
                 'checkout',
-                JSON.stringify([{ productId: productId, count: localStorage.getItem(`${productId}`) }]),
+                JSON.stringify([{ productId: productId, count:JSON.parse(localStorage.getItem(`${productId}`)).count }]),
             );
             changeCheckToFalse();
+            sessionStorage.setItem('totalPrice',totalPrice)
             window.location = '/checkout';
         }
     }, []);
@@ -148,7 +149,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                         </button>
                     </div>
                     <div className="col-7 buy-in-cart">
-                        <button onClickCapture={handleClickPay}>Thanh toán</button>
+                        <button onClickCapture={()=>handleClickPay(countProduct * product.price)}>Thanh toán</button>
                         <input className="price-incart" value={formatter.format(countProduct * product.price)}></input>
                     </div>
                 </div>

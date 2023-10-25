@@ -19,3 +19,9 @@ export const changeCheckToFalse = () => {
         );
     }
 };
+
+ //function format price
+export const formatter = new Intl.NumberFormat('vi', {
+    style: 'currency',
+    currency: 'VND',
+});
