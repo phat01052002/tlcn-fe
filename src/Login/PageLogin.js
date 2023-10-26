@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-router-dom';
+import { AlertAddPhone } from '../components/Alert/Alert';
 import {
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
@@ -67,13 +68,21 @@ export default function PageLogin() {
                             },
                             data: data,
                         };
-                        const response = await axios.request(config);
-                        //save access token to sessionStorage
-                        sessionStorage.setItem('USER', JSON.stringify(response.data));
-                        //reload
-                        window.location = '/';
-                        sessionStorage.removeItem('gmail');
-                        sessionStorage.removeItem('gmailAccesstoken');
+                        const response = await axios.request(config).then((res) => {
+                            if (res.status == 200) {
+                                //save access token to sessionStorage
+                                sessionStorage.setItem('USER', JSON.stringify(response.data));
+                                //reload
+                                window.location = '/';
+                                sessionStorage.removeItem('gmail');
+                                sessionStorage.removeItem('gmailAccesstoken');
+                            }else{
+                                sessionStorage.setItem('USER', JSON.stringify(response.data));
+                                AlertAddPhone()
+                                sessionStorage.removeItem('gmail');
+                                sessionStorage.removeItem('gmailAccesstoken');
+                            }
+                        });
                     }
                 }
             } catch (e) {
