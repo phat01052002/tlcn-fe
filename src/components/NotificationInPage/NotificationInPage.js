@@ -6,6 +6,9 @@ export const notifyAddToCartSussess = () => toast.success('Thêm thành công');
 export const notifyWarningChooseProduct = () => toast.warning('Vui lòng chọn sản phẩm');
 export const notifyWarningPleaseLogin = () => toast.warning('Vui lòng đăng nhập');
 export const notifyErrorPhoneIsPresent = () => toast.error('Số điện thoại đã tồn tại');
+export const notifyErrorVerifyPhone = () => toast.error('Không thể xác thực số điện thoại này');
+export const notifyErrorRegister = () => toast.error('Đăng kí không thành công');
+
 
 
 export default function NotificationInPage() {

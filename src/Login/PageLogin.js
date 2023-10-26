@@ -8,7 +8,7 @@ import {
     GOOGLE_CLIENT_SECRET,
     GOOGLE_GRANT_TYPE,
     GOOGLE_REDIRECT_URI,
-} from '../Contants/ContantsGmail';
+} from '../Contants/Contants';
 import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {

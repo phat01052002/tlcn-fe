@@ -75,3 +75,24 @@ export const AlertAccountIsPresent = () => {
         confirmButtonText: 'Ok',
     });
 };
+
+export const AlertVerifyPhone = (verifyPhone) => {
+    Swal.fire({
+        title: 'Nhập mã được gửi về điện thoại của bạn',
+        input: 'number',
+        inputAttributes: {
+            autocapitalize: 'off',
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: `Để sau`,
+        showLoaderOnConfirm: true,
+        allowOutsideClick: () => {},
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            verifyPhone(result.value);
+        } else {
+            window.location = '/register';
+        }
+    });
+};
