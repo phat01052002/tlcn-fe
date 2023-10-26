@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-router-dom';
 import { AlertAddPhone } from '../components/Alert/Alert';
+import NotificationInPage from '../components/NotificationInPage/NotificationInPage';
 import {
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
@@ -184,6 +185,7 @@ export default function PageLogin() {
                 </div>
                 <div className="col-lg-2 col-1"></div>
             </div>
+            <NotificationInPage/>
         </div>
     );
 }

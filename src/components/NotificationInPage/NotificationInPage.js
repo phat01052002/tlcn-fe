@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export const notifyAddToCartSussess = () => toast.success('Thêm thành công');
 export const notifyWarningChooseProduct = () => toast.warning('Vui lòng chọn sản phẩm');
 export const notifyWarningPleaseLogin = () => toast.warning('Vui lòng đăng nhập');
+export const notifyErrorPhoneIsPresent = () => toast.error('Số điện thoại đã tồn tại');
 
 
 export default function NotificationInPage() {

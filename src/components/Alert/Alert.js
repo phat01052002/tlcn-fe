@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { notifyErrorPhoneIsPresent } from '../NotificationInPage/NotificationInPage';
 export const AlertLogout = (logOut) => {
     Swal.fire({
         title: 'Bạn có muốn thoát?',
@@ -35,13 +36,13 @@ export const AlertAddPhone = () => {
         inputAttributes: {
             autocapitalize: 'off',
         },
-        showCancelButton:true,
+        showCancelButton: true,
         confirmButtonText: 'Xác nhận',
         cancelButtonText: `Để sau`,
         showLoaderOnConfirm: true,
         allowOutsideClick: () => {},
     }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.isConfirmed && result.value) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'post',
@@ -52,8 +53,13 @@ export const AlertAddPhone = () => {
             };
             axios
                 .request(config)
-                .then(function (response) {
-                    window.location = '/';
+                .then((response) => {
+                    if (response.status == 204) {
+                        notifyErrorPhoneIsPresent();
+                        AlertAddPhone();
+                    } else {
+                        window.location = '/';
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
