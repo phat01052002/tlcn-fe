@@ -32,20 +32,28 @@
     margin: 0 2rem;
     display: flex;
 }
-.price-checkout {
-    position: relative;
-}
+
 .delivery-checkout {
     position: relative;
 }
-.price-checkout-label {
-    position: absolute;
-    right: 1%;
+.price-checkout {
+    font-size: 1.25rem;
     font-weight: bold;
+    width: 95%;
+    display: block;
+    text-align:start ;
+    margin-left: 2rem;
+    position: relative;
+    margin-top: 0.5rem;
+}
+.price-checkout-label {
+    color: #ee4d2d;
+    right: 3%;
+    position: absolute;
 }
 .delivery-checkout-label {
     position: absolute;
-    right: 1%;
+    right: 0%;
 }
 
 .list-product-checkout {
@@ -98,3 +106,113 @@
 .pay-checkout button:hover {
     opacity: 0.8;
 }
+
+.user-info {
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid #dfdfe2;
+}
+.user-info > label {
+    display: block;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.div-input {
+    display: flex;
+    width: 100%;
+    position: relative;
+    margin: 2rem 0px;
+}
+.div-input label {
+    margin-left: 1rem;
+    font-weight: bold;
+}
+.input-checkout {
+    text-align: center;
+    position: absolute;
+    right: 2%;
+    width: 60%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.25rem 1rem;
+}
+.div-input-code {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.coupon-icon {
+    position: absolute;
+    top: 55%;
+    left: 21%;
+    z-index: 1;
+}
+.input-code {
+    width: 60%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.4rem 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+.input-checkout:focus {
+    scale: 1.02;
+    font-weight: bold;
+}
+.input-code:focus {
+    scale: 1.02;
+    font-weight: bold;
+}
+.payment-method {
+    margin-top: 1rem;
+    margin-top: 1rem;
+    background-color: #dfdfe2;
+    border-radius: 10px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+.payment-method > label {
+    display: block;
+    font-weight: bold;
+}
+.payment-method span {
+    margin: 1rem;
+    display: block;
+    text-align: start;
+    margin-left: 2rem;
+}
+.delivery-method span {
+    margin: 1rem;
+    display: block;
+    text-align: start;
+    margin-left: 2rem;
+}
+.delivery-method {
+    margin-top: 1rem;
+    background-color: #dfdfe2;
+    border-radius: 10px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+.delivery-method > label {
+    display: block;
+    font-weight: bold;
+}
+.radio-checkout {
+    border: 1px solid #dfdfe2;
+    scale: 1.2;
+}
+.radio-checkout:checked {
+    scale: 1.8;
+}
+.list-product-checkout{
+    height: 610px;
+    overflow-y:scroll;
+}
+::-webkit-scrollbar {
+    width: 10px;
+  }
+

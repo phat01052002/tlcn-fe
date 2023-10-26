@@ -1,34 +1,34 @@
-@media(max-width:768px) {
-    .decor-nav{
+@media (max-width: 768px) {
+    .decor-nav {
         position: relative;
         left: -222%;
         top: 80%;
     }
-    .living-room-nav{
+    .living-room-nav {
         transform: translateY(35%);
     }
-    .img-decor{
+    .img-decor {
         margin-top: 20px;
     }
-    .visible-768{
+    .visible-768 {
         display: block !important;
     }
-    .naviga-header{
+    .naviga-header {
         display: none;
     }
 }
-@media (max-width:576px) {
-    .decor-nav{
+@media (max-width: 576px) {
+    .decor-nav {
         position: static !important;
     }
 }
-.product-bestSeller{
+.product-bestSeller {
     margin-top: 50px;
 }
-#product-bestSeller{
+#product-bestSeller {
     text-align: center;
 }
-.list-product-bestSeller{
+.list-product-bestSeller {
     display: flex;
     justify-content: center;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -39,93 +39,157 @@
 .img-page-guest {
     margin-top: 150px;
 }
-.content-room{
+.content-room {
     margin-top: 80px;
     display: flex;
     justify-content: center;
 }
-.img-living-room img{
+.img-living-room img {
     object-fit: cover;
     width: 100%;
     border-radius: 10px;
 }
-.img-living-room img:hover{
-    transform:scale(1.05);
-    cursor:pointer
+.img-living-room img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
-.img-decor img{
+.img-decor img {
     width: 100%;
     object-fit: cover;
     border-radius: 10px;
 }
-.img-decor img:hover{
-    transform:scale(1.05);
-    cursor:pointer
+.img-decor img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
-.living-room-nav{
+.living-room-nav {
     margin-top: 50px;
 }
-.living-decor-nav a{
+.living-decor-nav a {
     text-decoration: none;
     color: black;
 }
-.living-decor-nav a:hover{
+.living-decor-nav a:hover {
     cursor: pointer;
     font-weight: bold;
 }
-.living-decor-nav h3{
+.living-decor-nav h3 {
     font-weight: bold;
     display: block;
 }
 
-.decor-nav{
+.decor-nav {
     margin-top: 130px;
 }
-.visible-768{
+.visible-768 {
     display: none;
 }
 
-.bed-room-nav a{
+.bed-room-nav a {
     text-decoration: none;
     color: black;
 }
 
-.dining-nav a{
+.dining-nav a {
     text-decoration: none;
     color: black;
 }
-.img-bed-room{
+.img-bed-room {
     margin-top: 50px;
 }
-.img-bed-room img{
+.img-bed-room img {
     object-fit: cover;
     width: 80%;
     border-radius: 10px;
 }
-.img-bed-room img:hover{
-    transform:scale(1.05);
-    cursor:pointer
+.img-bed-room img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
-.img-dining{
+.img-dining {
     margin-top: 50px;
 }
 
-.img-dining img{
+.img-dining img {
     object-fit: cover;
     width: 95%;
     border-radius: 10px;
 }
 
-.img-dining img:hover{
-    transform:scale(1.05);
-    cursor:pointer
+.img-dining img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
-.bed-room-nav{
+.bed-room-nav {
     margin-bottom: 2rem;
 }
-.dining-nav{
+.dining-nav {
     margin-top: 2rem;
 }
+.list-category-homepage {
+    display:grid;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+    margin: 4rem 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    padding: 2rem 10px;
+}
+.go-out-next {
+    animation-name: overCategory;
+    animation-duration: 0.5s;
+    animation-direction: reverse;
+    animation-iteration-count: infinite;
+}
 
+.go-out-back {
+    animation-name: overCategory;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+.list-category-homepage svg:hover {
+    scale: 1.05;
+    cursor: pointer;
+}
+
+.list-category-homepage svg {
+    margin: 0 1rem;
+}
+.category-homepage {
+    cursor: pointer;
+    padding: 1rem;
+}
+@keyframes overCategory {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+.category-homepage:hover {
+    border: 1px solid gray;
+    border-radius: 10px;
+    scale: 1.1;
+}
+
+.category-homepage img {
+    width: 100%;
+    object-fit: contain;
+    display: block;
+}
+.category-homepage label {
+    font-weight: bold;
+    margin-top: 2rem;
+}
+.back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

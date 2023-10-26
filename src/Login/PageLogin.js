@@ -1,14 +1,9 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-router-dom';
-import { AlertAddPhone } from '../components/Alert/Alert';
+import { AlertAddPhone, AlertDontHaveInfo, AlertLoginFalse } from '../components/Alert/Alert';
 import NotificationInPage from '../components/NotificationInPage/NotificationInPage';
-import {
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    GOOGLE_GRANT_TYPE,
-    GOOGLE_REDIRECT_URI,
-} from '../Contants/Contants';
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_GRANT_TYPE, GOOGLE_REDIRECT_URI } from '../Contants/Contants';
 import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
@@ -76,7 +71,11 @@ export default function PageLogin() {
                                 //save access token to sessionStorage
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
                                 //reload
-                                window.location = '/';
+                                if (sessionStorage.getItem('checkout')) {
+                                    window.location = '/checkout';
+                                } else {
+                                    window.location = '/';
+                                }
                             } else if (res.status == 201) {
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
                                 AlertAddPhone();
@@ -100,6 +99,10 @@ export default function PageLogin() {
     const handleClickLogin = useCallback(async (e) => {
         var username = document.getElementById('name').value;
         var password = document.getElementById('password').value;
+        if(!username || !password){
+            AlertDontHaveInfo()
+            return;
+        }
         try {
             let data = JSON.stringify({
                 username: `${username}`,
@@ -119,13 +122,13 @@ export default function PageLogin() {
             //save access token to sessionStorage
             sessionStorage.setItem('USER', JSON.stringify(response.data));
             //reload
-            if (sessionStorage.getItem('checkout') != undefined) {
+            if (sessionStorage.getItem('checkout')) {
                 window.location = '/checkout';
             } else {
                 window.location = '/';
             }
         } catch {
-            alert('Tài khoản mật khẩu không đúng');
+            AlertLoginFalse();
         }
     }, []);
     return (
@@ -185,7 +188,7 @@ export default function PageLogin() {
                 </div>
                 <div className="col-lg-2 col-1"></div>
             </div>
-            <NotificationInPage/>
+            <NotificationInPage />
         </div>
     );
 }

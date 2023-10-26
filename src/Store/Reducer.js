@@ -6,6 +6,7 @@ import {
     CHANGE_PRICE_ALL,
     CHANGE_ROLE,
     CHANGE_TOTAL_PRICE,
+    CHANGE_USER,
     DECREASE_PRICE_ALL,
     INCREASE_PRICE_ALL,
 } from './Contants';
@@ -17,6 +18,7 @@ const initState = {
     listCountProductCheckOut: [],
     listProductCheckOut: [],
     totalPrice: 0,
+    user: [],
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -36,6 +38,8 @@ function Reducer(state, action) {
             return { ...state, listProductCheckOut: action.payload };
         case CHANGE_TOTAL_PRICE:
             return { ...state, totalPrice: action.payload };
+        case CHANGE_USER:
+            return { ...state, user: action.payload };
         default:
             throw new Error('');
     }

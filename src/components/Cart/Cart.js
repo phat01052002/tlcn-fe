@@ -86,6 +86,7 @@ export default function PageCart({ listProduct }) {
                 document.body.style.pointerEvents = 'auto';
                 notifyWarningPleaseLogin();
                 sessionStorage.setItem('checkout', JSON.stringify(getToCheckOut()));
+                sessionStorage.setItem('totalPrice', priceAll);
                 AlertPleaseLogin();
             } else {
                 sessionStorage.setItem('checkout', JSON.stringify(getToCheckOut()));

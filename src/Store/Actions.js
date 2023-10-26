@@ -7,6 +7,7 @@ import {
     CHANGE_LIST_COUNT_PRODUCT_CHECKOUT,
     CHANGE_LIST_PRODUCT_CHECKOUT,
     CHANGE_TOTAL_PRICE,
+    CHANGE_USER,
 } from './Contants';
 
 export const changeNumberCart = (payload) => ({
@@ -43,5 +44,10 @@ export const changeListProductCheckOut = (payload) => ({
 
 export const changeTotalPrice = (payload) => ({
     type: CHANGE_TOTAL_PRICE,
+    payload,
+});
+
+export const changeUser = (payload) => ({
+    type: CHANGE_USER,
     payload,
 });

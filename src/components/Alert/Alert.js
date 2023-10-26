@@ -14,7 +14,22 @@ export const AlertLogout = (logOut) => {
         }
     });
 };
-
+export const AlertLoginFalse = (logOut) => {
+    Swal.fire({
+        title: 'Tài khoản hoặc mật khẩu không đúng',
+        showDenyButton: true,
+        showConfirmButton: false,
+        denyButtonText: `OK`,
+    });
+};
+export const AlertDontHaveInfo = (logOut) => {
+    Swal.fire({
+        title: 'Hãy nhập đủ thông tin',
+        showDenyButton: true,
+        showConfirmButton: false,
+        denyButtonText: `OK`,
+    });
+};
 export const AlertPleaseLogin = () => {
     Swal.fire({
         title: 'Bạn có muốn đăng nhập?',

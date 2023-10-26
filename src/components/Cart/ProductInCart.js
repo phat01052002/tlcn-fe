@@ -89,6 +89,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                     { productId: productId, count: JSON.parse(localStorage.getItem(`${productId}`)).count },
                 ]),
             );
+            sessionStorage.setItem('totalPrice', totalPrice);
             AlertPleaseLogin();
         } else {
             sessionStorage.setItem(
@@ -130,7 +131,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                         type="checkbox"
                     ></input>
                 </div>
-                <div className="col-8 row">
+                <div className="col-8 row product-name-cart">
                     <div>{product.name}</div>
                     <div className="col-5 count-product-cart">
                         <button

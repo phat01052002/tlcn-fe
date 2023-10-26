@@ -5,6 +5,7 @@ import Banner from '../components/Banner/Banner';
 import ListBestSellerProduct from './ListBestSellerProduct';
 import axios from 'axios';
 import { changeRole, useStore } from '../Store';
+import ListCategoryHomePage from './ListCategoryHomePage';
 export default function HomePage() {
     return (
         <div>
@@ -16,6 +17,7 @@ export default function HomePage() {
                 <div className="row product-bestSeller">
                     <div className="col-1"></div>
                     <div className="col-10" id="product-bestSeller">
+                        <ListCategoryHomePage />
                         <h3>Sản Phẩm Bán Chạy</h3>
                         <div className="list-product-bestSeller">
                             <ListBestSellerProduct />

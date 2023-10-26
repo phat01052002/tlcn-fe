@@ -6,3 +6,5 @@ export const DECREASE_PRICE_ALL = 'decrease_price_all';
 export const CHANGE_LIST_COUNT_PRODUCT_CHECKOUT = 'change_list_count_product_checkout';
 export const CHANGE_LIST_PRODUCT_CHECKOUT = 'change_list_product_checkout';
 export const CHANGE_TOTAL_PRICE = 'change_total_price';
+export const CHANGE_USER = 'change_user';
+

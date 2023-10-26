@@ -12,6 +12,7 @@ import {
     changeNumberCart,
     changePriceAll,
     changeRole,
+    changeUser,
     getNumber,
     removeAllSession,
     useStore,
@@ -21,9 +22,7 @@ import { AlertLogout } from '../Alert/Alert';
 export default function Header() {
     //number product in cart
     const [globalState, dispatch] = useStore();
-    const { numberCart, roleState } = globalState; //numberCart is state get from Store
-    //user
-    const [user, setUser] = useState(null);
+    const { numberCart, roleState, user } = globalState; //numberCart is state get from Store
     //list product in cart
     const [listProduct, setListProduct] = useState([]);
     ///
@@ -98,7 +97,7 @@ export default function Header() {
                 },
             };
 
-            axios.request(config).then((res) => setUser(res.data));
+            axios.request(config).then((res) => dispatch(changeUser(res.data)));
         } catch {
             window.location = '/login';
         }
