@@ -91,4 +91,16 @@
     opacity: 0.8;
 }
 
+@media (max-width:980px) {
+    .form-login{
+        width: 70% !important;
+        transform: translateX(24%);
+    }
+}
 
+@media (max-width:600px) {
+    .form-login{
+        width: 90% !important;
+        transform: translateX(5%);
+    }
+}

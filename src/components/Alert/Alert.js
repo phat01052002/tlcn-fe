@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Swal from 'sweetalert2';
 export const AlertLogout = (logOut) => {
     Swal.fire({
@@ -29,33 +30,42 @@ export const AlertPleaseLogin = () => {
 
 export const AlertAddPhone = () => {
     Swal.fire({
-        title: 'Submit your Github username',
-        input: 'text',
+        title: 'Thêm số điện thoại cho lần đầu đăng nhập',
+        input: 'number',
         inputAttributes: {
             autocapitalize: 'off',
         },
-        showCancelButton: true,
-        confirmButtonText: 'Look up',
+        showCancelButton:true,
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: `Để sau`,
         showLoaderOnConfirm: true,
-        preConfirm: (login) => {
-            return fetch(`//api.github.com/users/${login}`)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-                    return response.json();
-                })
-                .catch((error) => {
-                    Swal.showValidationMessage(`Request failed: ${error}`);
-                });
-        },
-        allowOutsideClick: () => !Swal.isLoading(),
+        allowOutsideClick: () => {},
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                title: `${result.value.login}'s avatar`,
-                imageUrl: result.value.avatar_url,
-            });
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            var config = {
+                method: 'post',
+                url: `/user/addPhone/${result.value}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            axios
+                .request(config)
+                .then(function (response) {
+                    window.location = '/';
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        } else {
+            window.location = '/';
         }
+    });
+};
+export const AlertAccountIsPresent = () => {
+    Swal.fire({
+        title: 'Số điện thoại đã tồn tại',
+        confirmButtonText: 'Ok',
     });
 };

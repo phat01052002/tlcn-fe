@@ -7,7 +7,15 @@ import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
 import NotificationInPage from '../NotificationInPage/NotificationInPage';
-import { changeCheckToFalse, changeNumberCart, changePriceAll, changeRole, getNumber, useStore } from '../../Store';
+import {
+    changeCheckToFalse,
+    changeNumberCart,
+    changePriceAll,
+    changeRole,
+    getNumber,
+    removeAllSession,
+    useStore,
+} from '../../Store';
 import { AlertLogout } from '../Alert/Alert';
 
 export default function Header() {
@@ -59,7 +67,7 @@ export default function Header() {
     }, []);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
-        sessionStorage.removeItem('USER');
+        removeAllSession();
         dispatch(changeRole('guest'));
         window.location = '/login';
     }, []);
@@ -163,6 +171,7 @@ export default function Header() {
         checkAdmin();
         checkUser();
         dispatch(changeNumberCart(getNumber()));
+        changeCheckToFalse();
     }, []);
     useEffect(() => {
         if (roleState == 'user') {

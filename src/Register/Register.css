@@ -1,0 +1,102 @@
+.page-register {
+    background-image: url('../Image/background_login.png');
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+.form-register {
+    top: 50px;
+    transform: translateX(55%);
+    height: 400px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    border-radius: 10px;
+    width: 45%;
+    position: relative;
+}
+.title-register {
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 10px 0;
+    font-size: large;
+    font-weight: bold;
+}
+.input {
+    min-width: 50%;
+    text-align: center;
+}
+.input input {
+    margin-top: 0.4rem;
+    text-align: center;
+    width: 50%;
+    border-radius: 50px;
+    border: 2px solid #dfdfe2;
+    padding: 0.5rem 0;
+}
+.input input:focus {
+    scale: 1.1;
+    font-weight: bold;
+}
+.input-phone-register {
+    margin-top: 2rem !important;
+}
+.btn-register {
+    text-align: center;
+    margin-top: 2rem;
+}
+.btn-register button {
+    width: 50%;
+    padding: 0.5rem 0;
+    border-radius: 50px;
+    border: 1px solid #dfdfe2;
+    background-color: black;
+    color: white;
+}
+.btn-register button:hover {
+    background-color: gray;
+}
+.btn-register-gmail {
+    text-align: center;
+    margin-top: 4rem;
+}
+.btn-register-gmail button {
+    padding: 0.35rem 0.6rem;
+    border-radius: 100px;
+    border: 1px solid #dfdfe2;
+    background-color: red;
+    color: white;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.back-icon {
+    position: absolute;
+    left: 2.5%;
+    top: 2.1%;
+    cursor: pointer;
+}
+.back-icon:hover{
+    opacity: 0.8;
+}
+
+@media (max-width:980px) {
+    .form-register{
+        width: 65% !important;
+        transform: translateX(28%);
+    }
+}
+
+@media (max-width:600px) {
+    .form-register{
+        width: 90% !important;
+        transform: translateX(5%);
+    }
+}

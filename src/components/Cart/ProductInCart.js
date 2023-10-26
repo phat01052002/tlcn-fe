@@ -83,6 +83,12 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
         if (roleState == 'guest') {
             document.body.style.pointerEvents = 'auto';
             notifyWarningPleaseLogin();
+            sessionStorage.setItem(
+                'checkout',
+                JSON.stringify([
+                    { productId: productId, count: JSON.parse(localStorage.getItem(`${productId}`)).count },
+                ]),
+            );
             AlertPleaseLogin();
         } else {
             sessionStorage.setItem(

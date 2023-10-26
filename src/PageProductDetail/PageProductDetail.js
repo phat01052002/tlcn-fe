@@ -86,6 +86,21 @@ export default function PageProductDetail() {
         insuranse.classList.remove('behind-productdetail-current');
         transport.classList.add('behind-productdetail-current');
     }, []);
+    //product price
+    const getProductPrice = () => {
+        if (!product.discount) {
+            return formatter.format(product.price);
+        } else {
+            return (
+                <div>
+                    <label className="price-product-detail-sale">{formatter.format(product.price)}</label>
+                    <label className="price-product-detail-sale-new">
+                        {formatter.format(product.price * product.discount.percentDiscount)}
+                    </label>
+                </div>
+            );
+        }
+    };
     //get product by Id
     useEffect(() => {
         axios
@@ -105,7 +120,7 @@ export default function PageProductDetail() {
                     <div className="col-12 col-lg-5 info-product">
                         <h2> {product.name}</h2>
                         <br />
-                        <h6>{formatter.format(product.price)}</h6>
+                        <h6>{getProductPrice()}</h6>
                         <br />
                         <div>
                             <h5>Vật liệu: </h5>
