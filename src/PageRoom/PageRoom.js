@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
 import Header from '../components/Header/Header';
@@ -9,6 +9,52 @@ export default function PageRoom() {
     const { roomId } = useParams();
     const [productsInRoom, setProductsInRoom] = useState([]);
     const [room, setRoom] = useState([]);
+    const [sort, setSort] = useState(1);
+    //
+    const handleClickNormal = useCallback((sort) => {
+        if (sort != 1) {
+            document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
+            axios
+                .get(`/guest/room/products/${roomId}`)
+                .then((res) => setProductsInRoom(res.data))
+                .catch((err) => console.log(err));
+            setSort(1);
+            document.getElementById('sort1-cate').classList.add('border-bottom-current');
+        }
+    });
+    const handleClickSale = useCallback((sort) => {
+        if (sort != 2) {
+            document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
+            axios
+                .get(`/guest/ProductSaleByRoom/${roomId}`)
+                .then((res) => setProductsInRoom(res.data))
+                .catch((err) => console.log(err));
+            setSort(2);
+            document.getElementById('sort2-cate').classList.add('border-bottom-current');
+        }
+    });
+    const handleClickDesc = useCallback((sort) => {
+        if (sort != 4) {
+            document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
+            axios
+                .get(`/guest/ProductDescByRoom/${roomId}`)
+                .then((res) => setProductsInRoom(res.data))
+                .catch((err) => console.log(err));
+            setSort(4);
+            document.getElementById('sort4-cate').classList.add('border-bottom-current');
+        }
+    });
+    const handleClickAsc = useCallback((sort) => {
+        if (sort != 3) {
+            document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
+            axios
+                .get(`/guest/ProductAscByRoom/${roomId}`)
+                .then((res) => setProductsInRoom(res.data))
+                .catch((err) => console.log(err));
+            setSort(3);
+            document.getElementById('sort3-cate').classList.add('border-bottom-current');
+        }
+    });
     //api call first
     const getData = async () => {
         await axios
@@ -32,10 +78,18 @@ export default function PageRoom() {
                 </div>
                 <div className="combobox-sort">
                     <div className="sort-select">
-                        <div>Phổ biến</div>
-                        <div>Giảm giá</div>
-                        <div>Giá thấp đến cao</div>
-                        <div>Giá cao đến thấp</div>
+                        <div id="sort1-cate" onClick={() => handleClickNormal(sort)}>
+                            Tất cả sản phẩm
+                        </div>
+                        <div id="sort2-cate" onClick={() => handleClickSale(sort)}>
+                            Giảm giá
+                        </div>
+                        <div id="sort3-cate" onClick={() => handleClickAsc(sort)}>
+                            Giá thấp đến cao
+                        </div>
+                        <div id="sort4-cate" onClick={() => handleClickDesc(sort)}>
+                            Giá cao đến thấp
+                        </div>
                         <span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
