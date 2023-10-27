@@ -8,12 +8,31 @@
     background-color: white;
     z-index: 101;
     border-radius: 10px;
+    overflow-y: scroll;
+    height: 500px;
 }
 .product-search{
     z-index: 100;
     padding: 10px;
+    position: relative;
+}
+.product-search>span{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.product-search>span>img{
+    width: 30%;
+    object-fit: contain;
+}
+.product-search>span>label{
+    font-size: 0.8rem;
+    height: 50px;
+    padding: 0 1rem;
 }
 .product-search:hover{
+    scale: 1.05;
     font-weight: bold;
-    cursor: pointer;
+    border: 1px solid gray;
+
 }

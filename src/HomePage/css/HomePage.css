@@ -129,12 +129,13 @@
     margin-top: 2rem;
 }
 .list-category-homepage {
-    display:grid;
-    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+    display: grid;
+    grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
     margin: 4rem 0;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
-    padding: 2rem 10px;
+    padding: 2rem 4rem;
+    position: relative;
 }
 .go-out-next {
     animation-name: overCategory;
@@ -159,6 +160,7 @@
 .category-homepage {
     cursor: pointer;
     padding: 1rem;
+    text-align: center;
 }
 @keyframes overCategory {
     0% {
@@ -187,9 +189,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    left: 1%;
+    top: 45%;
 }
 .next {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    right: 1%;
+    top: 45%;
 }

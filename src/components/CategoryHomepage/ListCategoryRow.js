@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import CategoryHomePage from './CategoryHomePage';
+import CategoryRow from './CategoryRow';
 
-export default function ListCategoryHomePage() {
+export default function ListCategoryRow({ isRoom ,roomId}) {
     const [listCategory, setListCategory] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(0);
     //
     const renderCategory = () => {
         let listCategorySlice = listCategory.slice(currentProduct, currentProduct + 6);
         console.log(listCategorySlice);
-        return listCategorySlice.map((category) => <CategoryHomePage category={category} />);
+        return listCategorySlice.map((category) => <CategoryRow category={category} />);
     };
     //
     const handleClickBack = useCallback((currentProduct) => {
@@ -23,7 +23,7 @@ export default function ListCategoryHomePage() {
     }, []);
     //
     const handleClickNext = useCallback((currentProduct) => {
-        if (currentProduct < 24) {
+        if (currentProduct < listCategory.length-6) {
             document.getElementById('list-category-homepage').classList.add('go-out-next');
             setCurrentProduct((prev) => (prev += 6));
             setTimeout(() => {
@@ -34,12 +34,19 @@ export default function ListCategoryHomePage() {
     //
     //
     useEffect(() => {
-        axios
-            .get('/guest/category')
-            .then((res) => setListCategory(res.data))
-            .catch((error) => {
-                console.log(error);
-            });
+        if (!isRoom) {
+            axios
+                .get('/guest/category')
+                .then((res) => setListCategory(res.data))
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`/guest/room/categories/${roomId}`)
+                .then((res) => setListCategory(res.data))
+                .catch((err) => console.log(err));
+        }
     }, []);
     return (
         <div id="list-category-homepage" className="list-category-homepage">

@@ -10,7 +10,10 @@ export default function ItemSearch({ key, productSearch }) {
     }, []);
     return (
         <div className="product-search" onClick={handleClickProductSearch}>
-            {productSearch.name}
+            <span>
+                <img src={productSearch.image}></img>
+                <label>{productSearch.name}</label>
+            </span>
         </div>
     );
 }
