@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CategoryRow from './CategoryRow';
 
-export default function ListCategoryRow({ isRoom ,roomId}) {
+export default function ListCategoryRow() {
     const [listCategory, setListCategory] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(0);
     //
@@ -15,38 +15,44 @@ export default function ListCategoryRow({ isRoom ,roomId}) {
     const handleClickBack = useCallback((currentProduct) => {
         if (currentProduct != 0) {
             document.getElementById('list-category-homepage').classList.add('go-out-back');
-            setCurrentProduct((prev) => (prev -= 6));
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-back');
+                setCurrentProduct((prev) => (prev -= 6));
+            }, 500);
+        } else {
+            document.getElementById('list-category-homepage').classList.add('go-out-back');
+            setTimeout(() => {
+                document.getElementById('list-category-homepage').classList.remove('go-out-back');
+                setCurrentProduct(24);
             }, 500);
         }
     }, []);
     //
     const handleClickNext = useCallback((currentProduct) => {
-        if (currentProduct < listCategory.length-6) {
+        console.log(currentProduct);
+        if (currentProduct < 24) {
             document.getElementById('list-category-homepage').classList.add('go-out-next');
-            setCurrentProduct((prev) => (prev += 6));
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-next');
+                setCurrentProduct((prev) => (prev += 6));
+            }, 500);
+        } else {
+            document.getElementById('list-category-homepage').classList.add('go-out-next');
+            setTimeout(() => {
+                document.getElementById('list-category-homepage').classList.remove('go-out-next');
+                setCurrentProduct(0);
             }, 500);
         }
     }, []);
     //
     //
     useEffect(() => {
-        if (!isRoom) {
-            axios
-                .get('/guest/category')
-                .then((res) => setListCategory(res.data))
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else {
-            axios
-                .get(`/guest/room/categories/${roomId}`)
-                .then((res) => setListCategory(res.data))
-                .catch((err) => console.log(err));
-        }
+        axios
+            .get('/guest/category')
+            .then((res) => setListCategory(res.data))
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
     return (
         <div id="list-category-homepage" className="list-category-homepage">
