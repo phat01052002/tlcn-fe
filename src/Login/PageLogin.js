@@ -77,6 +77,8 @@ export default function PageLogin() {
                                     window.location = '/';
                                 }
                             } else if (res.status == 201) {
+                                sessionStorage.removeItem('gmail');
+                                sessionStorage.removeItem('gmailAccesstoken');
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
                                 AlertAddPhone();
                             } else {
@@ -99,8 +101,8 @@ export default function PageLogin() {
     const handleClickLogin = useCallback(async (e) => {
         var username = document.getElementById('name').value;
         var password = document.getElementById('password').value;
-        if(!username || !password){
-            AlertDontHaveInfo()
+        if (!username || !password) {
+            AlertDontHaveInfo();
             return;
         }
         try {

@@ -8,7 +8,6 @@ export default function ListCategoryRow() {
     //
     const renderCategory = () => {
         let listCategorySlice = listCategory.slice(currentProduct, currentProduct + 6);
-        console.log(listCategorySlice);
         return listCategorySlice.map((category) => <CategoryRow category={category} />);
     };
     //
@@ -29,7 +28,6 @@ export default function ListCategoryRow() {
     }, []);
     //
     const handleClickNext = useCallback((currentProduct) => {
-        console.log(currentProduct);
         if (currentProduct < 24) {
             document.getElementById('list-category-homepage').classList.add('go-out-next');
             setTimeout(() => {

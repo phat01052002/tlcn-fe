@@ -1,0 +1,124 @@
+#info-user {
+    margin-top: 100px;
+    padding-left: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#info-user > label:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+#info-user span {
+    display: flex;
+    margin: 2rem 0;
+    align-items: center;
+}
+#info-user span input {
+    border-radius: 10px;
+    border: 1px solid #dfdfe2;
+    padding: 0.5rem 1rem;
+}
+#info-user span input:focus {
+    scale: 1.05;
+    font-weight: bold;
+}
+#info-user span label {
+    width: 70%;
+    font-weight: bold;
+}
+.btn-save {
+    text-align: center;
+    margin-top: 3rem;
+}
+.btn-save button {
+    padding: 0.3rem 2rem;
+    border-radius: 10px;
+    border: 1px solid #dfdfe2;
+    background-color: black;
+    color: white;
+}
+.btn-save button:hover {
+    background-color: white;
+    color: black;
+}
+.authen-info {
+    border-left: 1px solid #dfdfe2;
+}
+.password-info-user {
+    position: relative;
+    margin-top: 2rem;
+    padding-left: 1rem;
+}
+.phone-info-user {
+    position: relative;
+    margin-top: 2rem;
+    padding-left: 1rem;
+}
+.password-info-user > div {
+    font-weight: bold;
+}
+.phone-info-user > div {
+    font-weight: bold;
+}
+.password-info-user button {
+    padding: 0.3rem 2rem;
+    border-radius: 10px;
+    border: 1px solid #dfdfe2;
+    background-color: black;
+    color: white;
+    position: absolute;
+    right: 2%;
+    top: 0;
+}
+.password-info-user button:hover {
+    background-color: white;
+    color: black;
+}
+.phone-info-user button {
+    padding: 0.3rem 2rem;
+    border-radius: 10px;
+    border: 1px solid #dfdfe2;
+    background-color: black;
+    color: white;
+    position: absolute;
+    right: 2%;
+    top: 0;
+}
+.phone-info-user button:hover {
+    background-color: white;
+    color: black;
+}
+.avatar-view {
+    position: relative;
+    border: 2px solid #dfdfe2;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.avatar-view > img {
+    object-fit: contain;
+    width: 50%;
+    padding: 0.2rem;
+}
+.edit {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 4%;
+    background-color: gray;
+    border-radius: 50%;
+    text-align: center;
+}
+.edit img {
+    object-fit: contain;
+    width: 70%;
+}
+.edit:hover{
+    cursor: pointer;
+}

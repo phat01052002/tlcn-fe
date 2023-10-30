@@ -18,8 +18,10 @@ import {
     useStore,
 } from '../../Store';
 import { AlertLogout } from '../Alert/Alert';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+    const nav = useNavigate();
     //number product in cart
     const [globalState, dispatch] = useStore();
     const { numberCart, roleState, user } = globalState; //numberCart is state get from Store
@@ -64,6 +66,10 @@ export default function Header() {
             document.getElementById('user-nav').classList.add('user-nav-visible');
         }
     }, []);
+    //handleClickInfoUser
+    const handleClickInfoUser = useCallback(() => {
+        nav('/infoUser')
+    },[]);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
         removeAllSession();
@@ -184,7 +190,7 @@ export default function Header() {
                 <div className="isUser" onClick={handleClickUser}>
                     <label>{user.name}</label>
                     <div id="user-nav" className="user-nav-hidden">
-                        <label>Tài khoản</label>
+                        <label onClickCapture={handleClickInfoUser}>Tài khoản</label>
                         <label>Đơn hàng</label>
                         <label onClick={handleClickLogout}>Đăng xuất</label>
                     </div>
