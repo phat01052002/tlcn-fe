@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { Alert } from 'bootstrap';
 import React, { useCallback, useEffect, useState } from 'react';
 import Header from '../components/Header/Header';
+import { notifyUpdateSussess, notifyWarningUpdateInfoUser } from '../components/NotificationInPage/NotificationInPage';
 import { changeUser, useStore } from '../Store';
 import './PageInfoUser.css';
 export default function PageInfoUser() {
     const [globalState, dispatch] = useStore();
-    const { user } = globalState;
+    const { roleState, user } = globalState;
     const [isChange, setIsChange] = useState(false);
     const getPhoneUser = (user) => {
         if (user.phone) {
@@ -20,35 +20,47 @@ export default function PageInfoUser() {
         newUserCurrent.name = e.target.value;
         dispatch(changeUser(newUserCurrent));
         setIsChange(true);
-    }, []);
+    });
     const handleChangeUserAddress = useCallback((e) => {
         let newUserCurrent = user;
         newUserCurrent.address = e.target.value;
         dispatch(changeUser(newUserCurrent));
         setIsChange(true);
-    }, []);
-    const handleSave = useCallback((user) => {
-        console.log(user);
-        const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-        let data = JSON.stringify(user);
-        let config = {
-            method: 'put',
-            maxBodyLength: Infinity,
-            url: '/user/saveUser',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            data: data,
-        };
+    });
+    const handleSave = useCallback((user, isChange) => {
+        if (isChange) {
+            let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let data = {
+                name: user.name,
+                address: user.address,
+            };
+            let config = {
+                method: 'patch',
+                maxBodyLength: Infinity,
+                url: '/user/saveUser',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                data: data,
+            };
 
-        axios
-            .request(config)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            axios
+                .request(config)
+                .then((response) => {
+                    notifyUpdateSussess();
+                    setIsChange(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            notifyWarningUpdateInfoUser();
+        }
+    }, []);
+    useEffect(() => {
+        if (roleState == 'guest') {
+            window.location = '/login';
+        }
     }, []);
     return (
         <div>
@@ -82,7 +94,7 @@ export default function PageInfoUser() {
                         <input value={user.address} onChange={handleChangeUserAddress}></input>
                     </span>
                     <div className="btn-save">
-                        <button onClick={() => handleSave(user)}>Lưu thay đổi</button>
+                        <button onClick={() => handleSave(user, isChange)}>Lưu thay đổi</button>
                     </div>
                 </div>
                 <div className="authen-info col-lg-6 col-12">

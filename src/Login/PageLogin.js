@@ -13,7 +13,6 @@ export default function PageLogin() {
     const getGmail = useCallback(async () => {
         const query = new URLSearchParams(window.location.search);
         gmailCode = query.get('code');
-        console.log(gmailCode);
         if (gmailCode != null) {
             try {
                 let data = JSON.stringify({
@@ -64,9 +63,9 @@ export default function PageLogin() {
                             },
                             data: data,
                         };
-                        await axios.request(config).then((res) => {
-                            sessionStorage.removeItem('gmail');
-                            sessionStorage.removeItem('gmailAccesstoken');
+                        await axios.request(config).then(async(res) => {
+                            await sessionStorage.removeItem('gmail');
+                            await sessionStorage.removeItem('gmailAccesstoken');
                             if (res.status == 200) {
                                 //save access token to sessionStorage
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
@@ -93,7 +92,9 @@ export default function PageLogin() {
         }
     }, []);
     ////////
-    getGmail();
+    useEffect(()=>{
+        getGmail()
+    },[])
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
         window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
