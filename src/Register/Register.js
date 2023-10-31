@@ -1,40 +1,87 @@
 import axios from 'axios';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import React, { useCallback } from 'react';
-import { AlertAccountIsPresent } from '../components/Alert/Alert';
+import { useState } from 'react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { AlertAccountIsPresent, AlertDontHaveInfo, AlertVerifyPhone } from '../components/Alert/Alert';
+import NotificationInPage, {
+    notifyErrorGetOTPPhone,
+    notifyErrorIsNotVerify,
+    notifyErrorVerifyPhone,
+    notifyOTPSussess,
+    notifyVerifySussess,
+} from '../components/NotificationInPage/NotificationInPage';
+import { auth } from '../setupFirebase/setupFirebase';
 import { changeRole, handleClickBack, useStore } from '../Store';
 import './Register.css';
 export default function Register() {
     const [globalState, dispatch] = useStore();
     const { roleState } = globalState;
-    const handleRegister = useCallback(() => {
-        var name = document.getElementById('name-register').value;
-        var password = document.getElementById('password-register').value;
-        var username = document.getElementById('phone-register').value;
-        let data = JSON.stringify({
-            username: username,
-            password: password,
-            name: name,
-        });
+    //otp
+    const [phone, setPhone] = useState('+84'); //+84 is country vn
+    const [comfirm, setComfirm] = useState([]);
+    const [otp, setOtp] = useState('');
+    const [isVerify, setIsVerify] = useState(false);
+    //
+    const handleRegister = useCallback((isVerify, phone) => {
+        if (isVerify) {
+            var name = document.getElementById('name-register').value;
+            var password = document.getElementById('password-register').value;
+            var username = phone;
+            if (name && password && username) {
+                let data = JSON.stringify({
+                    username: username,
+                    password: password,
+                    name: name,
+                });
 
-        let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: '/api/v1/auth/register',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: data,
-        };
+                let config = {
+                    method: 'post',
+                    maxBodyLength: Infinity,
+                    url: '/api/v1/auth/register',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    data: data,
+                };
 
-        axios.request(config).then((res) => {
-            if (res.data) {
-                dispatch(changeRole('user'));
-                sessionStorage.setItem('USER', JSON.stringify(res.data));
-                window.location = '/';
+                axios.request(config).then((res) => {
+                    if (res.data) {
+                        dispatch(changeRole('user'));
+                        sessionStorage.setItem('USER', JSON.stringify(res.data));
+                        window.location = '/';
+                    } else {
+                        AlertAccountIsPresent();
+                    }
+                });
             } else {
-                AlertAccountIsPresent();
+                AlertDontHaveInfo();
             }
-        });
+        } else {
+            notifyErrorIsNotVerify();
+        }
+    }, []);
+    const handleVerifyOTP = useCallback(async (otp, comfirm) => {
+        try {
+            const data = await comfirm.confirm(otp); //if error => notify, else go to register
+            if (data) {
+                setIsVerify(true);
+                notifyVerifySussess();
+            }
+        } catch {
+            notifyErrorVerifyPhone();
+        }
+    }, []);
+    const handleSendOTP = useCallback(async (phone) => {
+        try {
+            const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
+            const comfirmation = await signInWithPhoneNumber(auth, phone, recaptcha);
+            setComfirm(comfirmation);
+            notifyOTPSussess();
+        } catch {
+            notifyErrorGetOTPPhone();
+        }
     }, []);
     return (
         <div>
@@ -57,7 +104,23 @@ export default function Register() {
                             </div>
                             <div className="title-register">ĐĂNG KÝ</div>
                             <div className="input input-phone-register">
-                                <input id="phone-register" type="number" placeholder="Số điện thoại"></input>
+                                <input
+                                    placeholder="Số điện thoại"
+                                    country={'vn'}
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                ></input>
+                                <button onClick={() => handleSendOTP(phone)}>Lấy OTP</button>
+                            </div>
+                            <div id="recaptcha"></div>
+                            <div className="input input-phone-verify">
+                                <input
+                                    id="phone-verify"
+                                    placeholder="OTP"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                ></input>
+                                <button onClick={() => handleVerifyOTP(otp, comfirm)}>Verify</button>
                             </div>
                             <div className="input input-password-register">
                                 <input id="password-register" type="password" placeholder="Mật khẩu"></input>
@@ -65,7 +128,7 @@ export default function Register() {
                             <div className="input input-name-register">
                                 <input id="name-register" placeholder="Tên người dùng"></input>
                             </div>
-                            <div className="btn-register" onClick={handleRegister}>
+                            <div className="btn-register" onClick={() => handleRegister(isVerify, phone)}>
                                 <button>Đăng Kí</button>
                             </div>
                         </div>
@@ -73,6 +136,7 @@ export default function Register() {
                     <div className="col-lg-2 col-1"></div>
                 </div>
             </div>
+            <NotificationInPage />
         </div>
     );
 }

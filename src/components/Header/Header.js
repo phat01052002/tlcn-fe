@@ -21,6 +21,8 @@ import { AlertLogout } from '../Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+    //remove recatpcha
+    localStorage.removeItem('_grecaptcha');
     const nav = useNavigate();
     //number product in cart
     const [globalState, dispatch] = useStore();
@@ -68,8 +70,8 @@ export default function Header() {
     }, []);
     //handleClickInfoUser
     const handleClickInfoUser = useCallback(() => {
-        nav('/infoUser')
-    },[]);
+        nav('/infoUser');
+    }, []);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
         removeAllSession();
