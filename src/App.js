@@ -9,6 +9,7 @@ import HomePage from './HomePage/HomePage';
 import PageAdmin from './Admin/PageAdmin';
 import PageRoom from './PageRoom/PageRoom';
 import CheckOut from './PageCheckOut/CheckOut';
+import PageInfoUser from './PageInfoUser/PageInfoUser';
 function App() {
   return(
     <BrowserRouter> 
@@ -23,6 +24,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/register"  element={<Register/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/infoUser"  element={<PageInfoUser/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/checkout"  element={<CheckOut/>}> </Route>

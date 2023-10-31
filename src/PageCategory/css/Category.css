@@ -1,46 +1,88 @@
-@keyframes listCategory{
-    0%{
-      transform: translateY(-200px)
+@keyframes listCategory {
+    0% {
+        transform: translateY(-200px);
     }
-    100%{
-      transform: translateY(0);
-    }   
-  }
-.category{
+    100% {
+        transform: translateY(0);
+    }
+}
+.product-by-category{
+    margin-top: 3rem;
+}
+.category {
     display: inline-table;
     position: relative;
-    padding:30px;
+    padding: 30px;
     color: black;
     width: 16.6%;
     text-align: center;
-  }
+}
 
-.category:hover{
+.category:hover {
     opacity: 0.8;
     cursor: pointer;
     font-weight: bold;
     background-color: gray;
 }
 
-.page-category-img img{
-  margin-top: 50px;
-  width: 100%;
-  padding: 100px 0;
-  height: 800px;
-  object-fit: cover !important;
+.page-category-img img {
+    margin-top: 50px;
+    width: 100%;
+    padding: 100px 0;
+    height: 800px;
+    object-fit: cover !important;
 }
 
-.page-category-img h3{
-  z-index: 80;
-  text-align: center;
+.page-category-img h3 {
+    z-index: 80;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
 }
-.select-sort{
-  display: flex;
-  text-align: center;
-  justify-content: end;
-  padding-right: 3rem;
-  margin-top: 2rem;
+.combobox-sort select {
+    text-align: center;
 }
-.combobox-sort select{
-  text-align: center;
+.sort-select{
+    display: flex;
+    margin: 3rem 0;
+    padding: 1rem 1rem;
+    position: relative;
+    border-bottom: 1px solid gray;
+}
+.sort-select>div{
+    padding: 1rem 0;
+    font-size: 1.25rem;
+    margin: 0 2rem;
+    font-weight: bold;
+    border-bottom: 3px solid white;
+    color: gray;
+}
+.sort-select>div:hover{
+    border-bottom: 3px solid black;
+    cursor: pointer;
+    color: black;
+}
+.sort-select>span{
+    position: absolute;
+    right: 2%;
+    top: 35%;
+}
+.sort-select>span>svg:hover{
+    cursor: pointer;
+    scale: 1.4;
+}
+.border-bottom-current{
+    border-bottom: 3px solid black !important;
+    cursor: pointer;
+    color: black !important;
+}
+@media (max-width:820px) {
+    .sort-select>div{
+        font-size: 1rem !important;
+    }
+}
+@media (max-width:420px) {
+    .sort-select{
+        display: none ;
+    }
 }
