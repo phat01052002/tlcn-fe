@@ -36,7 +36,7 @@ export default function PageLogin() {
 
                 const response = await axios.request(config);
                 //save access token to sessionStorage
-                await sessionStorage.setItem('gmailAccesstoken', JSON.stringify(response.data.access_token));
+                sessionStorage.setItem('gmailAccesstoken', JSON.stringify(response.data.access_token));
                 if (sessionStorage.getItem('gmailAccesstoken')) {
                     let config = {
                         method: 'get',
@@ -48,7 +48,7 @@ export default function PageLogin() {
                     };
                     const response = await axios.request(config);
                     //save gmail to sessionStorage
-                    await sessionStorage.setItem('gmail', JSON.stringify(response.data));
+                    sessionStorage.setItem('gmail', JSON.stringify(response.data));
                     if (sessionStorage.getItem('gmail')) {
                         let data = JSON.stringify({
                             username: `${JSON.parse(sessionStorage.getItem('gmail')).email}`,
@@ -64,9 +64,9 @@ export default function PageLogin() {
                             },
                             data: data,
                         };
-                        await axios.request(config).then((res) => {
-                            sessionStorage.removeItem('gmail');
-                            sessionStorage.removeItem('gmailAccesstoken');
+                        sessionStorage.removeItem('gmail');
+                        sessionStorage.removeItem('gmailAccesstoken');
+                        await axios.request(config).then(async (res) => {
                             if (res.status == 200) {
                                 //save access token to sessionStorage
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
@@ -91,7 +91,9 @@ export default function PageLogin() {
         }
     }, []);
     ////////
-    getGmail();
+    useEffect(() => {
+        getGmail();
+    }, []);
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
         window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
@@ -99,8 +101,8 @@ export default function PageLogin() {
     const handleClickLogin = useCallback(async (e) => {
         var username = document.getElementById('name').value;
         var password = document.getElementById('password').value;
-        if(!username || !password){
-            AlertDontHaveInfo()
+        if (!username || !password) {
+            AlertDontHaveInfo();
             return;
         }
         try {

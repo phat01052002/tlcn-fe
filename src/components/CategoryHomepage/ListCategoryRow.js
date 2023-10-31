@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CategoryRow from './CategoryRow';
 
-export default function ListCategoryRow({ isRoom ,roomId}) {
+export default function ListCategoryRow({ isRoom, roomId }) {
     const [listCategory, setListCategory] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(0);
     //
@@ -19,13 +19,25 @@ export default function ListCategoryRow({ isRoom ,roomId}) {
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-back');
             }, 500);
+        } else {
+            document.getElementById('list-category-homepage').classList.add('go-out-back');
+            setCurrentProduct(24);
+            setTimeout(() => {
+                document.getElementById('list-category-homepage').classList.remove('go-out-back');
+            }, 500);
         }
     }, []);
     //
     const handleClickNext = useCallback((currentProduct) => {
-        if (currentProduct < listCategory.length-6) {
+        if (currentProduct < listCategory.length - 6) {
             document.getElementById('list-category-homepage').classList.add('go-out-next');
             setCurrentProduct((prev) => (prev += 6));
+            setTimeout(() => {
+                document.getElementById('list-category-homepage').classList.remove('go-out-next');
+            }, 500);
+        } else {
+            document.getElementById('list-category-homepage').classList.add('go-out-next');
+            setCurrentProduct(0);
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-next');
             }, 500);
@@ -34,19 +46,12 @@ export default function ListCategoryRow({ isRoom ,roomId}) {
     //
     //
     useEffect(() => {
-        if (!isRoom) {
-            axios
-                .get('/guest/category')
-                .then((res) => setListCategory(res.data))
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else {
-            axios
-                .get(`/guest/room/categories/${roomId}`)
-                .then((res) => setListCategory(res.data))
-                .catch((err) => console.log(err));
-        }
+        axios
+            .get('/guest/category')
+            .then((res) => setListCategory(res.data))
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
     return (
         <div id="list-category-homepage" className="list-category-homepage">
