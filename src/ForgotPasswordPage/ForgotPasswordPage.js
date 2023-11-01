@@ -17,7 +17,7 @@ export default function ForgotPasswordPage() {
     const [globalState, dispatch] = useStore();
     const { roleState } = globalState;
     //otp
-    const [phone, setPhone] = useState('+84'); //+84 is country vn
+    const [phone, setPhone] = useState(); //+84 is country vn
     const [comfirm, setComfirm] = useState(null);
     const [otp, setOtp] = useState('');
     const [isVerify, setIsVerify] = useState(false);
@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
         if (checkPhone.data === true) {
             try {
                 const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
-                const comfirmation = await signInWithPhoneNumber(auth, phone, recaptcha);
+                const comfirmation = await signInWithPhoneNumber(auth, `+84${phone}`, recaptcha);
                 setComfirm(comfirmation);
                 notifyOTPSussess();
             } catch {
@@ -104,6 +104,7 @@ export default function ForgotPasswordPage() {
                                 <div className="title-register">Quên mật khẩu</div>
                                 <div className="input input-phone-register">
                                     <input
+                                        type="number"
                                         placeholder="Số điện thoại"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}

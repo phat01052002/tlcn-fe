@@ -19,7 +19,7 @@ export default function Register() {
     const [globalState, dispatch] = useStore();
     const { roleState } = globalState;
     //otp
-    const [phone, setPhone] = useState('+84'); //+84 is country vn
+    const [phone, setPhone] = useState(null); //+84 is country vn
     const [comfirm, setComfirm] = useState([]);
     const [otp, setOtp] = useState('');
     const [isVerify, setIsVerify] = useState(false);
@@ -76,7 +76,7 @@ export default function Register() {
     const handleSendOTP = useCallback(async (phone) => {
         try {
             const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
-            const comfirmation = await signInWithPhoneNumber(auth, phone, recaptcha);
+            const comfirmation = await signInWithPhoneNumber(auth, `+84${phone}`, recaptcha);
             setComfirm(comfirmation);
             notifyOTPSussess();
         } catch {
@@ -106,6 +106,7 @@ export default function Register() {
                             <div className="input input-phone-register">
                                 <input
                                     placeholder="Số điện thoại"
+                                    type="number"
                                     country={'vn'}
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}

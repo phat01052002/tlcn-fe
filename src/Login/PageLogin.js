@@ -108,7 +108,7 @@ export default function PageLogin() {
         }
         try {
             let data = JSON.stringify({
-                username: `+${username}`,
+                username: `${username}`,
                 password: `${password}`,
             });
 

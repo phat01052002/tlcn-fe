@@ -14,6 +14,8 @@ export const notifyErrorVerifyPhone = () => toast.error('OTP không chính xác'
 export const notifyErrorIsNotVerify = () => toast.error('Chưa xác thực số điện thoại này');
 export const notifyErrorRegister = () => toast.error('Đăng kí không thành công');
 export const notifyWarningUpdateInfoUser = () => toast.error('Chưa nhận được thông tin cập nhật');
+export const notifyErrorPassword = () => toast.error('Mật khẩu không đúng');
+
 
 
 

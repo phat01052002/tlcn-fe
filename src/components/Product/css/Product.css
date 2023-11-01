@@ -78,6 +78,7 @@
 }
 .btn-product:hover {
     color: red;
+    scale: 1.1;
 }
 .login-more {
     text-align: center;
@@ -139,7 +140,7 @@
     border-radius: 20px;
     padding: 1px 5px;
     color: #ee4d2d;
-    right: 4%;
+    right: 5.2%;
     top: 17%;
     z-index: 1;
     font-size: 0.9rem;
@@ -161,4 +162,16 @@
     right: -5%;
     font-weight: bold;
     color: red;
+}
+.number-favorite{
+    position: absolute;
+    color:  #eda500;
+    bottom: 20%;
+    left: 43%;
+}
+.number-quantity{
+    position: absolute;
+    color:  #eda500;
+    bottom: 2%;
+    right: 4%;
 }
