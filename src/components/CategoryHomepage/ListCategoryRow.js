@@ -2,11 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CategoryRow from './CategoryRow';
 
-<<<<<<< HEAD
-export default function ListCategoryRow({ isRoom, roomId }) {
-=======
 export default function ListCategoryRow() {
->>>>>>> 988778530d2f2f0d0c42f0fb326cdda533aededd
     const [listCategory, setListCategory] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(0);
     //
@@ -28,21 +24,11 @@ export default function ListCategoryRow() {
                 document.getElementById('list-category-homepage').classList.remove('go-out-back');
                 setCurrentProduct(24);
             }, 500);
-        } else {
-            document.getElementById('list-category-homepage').classList.add('go-out-back');
-            setCurrentProduct(24);
-            setTimeout(() => {
-                document.getElementById('list-category-homepage').classList.remove('go-out-back');
-            }, 500);
         }
     }, []);
     //
     const handleClickNext = useCallback((currentProduct) => {
-<<<<<<< HEAD
-        if (currentProduct < listCategory.length - 6) {
-=======
         if (currentProduct < 24) {
->>>>>>> 988778530d2f2f0d0c42f0fb326cdda533aededd
             document.getElementById('list-category-homepage').classList.add('go-out-next');
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-next');
@@ -53,12 +39,6 @@ export default function ListCategoryRow() {
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-next');
                 setCurrentProduct(0);
-            }, 500);
-        } else {
-            document.getElementById('list-category-homepage').classList.add('go-out-next');
-            setCurrentProduct(0);
-            setTimeout(() => {
-                document.getElementById('list-category-homepage').classList.remove('go-out-next');
             }, 500);
         }
     }, []);

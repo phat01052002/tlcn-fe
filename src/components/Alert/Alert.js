@@ -73,14 +73,22 @@ export const AlertAddPhone = () => {
                         notifyErrorPhoneIsPresent();
                         AlertAddPhone();
                     } else {
-                        window.location = '/';
+                        if (sessionStorage.getItem('checkout')) {
+                            window.location = '/checkout';
+                        } else {
+                            window.location = '/';
+                        }
                     }
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         } else {
-            window.location = '/';
+            if (sessionStorage.getItem('checkout')) {
+                window.location = '/checkout';
+            } else {
+                window.location = '/';
+            }
         }
     });
 };
