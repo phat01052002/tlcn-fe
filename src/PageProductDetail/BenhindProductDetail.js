@@ -3,11 +3,11 @@ import ProductInsuranse from './ProductInsuranse';
 import ProductReview from './ProductReview';
 import ProductTransport from './ProductTransport';
 
-export default function BenhindProductDetail({ currentBehind }) {
+export default function BenhindProductDetail({ currentBehind, productId }) {
     if (currentBehind == 1) {
         return (
             <div>
-                <ProductReview />
+                <ProductReview productId={productId} />
             </div>
         );
     }

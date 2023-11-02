@@ -7,6 +7,7 @@ import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
 import NotificationInPage, { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
+import { Bars } from 'react-loader-spinner';
 import {
     changeCheckToFalse,
     changeListFavorite,
@@ -81,9 +82,13 @@ export default function Header() {
     }, []);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
-        removeAllSession();
-        dispatch(changeRole('guest'));
-        window.location = '/login';
+        try {
+            sessionStorage.removeItem('checkout')
+            dispatch(changeRole('guest'));
+            window.location = '/login';
+        } catch {
+            window.location = '/login';
+        }
     }, []);
     const handleClickLogout = useCallback(() => {
         AlertLogout(logOut);
@@ -409,6 +414,18 @@ export default function Header() {
                 </div>
             </div>
             <NotificationInPage />
+            <div id="loader-page"></div>
+            <div id="loader">
+                <Bars
+                    height="40"
+                    width="50"
+                    color="black"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />
+            </div>
         </div>
     );
 }

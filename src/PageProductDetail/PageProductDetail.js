@@ -6,12 +6,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
 import { changeNumberCart, formatter, getNumber, useStore } from '../Store';
-import { notifyAddToCartSussess } from '../components/NotificationInPage/NotificationInPage';
+import {
+    notifyAddToCartSussess,
+    notifyInfoThanks,
+    notifyWarningPleaseLogin,
+} from '../components/NotificationInPage/NotificationInPage';
+import ReactStars from 'react-rating-stars-component';
+
 export default function PageProductDetail() {
     /////
     const [globalState, dispatch] = useStore();
     ///////
-    const { numberCart } = globalState;
+    const { numberCart, user } = globalState;
     //
     const { productId } = useParams();
     //the product for this page
@@ -20,11 +26,32 @@ export default function PageProductDetail() {
     const [number, setNumber] = useState(1);
     //the current behind product detail (1:review 2:insuranse 3:transport)
     const [currentBehind, setCurrentBehind] = useState(1);
+    //rating
+    const [rating, setRating] = useState(0);
     //this vars to set color behind product detail
     //handle buy now
     const handleClickBuyNow = useCallback((e) => {
         console.log('buynow');
     }, []);
+    //rating
+    const ratingChanged = (newRating, user) => {
+        if (user.length != 0) {
+            notifyInfoThanks();
+            setRating(newRating);
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: `/user/saveRating/${user.userId}/${productId}/${newRating}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            axios.request(config);
+        } else {
+            notifyWarningPleaseLogin();
+        }
+    };
     //handle add tocart
     const handleClickAddToCart = useCallback((e) => {
         const count = document.getElementById('number-product').value;
@@ -101,6 +128,23 @@ export default function PageProductDetail() {
             );
         }
     };
+    //
+    const getRating = (user) => {
+        if (user.length != 0) {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getRating/${user.userId}/${productId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            axios.request(config).then((res) => {
+                if (res.data) setRating(res.data.point);
+            });
+        }
+    };
     //get product by Id
     useEffect(() => {
         axios
@@ -108,6 +152,9 @@ export default function PageProductDetail() {
             .then((res) => setProduct(res.data))
             .then((err) => console.log(err));
     }, []);
+    useEffect(() => {
+        getRating(user);
+    }, [user]);
     return (
         <div>
             <Header />
@@ -158,7 +205,7 @@ export default function PageProductDetail() {
                         Liên hệ tư vấn và đặt mua: 0865762255
                         <br />
                         <br />
-                        <h7>{product.description}</h7>
+                        <h8>{product.description}</h8>
                         <div className="behind-productdetail-content">
                             <span
                                 id="review"
@@ -182,13 +229,26 @@ export default function PageProductDetail() {
                                 Vận Chuyển
                             </span>
                         </div>
-                        <br />
-                        <br />
-                        <br />
-                        <BenhindProductDetail currentBehind={currentBehind} />
+                        <BenhindProductDetail currentBehind={currentBehind} productId={productId} />
                     </div>
                 </div>
-                <div className="col-1"></div>
+                <div className="col-1">
+                    <div className="star">
+                        <ReactStars
+                            /*A work-around for this is to provide a key prop to force React to re-render the component when rating changes*/
+                            key={`stars_${rating}`}
+                            count={5}
+                            onChange={(newRating) => ratingChanged(newRating, user)}
+                            size={24}
+                            value={rating}
+                            isHalf={true}
+                            emptyIcon={<i className="far fa-star"></i>}
+                            halfIcon={<i className="fa fa-star-half-alt"></i>}
+                            fullIcon={<i className="fa fa-star"></i>}
+                            activeColor="#ffd700"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

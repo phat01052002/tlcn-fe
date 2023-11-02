@@ -1,126 +1,206 @@
-.image-product{
+.image-product {
     object-fit: contain;
     width: 100%;
 }
-.product-detail{
-    margin-top:150px
+.product-detail {
+    margin-top: 150px;
 }
-.product-detail img{
-    border: 1px solid #DFDFE2;
+.product-detail img {
+    border: 1px solid #dfdfe2;
     border-radius: 10px;
 }
-.info-product{
+.info-product {
     margin-top: 40px;
     padding-left: 10px;
 }
-.info-product h6{
+.info-product h6 {
     color: rgb(238, 77, 45);
     font-weight: bold;
 }
-.price-product-detail-sale{
+.price-product-detail-sale {
     color: black !important;
     text-decoration: line-through;
 }
-.price-product-detail-sale-new{
+.price-product-detail-sale-new {
     margin-left: 2rem;
 }
-.info-product h5{
+.info-product h5 {
     display: inline;
 }
-.btn-productdetail{
+.btn-productdetail {
     height: 40px;
 }
-.chose-number{
+.chose-number {
     display: flex;
     justify-content: center;
 }
-.number-product{
+.number-product {
     width: 33%;
     text-align: center;
-    border: 1px solid #DFDFE2;
+    border: 1px solid #dfdfe2;
 }
-.decrease-btn{
+.decrease-btn {
     background: #fff;
     width: 33%;
-    border: 1px solid #DFDFE2;
+    border: 1px solid #dfdfe2;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-.increase-btn{
+.increase-btn {
     background: #fff;
     width: 33%;
-    border: 1px solid #DFDFE2;
+    border: 1px solid #dfdfe2;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
 }
-.decrease-btn:hover{
-    background-color:  black;
-    opacity: 0.8;
-    color: white;
-}
-.increase-btn:hover{
+.decrease-btn:hover {
     background-color: black;
     opacity: 0.8;
     color: white;
 }
-.buynow{
+.increase-btn:hover {
+    background-color: black;
+    opacity: 0.8;
+    color: white;
+}
+.buynow {
     display: flex;
     justify-content: center;
 }
-.addtocart{
+.addtocart {
     display: flex;
     justify-content: center;
 }
-.btn-buynow{
+.btn-buynow {
     background-color: black;
     border-radius: 5px;
     color: white;
     width: 100%;
-    border:1px solid #DFDFE2;
+    border: 1px solid #dfdfe2;
 }
-.btn-addtocart{
+.btn-addtocart {
     background-color: white;
     border-radius: 5px;
     color: black;
     width: 100%;
-    border:1px solid #DFDFE2;
+    border: 1px solid #dfdfe2;
 }
 
-.btn-buynow:hover{
+.btn-buynow:hover {
     opacity: 0.8;
 }
 
-.btn-addtocart:hover{
+.btn-addtocart:hover {
     opacity: 0.8;
     background-color: #f1f1f1;
 }
-.behind-productdetail-content{
+.behind-productdetail-content {
     margin-top: 50px;
     display: flex;
 }
-.behind-productdetail{
+.behind-productdetail {
     margin-bottom: 10px;
     padding: 20px;
-    border-bottom: 2px solid #DFDFE2;
+    border-bottom: 2px solid #dfdfe2;
 }
-.behind-productdetail-current{
+.behind-productdetail-current {
     font-weight: bold;
     color: black;
     border-color: black;
 }
-.behind-productdetail:hover{
+.behind-productdetail:hover {
     cursor: pointer;
     opacity: 0.8;
 }
 
-.componant-insuranse ul{
-    list-style:none;
+.componant-insuranse ul {
+    list-style: none;
 }
 
-@media (max-width:1280px) {
-    .btn-productdetail{
+@media (max-width: 1280px) {
+    .btn-productdetail {
         font-size: 12px;
     }
 }
-@media (max-width:980px) {
+@media (max-width: 980px) {
+}
+.input-chat {
+    width: 100%;
+    padding-left: 1rem;
+    border: 2px solid #dfdfe2;
+    border-radius: 10px;
+    height: 3rem;
+}
+.div-input-chat div {
+    border-radius: 50% !important;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+}
+.user-img-review {
+    object-fit: contain;
+    height: 3rem;
+    padding: 0.7rem;
+    border: none !important;
+}
+
+.review-content {
+    margin-top: 2rem;
+}
+
+.review-div {
+    border: 1px solid #dfdfe2;
+    border-radius: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.review-product-user-name {
+    font-weight: bold;
+    font-size: 13px;
+}
+.review-product-content span label {
+    margin: 0 0.5rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 13px;
+}
+.review-product-content span label:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.response-img {
+    border-radius: 50% !important;
+    border: 1px solid gray;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.response-img img {
+    object-fit: contain;
+    height: 3rem;
+    padding: 0.7rem;
+    border: none !important;
+}
+.response-input input {
+    width: 100%;
+    height: 3rem;
+    border-radius: 10px;
+    border: 2px solid #dfdfe2;
+    padding-left: 1rem;
+}
+.height-3rem {
+    height: 3rem;
+}
+.margin-top-1rem {
+    margin-top: 1rem;
+}
+
+.star{
+    top: 30%;
+    position: absolute;
+    right: 5%;
 }

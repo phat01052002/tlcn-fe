@@ -15,10 +15,7 @@ export const notifyErrorIsNotVerify = () => toast.error('Chưa xác thực số 
 export const notifyErrorRegister = () => toast.error('Đăng kí không thành công');
 export const notifyWarningUpdateInfoUser = () => toast.error('Chưa nhận được thông tin cập nhật');
 export const notifyErrorPassword = () => toast.error('Mật khẩu không đúng');
-
-
-
-
+export const notifyInfoThanks = () => toast.info('Cám ơn bạn đã đánh giá');
 
 export default function NotificationInPage() {
     return (

@@ -395,3 +395,30 @@ body {
         height: 20px;
     }
 }
+
+#loader-page{
+    position: fixed;
+    top:0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 200;
+    background-color: gray;
+    opacity: 0.4;
+    display: none;
+}
+#loader{
+    z-index: 201;
+    position: fixed;
+    top:0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+.display-flex{
+    display: flex !important;
+}
+

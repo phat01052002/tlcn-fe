@@ -1,0 +1,145 @@
+import { async } from '@firebase/util';
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
+import { notifyWarningPleaseLogin } from '../components/NotificationInPage/NotificationInPage';
+import { useStore } from '../Store';
+import Response from './Response';
+
+export default function Review({ review, getReview }) {
+    const [globalState, dispatch] = useStore();
+    const { user } = globalState;
+    const [closeResponse, setCloseResponse] = useState(false);
+    const [response, setResponse] = useState('');
+    const [listResponse, setListResponse] = useState([]);
+    const handleDeleteReview = useCallback(async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: `/user/deleteReview/${review.reviewId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            await axios
+                .request(config)
+                .then((res) => {
+                    if (res.status == 200) {
+                        getReview();
+                    }
+                })
+                .catch();
+        } catch (e) {}
+    }, []);
+    //
+    const handleClickResponse = useCallback(async (user, closeResponse) => {
+        if (user.length != 0) {
+            if (closeResponse) {
+                document.getElementById(`response-${review.reviewId}`).classList.add('hidden');
+                setCloseResponse(false);
+            } else {
+                await getResponseReview();
+                document.getElementById(`response-${review.reviewId}`).classList.remove('hidden');
+                setCloseResponse(true);
+            }
+        } else {
+            notifyWarningPleaseLogin();
+        }
+    }, []);
+    //
+    const getResponseReview = () => {
+        const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `/user/getResponseReview/${review.reviewId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+        axios
+            .request(config)
+            .then((res) => setListResponse(res.data))
+            .catch();
+    };
+
+    //
+    const handleEnterResponseReview = useCallback(async (e, response, user) => {
+        var keycode = e.keyCode ? e.keyCode : e.which;
+        if (keycode == '13') {
+            try {
+                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let data = response;
+                let config = {
+                    method: 'post',
+                    maxBodyLength: Infinity,
+                    url: `/user/saveResponseReview/${user.userId}/${review.reviewId}`,
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'text/plain',
+                    },
+                    data: data,
+                };
+                await axios
+                    .request(config)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            getResponseReview();
+                        }
+                    })
+                    .catch();
+                setResponse('');
+            } catch (e) {}
+        }
+    }, []);
+    useEffect(()=>{
+        getResponseReview();
+    },[])
+    return (
+        <div className="row review-div">
+            <div className="col-2 div-input-chat">
+                <div>
+                    <img className="user-img-review" src={review.user.image}></img>
+                </div>
+            </div>
+            <div className="col-10 review-product-content">
+                <div className="review-product-user-name">
+                    {user ? (user.userId == review.user.userId ? 'Bạn' : review.user.name) : review.user.name} :
+                </div>
+                <div>
+                    <label>{review.content}</label>
+                </div>
+                <span>
+                    <label>Thích</label>
+                    {user.userId != review.user.userId ? (
+                        <label onClick={() => handleClickResponse(user, closeResponse)}>
+                            Phản hồi({listResponse.length == 0 ? null : listResponse.length})
+                        </label>
+                    ) : null}
+                    {user.userId == review.user.userId ? <label onClick={handleDeleteReview}>Xoá</label> : null}
+                    &nbsp; &nbsp;
+                    {review.date.substr(0, 10)}
+                </span>
+                <div id={`response-${review.reviewId}`} className="hidden">
+                    <div className="response row">
+                        <div className="col-2 response-img height-3rem">
+                            <img src={user.image}></img>
+                        </div>
+                        <div className="col-10 response-input height-3rem">
+                            <input
+                                onKeyDown={(e) => handleEnterResponseReview(e, response, user)}
+                                placeholder="Thêm bình luận"
+                                value={response}
+                                onChange={(e) => setResponse(e.target.value)}
+                            ></input>
+                        </div>
+                    </div>
+                    {listResponse.map((response) => (
+                        <Response response={response} getResponseReview={getResponseReview}/>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}

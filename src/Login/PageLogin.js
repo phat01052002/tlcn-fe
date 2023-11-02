@@ -4,7 +4,7 @@ import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-
 import { AlertDontHaveInfo, AlertLoginFalse } from '../components/Alert/Alert';
 import NotificationInPage from '../components/NotificationInPage/NotificationInPage';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_GRANT_TYPE, GOOGLE_REDIRECT_URI } from '../Contants/Contants';
-import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, useStore } from '../Store';
+import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, removeAllSession, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
     var gmailCode = '';
@@ -97,6 +97,7 @@ export default function PageLogin() {
     }, []);
     ////////
     useEffect(() => {
+        removeAllSession();
         getGmail();
     }, []);
     //function login

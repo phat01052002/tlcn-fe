@@ -109,10 +109,23 @@ export const getToCheckOut = () => {
 
 export const removeAllSession = () => {
     sessionStorage.removeItem('USER');
-    sessionStorage.removeItem('checkout');
-    sessionStorage.removeItem('totalPrice');
+    sessionStorage.removeItem('totalPrice')
 };
 
 export const handleClickBack = () => {
     window.location = '/';
+};
+
+export const addLoad = () => {
+    document.getElementById('loader-page').classList.add('display-flex');
+    document.getElementById('loader').classList.add('display-flex');
+    document.body.style.pointerEvents = 'none';
+};
+
+export const removeLoad = () => {
+    setTimeout(() => {
+        document.getElementById('loader-page').classList.remove('display-flex');
+        document.getElementById('loader').classList.remove('display-flex');
+        document.body.style.pointerEvents = 'auto';
+    }, 500);
 };

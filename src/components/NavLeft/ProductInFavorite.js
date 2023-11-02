@@ -1,10 +1,16 @@
-import { async } from '@firebase/util';
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { changeListFavorite, changeNumberFavorite, changeProductUnlike, formatter, useStore } from '../../Store';
-
+import {
+    addLoad,
+    changeListFavorite,
+    changeNumberFavorite,
+    changeProductUnlike,
+    formatter,
+    removeLoad,
+    useStore,
+} from '../../Store';
 export default function ProductInFavorite(favorite) {
     const [globalState, dispatch] = useStore();
     const { user, productUnlike } = globalState;
@@ -39,6 +45,7 @@ export default function ProductInFavorite(favorite) {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
+            addLoad();
             await axios.request(configPost).catch();
             try {
                 const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -58,6 +65,7 @@ export default function ProductInFavorite(favorite) {
                         dispatch(changeProductUnlike([...productUnlike, productId]));
                     })
                     .catch();
+                removeLoad();
             } catch {
                 window.location = '/login';
             }

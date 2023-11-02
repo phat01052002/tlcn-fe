@@ -141,7 +141,7 @@ export default function PageInfoUser() {
                         <label>Ảnh đại diện:</label>
                         <div class="avatar-view">
                             <img
-                                src="https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png"
+                                src={user.image}
                                 alt="avatar"
                                 class="default"
                             />
