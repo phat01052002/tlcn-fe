@@ -1,8 +1,12 @@
 import ListProductCheckOut from '../PageCheckOut/ListProductCheckOut';
 import {
     CHANGE_LIST_COUNT_PRODUCT_CHECKOUT,
+    CHANGE_LIST_FAVORITE,
+    CHANGE_LIST_NOTIFY,
     CHANGE_LIST_PRODUCT_CHECKOUT,
     CHANGE_NUMBER_CART,
+    CHANGE_NUMBER_FAVORITE,
+    CHANGE_NUMBER_NOTIFY,
     CHANGE_PRICE_ALL,
     CHANGE_ROLE,
     CHANGE_TOTAL_PRICE,
@@ -13,6 +17,10 @@ import {
 
 const initState = {
     numberCart: 0,
+    numberFavorite: null,
+    numberNotify: null,
+    listFavorite: [],
+    listNotify: [],
     roleState: 'guest',
     priceAll: 0,
     listCountProductCheckOut: [],
@@ -40,6 +48,14 @@ function Reducer(state, action) {
             return { ...state, totalPrice: action.payload };
         case CHANGE_USER:
             return { ...state, user: action.payload };
+        case CHANGE_NUMBER_FAVORITE:
+            return { ...state, numberFavorite: action.payload };
+        case CHANGE_NUMBER_NOTIFY:
+            return { ...state, numberNotify: action.payload };
+        case CHANGE_LIST_FAVORITE:
+            return { ...state, listFavorite: action.payload };
+        case CHANGE_LIST_NOTIFY:
+            return { ...state, listNotify: action.payload };
         default:
             throw new Error('');
     }

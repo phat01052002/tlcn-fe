@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    addToCheckOut,
     changeCheckToFalse,
     changeNumberCart,
     changePriceAll,
-    changeTotalPrice,
     decreasePriceAll,
     getNumber,
     getToCheckOut,
@@ -13,16 +11,14 @@ import {
     useStore,
 } from '../../Store';
 import { AlertPleaseLogin } from '../Alert/Alert';
-import {
-    notifyAddToCartSussess,
-    notifyWarningChooseProduct,
-    notifyWarningPleaseLogin,
-} from '../NotificationInPage/NotificationInPage';
+import { notifyWarningChooseProduct, notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 import './css/PageCart.css';
+import Notify from './Notify';
 import ProductInCart from './ProductInCart';
-export default function PageCart({ listProduct }) {
+import ProductInFavorite from './ProductInFavorite';
+export default function PageCart({ listProductCart }) {
     const [globalState, dispatch] = useStore();
-    const { roleState, priceAll, totalPrice } = globalState;
+    const { roleState, priceAll } = globalState;
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -38,14 +34,11 @@ export default function PageCart({ listProduct }) {
             chageChecked();
         }
     }, []);
-    useEffect(() => {
-        document.getElementById('input-price-all').style.pointerEvents = 'none';
-    }, []);
     //delete page cart function
     const handleClickDeletePageCart = useCallback((e) => {
-        document.getElementById('page-cart').classList.remove('page-cart-visible');
+        document.getElementById('page-navleft-cart').classList.remove('page-navleft-visible');
         document.body.style.pointerEvents = 'auto';
-        document.getElementById('over-cart').style.visibility = 'hidden';
+        document.getElementById('over-navleft-cart').style.visibility = 'hidden';
         dispatch(changeNumberCart(getNumber()));
         dispatch(changePriceAll(0));
         changeCheckToFalse();
@@ -98,6 +91,9 @@ export default function PageCart({ listProduct }) {
             notifyWarningChooseProduct();
         }
     }, []);
+    useEffect(() => {
+        document.getElementById('input-price-all').style.pointerEvents = 'none';
+    }, []);
     return (
         <div className="page-cart">
             <div className="delete-page-cart" onClickCapture={handleClickDeletePageCart}>
@@ -113,7 +109,7 @@ export default function PageCart({ listProduct }) {
                 </svg>
             </div>
             <h5>GIỎ HÀNG</h5>
-            {listProduct.map((productId) => (
+            {listProductCart.map((productId) => (
                 <ProductInCart
                     key={productId}
                     productId={productId}

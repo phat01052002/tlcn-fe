@@ -1,13 +1,22 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
+import { AlertLoginFalse } from '../components/Alert/Alert';
 import Header from '../components/Header/Header';
-import { notifyUpdateSussess, notifyWarningUpdateInfoUser } from '../components/NotificationInPage/NotificationInPage';
+import {
+    notifyErrorPassword,
+    notifyUpdateSussess,
+    notifyWarningUpdateInfoUser,
+} from '../components/NotificationInPage/NotificationInPage';
 import { changeUser, useStore } from '../Store';
 import './PageInfoUser.css';
 export default function PageInfoUser() {
     const [globalState, dispatch] = useStore();
     const { roleState, user } = globalState;
     const [isChange, setIsChange] = useState(false);
+    //update phone and password variable
+    const [phone, setPhone] = useState(null);
+    const [password, setPassword] = useState('');
+    const [passwordOld, setPasswordOld] = useState('');
     const getPhoneUser = (user) => {
         if (user.phone) {
             return user.phone;
@@ -57,8 +66,68 @@ export default function PageInfoUser() {
             notifyWarningUpdateInfoUser();
         }
     }, []);
+    ////////////
+    const handleSubmitChangePassword = useCallback((pasword, username) => {
+        let data = JSON.stringify({
+            password: pasword,
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `/api/v1/auth/resetPassword/${username}`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: data,
+        };
+
+        axios
+            .request(config)
+            .then((response) => {
+                sessionStorage.setItem('USER', JSON.stringify(response.data));
+                window.location = '/';
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        document.getElementById('change-password-new').classList.add('hidden');
+        document.getElementById('change-password').classList.add('hidden');
+    }, []);
+    const handleSubmitChangePasswordOld = useCallback(async (passwordOld, username) => {
+        let data = JSON.stringify({
+            username: username,
+            password: passwordOld,
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: '/api/v1/auth/check',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: data,
+        };
+        const response = await axios.request(config);
+        if (response.data) {
+            document.getElementById('change-password-new').classList.remove('hidden');
+        } else {
+            notifyErrorPassword();
+        }
+    }, []);
+    ////////////////////
+    const handleSubmitUpdatePhone = useCallback((e) => {
+        document.getElementById('update-phone').classList.add('hidden');
+    }, []);
+    const handleUpdatePhone = useCallback(() => {
+        document.getElementById('update-phone').classList.remove('hidden');
+    }, []);
+    const handleChangePassword = useCallback(() => {
+        document.getElementById('change-password').classList.remove('hidden');
+    }, []);
     useEffect(() => {
-        if (roleState == 'guest') {
+        if (sessionStorage.getItem('USER') == null) {
             window.location = '/login';
         }
     }, []);
@@ -113,7 +182,29 @@ export default function PageInfoUser() {
                             &nbsp; Số điện thoại:
                         </div>
                         <div>{getPhoneUser(user)}</div>
-                        <button>Cập nhật</button>
+                        <span id="update-phone" className="hidden">
+                            <input
+                                value={phone}
+                                placeholder="Nhập số điện thoại"
+                                type="number"
+                                onChange={(e) => {
+                                    setPhone(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitUpdatePhone(phone)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+                        <button onClick={handleUpdatePhone}>Cập nhật</button>
                     </div>
                     <div className="password-info-user">
                         <div>
@@ -130,7 +221,52 @@ export default function PageInfoUser() {
                             </svg>
                             &nbsp; Mật khẩu
                         </div>
-                        <button>Cập nhật</button>
+                        <span id="change-password" className="hidden">
+                            <input
+                                value={passwordOld}
+                                placeholder="Nhập mật khẩu cũ"
+                                type="password"
+                                onChange={(e) => {
+                                    setPasswordOld(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitChangePasswordOld(passwordOld, user.username)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+                        <span id="change-password-new" className="hidden">
+                            <input
+                                value={password}
+                                placeholder="Nhập mật khẩu mới"
+                                type="password"
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitChangePassword(password, user.username)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+
+                        <button onClick={handleChangePassword}>Thay đổi</button>
                     </div>
                 </div>
             </div>

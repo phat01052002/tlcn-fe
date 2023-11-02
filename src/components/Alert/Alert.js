@@ -98,7 +98,12 @@ export const AlertAccountIsPresent = () => {
         confirmButtonText: 'Ok',
     });
 };
-
+export const AlertPhoneNotExist = () => {
+    Swal.fire({
+        title: 'Chưa có tài khoản đăng kí bằng SĐT này',
+        confirmButtonText: 'Ok',
+    });
+};
 export const AlertVerifyPhone = (verifyPhone) => {
     Swal.fire({
         title: 'Nhập mã được gửi về điện thoại của bạn',

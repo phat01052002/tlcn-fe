@@ -8,6 +8,10 @@ import {
     CHANGE_LIST_PRODUCT_CHECKOUT,
     CHANGE_TOTAL_PRICE,
     CHANGE_USER,
+    CHANGE_NUMBER_FAVORITE,
+    CHANGE_NUMBER_NOTIFY,
+    CHANGE_LIST_FAVORITE,
+    CHANGE_LIST_NOTIFY,
 } from './Contants';
 
 export const changeNumberCart = (payload) => ({
@@ -49,5 +53,25 @@ export const changeTotalPrice = (payload) => ({
 
 export const changeUser = (payload) => ({
     type: CHANGE_USER,
+    payload,
+});
+
+export const changeNumberFavorite = (payload) => ({
+    type: CHANGE_NUMBER_FAVORITE,
+    payload,
+});
+
+export const changeNumberNotify = (payload) => ({
+    type: CHANGE_NUMBER_NOTIFY,
+    payload,
+});
+
+export const changeListFavorite = (payload) => ({
+    type: CHANGE_LIST_FAVORITE,
+    payload,
+});
+
+export const changeListNotify = (payload) => ({
+    type: CHANGE_LIST_NOTIFY,
     payload,
 });

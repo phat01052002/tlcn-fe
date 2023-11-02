@@ -65,7 +65,7 @@ export default function PageLogin() {
                         };
                         sessionStorage.removeItem('gmail');
                         sessionStorage.removeItem('gmailAccesstoken');
-                        await axios.request(config).then(async(res) => {
+                        await axios.request(config).then(async (res) => {
                             if (res.status == 200) {
                                 //save access token to sessionStorage
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
@@ -92,9 +92,9 @@ export default function PageLogin() {
         }
     }, []);
     ////////
-    useEffect(()=>{
-        getGmail()
-    },[])
+    useEffect(() => {
+        getGmail();
+    }, []);
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
         window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
@@ -168,7 +168,7 @@ export default function PageLogin() {
                             <button onClick={handleClickLogin}>Đăng Nhập</button>
                         </div>
                         <div className="forgot-password-link login-link">
-                            <a href="/">Quên mật khẩu</a>
+                            <a href="/ForgotPassword">Quên mật khẩu</a>
                         </div>
                         <div className="btn-login-gmail">
                             <button className="btn-login" onClick={handleClickBtnLoginGmail}>

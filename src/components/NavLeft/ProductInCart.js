@@ -103,6 +103,10 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
             window.location = '/checkout';
         }
     }, []);
+    //click name product in cart
+    const handleClickNameProductInCart = useCallback(() => {
+        window.location = `/productDetail/${productId}`;
+    }, []);
     if (render == true) {
         return (
             <div id={productId} className="row product-in-cart">
@@ -132,7 +136,9 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                     ></input>
                 </div>
                 <div className="col-8 row product-name-cart">
-                    <div>{product.name}</div>
+                    <div>
+                        <label onClickCapture={handleClickNameProductInCart}> {product.name} </label>
+                    </div>
                     <div className="col-5 count-product-cart">
                         <button
                             onClickCapture={() =>
