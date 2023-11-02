@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React from 'react';
 import { useCallback } from 'react';
-import { changeListFavorite, changeNumberFavorite, useStore } from '../../Store';
+import { changeListFavorite, changeNumberFavorite, changeProductUnlike, useStore } from '../../Store';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
 export default function Unlike({ product, setProductCurrent }) {
     const [globalState, dispatch] = useStore();
-    const { user } = globalState;
-    const getFavorite = async (user) => {
+    const { user, productUnlike } = globalState;
+    const getFavorite = async (user, productUnlike) => {
         try {
             if (user.length != 0) {
                 const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -24,12 +24,17 @@ export default function Unlike({ product, setProductCurrent }) {
                     .then((res) => {
                         dispatch(changeNumberFavorite(res.data.length));
                         dispatch(changeListFavorite(res.data));
+                        var productUnlikeNew = productUnlike.filter((productFilter) => {
+                            return productFilter != product.productId;
+                        });
+                        console.log(productUnlikeNew);
+                        dispatch(changeProductUnlike(productUnlikeNew));
                     })
                     .catch();
             }
         } catch {}
     };
-    const hadleClickUnlike = useCallback(async (user) => {
+    const hadleClickUnlike = useCallback(async (user, productUnlike) => {
         if (user.length != 0) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let configPost = {
@@ -45,7 +50,7 @@ export default function Unlike({ product, setProductCurrent }) {
                 .get(`/guest/product/${product.productId}`)
                 .then((res) => setProductCurrent(res.data))
                 .catch();
-            await getFavorite(user);
+            await getFavorite(user, productUnlike);
         } else {
             notifyWarningPleaseLogin();
         }
@@ -53,7 +58,7 @@ export default function Unlike({ product, setProductCurrent }) {
     return (
         <div>
             <svg
-                onClick={() => hadleClickUnlike(user)}
+                onClick={() => hadleClickUnlike(user, productUnlike)}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"

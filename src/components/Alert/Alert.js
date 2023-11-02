@@ -44,54 +44,6 @@ export const AlertPleaseLogin = () => {
     });
 };
 
-export const AlertAddPhone = () => {
-    Swal.fire({
-        title: 'Thêm số điện thoại cho lần đầu đăng nhập',
-        input: 'number',
-        inputAttributes: {
-            autocapitalize: 'off',
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: `Để sau`,
-        showLoaderOnConfirm: true,
-        allowOutsideClick: () => {},
-    }).then((result) => {
-        if (result.isConfirmed && result.value) {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            var config = {
-                method: 'post',
-                url: `/user/addPhone/${result.value}`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            axios
-                .request(config)
-                .then((response) => {
-                    if (response.status == 204) {
-                        notifyErrorPhoneIsPresent();
-                        AlertAddPhone();
-                    } else {
-                        if (sessionStorage.getItem('checkout')) {
-                            window.location = '/checkout';
-                        } else {
-                            window.location = '/';
-                        }
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        } else {
-            if (sessionStorage.getItem('checkout')) {
-                window.location = '/checkout';
-            } else {
-                window.location = '/';
-            }
-        }
-    });
-};
 export const AlertAccountIsPresent = () => {
     Swal.fire({
         title: 'Số điện thoại đã tồn tại',

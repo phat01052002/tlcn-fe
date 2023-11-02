@@ -8,6 +8,7 @@ import {
     CHANGE_NUMBER_FAVORITE,
     CHANGE_NUMBER_NOTIFY,
     CHANGE_PRICE_ALL,
+    CHANGE_PRODUCT_UNLIKE,
     CHANGE_ROLE,
     CHANGE_TOTAL_PRICE,
     CHANGE_USER,
@@ -27,6 +28,7 @@ const initState = {
     listProductCheckOut: [],
     totalPrice: 0,
     user: [],
+    productUnlike: [],
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -56,6 +58,8 @@ function Reducer(state, action) {
             return { ...state, listFavorite: action.payload };
         case CHANGE_LIST_NOTIFY:
             return { ...state, listNotify: action.payload };
+        case CHANGE_PRODUCT_UNLIKE:
+            return { ...state, productUnlike: action.payload };
         default:
             throw new Error('');
     }

@@ -2,7 +2,7 @@
     border-bottom: 1px solid #dfdfe2;
     padding: 10px 0;
 }
-.page-cart h5{
+.page-cart h5 {
     text-align: center;
 }
 .delete-page-cart {
@@ -132,7 +132,41 @@
 .delete-item-cart svg:hover {
     scale: 1.2;
 }
-.product-name-cart label:hover{
+.product-name-cart label:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+.product-favorite-img {
+    display: flex;
+    justify-content: center;
+}
+.product-favorite-img img {
+    object-fit: contain;
+    width: 80%;
+    border: 1px solid #dfdfe2;
+    border-radius: 10%;
+}
+.product-favorite{
+    position: relative;
+    border-bottom: 1px solid #dfdfe2;
+    padding:1rem 0
+}
+.delete-item-favorite {
+    position: absolute;
+    height: 2rem;
+    width: 2rem;
+    right: 4%;
+}
+.delete-item-favorite svg {
+    position: absolute;
+    right: 4%;
+    top: 0;
+}
+.delete-item-favorite svg:hover{
+    scale: 1.2;
+    cursor: pointer;
+}
+.product-favorite-name label:hover{
     font-weight: bold;
     cursor: pointer;
 }

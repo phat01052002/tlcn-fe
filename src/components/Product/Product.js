@@ -12,7 +12,7 @@ export default function Product({ product, type }) {
     /////
     const [globalState, dispatch] = useStore();
     ///////
-    const { numberCart, user } = globalState;
+    const { numberCart, user, productUnlike } = globalState;
     //naviga
     const naviga = useNavigate();
     //
@@ -54,16 +54,24 @@ export default function Product({ product, type }) {
         if (type == 'hot') return <ProductHot />;
     };
     //
-    const isFavorite = (listFavoriteByUser, user) => {
+    const isFavorite = (listFavoriteByUser, user, productUnlike, product) => {
+        console.log(productUnlike);
         for (var i = 0; i < listFavoriteByUser.length; i++) {
-            if (listFavoriteByUser[i].user.userId == user.userId) return true;
+            if (listFavoriteByUser[i].user.userId == user.userId) {
+                for (var j = 0; j < productUnlike.length; j++) {
+                    if (productUnlike[j] == product.productId) {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
         return false;
     };
     //
-    const addHeart = (user, product) => {
+    const addHeart = (user, product, productUnlike) => {
         if (product.favorites.length != 0 && user.length != 0) {
-            if (isFavorite(product.favorites, user)) {
+            if (isFavorite(product.favorites, user, productUnlike, product)) {
                 return <Like product={product} setProductCurrent={setProductCurrent} />;
             } else {
                 return <Unlike product={product} setProductCurrent={setProductCurrent} />;
@@ -132,7 +140,9 @@ export default function Product({ product, type }) {
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
                         </svg>
                     </button>
-                    <button className="btn-product btn-like-product">{addHeart(user, productCurrent)}</button>
+                    <button className="btn-product btn-like-product">
+                        {addHeart(user, productCurrent, productUnlike)}
+                    </button>
                 </div>
                 <label className="number-favorite">
                     {productCurrent.favorites.length != 0 ? productCurrent.favorites.length + ' lượt thích' : null}

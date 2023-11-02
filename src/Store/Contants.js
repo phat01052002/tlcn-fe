@@ -11,3 +11,4 @@ export const CHANGE_NUMBER_FAVORITE = 'change-number-favorite';
 export const CHANGE_NUMBER_NOTIFY = 'change-number-notify';
 export const CHANGE_LIST_FAVORITE = 'change-list-favorite';
 export const CHANGE_LIST_NOTIFY = 'change-list-notify';
+export const CHANGE_PRODUCT_UNLIKE='change-product-unlike'

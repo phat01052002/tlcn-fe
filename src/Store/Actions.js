@@ -12,6 +12,7 @@ import {
     CHANGE_NUMBER_NOTIFY,
     CHANGE_LIST_FAVORITE,
     CHANGE_LIST_NOTIFY,
+    CHANGE_PRODUCT_UNLIKE,
 } from './Contants';
 
 export const changeNumberCart = (payload) => ({
@@ -73,5 +74,10 @@ export const changeListFavorite = (payload) => ({
 
 export const changeListNotify = (payload) => ({
     type: CHANGE_LIST_NOTIFY,
+    payload,
+});
+
+export const changeProductUnlike = (payload) => ({
+    type: CHANGE_PRODUCT_UNLIKE,
     payload,
 });

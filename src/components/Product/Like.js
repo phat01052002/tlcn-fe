@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useCallback } from 'react';
-import { changeListNotify, changeListFavorite, changeNumberFavorite, useStore } from '../../Store';
+import { changeListFavorite, changeNumberFavorite, useStore } from '../../Store';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
 export default function Like({ product, setProductCurrent }) {
