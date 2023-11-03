@@ -41,7 +41,7 @@
     font-weight: bold;
     width: 95%;
     display: block;
-    text-align:start ;
+    text-align: start;
     margin-left: 2rem;
     position: relative;
     margin-top: 0.5rem;
@@ -208,11 +208,19 @@
 .radio-checkout:checked {
     scale: 1.8;
 }
-.list-product-checkout{
+.list-product-checkout {
     height: 610px;
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
 ::-webkit-scrollbar {
     width: 10px;
-  }
-
+}
+.btn-update {
+    background-color: black;
+    color: white;
+}
+.btn-update:hover{
+    cursor: pointer;
+    background-color: #dfdfe2;
+    color: black;
+}

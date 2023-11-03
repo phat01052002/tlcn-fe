@@ -33,13 +33,14 @@ export default function Review({ review, getReview }) {
         } catch (e) {}
     }, []);
     //
-    const handleClickResponse = useCallback(async (user, closeResponse) => {
-        if (user.length != 0) {
+    const handleClickResponse = useCallback((user, closeResponse) => {
+        console.log(user);
+        if (user.username != '') {
             if (closeResponse) {
                 document.getElementById(`response-${review.reviewId}`).classList.add('hidden');
                 setCloseResponse(false);
             } else {
-                await getResponseReview();
+                getResponseReview(user);
                 document.getElementById(`response-${review.reviewId}`).classList.remove('hidden');
                 setCloseResponse(true);
             }
@@ -48,20 +49,22 @@ export default function Review({ review, getReview }) {
         }
     }, []);
     //
-    const getResponseReview = () => {
-        const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `/user/getResponseReview/${review.reviewId}`,
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        };
-        axios
-            .request(config)
-            .then((res) => setListResponse(res.data))
-            .catch();
+    const getResponseReview = (user) => {
+        if (user.length != 0) {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getResponseReview/${review.reviewId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            axios
+                .request(config)
+                .then((res) => setListResponse(res.data))
+                .catch();
+        }
     };
 
     //
@@ -85,7 +88,7 @@ export default function Review({ review, getReview }) {
                     .request(config)
                     .then((res) => {
                         if (res.status == 200) {
-                            getResponseReview();
+                            getResponseReview(user);
                         }
                     })
                     .catch();
@@ -93,9 +96,9 @@ export default function Review({ review, getReview }) {
             } catch (e) {}
         }
     }, []);
-    useEffect(()=>{
-        getResponseReview();
-    },[])
+    useEffect(() => {
+        getResponseReview(user);
+    }, [user]);
     return (
         <div className="row review-div">
             <div className="col-2 div-input-chat">
@@ -112,11 +115,11 @@ export default function Review({ review, getReview }) {
                 </div>
                 <span>
                     <label>Thích</label>
-                    {user.userId != review.user.userId ? (
+                    {
                         <label onClick={() => handleClickResponse(user, closeResponse)}>
                             Phản hồi({listResponse.length == 0 ? null : listResponse.length})
                         </label>
-                    ) : null}
+                    }
                     {user.userId == review.user.userId ? <label onClick={handleDeleteReview}>Xoá</label> : null}
                     &nbsp; &nbsp;
                     {review.date.substr(0, 10)}
@@ -136,7 +139,7 @@ export default function Review({ review, getReview }) {
                         </div>
                     </div>
                     {listResponse.map((response) => (
-                        <Response response={response} getResponseReview={getResponseReview}/>
+                        <Response response={response} getResponseReview={getResponseReview} />
                     ))}
                 </div>
             </div>

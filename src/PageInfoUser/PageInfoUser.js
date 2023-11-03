@@ -1,13 +1,21 @@
+import { async } from '@firebase/util';
 import axios from 'axios';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AlertLoginFalse } from '../components/Alert/Alert';
 import Header from '../components/Header/Header';
 import {
+    notifyErrorGetOTPPhone,
+    notifyErrorIsNotVerify,
     notifyErrorPassword,
+    notifyErrorPhoneIsPresent,
+    notifyOTPSussess,
     notifyUpdateSussess,
+    notifyVerifySussess,
     notifyWarningUpdateInfoUser,
 } from '../components/NotificationInPage/NotificationInPage';
-import { changeUser, useStore } from '../Store';
+import { auth } from '../setupFirebase/setupFirebase';
+import { addLoad, changeUser, removeLoad, useStore } from '../Store';
 import './PageInfoUser.css';
 export default function PageInfoUser() {
     const [globalState, dispatch] = useStore();
@@ -17,6 +25,8 @@ export default function PageInfoUser() {
     const [phone, setPhone] = useState(null);
     const [password, setPassword] = useState('');
     const [passwordOld, setPasswordOld] = useState('');
+    const [comfirm, setComfirm] = useState(null);
+    const [otp, setOtp] = useState(null);
     const getPhoneUser = (user) => {
         if (user.phone) {
             return user.phone;
@@ -29,13 +39,13 @@ export default function PageInfoUser() {
         newUserCurrent.name = e.target.value;
         dispatch(changeUser(newUserCurrent));
         setIsChange(true);
-    });
+    }, []);
     const handleChangeUserAddress = useCallback((e) => {
         let newUserCurrent = user;
         newUserCurrent.address = e.target.value;
         dispatch(changeUser(newUserCurrent));
         setIsChange(true);
-    });
+    }, []);
     const handleSave = useCallback((user, isChange) => {
         if (isChange) {
             let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -117,8 +127,56 @@ export default function PageInfoUser() {
         }
     }, []);
     ////////////////////
-    const handleSubmitUpdatePhone = useCallback((e) => {
+    const handleSubmitUpdatePhone = useCallback(async (phone) => {
+        try {
+            const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
+            const comfirmation = await signInWithPhoneNumber(auth, `+84${phone}`, recaptcha);
+            setComfirm(comfirmation);
+            notifyOTPSussess();
+            document.getElementById('verify-phone').classList.remove('hidden');
+        } catch {
+            notifyErrorGetOTPPhone();
+        }
+        document.getElementById('recaptcha').classList.add('hidden');
+    }, []);
+    ///////
+    const handleSubmitVerifyPhone = useCallback(async (otp, comfirm, phone, user) => {
+        addLoad();
+        try {
+            const data = await comfirm.confirm(otp);
+            if (data) {
+                notifyVerifySussess();
+                if (user.length != 0) {
+                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                    let config = {
+                        method: 'post',
+                        maxBodyLength: Infinity,
+                        url: `/user/addPhone/${phone}`,
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    };
+                    await axios
+                        .request(config)
+                        .then((res) => {
+                            if (res.status == 200) {
+                                notifyUpdateSussess();
+                                var newUser = user;
+                                newUser.phone = phone;
+                                dispatch(changeUser(newUser));
+                            } else {
+                                notifyErrorPhoneIsPresent();
+                            }
+                        })
+                        .catch((e) => notifyErrorPhoneIsPresent());
+                }
+            }
+        } catch {
+            notifyErrorIsNotVerify();
+        }
+        document.getElementById('verify-phone').classList.add('hidden');
         document.getElementById('update-phone').classList.add('hidden');
+        removeLoad();
     }, []);
     const handleUpdatePhone = useCallback(() => {
         document.getElementById('update-phone').classList.remove('hidden');
@@ -140,11 +198,7 @@ export default function PageInfoUser() {
                     <span>
                         <label>Ảnh đại diện:</label>
                         <div class="avatar-view">
-                            <img
-                                src={user.image}
-                                alt="avatar"
-                                class="default"
-                            />
+                            <img src={user.image} alt="avatar" class="default" />
                             <div class="edit">
                                 <img
                                     src="https://frontend.tikicdn.com/_desktop-next/static/img/account/edit.png"
@@ -194,6 +248,29 @@ export default function PageInfoUser() {
                             &nbsp; &nbsp;
                             <svg
                                 onClick={() => handleSubmitUpdatePhone(phone)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+                        <div id="recaptcha"></div>
+                        <span id="verify-phone" className="hidden">
+                            <input
+                                value={otp}
+                                placeholder="Nhập OTP"
+                                type="number"
+                                onChange={(e) => {
+                                    setOtp(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitVerifyPhone(otp, comfirm, phone, user)}
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="20"
                                 height="20"

@@ -34,7 +34,7 @@ export default function PageProductDetail() {
         console.log('buynow');
     }, []);
     //rating
-    const ratingChanged = (newRating, user) => {
+    const ratingChanged = async (newRating, user) => {
         if (user.length != 0) {
             notifyInfoThanks();
             setRating(newRating);
@@ -47,7 +47,7 @@ export default function PageProductDetail() {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            axios.request(config);
+            await axios.request(config);
         } else {
             notifyWarningPleaseLogin();
         }

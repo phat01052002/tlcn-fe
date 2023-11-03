@@ -5,7 +5,7 @@ import { useStore } from '../Store';
 export default function Response({ response, getResponseReview }) {
     const [globalState, dispatch] = useStore();
     const { user } = globalState;
-    const handleDelete = useCallback(async () => {
+    const handleDelete = useCallback(async (user) => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
@@ -20,7 +20,7 @@ export default function Response({ response, getResponseReview }) {
                 .request(config)
                 .then((res) => {
                     if (res.status == 200) {
-                        getResponseReview();
+                        getResponseReview(user);
                     }
                 })
                 .catch();
@@ -40,7 +40,7 @@ export default function Response({ response, getResponseReview }) {
                 </div>
                 <span>
                     <label>Thích</label>
-                    {user.userId == response.user.userId ? <label onClick={handleDelete}>Xoá</label> : null}
+                    {user.userId == response.user.userId ? <label onClick={()=>handleDelete(user)}>Xoá</label> : null}
                     &nbsp; &nbsp;
                     {response.date.substr(0, 10)}
                 </span>

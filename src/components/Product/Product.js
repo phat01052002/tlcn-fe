@@ -55,7 +55,6 @@ export default function Product({ product, type }) {
     };
     //
     const isFavorite = (listFavoriteByUser, user, productUnlike, product) => {
-        console.log(productUnlike);
         for (var i = 0; i < listFavoriteByUser.length; i++) {
             if (listFavoriteByUser[i].user.userId == user.userId) {
                 for (var j = 0; j < productUnlike.length; j++) {

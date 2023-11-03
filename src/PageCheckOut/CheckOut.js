@@ -1,12 +1,49 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { AlertChangeToPageInfoUser } from '../components/Alert/Alert';
 import Header from '../components/Header/Header';
-import { changeRole, changeTotalPrice, formatter, useStore } from '../Store';
+import { notifyUpdateSussess, notifyWarningUpdateInfoUser } from '../components/NotificationInPage/NotificationInPage';
+import { changeRole, changeTotalPrice, changeUser, formatter, useStore } from '../Store';
 import './CheckOut.css';
 import ListProductCheckOut from './ListProductCheckOut';
 export default function CheckOut() {
+    //constant price of delivery,contructor is 0 for delivery (giao hàng tiết kiệm)
+    const [priceDelivery, setPriceDelivery] = useState(0);
+
     const [globalState, dispatch] = useStore();
     const { roleState, listProductCheckOut, listCountProductCheckOut, totalPrice, user } = globalState;
+    const handleEnterInputAddress = useCallback((e, user) => {
+        var keycode = e.keyCode ? e.keyCode : e.which;
+        if (keycode == '13') {
+            if (user.length != 0) {
+                let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let data = {
+                    name: user.name,
+                    address: e.target.value,
+                };
+                let config = {
+                    method: 'patch',
+                    maxBodyLength: Infinity,
+                    url: '/user/saveUser',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    data: data,
+                };
+
+                axios
+                    .request(config)
+                    .then((response) => {
+                        notifyUpdateSussess();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                notifyWarningUpdateInfoUser();
+            }
+        }
+    }, []);
     const checkUser = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -25,6 +62,13 @@ export default function CheckOut() {
             window.location = '/login';
         }
     };
+    //
+    const handleClickUpdatePhone = useCallback(() => {
+        AlertChangeToPageInfoUser();
+    }, []);
+    //pay-checkout
+    const handleClickPayCheckout = useCallback(() => {}, []);
+    //
     useEffect(() => {
         dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
         checkUser();
@@ -52,15 +96,36 @@ export default function CheckOut() {
                         <label>Thông tin vận chuyển</label>
                         <div className="div-input">
                             <label>Tên khách hàng:</label>
-                            <input className="input-checkout input-user-name" value={user.name}></input>
+                            <input
+                                className="input-checkout input-user-name"
+                                value={user.name}
+                                readOnly={user.name ? true : false}
+                            ></input>
                         </div>
                         <div className="div-input">
                             <label>Số điện thoại:</label>
-                            <input className="input-checkout input-user-phone" value={user.phone}></input>
+                            {user.phone ? (
+                                <input
+                                    className="input-checkout input-user-phone"
+                                    value={user.phone}
+                                    placeholder="Vui lòng cập nhật thông tin"
+                                    readOnly={true}
+                                ></input>
+                            ) : (
+                                <button className="input-checkout btn-update" onClick={handleClickUpdatePhone}>
+                                    Cập nhật
+                                </button>
+                            )}
                         </div>
                         <div className="div-input">
                             <label>Địa chỉ:</label>
-                            <input className="input-checkout input-user-address" value={user.address}></input>
+                            <input
+                                className="input-checkout input-user-address"
+                                value={user.address}
+                                placeholder="Vui lòng cập nhật thông tin"
+                                readOnly={user.address ? true : false}
+                                onKeyDown={(e) => handleEnterInputAddress(e, user)}
+                            ></input>
                         </div>
                         <div className="div-input-code">
                             <svg
@@ -98,17 +163,6 @@ export default function CheckOut() {
                                 <input className="radio-checkout" type="radio" name="payment" /> &nbsp;&nbsp;
                                 <img
                                     class="method-icon"
-                                    src="https://salt.tikicdn.com/ts/upload/92/b2/78/1b3b9cda5208b323eb9ec56b84c7eb87.png"
-                                    width="32"
-                                    height="32"
-                                    alt="icon"
-                                ></img>{' '}
-                                Thanh toán khi nhận hàng
-                            </span>
-                            <span>
-                                <input className="radio-checkout" type="radio" name="payment" /> &nbsp;&nbsp;
-                                <img
-                                    class="method-icon"
                                     src="https://salt.tikicdn.com/ts/upload/7e/48/50/7fb406156d0827b736cf0fe66c90ed78.png"
                                     width="32"
                                     height="32"
@@ -116,11 +170,27 @@ export default function CheckOut() {
                                 ></img>{' '}
                                 Thanh toán online
                             </span>
+                            <span>
+                                <input className="radio-checkout" type="radio" name="payment" /> &nbsp;&nbsp;
+                                <img
+                                    class="method-icon"
+                                    src="https://salt.tikicdn.com/ts/upload/92/b2/78/1b3b9cda5208b323eb9ec56b84c7eb87.png"
+                                    width="32"
+                                    height="32"
+                                    alt="icon"
+                                ></img>{' '}
+                                Thanh toán khi nhận hàng
+                            </span>
                         </div>
                         <div className="delivery-method">
                             <label>Phương thức giao hàng</label>
                             <span>
-                                <input className="radio-checkout" type="radio" name="delivery" />
+                                <input
+                                    className="radio-checkout"
+                                    type="radio"
+                                    name="delivery"
+                                    onChange={() => setPriceDelivery(30000)}
+                                />
                                 &nbsp;&nbsp; &nbsp;
                                 <img
                                     class="method-logo"
@@ -132,7 +202,13 @@ export default function CheckOut() {
                                 Giao hàng nhanh
                             </span>
                             <span>
-                                <input className="radio-checkout" type="radio" name="delivery" /> &nbsp;&nbsp;
+                                <input
+                                    className="radio-checkout"
+                                    type="radio"
+                                    name="delivery"
+                                    onChange={() => setPriceDelivery(0)}
+                                />{' '}
+                                &nbsp;&nbsp;
                                 <svg
                                     class="fulfillment-icon"
                                     width="24"
@@ -157,14 +233,16 @@ export default function CheckOut() {
                         </span>
                         <span className="price-delivery price-checkout">
                             Phí giao hàng
-                            <label className="price-checkout-label">{formatter.format(totalPrice)}</label>
+                            <label className="price-checkout-label">{formatter.format(priceDelivery)}</label>
                         </span>
                         <span className="price-total price-checkout">
                             Tổng
-                            <label className="price-checkout-label">{formatter.format(totalPrice)}</label>
+                            <label className="price-checkout-label">
+                                {formatter.format(parseInt(totalPrice) + priceDelivery)}
+                            </label>
                         </span>
                         <div className="pay-checkout">
-                            <button>Đặt mua</button>
+                            <button onClick={handleClickPayCheckout}>Đặt mua</button>
                         </div>
                     </div>
                 </div>

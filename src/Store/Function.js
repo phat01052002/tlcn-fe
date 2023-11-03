@@ -109,7 +109,6 @@ export const getToCheckOut = () => {
 
 export const removeAllSession = () => {
     sessionStorage.removeItem('USER');
-    sessionStorage.removeItem('totalPrice')
 };
 
 export const handleClickBack = () => {

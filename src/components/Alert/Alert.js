@@ -44,6 +44,20 @@ export const AlertPleaseLogin = () => {
     });
 };
 
+export const AlertChangeToPageInfoUser = () => {
+    Swal.fire({
+        title: 'Chuyển tới trang cá nhân để chỉnh sửa ?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location = '/infoUser';
+        } else if (result.isDenied) {
+        }
+    });
+};
+
 export const AlertAccountIsPresent = () => {
     Swal.fire({
         title: 'Số điện thoại đã tồn tại',

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+    addLoad,
     changeCheckToFalse,
     changeNumberCart,
     changePriceAll,
@@ -8,6 +9,7 @@ import {
     getNumber,
     getToCheckOut,
     increasePriceAll,
+    removeLoad,
     useStore,
 } from '../../Store';
 import { AlertPleaseLogin } from '../Alert/Alert';
@@ -65,11 +67,13 @@ export default function PageCart({ listProductCart }) {
 
     //when click delete item
     const deleteItem = useCallback(async (productId, price, check, deleteItemProductIncart) => {
+        addLoad();
         if (check) {
             await dispatch(decreasePriceAll(parseInt(JSON.parse(localStorage.getItem(productId)).count * price)));
         }
         localStorage.removeItem(productId);
         deleteItemProductIncart();
+        removeLoad();
     }, []);
 
     //click pay all

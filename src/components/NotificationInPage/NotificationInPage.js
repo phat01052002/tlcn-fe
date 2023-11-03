@@ -16,6 +16,10 @@ export const notifyErrorRegister = () => toast.error('Đăng kí không thành c
 export const notifyWarningUpdateInfoUser = () => toast.error('Chưa nhận được thông tin cập nhật');
 export const notifyErrorPassword = () => toast.error('Mật khẩu không đúng');
 export const notifyInfoThanks = () => toast.info('Cám ơn bạn đã đánh giá');
+export const notifyErrorLeakAddress = () => toast.error('Thiếu địa chỉ giao hàng');
+export const notifyErrorLeakPhone = () => toast.error('Thiếu số điện thoại');
+export const notifyErrorLeakDelivery = () => toast.error('Thiếu phương thức giao hàng');
+export const notifyErrorLeakPaymentMethod = () => toast.error('Thiếu phương thức thanh toán');
 
 export default function NotificationInPage() {
     return (
