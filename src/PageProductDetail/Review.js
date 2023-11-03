@@ -100,7 +100,7 @@ export default function Review({ review, getReview }) {
         getResponseReview(user);
     }, [user]);
     return (
-        <div className="row review-div">
+        <div onLoa className="row review-div">
             <div className="col-2 div-input-chat">
                 <div>
                     <img className="user-img-review" src={review.user.image}></img>

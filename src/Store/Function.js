@@ -1,3 +1,6 @@
+import SockJS from 'sockjs-client';
+
+const stompClient = null;
 export const handleClickNavLeftCart = () => {
     /////
     const pageCart = document.getElementById('page-navleft-cart');
@@ -127,4 +130,13 @@ export const removeLoad = () => {
         document.getElementById('loader').classList.remove('display-flex');
         document.body.style.pointerEvents = 'auto';
     }, 500);
+};
+
+export const connect = () => {
+    var socket = new SockJS('/chat');
+    stompClient = SockJS.stompClient.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/reviews', (res) => console.log(res.body));
+    });
 };
