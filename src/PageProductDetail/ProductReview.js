@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useStore } from '../Store';
@@ -9,6 +8,7 @@ export default function ProductReview({ productId }) {
     const { roleState, user } = globalState;
     const [review, setReview] = useState('');
     const [listReview, setListReview] = useState([]);
+
     const handleEnterInputReview = useCallback(async (e, user, productId, review) => {
         var keycode = e.keyCode ? e.keyCode : e.which;
         if (keycode == '13') {
@@ -33,7 +33,7 @@ export default function ProductReview({ productId }) {
                         }
                     })
                     .catch();
-                setReview('')
+                setReview('');
             } catch (e) {}
         }
     }, []);
@@ -82,7 +82,7 @@ export default function ProductReview({ productId }) {
             <div className="review-input-chat">{renderInputChat(roleState)}</div>
             <div className="review-content">
                 {listReview.map((review) => (
-                    <Review review={review} getReview={getReview}/>
+                    <Review key={review.reviewId} review={review} getReview={getReview} />
                 ))}
             </div>
         </div>

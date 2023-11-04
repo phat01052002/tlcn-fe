@@ -27,8 +27,8 @@ export default function NavLeftFavorite({ listProductFavorite }) {
                     </svg>
                 </div>
                 <h5>YÊU THÍCH</h5>
-                {listProductFavorite.map((favorite) => (
-                    <ProductInFavorite favorite={favorite} />
+                {listProductFavorite.map((favorite,index) => (
+                    <ProductInFavorite key={index} favorite={favorite} />
                 ))}
             </div>
         </div>

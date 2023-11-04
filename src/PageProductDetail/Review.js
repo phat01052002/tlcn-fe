@@ -5,7 +5,7 @@ import { notifyWarningPleaseLogin } from '../components/NotificationInPage/Notif
 import { useStore } from '../Store';
 import Response from './Response';
 
-export default function Review({ review, getReview }) {
+export default function Review({review, getReview }) {
     const [globalState, dispatch] = useStore();
     const { user } = globalState;
     const [closeResponse, setCloseResponse] = useState(false);
@@ -34,7 +34,6 @@ export default function Review({ review, getReview }) {
     }, []);
     //
     const handleClickResponse = useCallback((user, closeResponse) => {
-        console.log(user);
         if (user.username != '') {
             if (closeResponse) {
                 document.getElementById(`response-${review.reviewId}`).classList.add('hidden');
@@ -100,7 +99,7 @@ export default function Review({ review, getReview }) {
         getResponseReview(user);
     }, [user]);
     return (
-        <div onLoa className="row review-div">
+        <div className="row review-div">
             <div className="col-2 div-input-chat">
                 <div>
                     <img className="user-img-review" src={review.user.image}></img>

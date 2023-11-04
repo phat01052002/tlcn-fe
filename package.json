@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "firebase": "^10.5.0",
     "http-proxy-middleware": "^2.0.6",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^5.4.5",
@@ -24,6 +25,7 @@
     "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.3",
     "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "sweetalert2": "^11.7.32",
     "web-vitals": "^2.1.4"
   },

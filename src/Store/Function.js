@@ -132,11 +132,3 @@ export const removeLoad = () => {
     }, 500);
 };
 
-export const connect = () => {
-    var socket = new SockJS('/chat');
-    stompClient = SockJS.stompClient.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/reviews', (res) => console.log(res.body));
-    });
-};

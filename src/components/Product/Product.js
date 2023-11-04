@@ -8,7 +8,7 @@ import Like from './Like';
 import ProductHot from './ProductHot';
 import ProductSale from './ProductSale';
 import Unlike from './Unlike';
-export default function Product({ product, type }) {
+export default function Product({product, type }) {
     /////
     const [globalState, dispatch] = useStore();
     ///////

@@ -20,7 +20,6 @@ import {
     handleClickNavLeftCart,
     handleClickNavLeftFavorite,
     handleClickNavLeftNotify,
-    removeAllSession,
     useStore,
 } from '../../Store';
 import { AlertLogout } from '../Alert/Alert';
@@ -83,7 +82,7 @@ export default function Header() {
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
         try {
-            sessionStorage.removeItem('checkout')
+            sessionStorage.removeItem('checkout');
             dispatch(changeRole('guest'));
             window.location = '/login';
         } catch {

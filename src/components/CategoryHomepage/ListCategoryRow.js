@@ -8,7 +8,7 @@ export default function ListCategoryRow() {
     //
     const renderCategory = () => {
         let listCategorySlice = listCategory.slice(currentProduct, currentProduct + 6);
-        return listCategorySlice.map((category) => <CategoryRow category={category} />);
+        return listCategorySlice.map((category) => <CategoryRow key={category.categoryId} category={category} />);
     };
     //
     const handleClickBack = useCallback((currentProduct) => {
