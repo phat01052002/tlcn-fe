@@ -1,15 +1,33 @@
+import { async } from '@firebase/util';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AlertChangeToPageInfoUser } from '../components/Alert/Alert';
 import Header from '../components/Header/Header';
-import { notifyUpdateSussess, notifyWarningUpdateInfoUser } from '../components/NotificationInPage/NotificationInPage';
-import { changeRole, changeTotalPrice, changeUser, formatter, useStore } from '../Store';
+import {
+    notifyErrorCantOrder,
+    notifyErrorLeakDelivery,
+    notifyErrorLeakPaymentMethod,
+    notifySuccessOrder,
+    notifyUpdateSussess,
+    notifyWarningUpdateInfoUser,
+} from '../components/NotificationInPage/NotificationInPage';
+import {
+    addLoad,
+    changeNumberCart,
+    changeRole,
+    changeTotalPrice,
+    changeUser,
+    formatter,
+    getNumber,
+    removeLoad,
+    useStore,
+} from '../Store';
 import './CheckOut.css';
 import ListProductCheckOut from './ListProductCheckOut';
 export default function CheckOut() {
     //constant price of delivery,contructor is 0 for delivery (giao hàng tiết kiệm)
-    const [priceDelivery, setPriceDelivery] = useState(0);
-
+    const [priceDelivery, setPriceDelivery] = useState(null);
+    const [paymentMethod, setPaymentMethod] = useState(null);
     const [globalState, dispatch] = useStore();
     const { roleState, listProductCheckOut, listCountProductCheckOut, totalPrice, user } = globalState;
     const handleEnterInputAddress = useCallback((e, user) => {
@@ -67,7 +85,52 @@ export default function CheckOut() {
         AlertChangeToPageInfoUser();
     }, []);
     //pay-checkout
-    const handleClickPayCheckout = useCallback(() => {}, []);
+    const handleClickPayCheckout = useCallback(
+        (paymentMethod, priceDelivery, user, listProductCheckOut, listCountProductCheckOut) => {
+            console.log(listProductCheckOut);
+            if (!paymentMethod) {
+                notifyErrorLeakPaymentMethod();
+                return;
+            }
+            if (priceDelivery == null) {
+                notifyErrorLeakDelivery();
+                return;
+            }
+            if (user.length != 0) {
+                try {
+                    addLoad();
+                    let nowDelivery = priceDelivery != 0 ? true : false;
+                    let paid = paymentMethod == 'online' ? true : false;
+                    let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                    listProductCheckOut.map(async (productId, index) => {
+                        let data = JSON.stringify({
+                            nowDelivery: nowDelivery,
+                            paid: paid,
+                            count: listCountProductCheckOut[index],
+                        });
+                        let config = {
+                            method: 'post',
+                            maxBodyLength: Infinity,
+                            url: `/user/saveOrder/${productId}`,
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                                'Content-Type': 'application/json',
+                            },
+                            data: data,
+                        };
+                        await axios.request(config);
+                        localStorage.removeItem(productId);
+                        dispatch(changeNumberCart(getNumber()));
+                    });
+                    removeLoad();
+                    notifySuccessOrder();
+                } catch {
+                    notifyErrorCantOrder();
+                }
+            }
+        },
+        [],
+    );
     //
     useEffect(() => {
         dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
@@ -160,7 +223,15 @@ export default function CheckOut() {
                         <div className="payment-method">
                             <label>Phương thức thanh toán</label>
                             <span>
-                                <input className="radio-checkout" type="radio" name="payment" /> &nbsp;&nbsp;
+                                <input
+                                    className="radio-checkout"
+                                    type="radio"
+                                    name="payment"
+                                    onChange={() => {
+                                        setPaymentMethod('online');
+                                    }}
+                                />{' '}
+                                &nbsp;&nbsp;
                                 <img
                                     class="method-icon"
                                     src="https://salt.tikicdn.com/ts/upload/7e/48/50/7fb406156d0827b736cf0fe66c90ed78.png"
@@ -171,7 +242,15 @@ export default function CheckOut() {
                                 Thanh toán online
                             </span>
                             <span>
-                                <input className="radio-checkout" type="radio" name="payment" /> &nbsp;&nbsp;
+                                <input
+                                    className="radio-checkout"
+                                    type="radio"
+                                    name="payment"
+                                    onChange={() => {
+                                        setPaymentMethod('offline');
+                                    }}
+                                />{' '}
+                                &nbsp;&nbsp;
                                 <img
                                     class="method-icon"
                                     src="https://salt.tikicdn.com/ts/upload/92/b2/78/1b3b9cda5208b323eb9ec56b84c7eb87.png"
@@ -189,7 +268,9 @@ export default function CheckOut() {
                                     className="radio-checkout"
                                     type="radio"
                                     name="delivery"
-                                    onChange={() => setPriceDelivery(30000)}
+                                    onChange={() => {
+                                        setPriceDelivery(30000);
+                                    }}
                                 />
                                 &nbsp;&nbsp; &nbsp;
                                 <img
@@ -206,7 +287,9 @@ export default function CheckOut() {
                                     className="radio-checkout"
                                     type="radio"
                                     name="delivery"
-                                    onChange={() => setPriceDelivery(0)}
+                                    onChange={() => {
+                                        setPriceDelivery(0);
+                                    }}
                                 />{' '}
                                 &nbsp;&nbsp;
                                 <svg
@@ -233,16 +316,32 @@ export default function CheckOut() {
                         </span>
                         <span className="price-delivery price-checkout">
                             Phí giao hàng
-                            <label className="price-checkout-label">{formatter.format(priceDelivery)}</label>
+                            <label className="price-checkout-label">
+                                {priceDelivery ? formatter.format(priceDelivery) : '0'}
+                            </label>
                         </span>
                         <span className="price-total price-checkout">
                             Tổng
                             <label className="price-checkout-label">
-                                {formatter.format(parseInt(totalPrice) + priceDelivery)}
+                                {priceDelivery
+                                    ? formatter.format(parseInt(totalPrice) + priceDelivery)
+                                    : formatter.format(parseInt(totalPrice))}
                             </label>
                         </span>
                         <div className="pay-checkout">
-                            <button onClick={handleClickPayCheckout}>Đặt mua</button>
+                            <button
+                                onClick={() =>
+                                    handleClickPayCheckout(
+                                        paymentMethod,
+                                        priceDelivery,
+                                        user,
+                                        listProductCheckOut,
+                                        listCountProductCheckOut,
+                                    )
+                                }
+                            >
+                                Đặt mua
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,8 @@ export const notifyErrorLeakAddress = () => toast.error('Thiếu địa chỉ gi
 export const notifyErrorLeakPhone = () => toast.error('Thiếu số điện thoại');
 export const notifyErrorLeakDelivery = () => toast.error('Thiếu phương thức giao hàng');
 export const notifyErrorLeakPaymentMethod = () => toast.error('Thiếu phương thức thanh toán');
+export const notifyErrorCantOrder = () => toast.error('Không thể đặt hàng');
+export const notifySuccessOrder = () => toast.success(`Đặt hàng thành công`);
 
 export default function NotificationInPage() {
     return (
