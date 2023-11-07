@@ -1,13 +1,32 @@
+import { async } from '@firebase/util';
 import axios from 'axios';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import React, { useCallback, useEffect, useState } from 'react';
+import { AlertLoginFalse } from '../components/Alert/Alert';
 import Header from '../components/Header/Header';
-import { notifyUpdateSussess, notifyWarningUpdateInfoUser } from '../components/NotificationInPage/NotificationInPage';
-import { changeUser, useStore } from '../Store';
+import {
+    notifyErrorGetOTPPhone,
+    notifyErrorIsNotVerify,
+    notifyErrorPassword,
+    notifyErrorPhoneIsPresent,
+    notifyOTPSussess,
+    notifyUpdateSussess,
+    notifyVerifySussess,
+    notifyWarningUpdateInfoUser,
+} from '../components/NotificationInPage/NotificationInPage';
+import { auth } from '../setupFirebase/setupFirebase';
+import { addLoad, changeUser, removeLoad, useStore } from '../Store';
 import './PageInfoUser.css';
 export default function PageInfoUser() {
     const [globalState, dispatch] = useStore();
     const { roleState, user } = globalState;
     const [isChange, setIsChange] = useState(false);
+    //update phone and password variable
+    const [phone, setPhone] = useState(null);
+    const [password, setPassword] = useState('');
+    const [passwordOld, setPasswordOld] = useState('');
+    const [comfirm, setComfirm] = useState(null);
+    const [otp, setOtp] = useState(null);
     const getPhoneUser = (user) => {
         if (user.phone) {
             return user.phone;
@@ -20,13 +39,13 @@ export default function PageInfoUser() {
         newUserCurrent.name = e.target.value;
         dispatch(changeUser(newUserCurrent));
         setIsChange(true);
-    });
+    }, []);
     const handleChangeUserAddress = useCallback((e) => {
         let newUserCurrent = user;
         newUserCurrent.address = e.target.value;
         dispatch(changeUser(newUserCurrent));
         setIsChange(true);
-    });
+    }, []);
     const handleSave = useCallback((user, isChange) => {
         if (isChange) {
             let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -57,8 +76,116 @@ export default function PageInfoUser() {
             notifyWarningUpdateInfoUser();
         }
     }, []);
+    ////////////
+    const handleSubmitChangePassword = useCallback((pasword, username) => {
+        let data = JSON.stringify({
+            password: pasword,
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `/api/v1/auth/resetPassword/${username}`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: data,
+        };
+
+        axios
+            .request(config)
+            .then((response) => {
+                sessionStorage.setItem('USER', JSON.stringify(response.data));
+                window.location = '/';
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        document.getElementById('change-password-new').classList.add('hidden');
+        document.getElementById('change-password').classList.add('hidden');
+    }, []);
+    const handleSubmitChangePasswordOld = useCallback(async (passwordOld, username) => {
+        let data = JSON.stringify({
+            username: username,
+            password: passwordOld,
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: '/api/v1/auth/check',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: data,
+        };
+        const response = await axios.request(config);
+        if (response.data) {
+            document.getElementById('change-password-new').classList.remove('hidden');
+        } else {
+            notifyErrorPassword();
+        }
+    }, []);
+    ////////////////////
+    const handleSubmitUpdatePhone = useCallback(async (phone) => {
+        try {
+            const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
+            const comfirmation = await signInWithPhoneNumber(auth, `+84${phone}`, recaptcha);
+            setComfirm(comfirmation);
+            notifyOTPSussess();
+            document.getElementById('verify-phone').classList.remove('hidden');
+        } catch {
+            notifyErrorGetOTPPhone();
+        }
+        document.getElementById('recaptcha').classList.add('hidden');
+    }, []);
+    ///////
+    const handleSubmitVerifyPhone = useCallback(async (otp, comfirm, phone, user) => {
+        addLoad();
+        try {
+            const data = await comfirm.confirm(otp);
+            if (data) {
+                notifyVerifySussess();
+                if (user.length != 0) {
+                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                    let config = {
+                        method: 'post',
+                        maxBodyLength: Infinity,
+                        url: `/user/addPhone/${phone}`,
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    };
+                    await axios
+                        .request(config)
+                        .then((res) => {
+                            if (res.status == 200) {
+                                notifyUpdateSussess();
+                                var newUser = user;
+                                newUser.phone = phone;
+                                dispatch(changeUser(newUser));
+                            } else {
+                                notifyErrorPhoneIsPresent();
+                            }
+                        })
+                        .catch((e) => notifyErrorPhoneIsPresent());
+                }
+            }
+        } catch {
+            notifyErrorIsNotVerify();
+        }
+        document.getElementById('verify-phone').classList.add('hidden');
+        document.getElementById('update-phone').classList.add('hidden');
+        removeLoad();
+    }, []);
+    const handleUpdatePhone = useCallback(() => {
+        document.getElementById('update-phone').classList.remove('hidden');
+    }, []);
+    const handleChangePassword = useCallback(() => {
+        document.getElementById('change-password').classList.remove('hidden');
+    }, []);
     useEffect(() => {
-        if (roleState == 'guest') {
+        if (sessionStorage.getItem('USER') == null) {
             window.location = '/login';
         }
     }, []);
@@ -71,11 +198,7 @@ export default function PageInfoUser() {
                     <span>
                         <label>Ảnh đại diện:</label>
                         <div class="avatar-view">
-                            <img
-                                src="https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png"
-                                alt="avatar"
-                                class="default"
-                            />
+                            <img src={user.image} alt="avatar" class="default" />
                             <div class="edit">
                                 <img
                                     src="https://frontend.tikicdn.com/_desktop-next/static/img/account/edit.png"
@@ -113,7 +236,52 @@ export default function PageInfoUser() {
                             &nbsp; Số điện thoại:
                         </div>
                         <div>{getPhoneUser(user)}</div>
-                        <button>Cập nhật</button>
+                        <span id="update-phone" className="hidden">
+                            <input
+                                value={phone}
+                                placeholder="Nhập số điện thoại"
+                                type="number"
+                                onChange={(e) => {
+                                    setPhone(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitUpdatePhone(phone)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+                        <div id="recaptcha"></div>
+                        <span id="verify-phone" className="hidden">
+                            <input
+                                value={otp}
+                                placeholder="Nhập OTP"
+                                type="number"
+                                onChange={(e) => {
+                                    setOtp(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitVerifyPhone(otp, comfirm, phone, user)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+                        <button onClick={handleUpdatePhone}>Cập nhật</button>
                     </div>
                     <div className="password-info-user">
                         <div>
@@ -130,7 +298,52 @@ export default function PageInfoUser() {
                             </svg>
                             &nbsp; Mật khẩu
                         </div>
-                        <button>Cập nhật</button>
+                        <span id="change-password" className="hidden">
+                            <input
+                                value={passwordOld}
+                                placeholder="Nhập mật khẩu cũ"
+                                type="password"
+                                onChange={(e) => {
+                                    setPasswordOld(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitChangePasswordOld(passwordOld, user.username)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+                        <span id="change-password-new" className="hidden">
+                            <input
+                                value={password}
+                                placeholder="Nhập mật khẩu mới"
+                                type="password"
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                            ></input>
+                            &nbsp; &nbsp;
+                            <svg
+                                onClick={() => handleSubmitChangePassword(password, user.username)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </span>
+
+                        <button onClick={handleChangePassword}>Thay đổi</button>
                     </div>
                 </div>
             </div>

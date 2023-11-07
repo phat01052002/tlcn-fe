@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-router-dom';
-import { AlertAddPhone, AlertDontHaveInfo, AlertLoginFalse } from '../components/Alert/Alert';
+import { AlertDontHaveInfo, AlertLoginFalse } from '../components/Alert/Alert';
 import NotificationInPage from '../components/NotificationInPage/NotificationInPage';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_GRANT_TYPE, GOOGLE_REDIRECT_URI } from '../Contants/Contants';
-import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, useStore } from '../Store';
+import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, removeAllSession, useStore } from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
     var gmailCode = '';
@@ -35,7 +35,7 @@ export default function PageLogin() {
 
                 const response = await axios.request(config);
                 //save access token to sessionStorage
-                await sessionStorage.setItem('gmailAccesstoken', JSON.stringify(response.data.access_token));
+                sessionStorage.setItem('gmailAccesstoken', JSON.stringify(response.data.access_token));
                 if (sessionStorage.getItem('gmailAccesstoken')) {
                     let config = {
                         method: 'get',
@@ -47,7 +47,7 @@ export default function PageLogin() {
                     };
                     const response = await axios.request(config);
                     //save gmail to sessionStorage
-                    await sessionStorage.setItem('gmail', JSON.stringify(response.data));
+                    sessionStorage.setItem('gmail', JSON.stringify(response.data));
                     if (sessionStorage.getItem('gmail')) {
                         let data = JSON.stringify({
                             username: `${JSON.parse(sessionStorage.getItem('gmail')).email}`,
@@ -63,9 +63,9 @@ export default function PageLogin() {
                             },
                             data: data,
                         };
-                        await axios.request(config).then(async(res) => {
-                            await sessionStorage.removeItem('gmail');
-                            await sessionStorage.removeItem('gmailAccesstoken');
+                        sessionStorage.removeItem('gmail');
+                        sessionStorage.removeItem('gmailAccesstoken');
+                        await axios.request(config).then(async (res) => {
                             if (res.status == 200) {
                                 //save access token to sessionStorage
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
@@ -79,7 +79,11 @@ export default function PageLogin() {
                                 sessionStorage.removeItem('gmail');
                                 sessionStorage.removeItem('gmailAccesstoken');
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
-                                AlertAddPhone();
+                                if (sessionStorage.getItem('checkout')) {
+                                    window.location = '/checkout';
+                                } else {
+                                    window.location = '/';
+                                }
                             } else {
                                 window.location = '/';
                             }
@@ -92,9 +96,10 @@ export default function PageLogin() {
         }
     }, []);
     ////////
-    useEffect(()=>{
-        getGmail()
-    },[])
+    useEffect(() => {
+        removeAllSession();
+        getGmail();
+    }, []);
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
         window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
@@ -168,7 +173,7 @@ export default function PageLogin() {
                             <button onClick={handleClickLogin}>Đăng Nhập</button>
                         </div>
                         <div className="forgot-password-link login-link">
-                            <a href="/">Quên mật khẩu</a>
+                            <a href="/ForgotPassword">Quên mật khẩu</a>
                         </div>
                         <div className="btn-login-gmail">
                             <button className="btn-login" onClick={handleClickBtnLoginGmail}>

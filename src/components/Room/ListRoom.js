@@ -16,7 +16,7 @@ export default function ListRoom() {
     return (
         <div className="listroom">
             {listRoom.map((room) => (
-                <Room room={room}/>
+                <Room key={room.roomId} room={room}/>
             ))}
         </div>
     );

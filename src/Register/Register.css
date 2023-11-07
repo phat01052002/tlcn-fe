@@ -12,7 +12,7 @@
 .form-register {
     top: 50px;
     transform: translateX(55%);
-    height: 400px;
+    height: 500px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: white;
     border-radius: 10px;
@@ -99,4 +99,41 @@ input[type='number']::-webkit-outer-spin-button {
         width: 90% !important;
         transform: translateX(5%);
     }
+}
+
+.input-phone-register{
+    position: relative;
+}
+.input-phone-register button{
+    position: absolute;
+    top: 3%;
+    right: 20%;
+    width: 50px;
+    height: 50px;
+    font-size: 0.75rem;
+    border: 1px solid #dfdfe2;
+    border-radius: 50%;
+    background-color: gray;
+}
+.input-phone-verify{
+    position: relative;
+}
+.input-phone-verify button{
+    position: absolute;
+    top: 6%;
+    right: 20%;
+    width: 50px;
+    height: 50px;
+    font-size: 0.75rem;
+    border: 1px solid #dfdfe2;
+    border-radius: 50%;
+    background-color: gray;
+}
+#phone-verify{
+    margin-top: 0.5rem !important;
+}
+#recaptcha{
+    display: flex;
+    justify-content: center;
+    margin-top: 0.25rem;
 }

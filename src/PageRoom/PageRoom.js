@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
 import Header from '../components/Header/Header';
+import { addLoad, removeLoad } from '../Store';
 import './PageRoom.css';
 
 export default function PageRoom() {
@@ -11,48 +12,58 @@ export default function PageRoom() {
     const [room, setRoom] = useState([]);
     const [sort, setSort] = useState(1);
     //
-    const handleClickNormal = useCallback((sort) => {
+    const handleClickNormal = useCallback(async (sort) => {
         if (sort != 1) {
+            addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
-            axios
+            await axios
                 .get(`/guest/room/products/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(1);
             document.getElementById('sort1-cate').classList.add('border-bottom-current');
+            removeLoad();
         }
     });
-    const handleClickSale = useCallback((sort) => {
+    const handleClickSale = useCallback(async (sort) => {
         if (sort != 2) {
+            addLoad();
+
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
-            axios
+            await axios
                 .get(`/guest/ProductSaleByRoom/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(2);
             document.getElementById('sort2-cate').classList.add('border-bottom-current');
+            removeLoad();
         }
     });
-    const handleClickDesc = useCallback((sort) => {
+    const handleClickDesc = useCallback(async (sort) => {
         if (sort != 4) {
+            addLoad();
+
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
-            axios
+            await axios
                 .get(`/guest/ProductDescByRoom/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(4);
             document.getElementById('sort4-cate').classList.add('border-bottom-current');
+            removeLoad();
         }
     });
-    const handleClickAsc = useCallback((sort) => {
+    const handleClickAsc = useCallback(async (sort) => {
         if (sort != 3) {
+            addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
-            axios
+            await axios
                 .get(`/guest/ProductAscByRoom/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(3);
             document.getElementById('sort3-cate').classList.add('border-bottom-current');
+            removeLoad();
         }
     });
     //api call first

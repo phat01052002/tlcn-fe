@@ -2,31 +2,40 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './Header.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ListSearch from '../Search/ListSearch';
-import PageCart from '../Cart/Cart';
+import NavLeftCart from '../NavLeft/NavLeftCart';
 import ListCategory from '../Category/ListCategory';
 import axios from 'axios';
 import ListRoom from '../Room/ListRoom';
-import NotificationInPage from '../NotificationInPage/NotificationInPage';
+import NotificationInPage, { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
+import { Bars } from 'react-loader-spinner';
 import {
     changeCheckToFalse,
+    changeListFavorite,
     changeNumberCart,
+    changeNumberFavorite,
     changePriceAll,
     changeRole,
     changeUser,
     getNumber,
-    removeAllSession,
+    handleClickNavLeftCart,
+    handleClickNavLeftFavorite,
+    handleClickNavLeftNotify,
     useStore,
 } from '../../Store';
 import { AlertLogout } from '../Alert/Alert';
 import { useNavigate } from 'react-router-dom';
+import NavLeftFavorite from '../NavLeft/NavLeftFavorite';
+import NavLeftNotify from '../NavLeft/NavLeftNotify';
 
 export default function Header() {
+    //remove recatpcha
+    localStorage.removeItem('_grecaptcha');
     const nav = useNavigate();
     //number product in cart
     const [globalState, dispatch] = useStore();
-    const { numberCart, roleState, user } = globalState; //numberCart is state get from Store
+    const { numberCart, roleState, user, numberFavorite, numberNotify, listFavorite, listNotify } = globalState; //numberCart is state get from Store
     //list product in cart
-    const [listProduct, setListProduct] = useState([]);
+    const [listProductCart, setListProductCart] = useState([]);
     ///
     const [inputSearch, setInputSearch] = useState('');
     //input search onChange
@@ -68,28 +77,57 @@ export default function Header() {
     }, []);
     //handleClickInfoUser
     const handleClickInfoUser = useCallback(() => {
-        nav('/infoUser')
-    },[]);
+        nav('/infoUser');
+    }, []);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
-        removeAllSession();
-        dispatch(changeRole('guest'));
-        window.location = '/login';
+        try {
+            sessionStorage.removeItem('checkout');
+            dispatch(changeRole('guest'));
+            window.location = '/login';
+        } catch {
+            window.location = '/login';
+        }
     }, []);
     const handleClickLogout = useCallback(() => {
         AlertLogout(logOut);
     });
     //function to set list product in cart
     const setListProductInCart = useCallback(async () => {
-        await setListProduct([]);
+        await setListProductCart([]);
         for (let i = 0; i < localStorage.length; i++) {
-            setListProduct((prev) => [localStorage.key(i), ...prev]);
+            setListProductCart((prev) => [localStorage.key(i), ...prev]);
         }
     }, []);
     //reload pagecart
     const reloadPageCart = useCallback(() => {
         setListProductInCart();
     }, []);
+    //get favorite by user
+    const getFavorite = (user) => {
+        try {
+            if (user.length != 0) {
+                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: `/user/favoriteByUser/${user.userId}`,
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                axios
+                    .request(config)
+                    .then((res) => {
+                        dispatch(changeNumberFavorite(res.data.length));
+                        dispatch(changeListFavorite(res.data));
+                    })
+                    .catch();
+            }
+        } catch {
+            window.location = '/login';
+        }
+    };
     //get username (if state is user or admin)
     const getUserName = () => {
         try {
@@ -112,29 +150,28 @@ export default function Header() {
     const handleClickCart = useCallback(() => {
         ////
         reloadPageCart();
-        /////
-        const pageCart = document.getElementById('page-cart');
-        ////
-        pageCart.classList.add('page-cart-visible');
-        document.body.style.pointerEvents = 'none';
-        ////
-        const overCart = document.getElementById('over-cart');
-        ////
-        pageCart.style.pointerEvents = 'auto';
-        overCart.style.visibility = 'visible';
-        overCart.style.pointerEvents = 'auto';
-        overCart.addEventListener('click', () => {
-            pageCart.classList.remove('page-cart-visible');
-            overCart.style.visibility = 'hidden';
-            document.body.style.pointerEvents = 'auto';
-            dispatch(changePriceAll(0));
-            changeCheckToFalse();
-            dispatch(changeNumberCart(getNumber()));
-        });
-        pageCart.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    });
+        //
+        handleClickNavLeftCart();
+        dispatch(changePriceAll(0));
+        changeCheckToFalse();
+        dispatch(changeNumberCart(getNumber()));
+    }, []);
+    //Click favorite
+    const handleClickFavorite = useCallback((roleState, user) => {
+        if (roleState == 'user') {
+            handleClickNavLeftFavorite();
+        } else {
+            notifyWarningPleaseLogin();
+        }
+    }, []);
+    //Click notify
+    const handleClickNotify = useCallback((roleState) => {
+        if (roleState == 'user') {
+            handleClickNavLeftNotify();
+        } else {
+            notifyWarningPleaseLogin();
+        }
+    }, []);
     //////////////////
     //check authenticate
     //check admin fist
@@ -150,7 +187,7 @@ export default function Header() {
                 },
             };
 
-            const request = await axios.request(config);
+            const request = await axios.request(config).catch();
             dispatch(changeRole('admin'));
             window.location = '/admin';
         } catch {}
@@ -166,7 +203,6 @@ export default function Header() {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-
             const request = await axios.request(config);
             dispatch(changeRole('user'));
         } catch {}
@@ -183,6 +219,9 @@ export default function Header() {
             getUserName();
         }
     }, [roleState]);
+    useEffect(() => {
+        getFavorite(user);
+    }, [user]);
     ///icon user return
     const iconUser = () => {
         if (user && roleState === 'user') {
@@ -242,7 +281,7 @@ export default function Header() {
                 </div>
                 <div className="col-lg-6 support-header"></div>
                 <div className="row col-lg-2 icon">
-                    <div className="col-lg-4 col-3 notification">
+                    <div className="col-lg-4 col-3 notification" onClick={() => handleClickNotify(roleState)}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
@@ -253,8 +292,9 @@ export default function Header() {
                         >
                             <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" />
                         </svg>
+                        <label>{numberNotify == 0 ? null : numberNotify}</label>
                     </div>
-                    <div className="col-lg-4 col-6 heart">
+                    <div className="col-lg-4 col-6 heart" onClick={() => handleClickFavorite(roleState, user)}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="17"
@@ -268,6 +308,7 @@ export default function Header() {
                                 d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
                             />
                         </svg>
+                        <label>{numberFavorite == 0 ? null : numberFavorite}</label>
                     </div>
                     <div className="col-lg-4 col-3 cart " onClick={handleClickCart}>
                         <svg
@@ -280,7 +321,7 @@ export default function Header() {
                         >
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
                         </svg>
-                        <label>{numberCart}</label>
+                        <label>{numberCart == 0 ? null : numberCart}</label>
                         &nbsp;
                     </div>
                 </div>
@@ -356,12 +397,34 @@ export default function Header() {
                 </div>
                 <div className="col-2 iconUser"> {iconUser()}</div>
             </div>
-            <div id="over-cart">
-                <div id="page-cart" className="page-cart-hidden">
-                    <PageCart listProduct={listProduct} />
+            <div id="over-navleft-cart">
+                <div id="page-navleft-cart" className="page-navleft-hidden">
+                    <NavLeftCart listProductCart={listProductCart} />
+                </div>
+            </div>
+            <div id="over-navleft-favorite">
+                <div id="page-navleft-favorite" className="page-navleft-hidden">
+                    <NavLeftFavorite listProductFavorite={listFavorite} />
+                </div>
+            </div>
+            <div id="over-navleft-notify">
+                <div id="page-navleft-notify" className="page-navleft-hidden">
+                    <NavLeftNotify listNotify={listNotify} />
                 </div>
             </div>
             <NotificationInPage />
+            <div id="loader-page"></div>
+            <div id="loader">
+                <Bars
+                    height="40"
+                    width="50"
+                    color="black"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />
+            </div>
         </div>
     );
 }

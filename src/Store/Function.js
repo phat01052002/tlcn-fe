@@ -1,3 +1,69 @@
+import SockJS from 'sockjs-client';
+
+const stompClient = null;
+export const handleClickNavLeftCart = () => {
+    /////
+    const pageCart = document.getElementById('page-navleft-cart');
+    ////
+    pageCart.classList.add('page-navleft-visible');
+    document.body.style.pointerEvents = 'none';
+    ////
+    const overCart = document.getElementById('over-navleft-cart');
+    ////
+    pageCart.style.pointerEvents = 'auto';
+    overCart.style.visibility = 'visible';
+    overCart.style.pointerEvents = 'auto';
+    overCart.addEventListener('click', () => {
+        pageCart.classList.remove('page-navleft-visible');
+        overCart.style.visibility = 'hidden';
+        document.body.style.pointerEvents = 'auto';
+    });
+    pageCart.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+};
+export const handleClickNavLeftFavorite = () => {
+    /////
+    const pageCart = document.getElementById('page-navleft-favorite');
+    ////
+    pageCart.classList.add('page-navleft-visible');
+    document.body.style.pointerEvents = 'none';
+    ////
+    const overCart = document.getElementById('over-navleft-favorite');
+    ////
+    pageCart.style.pointerEvents = 'auto';
+    overCart.style.visibility = 'visible';
+    overCart.style.pointerEvents = 'auto';
+    overCart.addEventListener('click', () => {
+        pageCart.classList.remove('page-navleft-visible');
+        overCart.style.visibility = 'hidden';
+        document.body.style.pointerEvents = 'auto';
+    });
+    pageCart.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+};
+export const handleClickNavLeftNotify = () => {
+    /////
+    const pageCart = document.getElementById('page-navleft-notify');
+    ////
+    pageCart.classList.add('page-navleft-visible');
+    document.body.style.pointerEvents = 'none';
+    ////
+    const overCart = document.getElementById('over-navleft-notify');
+    ////
+    pageCart.style.pointerEvents = 'auto';
+    overCart.style.visibility = 'visible';
+    overCart.style.pointerEvents = 'auto';
+    overCart.addEventListener('click', () => {
+        pageCart.classList.remove('page-navleft-visible');
+        overCart.style.visibility = 'hidden';
+        document.body.style.pointerEvents = 'auto';
+    });
+    pageCart.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+};
 //function to set number product in cart
 export const getNumber = () => {
     var number = 0;
@@ -46,10 +112,23 @@ export const getToCheckOut = () => {
 
 export const removeAllSession = () => {
     sessionStorage.removeItem('USER');
-    sessionStorage.removeItem('checkout');
-    sessionStorage.removeItem('totalPrice');
 };
 
 export const handleClickBack = () => {
     window.location = '/';
 };
+
+export const addLoad = () => {
+    document.getElementById('loader-page').classList.add('display-flex');
+    document.getElementById('loader').classList.add('display-flex');
+    document.body.style.pointerEvents = 'none';
+};
+
+export const removeLoad = () => {
+    setTimeout(() => {
+        document.getElementById('loader-page').classList.remove('display-flex');
+        document.getElementById('loader').classList.remove('display-flex');
+        document.body.style.pointerEvents = 'auto';
+    }, 500);
+};
+

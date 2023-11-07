@@ -44,53 +44,32 @@ export const AlertPleaseLogin = () => {
     });
 };
 
-export const AlertAddPhone = () => {
+export const AlertChangeToPageInfoUser = () => {
     Swal.fire({
-        title: 'Thêm số điện thoại cho lần đầu đăng nhập',
-        input: 'number',
-        inputAttributes: {
-            autocapitalize: 'off',
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: `Để sau`,
-        showLoaderOnConfirm: true,
-        allowOutsideClick: () => {},
+        title: 'Chuyển tới trang cá nhân để chỉnh sửa ?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
     }).then((result) => {
-        if (result.isConfirmed && result.value) {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            var config = {
-                method: 'post',
-                url: `/user/addPhone/${result.value}`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            axios
-                .request(config)
-                .then((response) => {
-                    if (response.status == 204) {
-                        notifyErrorPhoneIsPresent();
-                        AlertAddPhone();
-                    } else {
-                        window.location = '/';
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        } else {
-            window.location = '/';
+        if (result.isConfirmed) {
+            window.location = '/infoUser';
+        } else if (result.isDenied) {
         }
     });
 };
+
 export const AlertAccountIsPresent = () => {
     Swal.fire({
         title: 'Số điện thoại đã tồn tại',
         confirmButtonText: 'Ok',
     });
 };
-
+export const AlertPhoneNotExist = () => {
+    Swal.fire({
+        title: 'Chưa có tài khoản đăng kí bằng SĐT này',
+        confirmButtonText: 'Ok',
+    });
+};
 export const AlertVerifyPhone = (verifyPhone) => {
     Swal.fire({
         title: 'Nhập mã được gửi về điện thoại của bạn',

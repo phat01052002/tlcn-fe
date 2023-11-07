@@ -13,7 +13,7 @@ export default function ListBestSellerProduct() {
     return (
         <div>
             {listProductBestSeller.map((product) => (
-                <Product product={product} type={"hot"}/>           
+                <Product key={product.productId} product={product} type={"hot"}/>           
             ))}
         </div>
     );
