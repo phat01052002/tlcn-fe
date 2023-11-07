@@ -7,12 +7,15 @@ import {
     notifyErrorCantOrder,
     notifyErrorLeakDelivery,
     notifyErrorLeakPaymentMethod,
+    notifyErrorLeakProductOrder,
     notifySuccessOrder,
     notifyUpdateSussess,
     notifyWarningUpdateInfoUser,
 } from '../components/NotificationInPage/NotificationInPage';
 import {
     addLoad,
+    changeListCountProductCheckOut,
+    changeListProductCheckOut,
     changeNumberCart,
     changeRole,
     changeTotalPrice,
@@ -24,10 +27,10 @@ import {
 } from '../Store';
 import './CheckOut.css';
 import ListProductCheckOut from './ListProductCheckOut';
-export default function CheckOut() {
+export default function CheckOut({ paid = null }) {
     //constant price of delivery,contructor is 0 for delivery (giao hàng tiết kiệm)
     const [priceDelivery, setPriceDelivery] = useState(null);
-    const [paymentMethod, setPaymentMethod] = useState(null);
+    const [paymentMethod, setPaymentMethod] = useState(paid);
     const [globalState, dispatch] = useStore();
     const { roleState, listProductCheckOut, listCountProductCheckOut, totalPrice, user } = globalState;
     const handleEnterInputAddress = useCallback((e, user) => {
@@ -96,7 +99,7 @@ export default function CheckOut() {
                 notifyErrorLeakDelivery();
                 return;
             }
-            if (user.length != 0) {
+            if (user.length != 0 && listProductCheckOut.length != 0) {
                 try {
                     addLoad();
                     let nowDelivery = priceDelivery != 0 ? true : false;
@@ -122,11 +125,16 @@ export default function CheckOut() {
                         localStorage.removeItem(productId);
                         dispatch(changeNumberCart(getNumber()));
                     });
+                    dispatch(changeListProductCheckOut([]));
+                    dispatch(changeListCountProductCheckOut([]));
+                    sessionStorage.removeItem('checkout');
                     removeLoad();
                     notifySuccessOrder();
                 } catch {
                     notifyErrorCantOrder();
                 }
+            }else{
+                notifyErrorLeakProductOrder();
             }
         },
         [],

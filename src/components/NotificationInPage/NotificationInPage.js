@@ -22,6 +22,8 @@ export const notifyErrorLeakDelivery = () => toast.error('Thiếu phương thứ
 export const notifyErrorLeakPaymentMethod = () => toast.error('Thiếu phương thức thanh toán');
 export const notifyErrorCantOrder = () => toast.error('Không thể đặt hàng');
 export const notifySuccessOrder = () => toast.success(`Đặt hàng thành công`);
+export const notifyErrorLeakProductOrder = () => toast.error('Không có sản phẩm lựa chọn');
+
 
 export default function NotificationInPage() {
     return (
