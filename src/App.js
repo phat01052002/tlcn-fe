@@ -11,6 +11,11 @@ import PageRoom from './PageRoom/PageRoom';
 import CheckOut from './PageCheckOut/CheckOut';
 import PageInfoUser from './PageInfoUser/PageInfoUser';
 import ForgotPasswordPage from './ForgotPasswordPage/ForgotPasswordPage';
+import Dashboard from './Admin/Scenes/Dashboard';
+import ProductAdmin from './Admin/Pages/ProductAdmin/ProductAdmin';
+import UserAdmin from './Admin/Pages/UsersAdmin/UserAdmin';
+import CategoryAdmin from './Admin/Pages/CategoryAdmin/CategoryAdmin';
+import EditProduct from './Admin/Pages/ProductAdmin/EditProduct';
 function App() {
   return(
     <BrowserRouter> 
@@ -19,6 +24,10 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/admin"  element={<PageAdmin/>}> </Route>
+        <Route path="/admin/products"  element={<ProductAdmin/>}> </Route>
+        <Route path="/admin/categories"  element={<CategoryAdmin/>}> </Route>
+        <Route path="/admin/users"  element={<UserAdmin/>}> </Route>
+        <Route path="/admin/users/edit/:id"  element={<EditProduct/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/login"  element={<PageLogin/>}> </Route>
