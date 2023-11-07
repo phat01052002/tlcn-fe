@@ -3,8 +3,6 @@ import Header from '../components/Header/Header';
 import './css/HomePage.css';
 import Banner from '../components/Banner/Banner';
 import ListBestSellerProduct from './ListBestSellerProduct';
-import axios from 'axios';
-import { changeRole, useStore } from '../Store';
 import ListCategoryRow from '../components/CategoryHomepage/ListCategoryRow';
 export default function HomePage() {
     return (

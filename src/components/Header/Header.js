@@ -146,6 +146,10 @@ export default function Header() {
             window.location = '/login';
         }
     };
+    //click order
+    const handleClickOrder = useCallback(() => {
+        window.location = '/order';
+    }, []);
     //Click cart
     const handleClickCart = useCallback(() => {
         ////
@@ -230,7 +234,7 @@ export default function Header() {
                     <label>{user.name}</label>
                     <div id="user-nav" className="user-nav-hidden">
                         <label onClickCapture={handleClickInfoUser}>Tài khoản</label>
-                        <label>Đơn hàng</label>
+                        <label onClickCapture={handleClickOrder}>Đơn hàng</label>
                         <label onClick={handleClickLogout}>Đăng xuất</label>
                     </div>
                 </div>

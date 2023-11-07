@@ -91,6 +91,12 @@ export default function CheckOut() {
     const handleClickUpdatePhone = useCallback(() => {
         AlertChangeToPageInfoUser();
     }, []);
+    //remove product when checkout success
+    const removeProduct = (listProductCheckOut) => {
+        listProductCheckOut.map((productId, index) => {
+            localStorage.removeItem(productId);
+        });
+    };
     //pay-checkout
     const handleClickPayCheckout = useCallback(
         async (paymentMethod, priceDelivery, user, listProductCheckOut, listCountProductCheckOut) => {
@@ -132,7 +138,11 @@ export default function CheckOut() {
                             },
                             data: data,
                         };
-                        await axios.request(config).then((res) => (window.location = res.data));
+
+                        await axios.request(config).then((res) => {
+                            removeProduct(listProductCheckOut);
+                            window.location = res.data;
+                        });
                         removeLoad();
                     } else {
                         if (paidParams.state != undefined) {
@@ -179,13 +189,13 @@ export default function CheckOut() {
     );
     //
     useEffect(() => {
-        dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
-        checkUser();
+        if (paidParams.state == undefined) {
+            dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
+            checkUser();
+        }
         if (paidParams.state == 'success') {
+            notifySuccessOrder();
             setTimeout(() => {
-                dispatch(changeNumberCart(getNumber()));
-                dispatch(changeListProductCheckOut([]));
-                dispatch(changeListCountProductCheckOut([]));
                 sessionStorage.removeItem('checkout');
                 window.location = '/';
             }, 3000);

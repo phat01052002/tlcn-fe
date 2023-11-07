@@ -16,6 +16,7 @@ import ProductAdmin from './Admin/Pages/ProductAdmin/ProductAdmin';
 import UserAdmin from './Admin/Pages/UsersAdmin/UserAdmin';
 import CategoryAdmin from './Admin/Pages/CategoryAdmin/CategoryAdmin';
 import EditProduct from './Admin/Pages/ProductAdmin/EditProduct';
+import PageOrder from './PageOrder/PageOrder';
 function App() {
   return(
     <BrowserRouter> 
@@ -34,6 +35,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/checkout/:state"  element={<CheckOut/>}> </Route>
+      </Routes>
+      <Routes>
+        <Route path="/order/"  element={<PageOrder/>}> </Route>
       </Routes>
       <Routes>
         <Route path="/register"  element={<Register/>}> </Route>
