@@ -33,6 +33,9 @@ function App() {
         <Route path="/login"  element={<PageLogin/>}> </Route>
       </Routes>
       <Routes>
+        <Route path="/checkout/:state"  element={<CheckOut/>}> </Route>
+      </Routes>
+      <Routes>
         <Route path="/register"  element={<Register/>}> </Route>
       </Routes>
       <Routes>
