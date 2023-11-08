@@ -26,6 +26,7 @@ import { AlertLogout } from '../Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import NavLeftFavorite from '../NavLeft/NavLeftFavorite';
 import NavLeftNotify from '../NavLeft/NavLeftNotify';
+import ChatMessage from '../ChatMessage/ChatMessage';
 
 export default function Header() {
     //remove recatpcha
@@ -429,6 +430,7 @@ export default function Header() {
                     visible={true}
                 />
             </div>
+            <ChatMessage />
         </div>
     );
 }

@@ -211,9 +211,10 @@
 .list-product-checkout {
     height: 610px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 2px;
 }
 .btn-update {
     background-color: black;
