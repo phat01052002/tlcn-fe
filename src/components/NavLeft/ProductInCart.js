@@ -31,10 +31,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
             url: `/guest/product/${productId}`,
             headers: {},
         };
-        axios
-            .request(config)
-            .then((res) => setProduct(res.data))
-            .then((err) => console.log(err));
+        axios.request(config).then((res) => setProduct(res.data));
         document.querySelectorAll('.price-incart').forEach((element) => {
             element.style.pointerEvents = 'none';
         });

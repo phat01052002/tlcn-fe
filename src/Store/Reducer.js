@@ -29,6 +29,9 @@ const initState = {
     totalPrice: 0,
     user: [],
     productUnlike: [],
+    listNotifyCation: [],
+    numberNotifyCation: 0,
+    numberMessage: 0,
 };
 function Reducer(state, action) {
     switch (action.type) {

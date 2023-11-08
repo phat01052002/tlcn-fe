@@ -430,7 +430,7 @@ export default function Header() {
                     visible={true}
                 />
             </div>
-            <ChatMessage />
+            <ChatMessage role={'user'} />
         </div>
     );
 }

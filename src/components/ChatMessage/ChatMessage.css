@@ -69,3 +69,15 @@
     padding: 0.75rem 0.5rem;
 
 }
+
+.right{
+    text-align: end;
+}
+.chat-item-nickname{
+    font-weight: bold;
+}
+.chat-item-content label{
+    padding: 0.25rem 1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+}

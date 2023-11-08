@@ -4,10 +4,10 @@ import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import ItemChat from './ItemChat';
+import ItemChat from './ItemChatClient';
 import { useCallback } from 'react';
 
-export default function ContentChat() {
+export default function ContentChat({ role }) {
     //
     var timeConnect = 0;
     const [globalState, dispatch] = useStore();
@@ -21,27 +21,39 @@ export default function ContentChat() {
                 const socket = new SockJS('http://localhost:8000/guest/ws');
                 const client = Stomp.over(socket);
                 client.connect({}, () => {
-                    client.subscribe('/topic/messages', (message) => {
+                    client.subscribe(`/topic/messages/${role == 'user' ? 'AdminToUser' : 'UserToAdmin'}`, (message) => {
                         const receivedMessage = JSON.parse(message.body);
-                        setMessages((prev) => (prev.includes(receivedMessage) ? prev : [...prev, receivedMessage]));
+                        setMessages((prev) => [...prev, receivedMessage]);
                     });
                 });
                 setStompClient(client);
                 return () => {
                     client.disconnect();
                 };
-            }, 3000);
+            }, 1);
             timeConnect += 1;
         }
     }, []);
     //
+    const sendMessageEnter = (e) => {
+        var keycode = e.keyCode ? e.keyCode : e.which;
+        if (keycode == '13') {
+            sendMessage();
+        }
+    };
+    //
     const sendMessage = async () => {
         if (message.trim() && message != '') {
             const chatMessage = {
-                nickname: user.name == undefined ? 'guest' : user.name,
+                nickname: role == 'user' ? user.name : 'Admin',
                 content: message,
             };
-            await stompClient.send('/app/chat', {}, JSON.stringify(chatMessage));
+            await stompClient.send(
+                `/app/chat/${role == 'user' ? 'UserToAdmin' : 'AdminToUser'}`,
+                {},
+                JSON.stringify(chatMessage),
+            );
+            setMessages((prev) => [...prev, chatMessage]);
             setMessage('');
         }
     };
@@ -50,11 +62,16 @@ export default function ContentChat() {
             <div className="tittle">Trò chuyện</div>
             <div className="chat-body">
                 {messages.map((message, index) => (
-                    <ItemChat key={index} message={message} user={user} />
+                    <ItemChat key={index} message={message} user={user} role={role}/>
                 ))}
             </div>
             <span className="input-message">
-                <input placeholder="Nhập gì đó" value={message} onChange={(e) => setMessage(e.target.value)}></input>
+                <input
+                    placeholder="Nhập gì đó"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={sendMessageEnter}
+                ></input>
                 <svg
                     onClickCapture={sendMessage}
                     xmlns="http://www.w3.org/2000/svg"

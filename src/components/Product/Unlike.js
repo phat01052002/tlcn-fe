@@ -27,7 +27,6 @@ export default function Unlike({ product, setProductCurrent }) {
                         var productUnlikeNew = productUnlike.filter((productFilter) => {
                             return productFilter != product.productId;
                         });
-                        console.log(productUnlikeNew);
                         dispatch(changeProductUnlike(productUnlikeNew));
                     })
                     .catch();

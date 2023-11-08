@@ -79,6 +79,7 @@ export default function PageRoom() {
     };
     useEffect(() => {
         getData();
+        document.getElementById('sort1-cate').classList.add('border-bottom-current');
     }, []);
     return (
         <div>
