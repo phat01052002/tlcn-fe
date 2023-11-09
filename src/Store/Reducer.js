@@ -1,11 +1,15 @@
 import ListProductCheckOut from '../PageCheckOut/ListProductCheckOut';
 import {
+    CHANGE_CLIENTSTOMP,
     CHANGE_LIST_COUNT_PRODUCT_CHECKOUT,
     CHANGE_LIST_FAVORITE,
     CHANGE_LIST_NOTIFY,
     CHANGE_LIST_PRODUCT_CHECKOUT,
+    CHANGE_MESSAGES,
     CHANGE_NUMBER_CART,
     CHANGE_NUMBER_FAVORITE,
+    CHANGE_NUMBER_MESSAGES,
+    CHANGE_NUMBER_MESSAGES_To_0,
     CHANGE_NUMBER_NOTIFY,
     CHANGE_PRICE_ALL,
     CHANGE_PRODUCT_UNLIKE,
@@ -29,9 +33,9 @@ const initState = {
     totalPrice: 0,
     user: [],
     productUnlike: [],
-    listNotifyCation: [],
-    numberNotifyCation: 0,
-    numberMessage: 0,
+    messages: [],
+    numberMessages: 0,
+    clientStomp: null,
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -63,6 +67,14 @@ function Reducer(state, action) {
             return { ...state, listNotify: action.payload };
         case CHANGE_PRODUCT_UNLIKE:
             return { ...state, productUnlike: action.payload };
+        case CHANGE_MESSAGES:
+            return { ...state, messages: [...state.messages, action.payload] };
+        case CHANGE_NUMBER_MESSAGES:
+            return { ...state, numberMessages: state.numberMessages + action.payload };
+        case CHANGE_NUMBER_MESSAGES_To_0:
+            return { ...state, numberMessages: 0 };
+        case CHANGE_CLIENTSTOMP:
+            return { ...state, clientStomp: action.payload };
         default:
             throw new Error('');
     }

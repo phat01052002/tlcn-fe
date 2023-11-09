@@ -8,7 +8,7 @@ import Like from './Like';
 import ProductHot from './ProductHot';
 import ProductSale from './ProductSale';
 import Unlike from './Unlike';
-export default function Product({product, type }) {
+export default function Product({ product, type }) {
     /////
     const [globalState, dispatch] = useStore();
     ///////
@@ -46,9 +46,7 @@ export default function Product({product, type }) {
     }, []);
     //handle click product
     const handleClickProduct = useCallback((productId) => {
-        var nav = `/productdetail/${productId}`;
-        naviga(nav);
-        window.location.reload();
+        naviga(`/productdetail/${productId}`);
     }, []);
     const addType = () => {
         if (type == 'hot') return <ProductHot />;

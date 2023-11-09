@@ -76,7 +76,7 @@ export default function PageCategory() {
     useEffect(() => {
         getData();
         document.getElementById('sort1-cate').classList.add('border-bottom-current');
-    }, []);
+    }, [categoryId]);
     return (
         <div>
             <Header />

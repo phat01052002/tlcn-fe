@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import './Header.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ListSearch from '../Search/ListSearch';
@@ -27,8 +27,11 @@ import { useNavigate } from 'react-router-dom';
 import NavLeftFavorite from '../NavLeft/NavLeftFavorite';
 import NavLeftNotify from '../NavLeft/NavLeftNotify';
 import ChatMessage from '../ChatMessage/ChatMessage';
+import { useLayoutEffect } from 'react';
 
 export default function Header() {
+    //
+    var timeRender = 0;
     //remove recatpcha
     localStorage.removeItem('_grecaptcha');
     const nav = useNavigate();
@@ -78,7 +81,7 @@ export default function Header() {
     }, []);
     //handleClickInfoUser
     const handleClickInfoUser = useCallback(() => {
-        nav('/infoUser');
+        window.location = '/infoUser';
     }, []);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
@@ -156,7 +159,7 @@ export default function Header() {
         ////
         reloadPageCart();
         //
-        handleClickNavLeftCart();
+        handleClickNavLeftCart(dispatch, changeNumberCart);
         dispatch(changePriceAll(0));
         changeCheckToFalse();
         dispatch(changeNumberCart(getNumber()));
@@ -214,10 +217,12 @@ export default function Header() {
     };
     /// USE EFFECT
     useEffect(() => {
+        console.log('a');
         checkAdmin();
         checkUser();
         dispatch(changeNumberCart(getNumber()));
         changeCheckToFalse();
+        timeRender += 1;
     }, []);
     useEffect(() => {
         if (roleState == 'user') {
@@ -404,17 +409,23 @@ export default function Header() {
             </div>
             <div id="over-navleft-cart">
                 <div id="page-navleft-cart" className="page-navleft-hidden">
-                    <NavLeftCart listProductCart={listProductCart} />
+                    {useMemo(() => {
+                        <NavLeftCart listProductCart={listProductCart} />;
+                    }, [listProductCart])}
                 </div>
             </div>
             <div id="over-navleft-favorite">
                 <div id="page-navleft-favorite" className="page-navleft-hidden">
-                    <NavLeftFavorite listProductFavorite={listFavorite} />
+                    {useMemo(() => {
+                        <NavLeftFavorite listProductFavorite={listFavorite} />;
+                    }, [listFavorite])}
                 </div>
             </div>
             <div id="over-navleft-notify">
                 <div id="page-navleft-notify" className="page-navleft-hidden">
-                    <NavLeftNotify listNotify={listNotify} />
+                    {useMemo(() => {
+                        <NavLeftNotify listNotify={listNotify} />;
+                    }, [listNotify])}
                 </div>
             </div>
             <NotificationInPage />

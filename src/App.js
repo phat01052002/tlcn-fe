@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route,Routes,Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Link, Route, Routes, Switch } from 'react-router-dom';
 import PageLogin from './Login/PageLogin';
 import DesignPage from './Design/DesignPage';
 import PageCategory from './PageCategory/PageCategory';
@@ -18,53 +18,28 @@ import CategoryAdmin from './Admin/Pages/CategoryAdmin/CategoryAdmin';
 import EditProduct from './Admin/Pages/ProductAdmin/EditProduct';
 import PageOrder from './PageOrder/PageOrder';
 function App() {
-  return(
-    <BrowserRouter> 
-      <Routes>
-        <Route path="/"  element={<HomePage/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/admin"  element={<PageAdmin/>}> </Route>
-        <Route path="/admin/products"  element={<ProductAdmin/>}> </Route>
-        <Route path="/admin/categories"  element={<CategoryAdmin/>}> </Route>
-        <Route path="/admin/users"  element={<UserAdmin/>}> </Route>
-        <Route path="/admin/users/edit/:id"  element={<EditProduct/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/login"  element={<PageLogin/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/checkout/:state"  element={<CheckOut/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/order/"  element={<PageOrder/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/register"  element={<Register/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/ForgotPassword"  element={<ForgotPasswordPage/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/infoUser"  element={<PageInfoUser/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/checkout"  element={<CheckOut/>}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/design" exact element={<DesignPage/>}></Route>
-      </Routes>
-      <Routes>
-        <Route path="/category/:categoryId" element={<PageCategory/>}></Route>
-      </Routes>
-      <Routes>
-        <Route path="/productdetail/:productId" exact element={<PageProductDetail/>}></Route>
-      </Routes>
-      <Routes>
-        <Route path="/room/:roomId" exact element={<PageRoom/>}></Route>
-      </Routes>
-    </BrowserRouter>
-    
-  )
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<HomePage />}></Route>
+                <Route path="/checkout/:state" element={<CheckOut />}></Route>
+                <Route path="/order/" element={<PageOrder />}></Route>
+                <Route path="/infoUser" element={<PageInfoUser />}></Route>
+                <Route path="/checkout" element={<CheckOut />}></Route>
+                <Route path="/design" exact element={<DesignPage />}></Route>
+                <Route path="/category/:categoryId" element={<PageCategory />}></Route>
+                <Route path="/productdetail/:productId" exact element={<PageProductDetail />}></Route>
+                <Route path="/room/:roomId" element={<PageRoom/>}></Route>
+                <Route path="/login" element={<PageLogin />}></Route>
+                <Route path="/ForgotPassword" element={<ForgotPasswordPage />}></Route>
+                <Route path="/register" element={<Register />}></Route>
+                <Route path="/admin" element={<PageAdmin />}></Route>
+                <Route path="/admin/products" element={<ProductAdmin />}></Route>
+                <Route path="/admin/categories" element={<CategoryAdmin />}></Route>
+                <Route path="/admin/users" element={<UserAdmin />}></Route>
+                <Route path="/admin/users/edit/:id" element={<EditProduct />}></Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 export default App;

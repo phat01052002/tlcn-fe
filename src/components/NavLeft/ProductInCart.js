@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
-import { changeCheckToFalse, useStore } from '../../Store';
+import { changeCheckToFalse, changeNumberCart, getNumber, useStore } from '../../Store';
 import { AlertPleaseLogin } from '../Alert/Alert';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
@@ -73,6 +73,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     //when delete product incart,we setRender to false to not render
     const deleteItemProductIncart = useCallback(() => {
         setRender(false);
+        dispatch(changeNumberCart(getNumber()));
     }, []);
 
     //handle click pay(if state is guest must be login,admin cant not buy because cant redirect this)

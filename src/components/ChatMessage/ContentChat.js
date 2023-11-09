@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStore } from '../../Store';
+import { changeClientStomp, changeMessages, changeNumberMessages, useStore } from '../../Store';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 import { useState } from 'react';
@@ -9,31 +9,9 @@ import { useCallback } from 'react';
 
 export default function ContentChat({ role }) {
     //
-    var timeConnect = 0;
     const [globalState, dispatch] = useStore();
-    const { user } = globalState;
-    const [messages, setMessages] = useState([]);
+    const { user, messages, clientStomp } = globalState;
     const [message, setMessage] = useState('');
-    const [stompClient, setStompClient] = useState(null);
-    useEffect(() => {
-        if (timeConnect == 0) {
-            setTimeout(() => {
-                const socket = new SockJS('http://localhost:8000/guest/ws');
-                const client = Stomp.over(socket);
-                client.connect({}, () => {
-                    client.subscribe(`/topic/messages/${role == 'user' ? 'AdminToUser' : 'UserToAdmin'}`, (message) => {
-                        const receivedMessage = JSON.parse(message.body);
-                        setMessages((prev) => [...prev, receivedMessage]);
-                    });
-                });
-                setStompClient(client);
-                return () => {
-                    client.disconnect();
-                };
-            }, 1);
-            timeConnect += 1;
-        }
-    }, []);
     //
     const sendMessageEnter = (e) => {
         var keycode = e.keyCode ? e.keyCode : e.which;
@@ -48,12 +26,12 @@ export default function ContentChat({ role }) {
                 nickname: role == 'user' ? user.name : 'Admin',
                 content: message,
             };
-            await stompClient.send(
+            await clientStomp.send(
                 `/app/chat/${role == 'user' ? 'UserToAdmin' : 'AdminToUser'}`,
                 {},
                 JSON.stringify(chatMessage),
             );
-            setMessages((prev) => [...prev, chatMessage]);
+            dispatch(changeMessages(chatMessage));
             setMessage('');
         }
     };
@@ -62,7 +40,7 @@ export default function ContentChat({ role }) {
             <div className="tittle">Trò chuyện</div>
             <div className="chat-body">
                 {messages.map((message, index) => (
-                    <ItemChat key={index} message={message} user={user} role={role}/>
+                    <ItemChat key={index} message={message} user={user} role={role} />
                 ))}
             </div>
             <span className="input-message">

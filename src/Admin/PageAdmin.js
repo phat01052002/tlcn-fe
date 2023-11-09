@@ -11,7 +11,6 @@ import './PageAdmin.css';
 import ChatMessage from '../components/ChatMessage/ChatMessage';
 export default function PageAdmin() {
     const [theme, colorMode] = useMode();
-
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>

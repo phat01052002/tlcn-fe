@@ -1,7 +1,7 @@
 import SockJS from 'sockjs-client';
 
 const stompClient = null;
-export const handleClickNavLeftCart = () => {
+export const handleClickNavLeftCart = (dispatch, changeNumberCart) => {
     /////
     const pageCart = document.getElementById('page-navleft-cart');
     ////
@@ -17,6 +17,7 @@ export const handleClickNavLeftCart = () => {
         pageCart.classList.remove('page-navleft-visible');
         overCart.style.visibility = 'hidden';
         document.body.style.pointerEvents = 'auto';
+        dispatch(changeNumberCart(getNumber()));
     });
     pageCart.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -131,4 +132,3 @@ export const removeLoad = () => {
         document.body.style.pointerEvents = 'auto';
     }, 500);
 };
-

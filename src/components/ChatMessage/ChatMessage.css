@@ -81,3 +81,15 @@
     border: 1px solid gray;
     border-radius: 5px;
 }
+.number-mess{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background-color: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -10%;
+    right: -10%;
+}

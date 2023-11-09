@@ -1,27 +1,80 @@
 import React from 'react';
 import { useCallback } from 'react';
-import { useStore } from '../../Store';
+import Stomp from 'stompjs';
+import SockJS from 'sockjs-client';
+import {
+    changeClientStomp,
+    changeMessages,
+    changeNumberMessages,
+    changeNumberMessagesTo0,
+    useStore,
+} from '../../Store';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 import './ChatMessage.css';
 import ContentChat from './ContentChat';
+import { useEffect } from 'react';
 
 export default function ChatMessage({ role }) {
+    var timeConnect = 0;
     const [globalState, dispatch] = useStore();
-    const { user } = globalState;
-    const handleClickIconMess = useCallback((user) => {
+    const { user, numberMessages, clientStomp } = globalState;
+    const handleClickIconMess = useCallback((user, clientStomp) => {
         if (user.length != 0 || role == 'admin') {
             var contentChat = document.getElementById('content-chat');
-            contentChat.classList.contains('hidden')
-                ? contentChat.classList.remove('hidden')
-                : contentChat.classList.add('hidden');
+            if (contentChat.classList.contains('hidden')) {
+                dispatch(changeNumberMessagesTo0(null));
+                contentChat.classList.remove('hidden');
+                if (role == 'user') {
+                    try {
+                        clientStomp.disconnect();
+                    } catch {}
+                    const socket = new SockJS('http://localhost:8000/guest/ws');
+                    const client = Stomp.over(socket);
+                    client.connect({}, () => {
+                        client.subscribe(
+                            `/topic/messages/${role == 'user' ? 'AdminToUser' : 'UserToAdmin'}`,
+                            (message) => {
+                                const receivedMessage = JSON.parse(message.body);
+                                dispatch(changeMessages(receivedMessage));
+                                if (document.getElementById('content-chat').classList.contains('hidden')) {
+                                    dispatch(changeNumberMessages(1));
+                                }
+                            },
+                        );
+                    });
+                    dispatch(changeClientStomp(client));
+                }
+            } else {
+                contentChat.classList.add('hidden');
+            }
         } else {
             notifyWarningPleaseLogin();
+        }
+    }, []);
+    useEffect(() => {
+        try {
+            clientStomp.disconnect();
+        } catch {}
+        if (role == 'admin' && timeConnect == 0) {
+            const socket = new SockJS('http://localhost:8000/guest/ws');
+            const client = Stomp.over(socket);
+            client.connect({}, () => {
+                client.subscribe(`/topic/messages/${role == 'user' ? 'AdminToUser' : 'UserToAdmin'}`, (message) => {
+                    const receivedMessage = JSON.parse(message.body);
+                    dispatch(changeMessages(receivedMessage));
+                    if (document.getElementById('content-chat').classList.contains('hidden')) {
+                        dispatch(changeNumberMessages(1));
+                    }
+                });
+            });
+            dispatch(changeClientStomp(client));
+            timeConnect += 1;
         }
     }, []);
     return (
         <div className="chat-mess">
             <svg
-                onClick={() => handleClickIconMess(user)}
+                onClick={() => handleClickIconMess(user, clientStomp)}
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
                 height="40"
@@ -33,6 +86,7 @@ export default function ChatMessage({ role }) {
                 <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.499.499 0 0 0-.032.14.192.192 0 0 0 .193.193c.039 0 .077-.01.111-.029l1.268-.733a.622.622 0 0 1 .308-.088c.058 0 .116.009.171.025a6.83 6.83 0 0 0 1.625.26 4.45 4.45 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02.05 0 .1 0 .15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826Zm4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0Zm3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0Z" />
             </svg>
             {role == 'admin' || user.length != 0 ? <ContentChat role={role} /> : null}
+            {numberMessages == 0 ? null : <label className="number-mess">{numberMessages}</label>}
         </div>
     );
 }
