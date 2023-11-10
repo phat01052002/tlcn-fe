@@ -14,10 +14,8 @@
     justify-content: center;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
-
-
 }
-.header-page-content-nav{
+.header-page-content-nav {
     font-weight: bold;
     text-align: center;
     padding: 1rem 0;
@@ -26,13 +24,13 @@
     border-bottom: 3px solid white;
 }
 
-.header-page-content-nav:hover{
+.header-page-content-nav:hover {
     border-bottom: 3px solid black;
 }
-.focus-order{
+.focus-order {
     border-bottom: 3px solid black;
 }
-.list-product-order{
+.list-product-order {
     margin-top: 40px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
@@ -41,7 +39,63 @@
     overflow-x: hidden;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 3px;
 }
+.order{
+    position: relative;
+    height: 213px;
+}
+.border-bottom {
+    border-bottom: 1px solid #dedede;
+}
+.product-order {
+    padding: 1rem 0;
+}
+.product-order img {
+    width: 75%;
+    object-fit: contain;
+    padding: 1rem;
+    border-right: 1px solid #dedede;
+}
+.productOrder-name {
+    display: block;
+    font-weight: bold;
+}
+.product-order-content {
+    padding-left: 0.5rem;
+    padding-top: 2rem;
+    border-right: 1px solid #dedede;
+}
+.state {
+    padding-top: 2rem;
+    padding-left: 3rem;
+}
+.productOrder-price{
+    font-weight: bold;
+    padding-right: 0.2rem;
+    padding-top: 1rem;
+    color: red;
+}
+.productOrder-total {
+    font-weight: bold;
+    padding-top: 1.8rem;
 
+}
+.productOrder-state {
+    padding-top: 1rem;
+    font-size: 20px;
+}
+.productOrder-paid {
+    position: absolute;
+    bottom: 10%;
+    font-weight: bold;
+}
+.productOrder-nowDelivery {
+    position: absolute;
+    bottom: 10%;
+    left: 34%;
+    font-style: oblique;
+    font-size: 13px;
+
+}

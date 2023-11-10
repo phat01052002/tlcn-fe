@@ -44,7 +44,14 @@ export default function Header() {
     const [inputSearch, setInputSearch] = useState('');
     //input search onChange
     const handleChangeInputSearch = useCallback((e) => {
-        setInputSearch(e.target.value);
+        var string = e.target.value
+            .replace('/', '')
+            .replace('<', '')
+            .replace('>', '')
+            .replace(';', '')
+            .replace(':', '')
+            .replace('.', '');
+        setInputSearch(string);
     }, []);
 
     //handle mouse move all product and move leave
@@ -98,10 +105,11 @@ export default function Header() {
     });
     //function to set list product in cart
     const setListProductInCart = useCallback(async () => {
-        await setListProductCart([]);
+        var listProductInCart = [];
         for (let i = 0; i < localStorage.length; i++) {
-            setListProductCart((prev) => [localStorage.key(i), ...prev]);
+            listProductInCart = [localStorage.key(i), ...listProductInCart];
         }
+        setListProductCart(listProductInCart);
     }, []);
     //reload pagecart
     const reloadPageCart = useCallback(() => {
@@ -133,7 +141,7 @@ export default function Header() {
         }
     };
     //get username (if state is user or admin)
-    const getUserName = () => {
+    const getUserName = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
@@ -145,7 +153,7 @@ export default function Header() {
                 },
             };
 
-            axios.request(config).then((res) => dispatch(changeUser(res.data)));
+            await axios.request(config).then((res) => dispatch(changeUser(res.data)));
         } catch {
             window.location = '/login';
         }
@@ -217,7 +225,6 @@ export default function Header() {
     };
     /// USE EFFECT
     useEffect(() => {
-        console.log('a');
         checkAdmin();
         checkUser();
         dispatch(changeNumberCart(getNumber()));
@@ -234,7 +241,7 @@ export default function Header() {
     }, [user]);
     ///icon user return
     const iconUser = () => {
-        if (user && roleState === 'user') {
+        if (user.name != null && roleState === 'user') {
             return (
                 <div className="isUser" onClick={handleClickUser}>
                     <label>{user.name}</label>
@@ -409,23 +416,17 @@ export default function Header() {
             </div>
             <div id="over-navleft-cart">
                 <div id="page-navleft-cart" className="page-navleft-hidden">
-                    {useMemo(() => {
-                        <NavLeftCart listProductCart={listProductCart} />;
-                    }, [listProductCart])}
+                    <NavLeftCart listProductCart={listProductCart} />;
                 </div>
             </div>
             <div id="over-navleft-favorite">
                 <div id="page-navleft-favorite" className="page-navleft-hidden">
-                    {useMemo(() => {
-                        <NavLeftFavorite listProductFavorite={listFavorite} />;
-                    }, [listFavorite])}
+                    <NavLeftFavorite listProductFavorite={listFavorite} />;
                 </div>
             </div>
             <div id="over-navleft-notify">
                 <div id="page-navleft-notify" className="page-navleft-hidden">
-                    {useMemo(() => {
-                        <NavLeftNotify listNotify={listNotify} />;
-                    }, [listNotify])}
+                    <NavLeftNotify listNotify={listNotify} />;
                 </div>
             </div>
             <NotificationInPage />

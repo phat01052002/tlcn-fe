@@ -40,3 +40,9 @@
 ::-webkit-scrollbar {
     width: 2px;
 }
+
+.load-search{
+    position: relative;
+    top: 37%;
+    left: 33%;
+}

@@ -132,3 +132,49 @@ export const removeLoad = () => {
         document.body.style.pointerEvents = 'auto';
     }, 500);
 };
+
+
+export function normalizeVietnameseText(text) {
+    const map = {
+      a: "aáàảãạăắằẳẵặâấầẩẫậ",
+      d: "dđ",
+      e: "eéèẻẽẹêếềểễệ",
+      i: "iíìỉĩị",
+      o: "oóòỏõọôốồổỗộơớờởỡợ",
+      u: "uúùủũụưứừửữự",
+      y: "yýỳỷỹỵ"
+    };
+  
+    let result = "";
+    let prevChar = "";
+    let consonant = "";
+    for (let i = 0; i < text.length; i++) {
+      let char = text.charAt(i);
+      let found = false;
+      let isS = false;
+      if (char.toLowerCase() === "s") {
+        isS = true;
+      }
+      for (let key in map) {
+        if (map[key].includes(prevChar + char)) {
+          if (isS) {
+            consonant = key;
+          } else {
+            result = result.slice(0, -1) + key;
+          }
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        if (isS) {
+          result += consonant;
+          consonant = "";
+        }
+        result += char;
+      }
+      prevChar = char;
+    }
+  
+    return result;
+  }

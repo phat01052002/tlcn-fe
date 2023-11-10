@@ -12,6 +12,7 @@ import {
     notifyWarningPleaseLogin,
 } from '../components/NotificationInPage/NotificationInPage';
 import ReactStars from 'react-rating-stars-component';
+import { ColorRing, ProgressBar } from 'react-loader-spinner';
 
 export default function PageProductDetail() {
     /////
@@ -147,9 +148,7 @@ export default function PageProductDetail() {
     };
     //get product by Id
     useEffect(() => {
-        axios
-            .get(`/guest/product/${productId}`)
-            .then((res) => setProduct(res.data))
+        axios.get(`/guest/product/${productId}`).then((res) => setProduct(res.data));
     }, []);
     useEffect(() => {
         getRating(user);
@@ -160,76 +159,91 @@ export default function PageProductDetail() {
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">
-                    <div className="col-12 col-lg-7">
-                        <img className="image-product" src={product.image}></img>
-                    </div>
-                    <div className="col-12 col-lg-5 info-product">
-                        <h2> {product.name}</h2>
-                        <br />
-                        <h6>{getProductPrice()}</h6>
-                        <br />
-                        <div>
-                            <h5>Vật liệu: </h5>
-                            {product.material}
-                        </div>
-                        <br />
-                        <div>
-                            <h5>Kích thước: </h5>
-                            {product.size}
-                        </div>
-                        <br />
-                        <div className="btn-productdetail row">
-                            <div className=" col-4 chose-number">
-                                <button className="decrease-btn" onClick={handleClickDecrease}>
-                                    -
-                                </button>
-                                <input id="number-product" className="number-product" value={number}></input>
-                                <button className="increase-btn" onClick={handleClickIncrease}>
-                                    +
-                                </button>
+                    {product.image == null ? (
+                        <ProgressBar
+                            height="80"
+                            width="160"
+                            ariaLabel="progress-bar-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="progress-bar-wrapper"
+                            borderColor="#F4442E"
+                            barColor="#51E5FF"
+                        />
+                    ) : (
+                        <>
+                            {' '}
+                            <div className="col-12 col-lg-7">
+                                <img className="image-product" src={product.image}></img>
                             </div>
-                            <div className="col-4 buynow">
-                                <button className="btn-buynow" onClick={handleClickBuyNow}>
-                                    {' '}
-                                    Mua Ngay
-                                </button>
+                            <div className="col-12 col-lg-5 info-product">
+                                <h2> {product.name}</h2>
+                                <br />
+                                <h6>{getProductPrice()}</h6>
+                                <br />
+                                <div>
+                                    <h5>Vật liệu: </h5>
+                                    {product.material}
+                                </div>
+                                <br />
+                                <div>
+                                    <h5>Kích thước: </h5>
+                                    {product.size}
+                                </div>
+                                <br />
+                                <div className="btn-productdetail row">
+                                    <div className=" col-4 chose-number">
+                                        <button className="decrease-btn" onClick={handleClickDecrease}>
+                                            -
+                                        </button>
+                                        <input id="number-product" className="number-product" value={number}></input>
+                                        <button className="increase-btn" onClick={handleClickIncrease}>
+                                            +
+                                        </button>
+                                    </div>
+                                    <div className="col-4 buynow">
+                                        <button className="btn-buynow" onClick={handleClickBuyNow}>
+                                            {' '}
+                                            Mua Ngay
+                                        </button>
+                                    </div>
+                                    <div className="col-4 addtocart">
+                                        <button className="btn-addtocart" onClick={handleClickAddToCart}>
+                                            Thêm Vào Giỏ
+                                        </button>
+                                    </div>
+                                </div>
+                                <br />
+                                Liên hệ tư vấn và đặt mua: 0865762255
+                                <br />
+                                <br />
+                                <h8>{product.description}</h8>
+                                <div className="behind-productdetail-content">
+                                    <span
+                                        id="review"
+                                        className="behind-productdetail behind-productdetail-current review-product"
+                                        onClick={handleClickReview}
+                                    >
+                                        Đánh Giá
+                                    </span>
+                                    <span
+                                        id="insuranse"
+                                        className="behind-productdetail insuranse-product"
+                                        onClick={handleClickInsuranse}
+                                    >
+                                        Bảo Hành
+                                    </span>
+                                    <span
+                                        id="transport"
+                                        className="behind-productdetail transport-product"
+                                        onClick={handleClickTransport}
+                                    >
+                                        Vận Chuyển
+                                    </span>
+                                </div>
+                                <BenhindProductDetail currentBehind={currentBehind} productId={productId} />
                             </div>
-                            <div className="col-4 addtocart">
-                                <button className="btn-addtocart" onClick={handleClickAddToCart}>
-                                    Thêm Vào Giỏ
-                                </button>
-                            </div>
-                        </div>
-                        <br />
-                        Liên hệ tư vấn và đặt mua: 0865762255
-                        <br />
-                        <br />
-                        <h8>{product.description}</h8>
-                        <div className="behind-productdetail-content">
-                            <span
-                                id="review"
-                                className="behind-productdetail behind-productdetail-current review-product"
-                                onClick={handleClickReview}
-                            >
-                                Đánh Giá
-                            </span>
-                            <span
-                                id="insuranse"
-                                className="behind-productdetail insuranse-product"
-                                onClick={handleClickInsuranse}
-                            >
-                                Bảo Hành
-                            </span>
-                            <span
-                                id="transport"
-                                className="behind-productdetail transport-product"
-                                onClick={handleClickTransport}
-                            >
-                                Vận Chuyển
-                            </span>
-                        </div>
-                        <BenhindProductDetail currentBehind={currentBehind} productId={productId} />
-                    </div>
+                        </>
+                    )}
                 </div>
                 <div className="col-1">
                     <div className="star">

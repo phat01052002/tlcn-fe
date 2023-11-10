@@ -4,10 +4,74 @@ import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-
 import { AlertDontHaveInfo, AlertLoginFalse } from '../components/Alert/Alert';
 import NotificationInPage from '../components/NotificationInPage/NotificationInPage';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_GRANT_TYPE, GOOGLE_REDIRECT_URI } from '../Contants/Contants';
-import { changeGmail, changeGmailAccessToken, changeRole, handleClickBack, removeAllSession, useStore } from '../Store';
+import {
+    changeGmail,
+    changeGmailAccessToken,
+    changeRole,
+    changeUser,
+    handleClickBack,
+    removeAllSession,
+    useStore,
+} from '../Store';
 import './PageLogin.css';
 export default function PageLogin() {
+    const nav = useNavigate();
+    const [globalState, dispatch] = useStore();
     var gmailCode = '';
+    //////////////////
+    //check authenticate
+    //get username (if state is user or admin)
+    const getUserName = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/findByName',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            await axios.request(config).then((res) => dispatch(changeUser(res.data)));
+        } catch {
+            window.location = '/login';
+        }
+    };
+    //check admin fist
+    const checkAdmin = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/admin/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            const request = await axios.request(config).catch();
+            dispatch(changeRole('admin'));
+            nav('/admin');
+        } catch {}
+    };
+    const checkUser = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/user/check',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            const request = await axios.request(config);
+            dispatch(changeRole('user'));
+            getUserName();
+        } catch {}
+    };
     //var nav
     //functions getGmail
     const getGmail = useCallback(async () => {
@@ -69,23 +133,27 @@ export default function PageLogin() {
                             if (res.status == 200) {
                                 //save access token to sessionStorage
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
+                                checkUser();
+                                checkAdmin();
                                 //reload
                                 if (sessionStorage.getItem('checkout')) {
-                                    window.location = '/checkout';
+                                    nav('/checkout');
                                 } else {
-                                    window.location = '/';
+                                    nav('/');
                                 }
                             } else if (res.status == 201) {
                                 sessionStorage.removeItem('gmail');
                                 sessionStorage.removeItem('gmailAccesstoken');
                                 sessionStorage.setItem('USER', JSON.stringify(res.data));
+                                checkUser();
+                                checkAdmin();
                                 if (sessionStorage.getItem('checkout')) {
-                                    window.location = '/checkout';
+                                    nav('/checkout');
                                 } else {
-                                    window.location = '/';
+                                    nav('/');
                                 }
                             } else {
-                                window.location = '/';
+                                nav('/');
                             }
                         });
                     }
@@ -129,11 +197,13 @@ export default function PageLogin() {
             const response = await axios.request(config);
             //save access token to sessionStorage
             sessionStorage.setItem('USER', JSON.stringify(response.data));
+            checkUser();
+            checkAdmin();
             //reload
             if (sessionStorage.getItem('checkout')) {
-                window.location = '/checkout';
+                nav('/checkout');
             } else {
-                window.location = '/';
+                nav('/');
             }
         } catch {
             AlertLoginFalse();
