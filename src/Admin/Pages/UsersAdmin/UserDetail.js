@@ -5,10 +5,12 @@ import axios from 'axios';
 import { changeRole, useStore } from '../../../Store';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
+import Dashboard from '../../Scenes/Dashboard';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../../PageAdmin.css'
 import ManageUsers from '../../Scenes/ManageUser/ManageUser';
-export default function UserAdmin() {
-    
+
+function UserDetail() {
     const [theme, colorMode] = useMode();
 
     return (<ColorModeContext.Provider value={colorMode}>
@@ -25,3 +27,5 @@ export default function UserAdmin() {
     </ColorModeContext.Provider>
     )
 }
+
+export default UserDetail

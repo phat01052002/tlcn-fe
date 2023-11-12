@@ -17,7 +17,8 @@ const ManageUsers = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [users, setUsers] = useState([]);
-
+    const [user, setUser] = useState();
+    const [message, setMessage]= useState();
     //Modal open, close
     const [open, setOpen] = useState(false);
       const handleOpen = () => {
@@ -26,7 +27,6 @@ const ManageUsers = () => {
       const handleClose = () => {
         setOpen(false);
       };
-
     //Load data from server
     const loadUsers = () => {
         try {
@@ -45,9 +45,30 @@ const ManageUsers = () => {
             window.location = '/login';
         }
     };
+    const loadUser = (id) => {
+      try {
+          const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+          let config = {
+              method: 'get',
+              maxBodyLength: Infinity,
+              url: `/admin/getUserById/${id}`,
+              headers: {
+                  Authorization: `Bearer ${accessToken}`,
+              },
+          };
+
+          axios.request(config).then((res) => setUser(res.data));
+      } catch {
+          window.location = '/login';
+      }
+  };
     useEffect(()=>{
       loadUsers();
     },[]);
+    const handleDelete = (id) => {
+      setOpen(false);
+    };
+
     //Data of Grid
     const columns = [
       { field: "userId", headerName: "ID" , flex: 0.2},
@@ -63,11 +84,12 @@ const ManageUsers = () => {
         type: "image",
         headerAlign: "center",
         align: "center",
+        
         renderCell: ({ row: { image } }) => {
           return (
             <img
               width="auto"
-              height="100%"
+              height="80%"
               src={image}
             >
             </img>
@@ -137,7 +159,6 @@ const ManageUsers = () => {
                 <ErrorOutlineOutlinedIcon/>
                 </IconButton> 
               </Link>
-              
               {/** Delete button */}
               <IconButton onClick={handleOpen}><DeleteForeverOutlinedIcon/></IconButton>
               <Modal
@@ -156,8 +177,8 @@ const ManageUsers = () => {
                     <Button sx={{backgroundColor: "blue", width:"50px", fontWeight:"bold"}}>No</Button>
                   </div>*/}
                   <Stack spacing={2} direction="row" justifyContent="center">
-                    <Button variant="contained" sx={{backgroundColor: "#3e4396"}}>Yes</Button>
-                    <Button variant="contained" sx={{backgroundColor: "#3e4396"}}>No</Button>
+                    <Button variant="contained" sx={{backgroundColor: "#3e4396"}} onClick={handleClose}>Yes</Button>
+                    <Button variant="contained" sx={{backgroundColor: "#3e4396"}} onClick={handleClose}>No</Button>
                   </Stack>
                 </Box>
               </Modal>
