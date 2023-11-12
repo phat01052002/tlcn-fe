@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useCallback } from 'react';
 import { useStore } from '../../Store';
 import ProductInFavorite from './ProductInFavorite';
-export default function NavLeftFavorite({ listProductFavorite }) {
+function NavLeftFavorite({ listProductFavorite }) {
     const [globalState, dispatch] = useStore();
     const { numberFavorite } = globalState;
     //delete page favorite function
@@ -27,10 +27,12 @@ export default function NavLeftFavorite({ listProductFavorite }) {
                     </svg>
                 </div>
                 <h5>YÊU THÍCH</h5>
-                {listProductFavorite.map((favorite,index) => (
+                {listProductFavorite.map((favorite, index) => (
                     <ProductInFavorite key={index} favorite={favorite} />
                 ))}
             </div>
         </div>
     );
 }
+
+export default memo(NavLeftFavorite);

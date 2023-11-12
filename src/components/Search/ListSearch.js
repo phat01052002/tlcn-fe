@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
+import { ProgressBar, TailSpin } from 'react-loader-spinner';
 import './css/Search.css';
 import ItemSearch from './ItemSearch';
 export default function ListSearch({ inputSearch }) {
@@ -13,18 +14,29 @@ export default function ListSearch({ inputSearch }) {
     useEffect(() => {
         typingTimeoutRef.current = setTimeout(() => {
             if (inputSearch) {
-                axios
-                .get(`/guest/product/containing/${inputSearch}`)
-                .then((res) => setListProduct(res.data))
+                axios.get(`/guest/product/containing/${inputSearch}`).then((res) => setListProduct(res.data));
             }
         }, 500);
     }, [inputSearch]);
     if (inputSearch) {
         return (
             <div className="list-search">
-                {listProduct.map((product) => (
-                    <ItemSearch key={product.productId} productSearch={product} />
-                ))}
+                {listProduct.length != 0 ? (
+                    listProduct.map((product) => <ItemSearch key={product.productId} productSearch={product} />)
+                ) : (
+                    <div className="load-search">
+                        <TailSpin
+                            height="80"
+                            width="80"
+                            color="#4fa94d"
+                            ariaLabel="tail-spin-loading"
+                            radius="1"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                        />
+                    </div>
+                )}
             </div>
         );
     } else {

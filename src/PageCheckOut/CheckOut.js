@@ -1,18 +1,24 @@
 import { async } from '@firebase/util';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { AlertChangeToPageInfoUser } from '../components/Alert/Alert';
 import Header from '../components/Header/Header';
 import {
     notifyErrorCantOrder,
+    notifyErrorLeakAddress,
     notifyErrorLeakDelivery,
     notifyErrorLeakPaymentMethod,
+    notifyErrorLeakPhone,
+    notifyErrorLeakProductOrder,
     notifySuccessOrder,
     notifyUpdateSussess,
     notifyWarningUpdateInfoUser,
 } from '../components/NotificationInPage/NotificationInPage';
 import {
     addLoad,
+    changeListCountProductCheckOut,
+    changeListProductCheckOut,
     changeNumberCart,
     changeRole,
     changeTotalPrice,
@@ -26,6 +32,7 @@ import './CheckOut.css';
 import ListProductCheckOut from './ListProductCheckOut';
 export default function CheckOut() {
     //constant price of delivery,contructor is 0 for delivery (giao hàng tiết kiệm)
+    const paidParams = useParams();
     const [priceDelivery, setPriceDelivery] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [globalState, dispatch] = useStore();
@@ -84,10 +91,15 @@ export default function CheckOut() {
     const handleClickUpdatePhone = useCallback(() => {
         AlertChangeToPageInfoUser();
     }, []);
+    //remove product when checkout success
+    const removeProduct = (listProductCheckOut) => {
+        listProductCheckOut.map((productId, index) => {
+            localStorage.removeItem(productId);
+        });
+    };
     //pay-checkout
     const handleClickPayCheckout = useCallback(
-        (paymentMethod, priceDelivery, user, listProductCheckOut, listCountProductCheckOut) => {
-            console.log(listProductCheckOut);
+        async (paymentMethod, priceDelivery, user, listProductCheckOut, listCountProductCheckOut) => {
             if (!paymentMethod) {
                 notifyErrorLeakPaymentMethod();
                 return;
@@ -96,45 +108,98 @@ export default function CheckOut() {
                 notifyErrorLeakDelivery();
                 return;
             }
-            if (user.length != 0) {
+            if (user.length != 0 && listProductCheckOut.length != 0) {
+                if (user.phone == null) {
+                    notifyErrorLeakPhone();
+                    return;
+                }
+                if (user.address == null) {
+                    notifyErrorLeakAddress();
+                    return;
+                }
                 try {
                     addLoad();
                     let nowDelivery = priceDelivery != 0 ? true : false;
                     let paid = paymentMethod == 'online' ? true : false;
-                    let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-                    listProductCheckOut.map(async (productId, index) => {
+                    if (paid == true && paidParams.state == undefined) {
+                        let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
                         let data = JSON.stringify({
+                            productIds: listProductCheckOut,
+                            counts: listCountProductCheckOut,
                             nowDelivery: nowDelivery,
-                            paid: paid,
-                            count: listCountProductCheckOut[index],
                         });
                         let config = {
                             method: 'post',
                             maxBodyLength: Infinity,
-                            url: `/user/saveOrder/${productId}`,
+                            url: `/user/pay/${sessionStorage.getItem('totalPrice')}`,
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                                 'Content-Type': 'application/json',
                             },
                             data: data,
                         };
-                        await axios.request(config);
-                        localStorage.removeItem(productId);
-                        dispatch(changeNumberCart(getNumber()));
-                    });
-                    removeLoad();
-                    notifySuccessOrder();
+
+                        await axios.request(config).then((res) => {
+                            removeProduct(listProductCheckOut);
+                            window.location = res.data;
+                        });
+                        removeLoad();
+                    } else {
+                        if (paidParams.state != undefined) {
+                            return;
+                        }
+                        let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                        listProductCheckOut.map(async (productId, index) => {
+                            let data = JSON.stringify({
+                                nowDelivery: nowDelivery,
+                                paid: paid,
+                                count: listCountProductCheckOut[index],
+                            });
+                            let config = {
+                                method: 'post',
+                                maxBodyLength: Infinity,
+                                url: `/user/saveOrder/${productId}`,
+                                headers: {
+                                    Authorization: `Bearer ${accessToken}`,
+                                    'Content-Type': 'application/json',
+                                },
+                                data: data,
+                            };
+                            await axios.request(config);
+                            localStorage.removeItem(productId);
+                            dispatch(changeNumberCart(getNumber()));
+                        });
+                        removeLoad();
+                        notifySuccessOrder();
+                        setTimeout(() => {
+                            dispatch(changeListProductCheckOut([]));
+                            dispatch(changeListCountProductCheckOut([]));
+                            sessionStorage.removeItem('checkout');
+                            window.location = '/';
+                        }, 3000);
+                    }
                 } catch {
                     notifyErrorCantOrder();
                 }
+            } else {
+                notifyErrorLeakProductOrder();
             }
         },
         [],
     );
     //
     useEffect(() => {
-        dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
-        checkUser();
+        if (paidParams.state == undefined) {
+            dispatch(changeTotalPrice(sessionStorage.getItem('totalPrice')));
+            checkUser();
+        }
+        if (paidParams.state == 'success') {
+            notifySuccessOrder();
+            setTimeout(() => {
+                sessionStorage.removeItem('checkout');
+                window.location = '/';
+            }, 3000);
+        }
     }, []);
     return (
         <div>

@@ -1,0 +1,95 @@
+.chat-mess{
+    position: fixed;
+    bottom: 2%;
+    right: 2%;
+    z-index: 100;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chat-mess svg{
+    padding: 5px;
+    cursor: pointer;
+}
+.chat-mess:hover{
+    background-color: black;
+    color: white;
+}
+.content-chat{
+    position: absolute;
+    top: -970%;
+    right: 0%;
+    width: 350px;
+    height: 450px;
+    background-color: white;
+    z-index: 999;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    color: black !important;
+
+}
+.tittle{
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gray;
+}
+
+.input-message input{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    padding:0 1rem;
+}
+.input-message{
+    position: absolute;
+    width: 100%;
+    top: 91%;
+}
+.input-message svg{
+    position: absolute;
+    right: 1%;
+
+}
+.chat-body{
+    height: 350px;
+    overflow-y: scroll;
+}
+.chat-body::-webkit-scrollbar {
+    width: 2px;
+}
+
+.chat-item{
+    padding: 0.75rem 0.5rem;
+
+}
+
+.right{
+    text-align: end;
+}
+.chat-item-nickname{
+    font-weight: bold;
+}
+.chat-item-content label{
+    padding: 0.25rem 1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+.number-mess{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background-color: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -10%;
+    right: -10%;
+}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import './Header.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ListSearch from '../Search/ListSearch';
@@ -26,8 +26,12 @@ import { AlertLogout } from '../Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import NavLeftFavorite from '../NavLeft/NavLeftFavorite';
 import NavLeftNotify from '../NavLeft/NavLeftNotify';
+import ChatMessage from '../ChatMessage/ChatMessage';
+import { useLayoutEffect } from 'react';
 
 export default function Header() {
+    //
+    var timeRender = 0;
     //remove recatpcha
     localStorage.removeItem('_grecaptcha');
     const nav = useNavigate();
@@ -40,7 +44,14 @@ export default function Header() {
     const [inputSearch, setInputSearch] = useState('');
     //input search onChange
     const handleChangeInputSearch = useCallback((e) => {
-        setInputSearch(e.target.value);
+        var string = e.target.value
+            .replace('/', '')
+            .replace('<', '')
+            .replace('>', '')
+            .replace(';', '')
+            .replace(':', '')
+            .replace('.', '');
+        setInputSearch(string);
     }, []);
 
     //handle mouse move all product and move leave
@@ -77,7 +88,7 @@ export default function Header() {
     }, []);
     //handleClickInfoUser
     const handleClickInfoUser = useCallback(() => {
-        nav('/infoUser');
+        window.location = '/infoUser';
     }, []);
     //call back logout to tranfer to alert
     const logOut = useCallback(() => {
@@ -94,10 +105,11 @@ export default function Header() {
     });
     //function to set list product in cart
     const setListProductInCart = useCallback(async () => {
-        await setListProductCart([]);
+        var listProductInCart = [];
         for (let i = 0; i < localStorage.length; i++) {
-            setListProductCart((prev) => [localStorage.key(i), ...prev]);
+            listProductInCart = [localStorage.key(i), ...listProductInCart];
         }
+        setListProductCart(listProductInCart);
     }, []);
     //reload pagecart
     const reloadPageCart = useCallback(() => {
@@ -129,7 +141,7 @@ export default function Header() {
         }
     };
     //get username (if state is user or admin)
-    const getUserName = () => {
+    const getUserName = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
@@ -141,17 +153,21 @@ export default function Header() {
                 },
             };
 
-            axios.request(config).then((res) => dispatch(changeUser(res.data)));
+            await axios.request(config).then((res) => dispatch(changeUser(res.data)));
         } catch {
             window.location = '/login';
         }
     };
+    //click order
+    const handleClickOrder = useCallback(() => {
+        window.location = '/order';
+    }, []);
     //Click cart
     const handleClickCart = useCallback(() => {
         ////
         reloadPageCart();
         //
-        handleClickNavLeftCart();
+        handleClickNavLeftCart(dispatch, changeNumberCart);
         dispatch(changePriceAll(0));
         changeCheckToFalse();
         dispatch(changeNumberCart(getNumber()));
@@ -213,6 +229,7 @@ export default function Header() {
         checkUser();
         dispatch(changeNumberCart(getNumber()));
         changeCheckToFalse();
+        timeRender += 1;
     }, []);
     useEffect(() => {
         if (roleState == 'user') {
@@ -224,13 +241,13 @@ export default function Header() {
     }, [user]);
     ///icon user return
     const iconUser = () => {
-        if (user && roleState === 'user') {
+        if (user.name != null && roleState === 'user') {
             return (
                 <div className="isUser" onClick={handleClickUser}>
                     <label>{user.name}</label>
                     <div id="user-nav" className="user-nav-hidden">
                         <label onClickCapture={handleClickInfoUser}>Tài khoản</label>
-                        <label>Đơn hàng</label>
+                        <label onClickCapture={handleClickOrder}>Đơn hàng</label>
                         <label onClick={handleClickLogout}>Đăng xuất</label>
                     </div>
                 </div>
@@ -399,17 +416,17 @@ export default function Header() {
             </div>
             <div id="over-navleft-cart">
                 <div id="page-navleft-cart" className="page-navleft-hidden">
-                    <NavLeftCart listProductCart={listProductCart} />
+                    <NavLeftCart listProductCart={listProductCart} />;
                 </div>
             </div>
             <div id="over-navleft-favorite">
                 <div id="page-navleft-favorite" className="page-navleft-hidden">
-                    <NavLeftFavorite listProductFavorite={listFavorite} />
+                    <NavLeftFavorite listProductFavorite={listFavorite} />;
                 </div>
             </div>
             <div id="over-navleft-notify">
                 <div id="page-navleft-notify" className="page-navleft-hidden">
-                    <NavLeftNotify listNotify={listNotify} />
+                    <NavLeftNotify listNotify={listNotify} />;
                 </div>
             </div>
             <NotificationInPage />
@@ -425,6 +442,7 @@ export default function Header() {
                     visible={true}
                 />
             </div>
+            <ChatMessage role={'user'} />
         </div>
     );
 }

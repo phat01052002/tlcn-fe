@@ -13,6 +13,10 @@ import {
     CHANGE_LIST_FAVORITE,
     CHANGE_LIST_NOTIFY,
     CHANGE_PRODUCT_UNLIKE,
+    CHANGE_MESSAGES,
+    CHANGE_NUMBER_MESSAGES,
+    CHANGE_NUMBER_MESSAGES_To_0,
+    CHANGE_CLIENTSTOMP,
 } from './Contants';
 
 export const changeNumberCart = (payload) => ({
@@ -79,5 +83,25 @@ export const changeListNotify = (payload) => ({
 
 export const changeProductUnlike = (payload) => ({
     type: CHANGE_PRODUCT_UNLIKE,
+    payload,
+});
+
+export const changeMessages = (payload) => ({
+    type: CHANGE_MESSAGES,
+    payload,
+});
+
+export const changeNumberMessages = (payload) => ({
+    type: CHANGE_NUMBER_MESSAGES,
+    payload,
+});
+
+export const changeNumberMessagesTo0 = (payload) => ({
+    type: CHANGE_NUMBER_MESSAGES_To_0,
+    payload,
+});
+
+export const changeClientStomp = (payload) => ({
+    type: CHANGE_CLIENTSTOMP,
     payload,
 });
