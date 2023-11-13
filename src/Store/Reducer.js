@@ -5,6 +5,7 @@ import {
     CHANGE_LIST_FAVORITE,
     CHANGE_LIST_NOTIFY,
     CHANGE_LIST_PRODUCT_CHECKOUT,
+    CHANGE_LIST_USERID_CHAT,
     CHANGE_MESSAGES,
     CHANGE_NUMBER_CART,
     CHANGE_NUMBER_FAVORITE,
@@ -36,6 +37,7 @@ const initState = {
     messages: [],
     numberMessages: 0,
     clientStomp: null,
+    listUserIdChat: [],
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -75,6 +77,11 @@ function Reducer(state, action) {
             return { ...state, numberMessages: 0 };
         case CHANGE_CLIENTSTOMP:
             return { ...state, clientStomp: action.payload };
+        case CHANGE_LIST_USERID_CHAT:
+            if(state.listUserIdChat.includes(action.payload)){
+                return {...state}
+            }
+            return { ...state, listUserIdChat: [...state.listUserIdChat,action.payload]};
         default:
             throw new Error('');
     }

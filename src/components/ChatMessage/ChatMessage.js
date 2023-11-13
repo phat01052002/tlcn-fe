@@ -4,6 +4,7 @@ import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 import {
     changeClientStomp,
+    changeListUserIdChat,
     changeMessages,
     changeNumberMessages,
     changeNumberMessagesTo0,
@@ -17,8 +18,8 @@ import { useEffect } from 'react';
 export default function ChatMessage({ role }) {
     var timeConnect = 0;
     const [globalState, dispatch] = useStore();
-    const { user, numberMessages, clientStomp } = globalState;
-    const handleClickIconMess = useCallback((user, clientStomp) => {
+    const { user, numberMessages, clientStomp, listUserIdChat } = globalState;
+    const handleClickIconMess = useCallback((user, clientStomp, listUserIdChat) => {
         if (user.length != 0 || role == 'admin') {
             var contentChat = document.getElementById('content-chat');
             if (contentChat.classList.contains('hidden')) {
@@ -31,16 +32,13 @@ export default function ChatMessage({ role }) {
                     const socket = new SockJS('http://localhost:8000/guest/ws');
                     const client = Stomp.over(socket);
                     client.connect({}, () => {
-                        client.subscribe(
-                            `/topic/messages/${role == 'user' ? 'AdminToUser' : 'UserToAdmin'}`,
-                            (message) => {
-                                const receivedMessage = JSON.parse(message.body);
-                                dispatch(changeMessages(receivedMessage));
-                                if (document.getElementById('content-chat').classList.contains('hidden')) {
-                                    dispatch(changeNumberMessages(1));
-                                }
-                            },
-                        );
+                        client.subscribe(`/topic/messages/AdminToUser/${user.userId}`, (message) => {
+                            const receivedMessage = JSON.parse(message.body);
+                            dispatch(changeMessages(receivedMessage));
+                            if (document.getElementById('content-chat').classList.contains('hidden')) {
+                                dispatch(changeNumberMessages(1));
+                            }
+                        });
                     });
                     dispatch(changeClientStomp(client));
                 }
@@ -59,9 +57,11 @@ export default function ChatMessage({ role }) {
             const socket = new SockJS('http://localhost:8000/guest/ws');
             const client = Stomp.over(socket);
             client.connect({}, () => {
-                client.subscribe(`/topic/messages/${role == 'user' ? 'AdminToUser' : 'UserToAdmin'}`, (message) => {
+                client.subscribe('/topic/messages/UserToAdmin', (message) => {
                     const receivedMessage = JSON.parse(message.body);
                     dispatch(changeMessages(receivedMessage));
+                    dispatch(changeListUserIdChat(receivedMessage.userId));
+                    sessionStorage.setItem('userFocus', receivedMessage.userId);
                     if (document.getElementById('content-chat').classList.contains('hidden')) {
                         dispatch(changeNumberMessages(1));
                     }
@@ -74,7 +74,7 @@ export default function ChatMessage({ role }) {
     return (
         <div className="chat-mess">
             <svg
-                onClick={() => handleClickIconMess(user, clientStomp)}
+                onClick={() => handleClickIconMess(user, clientStomp, listUserIdChat)}
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
                 height="40"
