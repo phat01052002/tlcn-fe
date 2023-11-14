@@ -416,17 +416,17 @@ export default function Header() {
             </div>
             <div id="over-navleft-cart">
                 <div id="page-navleft-cart" className="page-navleft-hidden">
-                    <NavLeftCart listProductCart={listProductCart} />;
+                    <NavLeftCart listProductCart={listProductCart} />
                 </div>
             </div>
             <div id="over-navleft-favorite">
                 <div id="page-navleft-favorite" className="page-navleft-hidden">
-                    <NavLeftFavorite listProductFavorite={listFavorite} />;
+                    <NavLeftFavorite listProductFavorite={listFavorite} />
                 </div>
             </div>
             <div id="over-navleft-notify">
                 <div id="page-navleft-notify" className="page-navleft-hidden">
-                    <NavLeftNotify listNotify={listNotify} />;
+                    <NavLeftNotify listNotify={listNotify} />
                 </div>
             </div>
             <NotificationInPage />

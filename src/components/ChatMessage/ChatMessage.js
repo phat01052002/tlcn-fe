@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useCallback } from 'react';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
@@ -8,6 +8,7 @@ import {
     changeMessages,
     changeNumberMessages,
     changeNumberMessagesTo0,
+    changeUserFocus,
     useStore,
 } from '../../Store';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
@@ -16,6 +17,7 @@ import ContentChat from './ContentChat';
 import { useEffect } from 'react';
 
 export default function ChatMessage({ role }) {
+    //
     var timeConnect = 0;
     const [globalState, dispatch] = useStore();
     const { user, numberMessages, clientStomp, listUserIdChat } = globalState;
@@ -61,6 +63,7 @@ export default function ChatMessage({ role }) {
                     const receivedMessage = JSON.parse(message.body);
                     dispatch(changeMessages(receivedMessage));
                     dispatch(changeListUserIdChat(receivedMessage.userId));
+                    dispatch(changeUserFocus(receivedMessage.userId));
                     sessionStorage.setItem('userFocus', receivedMessage.userId);
                     if (document.getElementById('content-chat').classList.contains('hidden')) {
                         dispatch(changeNumberMessages(1));

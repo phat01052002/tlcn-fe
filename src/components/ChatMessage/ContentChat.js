@@ -1,15 +1,16 @@
 import React from 'react';
-import { changeClientStomp, changeMessages, changeNumberMessages, useStore } from '../../Store';
+import { changeClientStomp, changeMessages, changeNumberMessages, changeUserFocus, useStore } from '../../Store';
 import { useState } from 'react';
 import ItemChat from './ItemChatClient';
 import { useRef } from 'react';
+import ItemChatAdmin from './ItemChatAdmin';
+import { useImperativeHandle } from 'react';
 
 export default function ContentChat({ role }) {
     //
     const [globalState, dispatch] = useStore();
-    const { user, messages, clientStomp, listUserIdChat } = globalState;
+    const { user, messages, clientStomp, listUserIdChat, userFocus } = globalState;
     const [message, setMessage] = useState('');
-    const [userFocus, setUserFocus] = useState(sessionStorage.getItem('userFocus'));
     //
     const sendMessageEnter = (e) => {
         var keycode = e.keyCode ? e.keyCode : e.which;
@@ -41,7 +42,7 @@ export default function ContentChat({ role }) {
     const sendMessageAdmin = async () => {
         if (message.trim() && message != '') {
             const chatMessage = {
-                nickname: user.name,
+                nickname: 'admin',
                 content: message,
                 userId: `${userFocus}`,
             };
@@ -97,7 +98,7 @@ export default function ContentChat({ role }) {
                         <span
                             className="item-chat-admin"
                             onClick={() => {
-                                setUserFocus(userId);
+                                dispatch(changeUserFocus(userId));
                             }}
                         >
                             {getIamge(userId, messages)}
@@ -105,7 +106,11 @@ export default function ContentChat({ role }) {
                     ))}
                 </div>
                 <div className="tittle-admin">Trò chuyện</div>
-                <div className="chat-body-admin chat-body">{console.log(userFocus)}</div>
+                <div className="chat-body-admin chat-body">
+                    {messages.map((message, index) => (
+                        <ItemChatAdmin key={index} message={message} userFocus={userFocus} />
+                    ))}
+                </div>
                 <span className="input-message">
                     <input
                         placeholder="Nhập gì đó"
