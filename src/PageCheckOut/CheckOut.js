@@ -150,6 +150,7 @@ export default function CheckOut() {
                         }
                         let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
                         listProductCheckOut.map(async (productId, index) => {
+                            ///////////
                             let data = JSON.stringify({
                                 nowDelivery: nowDelivery,
                                 paid: paid,
@@ -166,6 +167,7 @@ export default function CheckOut() {
                                 data: data,
                             };
                             await axios.request(config);
+                            ///////////
                             localStorage.removeItem(productId);
                             dispatch(changeNumberCart(getNumber()));
                         });

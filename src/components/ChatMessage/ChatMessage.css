@@ -21,7 +21,7 @@
 }
 .content-chat {
     position: absolute;
-    top: -970%;
+    top: -940%;
     right: 0%;
     width: 350px;
     height: 450px;
@@ -51,7 +51,7 @@
     border-radius: 5px;
     border: 1px solid gray;
     padding: 0 1rem;
-}
+}receivedMessage.userIdc
 .input-message {
     position: absolute;
     width: 100%;
@@ -62,7 +62,7 @@
     right: 1%;
 }
 .chat-body {
-    height: 350px;
+    height: 370px;
     overflow-y: scroll;
 }
 .chat-body::-webkit-scrollbar {
@@ -114,4 +114,12 @@
 .img-user-chat-admin:hover {
     scale: 1.1;
     cursor: pointer;
+}
+.onFocus{
+    background-color: #abcdef;
+}
+.img-no-message{
+    object-fit: contain;
+    width: 348px;
+    transform: translateY(30%);
 }

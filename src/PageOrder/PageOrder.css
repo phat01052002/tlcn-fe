@@ -42,9 +42,8 @@
 ::-webkit-scrollbar {
     width: 3px;
 }
-.order{
+.order {
     position: relative;
-    height: 213px;
 }
 .border-bottom {
     border-bottom: 1px solid #dedede;
@@ -53,7 +52,7 @@
     padding: 1rem 0;
 }
 .product-order img {
-    width: 75%;
+    width: 60%;
     object-fit: contain;
     padding: 1rem;
     border-right: 1px solid #dedede;
@@ -71,7 +70,7 @@
     padding-top: 2rem;
     padding-left: 3rem;
 }
-.productOrder-price{
+.productOrder-price {
     font-weight: bold;
     padding-right: 0.2rem;
     padding-top: 1rem;
@@ -80,7 +79,6 @@
 .productOrder-total {
     font-weight: bold;
     padding-top: 1.8rem;
-
 }
 .productOrder-state {
     padding-top: 1rem;
@@ -97,5 +95,19 @@
     left: 34%;
     font-style: oblique;
     font-size: 13px;
-
+}
+.orderFocus {
+    animation-name: orderFocus;
+    animation-duration: 2s;
+}
+@keyframes orderFocus {
+    0% {
+        background-color: #ffffe1;
+    }
+    25% {
+        background-color: white;
+    }
+    100% {
+        background-color: #ffffe1;
+    }
 }

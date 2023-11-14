@@ -5,6 +5,12 @@ import { formatter } from '../Store';
 
 export default function ProductOrder({ order }) {
     const [productOrder, setProductOrder] = useState([]);
+    //
+    const jump = (h) => {
+        const url = window.location.href;
+        window.location.href = '#' + h;
+        window.history.replaceState(null, null, url);
+    };
     useEffect(() => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -18,8 +24,24 @@ export default function ProductOrder({ order }) {
             axios.request(config).then((res) => setProductOrder(res.data));
         } catch {}
     }, []);
+    useEffect(() => {
+        if (sessionStorage.getItem('orderFocus')) {
+            try {
+                jump(`order-${sessionStorage.getItem('orderFocus')}`);
+                document.getElementById(`order-${sessionStorage.getItem('orderFocus')}`).classList.add('orderFocus');
+                setTimeout(() => {
+                    try {
+                        document
+                            .getElementById(`order-${sessionStorage.getItem('orderFocus')}`)
+                            .classList.remove('orderFocus');
+                    } catch {}
+                    sessionStorage.removeItem('orderFocus');
+                }, [2000]);
+            } catch {}
+        }
+    });
     return (
-        <div className="border-bottom order row">
+        <div id={`order-${order.orderId}`} className="border-bottom order row">
             {productOrder.image == null ? (
                 <>
                     <div className="col-6"></div>

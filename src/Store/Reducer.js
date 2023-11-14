@@ -18,6 +18,7 @@ import {
     CHANGE_TOTAL_PRICE,
     CHANGE_USER,
     CHANGE_USERFOCUS,
+    DECREASE_NUMBER_NOTIFY,
     DECREASE_PRICE_ALL,
     INCREASE_PRICE_ALL,
 } from './Contants';
@@ -39,7 +40,7 @@ const initState = {
     numberMessages: 0,
     clientStomp: null,
     listUserIdChat: [],
-    userFocus: [sessionStorage.getItem('userFocus')],
+    userFocus: sessionStorage.getItem('userFocus'),
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -86,6 +87,12 @@ function Reducer(state, action) {
             return { ...state, listUserIdChat: [...state.listUserIdChat, action.payload] };
         case CHANGE_USERFOCUS:
             return { ...state, userFocus: action.payload };
+        case DECREASE_NUMBER_NOTIFY:
+            if (state.numberNotify > 0) {
+                return { ...state, numberNotify: state.numberNotify - 1 };
+            } else {
+                return { ...state };
+            }
         default:
             throw new Error('');
     }

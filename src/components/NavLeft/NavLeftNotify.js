@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCallback } from 'react';
-export default function NavLeftNotify() {
+import Notify from './Notify';
+export default function NavLeftNotify({ listNotify }) {
     //delete page favorite function
     const handleClickDeletePageNotify = useCallback((e) => {
         document.getElementById('page-navleft-notify').classList.remove('page-navleft-visible');
@@ -23,6 +24,9 @@ export default function NavLeftNotify() {
                     </svg>
                 </div>
                 <h5>THÔNG BÁO</h5>
+                {listNotify.map((notify) => (
+                    <Notify notify={notify} deletePageNotify={handleClickDeletePageNotify}/>
+                ))}
             </div>
         </div>
     );

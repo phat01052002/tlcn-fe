@@ -146,10 +146,10 @@
     border: 1px solid #dfdfe2;
     border-radius: 10%;
 }
-.product-favorite{
+.product-favorite {
     position: relative;
     border-bottom: 1px solid #dfdfe2;
-    padding:1rem 0
+    padding: 1rem 0;
 }
 .delete-item-favorite {
     position: absolute;
@@ -162,11 +162,69 @@
     right: 4%;
     top: 0;
 }
-.delete-item-favorite svg:hover{
+.delete-item-favorite svg:hover {
     scale: 1.2;
     cursor: pointer;
 }
-.product-favorite-name label:hover{
+.product-favorite-name label:hover {
     font-weight: bold;
     cursor: pointer;
+}
+.product-notify-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product-notify-img img {
+    object-fit: fill;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid #dfdfe2;
+}
+.product-notify {
+    padding: 1rem 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-bottom: 1px solid gray;
+    position: relative;
+    cursor: pointer;
+}
+.product-name-notify {
+    font-weight: bold;
+    font-size: 13px;
+}
+.total-notify {
+    font-size: 15px;
+    color: red;
+}
+.notify-description {
+    color: green;
+    font-weight: bold;
+}
+.date-notify {
+    font-style: italic;
+    font-size: 13px;
+    position: absolute;
+    bottom: 1%;
+    right: 5%;
+}
+.code-order {
+    font-style: italic;
+}
+.uncheck-notify {
+    background-color: #dfdfe2;
+    border-radius: 10px !important;
+}
+
+.uncheck-notify:hover {
+    background-color: white;
+}
+.checked-notify {
+    background-color: white;
+    border-radius: 10px !important;
+}
+
+.checked-notify:hover {
+    background-color: #dfdfe2;
 }
