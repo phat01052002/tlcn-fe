@@ -20,6 +20,7 @@
     cursor: pointer;
     font-weight: bold;
     background-color: gray;
+    border-radius: 10px;
 }
 
 .page-category-img img{

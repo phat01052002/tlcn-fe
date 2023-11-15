@@ -228,3 +228,10 @@
 .checked-notify:hover {
     background-color: #dfdfe2;
 }
+
+.notthing-cart{
+    text-align: center;
+    margin-top: 300px;
+    margin-bottom: 300px;
+    font-weight: bold;
+}

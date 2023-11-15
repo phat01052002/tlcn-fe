@@ -11,6 +11,7 @@ import {
     notifyErrorLeakPaymentMethod,
     notifyErrorLeakPhone,
     notifyErrorLeakProductOrder,
+    notifyInfoOrder,
     notifySuccessOrder,
     notifyUpdateSussess,
     notifyWarningUpdateInfoUser,
@@ -166,19 +167,25 @@ export default function CheckOut() {
                                 },
                                 data: data,
                             };
-                            await axios.request(config);
-                            ///////////
-                            localStorage.removeItem(productId);
-                            dispatch(changeNumberCart(getNumber()));
+                            await axios.request(config).then((res) => {
+                                if (res.status == 204) {
+                                    ///////////
+                                    localStorage.removeItem(productId);
+                                    dispatch(changeNumberCart(getNumber()));
+                                } else {
+                                    notifyInfoOrder();
+                                    clearTimeout(redirectAfterCheckOutSuccess);
+                                }
+                            });
                         });
                         removeLoad();
                         notifySuccessOrder();
-                        setTimeout(() => {
+                        const redirectAfterCheckOutSuccess = setTimeout(() => {
                             dispatch(changeListProductCheckOut([]));
                             dispatch(changeListCountProductCheckOut([]));
                             sessionStorage.removeItem('checkout');
-                            window.location = '/';
-                        }, 3000);
+                            window.location = '/order';
+                        }, 3500);
                     }
                 } catch {
                     notifyErrorCantOrder();
