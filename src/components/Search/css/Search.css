@@ -42,7 +42,7 @@
 }
 
 .load-search{
-    position: relative;
+    position: absolute;
     top: 37%;
-    left: 33%;
+    left: 40%;
 }

@@ -1,4 +1,4 @@
-.chat-mess{
+.chat-mess {
     position: fixed;
     bottom: 2%;
     right: 2%;
@@ -11,17 +11,17 @@
     justify-content: center;
     align-items: center;
 }
-.chat-mess svg{
+.chat-mess svg {
     padding: 5px;
     cursor: pointer;
 }
-.chat-mess:hover{
+.chat-mess:hover {
     background-color: black;
     color: white;
 }
-.content-chat{
+.content-chat {
     position: absolute;
-    top: -970%;
+    top: -940%;
     right: 0%;
     width: 350px;
     height: 450px;
@@ -30,58 +30,63 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
     color: black !important;
-
 }
-.tittle{
+.tittle {
     text-align: center;
     font-weight: bold;
     margin-top: 0.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid gray;
 }
-
-.input-message input{
+.tittle-admin {
+    text-align: center;
+    font-weight: bold;
+    transform: translateY(-100%);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gray;
+}
+.input-message input {
     width: 100%;
     height: 40px;
     border-radius: 5px;
     border: 1px solid gray;
-    padding:0 1rem;
-}
-.input-message{
+    padding: 0 1rem;
+}receivedMessage.userIdc
+.input-message {
     position: absolute;
     width: 100%;
     top: 91%;
 }
-.input-message svg{
+.input-message svg {
     position: absolute;
     right: 1%;
-
 }
-.chat-body{
-    height: 350px;
+.chat-body {
+    height: 370px;
     overflow-y: scroll;
 }
 .chat-body::-webkit-scrollbar {
     width: 2px;
 }
-
-.chat-item{
+.chat-body-admin {
+    transform: translateY(-6%) !important;
+}
+.chat-item {
     padding: 0.75rem 0.5rem;
-
 }
 
-.right{
+.right {
     text-align: end;
 }
-.chat-item-nickname{
+.chat-item-nickname {
     font-weight: bold;
 }
-.chat-item-content label{
+.chat-item-content label {
     padding: 0.25rem 1rem;
     border: 1px solid gray;
     border-radius: 5px;
 }
-.number-mess{
+.number-mess {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -92,4 +97,29 @@
     align-items: center;
     top: -10%;
     right: -10%;
+}
+.item-chat-admin {
+    padding: 0 0.5rem;
+}
+.img-user-chat-admin {
+    object-fit: contain;
+    width: 13%;
+    padding: 0.2rem;
+    transform: translateY(-130%);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 50%;
+}
+
+.img-user-chat-admin:hover {
+    scale: 1.1;
+    cursor: pointer;
+}
+.onFocus{
+    background-color: #abcdef;
+}
+.img-no-message{
+    object-fit: contain;
+    width: 348px;
+    transform: translateY(30%);
 }

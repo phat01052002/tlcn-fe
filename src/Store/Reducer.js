@@ -5,6 +5,7 @@ import {
     CHANGE_LIST_FAVORITE,
     CHANGE_LIST_NOTIFY,
     CHANGE_LIST_PRODUCT_CHECKOUT,
+    CHANGE_LIST_USERID_CHAT,
     CHANGE_MESSAGES,
     CHANGE_NUMBER_CART,
     CHANGE_NUMBER_FAVORITE,
@@ -16,6 +17,8 @@ import {
     CHANGE_ROLE,
     CHANGE_TOTAL_PRICE,
     CHANGE_USER,
+    CHANGE_USERFOCUS,
+    DECREASE_NUMBER_NOTIFY,
     DECREASE_PRICE_ALL,
     INCREASE_PRICE_ALL,
 } from './Contants';
@@ -36,6 +39,8 @@ const initState = {
     messages: [],
     numberMessages: 0,
     clientStomp: null,
+    listUserIdChat: [],
+    userFocus: sessionStorage.getItem('userFocus'),
 };
 function Reducer(state, action) {
     switch (action.type) {
@@ -75,6 +80,19 @@ function Reducer(state, action) {
             return { ...state, numberMessages: 0 };
         case CHANGE_CLIENTSTOMP:
             return { ...state, clientStomp: action.payload };
+        case CHANGE_LIST_USERID_CHAT:
+            if (state.listUserIdChat.includes(action.payload)) {
+                return { ...state };
+            }
+            return { ...state, listUserIdChat: [...state.listUserIdChat, action.payload] };
+        case CHANGE_USERFOCUS:
+            return { ...state, userFocus: action.payload };
+        case DECREASE_NUMBER_NOTIFY:
+            if (state.numberNotify > 0) {
+                return { ...state, numberNotify: state.numberNotify - 1 };
+            } else {
+                return { ...state };
+            }
         default:
             throw new Error('');
     }

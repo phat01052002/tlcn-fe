@@ -22,8 +22,10 @@ export const notifyErrorLeakDelivery = () => toast.error('Thiếu phương thứ
 export const notifyErrorLeakPaymentMethod = () => toast.error('Thiếu phương thức thanh toán');
 export const notifyErrorCantOrder = () => toast.error('Không thể đặt hàng');
 export const notifySuccessOrder = () => toast.success(`Đặt hàng thành công`);
+export const notifyInfoOrder = () => toast.info('Đã hết hàng');
 export const notifyErrorLeakProductOrder = () => toast.error('Không có sản phẩm lựa chọn');
-
+export const notifySuccessCanceledOrder = () => toast.success('Huỷ đơn hàng thành công');
+export const notifyErrorCanceledOrder = () => toast.error('Huỷ đơn hàng thất bại');
 
 export default function NotificationInPage() {
     return (

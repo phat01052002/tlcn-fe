@@ -17,6 +17,9 @@ import {
     CHANGE_NUMBER_MESSAGES,
     CHANGE_NUMBER_MESSAGES_To_0,
     CHANGE_CLIENTSTOMP,
+    CHANGE_LIST_USERID_CHAT,
+    CHANGE_USERFOCUS,
+    DECREASE_NUMBER_NOTIFY,
 } from './Contants';
 
 export const changeNumberCart = (payload) => ({
@@ -103,5 +106,20 @@ export const changeNumberMessagesTo0 = (payload) => ({
 
 export const changeClientStomp = (payload) => ({
     type: CHANGE_CLIENTSTOMP,
+    payload,
+});
+
+export const changeListUserIdChat = (payload) => ({
+    type: CHANGE_LIST_USERID_CHAT,
+    payload,
+});
+
+export const changeUserFocus = (payload) => ({
+    type: CHANGE_USERFOCUS,
+    payload,
+});
+
+export const decreaseNumerNotify = (payload) => ({
+    type: DECREASE_NUMBER_NOTIFY,
     payload,
 });

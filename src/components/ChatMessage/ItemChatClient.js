@@ -1,10 +1,7 @@
 import React from 'react';
 
-export default function ItemChat({ message, user, role }) {
+export default function ItemChat({ message, user }) {
     const setLocationOfItem = () => {
-        if (role == 'admin' && message.nickname == 'Admin') {
-            return 'right';
-        }
         if (message.nickname != user.name) {
             return 'left';
         } else {

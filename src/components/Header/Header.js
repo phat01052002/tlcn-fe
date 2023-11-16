@@ -11,8 +11,10 @@ import { Bars } from 'react-loader-spinner';
 import {
     changeCheckToFalse,
     changeListFavorite,
+    changeListNotify,
     changeNumberCart,
     changeNumberFavorite,
+    changeNumberNotify,
     changePriceAll,
     changeRole,
     changeUser,
@@ -140,6 +142,37 @@ export default function Header() {
             window.location = '/login';
         }
     };
+    //get nottify
+    const getNotify = (user) => {
+        try {
+            if (user.length != 0) {
+                var numberNotifyCurrent = 0;
+                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: '/user/getNotification',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                axios
+                    .request(config)
+                    .then((res) => {
+                        for (var i = 0; i < res.data.length; i++) {
+                            if (!res.data[i].state) {
+                                numberNotifyCurrent += 1;
+                            }
+                        }
+                        dispatch(changeNumberNotify(numberNotifyCurrent));
+                        dispatch(changeListNotify(res.data));
+                    })
+                    .catch();
+            }
+        } catch {
+            window.location = '/login';
+        }
+    };
     //get username (if state is user or admin)
     const getUserName = async () => {
         try {
@@ -223,6 +256,7 @@ export default function Header() {
             dispatch(changeRole('user'));
         } catch {}
     };
+
     /// USE EFFECT
     useEffect(() => {
         checkAdmin();
@@ -238,6 +272,7 @@ export default function Header() {
     }, [roleState]);
     useEffect(() => {
         getFavorite(user);
+        getNotify(user);
     }, [user]);
     ///icon user return
     const iconUser = () => {
@@ -416,17 +451,17 @@ export default function Header() {
             </div>
             <div id="over-navleft-cart">
                 <div id="page-navleft-cart" className="page-navleft-hidden">
-                    <NavLeftCart listProductCart={listProductCart} />;
+                    <NavLeftCart listProductCart={listProductCart} />
                 </div>
             </div>
             <div id="over-navleft-favorite">
                 <div id="page-navleft-favorite" className="page-navleft-hidden">
-                    <NavLeftFavorite listProductFavorite={listFavorite} />;
+                    <NavLeftFavorite listProductFavorite={listFavorite} />
                 </div>
             </div>
             <div id="over-navleft-notify">
                 <div id="page-navleft-notify" className="page-navleft-hidden">
-                    <NavLeftNotify listNotify={listNotify} />;
+                    <NavLeftNotify listNotify={listNotify} />
                 </div>
             </div>
             <NotificationInPage />

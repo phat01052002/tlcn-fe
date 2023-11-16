@@ -4,6 +4,7 @@ import './css/HomePage.css';
 import Banner from '../components/Banner/Banner';
 import ListBestSellerProduct from './ListBestSellerProduct';
 import ListCategoryRow from '../components/CategoryHomepage/ListCategoryRow';
+import Footer from '../components/Footer/Footer';
 export default function HomePage() {
     return (
         <div>
@@ -120,6 +121,7 @@ export default function HomePage() {
                     <div className="col-1"></div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
