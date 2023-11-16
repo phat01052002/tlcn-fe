@@ -191,6 +191,11 @@ const ManageUsers = () => {
     return (
       <Box m="20px">
         <HeaderAdmin title="USER" subtitle="Managing users" />
+        <Link to={`/admin/users/create`}>
+                <IconButton>
+                <AutoFixHighOutlinedIcon/>
+                </IconButton> 
+        </Link>
         <Box
           m="40px 0 0 0"
           height="65vh"
