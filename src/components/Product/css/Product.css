@@ -12,29 +12,29 @@
     display: inline-block;
     width: 25%;
     text-align: center;
-    padding-bottom: 20px;
     position: relative;
 }
 .img-product {
     width: 70%;
     object-fit: cover;
     margin-top: 2rem;
+    padding: 0.4rem;
 }
 .product-content {
     background-color: #fffffa;
     font-size: 13px;
 }
 .product-content:hover {
-    border: 1px solid #dfdfe2;
-    border-radius: 10px;
+
 }
 .product-content label {
     display: block;
     height: 40px;
 }
 .product-price {
-    margin-top: 4rem;
+    margin-top: 6rem;
     color: #ee4d2d;
+    font-weight: bold;
 }
 .product-content-btn {
     display: block;
@@ -47,6 +47,7 @@
     right: 0;
     left: 0;
     height: 55px !important;
+    font-weight: 400;
 }
 .btn-product {
     display: block;
@@ -144,6 +145,7 @@
     top: 17%;
     z-index: 1;
     font-size: 0.9rem;
+    font-size: 12px;
 }
 .price-discount {
     width: 100%;
@@ -154,24 +156,27 @@
 }
 .price-old {
     position: absolute;
-    left: -5%;
+    left: -1%;
     text-decoration: line-through;
+    font-weight: normal !important;
 }
 .price-new {
     position: absolute;
-    right: -5%;
+    right: -1%;
     font-weight: bold;
     color: red;
 }
 .number-favorite {
     position: absolute;
     color: #eda500;
-    bottom: 20%;
+    bottom: 14%;
     left: 43%;
+    font-size: 11px;
 }
 .number-quantity {
     position: absolute;
     color: #eda500;
-    bottom: 2%;
-    right: 4%;
+    bottom: 7%;
+    right: 2%;
+    font-size: 11px;
 }
