@@ -32,7 +32,7 @@ const initialValues = {
     address: "",
 };
 
-export default function UserForm() {
+export default function CreateForm() {
     const [user, setUser] = useState({
 		fullName: "",
         phone: "",
