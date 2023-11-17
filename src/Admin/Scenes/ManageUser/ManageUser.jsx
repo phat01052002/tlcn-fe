@@ -12,12 +12,10 @@ import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
 
 const ManageUsers = () => {
     //Theme
@@ -27,7 +25,7 @@ const ManageUsers = () => {
     const [userId, setUserId] = useState();
     const [message, setMessage] = useState();
 
-    //Modal open, close
+    //Modal delete open, close
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
         setOpen(true);
@@ -38,6 +36,7 @@ const ManageUsers = () => {
         setOpen(false);
         console.log('close' + userId);
     };
+    
     const handleDelete = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -58,6 +57,38 @@ const ManageUsers = () => {
 
         console.log(userId);
     };
+
+    //Modal status open, close
+    const [openStatus, setOpenStatus] = useState(false);
+    const handleOpenStatus = (id) => {
+      setOpenStatus(true);
+      setUserId(id);
+      console.log('open' + userId);
+    };
+    const handleCloseStatus = () => {
+      setOpenStatus(false);
+      console.log('close' + userId);
+    };
+    const handleUpdateStatus = async () => {
+      try {
+          const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+          let config = {
+              method: 'post',
+              maxBodyLength: Infinity,
+              url: `/admin/updateUserStatus/${userId}`,
+              headers: {
+                  Authorization: `Bearer ${accessToken}`,
+              },
+          };
+          const response = await axios.request(config);
+          handleCloseStatus();
+          //axios.request(config).then((res) => setUsers(res.data));
+      } catch {
+          window.location = '/login';
+      }
+
+      console.log(userId);
+  };
     //Load data from server
     const loadUsers = () => {
         try {
@@ -144,8 +175,9 @@ const ManageUsers = () => {
             headerName: 'Status',
             flex: 0.5,
             renderCell: ({ row: { status } }) => {
-                return (
-                    <Box
+                return [
+                  <>
+                   <Box
                         width="100%"
                         m="0 auto"
                         p="5px"
@@ -160,7 +192,55 @@ const ManageUsers = () => {
                             {status}
                         </Typography>
                     </Box>
-                );
+                  <Modal
+                            open={openStatus}
+                            onClose={handleCloseStatus}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    width: 400,
+                                    bgcolor: 'background.paper',
+                                    border: '2px solid #000',
+                                    boxShadow: 24,
+                                    p: 4,
+                                }}
+                            >
+                                <Typography
+                                    id="modal-modal-title"
+                                    variant="h2"
+                                    color={colors.grey[100]}
+                                    fontWeight="bold"
+                                    sx={{ mb: '5px' }}
+                                >
+                                    {status === 'active' && "Khóa người dùng này ?"}
+                                    {status === 'inactive' && "Mở người dùng này ?"}
+                                </Typography>
+                                <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
+                                    <Button
+                                        variant="contained"
+                                        sx={{ backgroundColor: '#3e4396' }}
+                                        onClick={() => handleUpdateStatus()}
+                                    >
+                                        Có
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        sx={{ backgroundColor: '#3e4396' }}
+                                        onClick={handleCloseStatus}
+                                    >
+                                        Không
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        </Modal>
+                  </>
+                ];
             },
         },
         {
@@ -172,11 +252,11 @@ const ManageUsers = () => {
                 return [
                     <>
                         {/** Edit button */}
-                        <Link to={`/admin/users/edit/${id}`}>
-                            <IconButton>
+                        
+                            <IconButton onClick={() => handleOpenStatus(id)}>
                                 <LockOpenOutlinedIcon />
                             </IconButton>
-                        </Link>
+                        
                         {/** Detail button */}
                         <Link to={`/admin/users/detail/${id}`}>
                             <IconButton>
@@ -199,7 +279,7 @@ const ManageUsers = () => {
                                     top: '50%',
                                     left: '50%',
                                     transform: 'translate(-50%, -50%)',
-                                    width: 350,
+                                    width: 400,
                                     bgcolor: 'background.paper',
                                     border: '2px solid #000',
                                     boxShadow: 24,
@@ -213,26 +293,22 @@ const ManageUsers = () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Delete this user ?
+                                    Xóa người dùng này ?
                                 </Typography>
-                                {/*<div style={{display: "flex", flexDirection:"row", marginTop: "20px", justifyContent:"center"}}>
-                    <Button sx={{backgroundColor: "red", width:"50px", marginRight:"10px", fontWeight:"bold"}}>Yes</Button>
-                    <Button sx={{backgroundColor: "blue", width:"50px", fontWeight:"bold"}}>No</Button>
-                  </div>*/}
-                                <Stack spacing={2} direction="row" justifyContent="center">
+                                <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button
                                         variant="contained"
                                         sx={{ backgroundColor: '#3e4396' }}
                                         onClick={() => handleDelete()}
                                     >
-                                        {userId}
+                                        Có
                                     </Button>
                                     <Button
                                         variant="contained"
                                         sx={{ backgroundColor: '#3e4396' }}
                                         onClick={handleClose}
                                     >
-                                        No
+                                        Không
                                     </Button>
                                 </Stack>
                             </Box>
@@ -295,17 +371,5 @@ const ManageUsers = () => {
         </Box>
     );
 };
-
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
 
 export default ManageUsers;

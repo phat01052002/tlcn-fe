@@ -122,35 +122,35 @@ const SidebarAdmin = () => {
                     />
                     <Typography variant='h6' color={colors.grey[300]} sx={{ m: "15px 0 5px 20px"}}>Manage</Typography>
                     <Item 
-                        title="Manage User"
+                        title="Quản lý người dùng"
                         to="/admin/users"
                         icon={<PeopleOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                     />
                     <Item 
-                        title="Manage Product"
+                        title="Quản lý sản phẩm"
                         to="/admin/products"
                         icon={<Inventory2OutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                     />
                     <Item 
-                        title="Manage Category"
+                        title="Quản lý loại sản phẩm"
                         to="/admin/categories"
                         icon={<CategoryOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                     />
                     <Item 
-                        title="Contact Infomation"
+                        title="Quản lý đơn hàng"
                         to="/admin/contact"
                         icon={<ContactsOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                     />
                     <Item 
-                        title="Calendar"
+                        title="Quản lý banner"
                         to="/admin/calendar"
                         icon={<CalendarTodayOutlinedIcon />}
                         selected={selected}
