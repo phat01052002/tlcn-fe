@@ -57,10 +57,7 @@
     width: 100%;
     border-radius: 10px;
 }
-.img-living-room img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 .img-decor {
     margin-top: 2rem;
 }
@@ -69,10 +66,7 @@
     object-fit: cover;
     border-radius: 10px;
 }
-.img-decor img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 .living-room-nav {
     margin-top: 50px;
 }
@@ -124,10 +118,7 @@
     width: 80%;
     border-radius: 10px;
 }
-.img-bed-room img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 .img-dining {
     margin-top: 50px;
 }
@@ -136,11 +127,6 @@
     object-fit: cover;
     width: 95%;
     border-radius: 10px;
-}
-
-.img-dining img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
 }
 
 .bed-room-nav {
@@ -247,7 +233,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: 0%;
+    left: -0.5%;
     top: 45%;
 }
 .next {
@@ -255,7 +241,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 0%;
+    right: -0.5%;
     top: 45%;
 }
 .sanphambanchay {
@@ -290,6 +276,9 @@
         width: 50%;
         margin-top: 20px;
         height: 80%;
+    }
+    .banner-noslide > div:first-child {
+        padding-left: 0;
     }
     .banner-noslide > div:nth-child(2) img {
         margin-top: 0;

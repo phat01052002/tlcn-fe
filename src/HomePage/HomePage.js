@@ -16,7 +16,7 @@ export default function HomePage() {
                 </div>
                 <div className="col-12 col-lg-4 row banner-noslide">
                     <div className=''>
-                        <img src="https://nhaxinh.com/wp-content/uploads/2022/01/sofa-maxine-vai-vang-2.jpg" />
+                        <img src="https://nhaxinh.com/wp-content/uploads/2021/10/nha-xinh-phong-khach-sofa-jazz-mau-cognac-phong-cach.jpg" />
                     </div>
                     <div>
                         <img src="https://nhaxinh.com/wp-content/uploads/2022/01/sofa-maxine-vai-vang-2.jpg" />
