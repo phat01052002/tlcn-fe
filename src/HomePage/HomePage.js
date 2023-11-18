@@ -9,18 +9,40 @@ export default function HomePage() {
     return (
         <div>
             <Header />
-            <div className="banner img-page-guest">
-                <Banner />
+            <div className="row banner img-page-guest">
+                <div className="col-0 col-lg-1"></div>
+                <div className="col-12 col-lg-6">
+                    <Banner />
+                </div>
+                <div className="col-12 col-lg-4 row banner-noslide">
+                    <div className=''>
+                        <img src="https://nhaxinh.com/wp-content/uploads/2021/10/nha-xinh-phong-khach-sofa-jazz-mau-cognac-phong-cach.jpg" />
+                    </div>
+                    <div>
+                        <img src="https://nhaxinh.com/wp-content/uploads/2022/01/sofa-maxine-vai-vang-2.jpg" />
+                    </div>
+                </div>
+                <div className="col-1"></div>
             </div>
-            <div id="content">
+            <div id="content" className="row">
+                <div className="col-1"></div>
+                <div className="col-10">
+                    <ListCategoryRow />
+                </div>
+                <div className="col-1"></div>
+                <div className="sanphambanchay">Sản Phẩm Bán Chạy</div>
                 <div className="row product-bestSeller">
                     <div className="col-1"></div>
                     <div className="col-10" id="product-bestSeller">
-                        < ListCategoryRow/>
-                        <h3>Sản Phẩm Bán Chạy</h3>
                         <div className="list-product-bestSeller">
                             <ListBestSellerProduct />
                         </div>
+                        <div className="col-1"></div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-1"></div>
+                    <div className="col-10">
                         <div className="content-room row">
                             <div className="col-lg-6 col-sm-8 img-living-room">
                                 <img src="https://nhaxinh.com/wp-content/uploads/2023/05/mau-phong-khach-nha-xinh-24523.jpg"></img>
@@ -93,7 +115,7 @@ export default function HomePage() {
                                     src={'https://nhaxinh.com/wp-content/uploads/2023/05/mau-phong-ngu-16-5-23.jpg'}
                                 ></img>
                             </div>
-                            
+
                             <div className="col-lg-6 col-sm-12 img-dining">
                                 <img src="https://nhaxinh.com/wp-content/uploads/2022/09/banner-phong-an-nha-xinh-12-9-22.jpg"></img>
                                 <div className="dining-nav">

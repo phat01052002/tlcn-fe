@@ -1,6 +1,14 @@
 .img-banner{
     object-fit: cover;
-    height: 500px;
-    width: 90% !important;
+    height: 530px;
+    width: 100% !important;
     border-radius: 10px;
+}
+@media (max-width:991px) {
+    .img-banner{
+        width: 90% !important;
+    }
+    .img-banner{
+        height: 350px;
+    }
 }

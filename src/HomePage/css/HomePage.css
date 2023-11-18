@@ -24,20 +24,28 @@
 }
 .product-bestSeller {
     margin-top: 50px;
+    background-image: url('../../Image/background_login.png');
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-position: 70%;
 }
 #product-bestSeller {
     text-align: center;
+    background-color: #fffffa;
+    padding: 0 !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border-radius: 10px;
 }
 .list-product-bestSeller {
     display: flex;
     justify-content: center;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    margin-top: 40px;
     border-radius: 8px;
 }
 
 .img-page-guest {
-    margin-top: 150px;
+    margin-top: 120px;
+    height: 500px;
 }
 .content-room {
     margin-top: 80px;
@@ -49,20 +57,16 @@
     width: 100%;
     border-radius: 10px;
 }
-.img-living-room img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
 
+.img-decor {
+    margin-top: 2rem;
+}
 .img-decor img {
     width: 100%;
     object-fit: cover;
     border-radius: 10px;
 }
-.img-decor img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 .living-room-nav {
     margin-top: 50px;
 }
@@ -89,11 +93,18 @@
 .bed-room-nav a {
     text-decoration: none;
     color: black;
+    font-weight: normal;
 }
-
+.bed-room-nav a:hover {
+    font-weight: bold;
+}
 .dining-nav a {
     text-decoration: none;
     color: black;
+    font-weight: normal;
+}
+.dining-nav a:hover {
+    font-weight: bold;
 }
 .img-bed-room {
     margin-top: 50px;
@@ -107,10 +118,7 @@
     width: 80%;
     border-radius: 10px;
 }
-.img-bed-room img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 .img-dining {
     margin-top: 50px;
 }
@@ -119,11 +127,6 @@
     object-fit: cover;
     width: 95%;
     border-radius: 10px;
-}
-
-.img-dining img:hover {
-    transform: scale(1.05);
-    cursor: pointer;
 }
 
 .bed-room-nav {
@@ -159,10 +162,10 @@
     .next {
         right: -4% !important;
     }
-    .back{
+    .back {
         left: -4% !important;
     }
-    .category-homepage{
+    .category-homepage {
         font-size: 0.75rem;
     }
 }
@@ -218,6 +221,7 @@
 .category-homepage img {
     width: 60%;
     object-fit: contain;
+    padding: 0.2rem;
 }
 .category-homepage label {
     font-weight: bold;
@@ -229,7 +233,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: 0%;
+    left: -0.5%;
     top: 45%;
 }
 .next {
@@ -237,6 +241,54 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 0%;
+    right: -0.5%;
     top: 45%;
+}
+.sanphambanchay {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.load-row-cate {
+    text-align: center;
+}
+.banner-noslide {
+    height: 100%;
+}
+.banner-noslide img {
+    object-fit: cover;
+    height: 90%;
+    width: 100%;
+    border-radius: 10px;
+}
+.banner-noslide > div:nth-child(2) img {
+    margin-top: 20px;
+}
+.banner-noslide > div {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 54%;
+}
+@media (max-width: 991px) {
+    .banner-noslide > div {
+        width: 50%;
+        margin-top: 20px;
+        height: 80%;
+    }
+    .banner-noslide > div:first-child {
+        padding-left: 0;
+    }
+    .banner-noslide > div:nth-child(2) img {
+        margin-top: 0;
+    }
+    .banner-noslide {
+        padding-left: 3rem;
+        padding-right: 1rem;
+    }
+    .img-page-guest {
+        margin-top: 120px;
+        height: auto;
+    }
 }

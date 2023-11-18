@@ -56,15 +56,17 @@ export default function ListCategoryRow() {
     return (
         <>
             {listCategory.length == 0 ? (
-                <ColorRing
-                    visible={true}
-                    height="160"
-                    width="160"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-                />
+                <div className="load-row-cate">
+                    <ColorRing
+                        visible={true}
+                        height="160"
+                        width="160"
+                        ariaLabel="blocks-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="blocks-wrapper"
+                        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                    />
+                </div>
             ) : (
                 <div id="list-category-homepage" className="list-category-homepage">
                     <div className="back">

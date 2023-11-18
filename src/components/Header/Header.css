@@ -1,6 +1,5 @@
 body {
     overflow-x: hidden;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif !important;
 }
 .top-header {
     width: 100%;
@@ -66,7 +65,7 @@ body {
 .naviga-header span {
     margin: 0 20px;
     height: 100%;
-    font-size: 16px;
+    font-size: 15px;
     border-bottom: solid;
     border-color: white;
     font-weight: bold;
@@ -115,7 +114,7 @@ body {
     padding: 0 5px;
     margin-bottom: 20px;
 }
-.notification label{
+.notification label {
     font-size: 11px;
     background-color: red;
     border-radius: 10px;
@@ -396,9 +395,9 @@ body {
     }
 }
 
-#loader-page{
+#loader-page {
     position: fixed;
-    top:0;
+    top: 0;
     right: 0;
     left: 0;
     bottom: 0;
@@ -407,10 +406,10 @@ body {
     opacity: 0.4;
     display: none;
 }
-#loader{
+#loader {
     z-index: 201;
     position: fixed;
-    top:0;
+    top: 0;
     right: 0;
     left: 0;
     bottom: 0;
@@ -418,7 +417,6 @@ body {
     align-items: center;
     display: none;
 }
-.display-flex{
+.display-flex {
     display: flex !important;
 }
-
