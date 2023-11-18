@@ -148,7 +148,13 @@ export default function PageProductDetail() {
     };
     //get product by Id
     useEffect(() => {
-        axios.get(`/guest/product/${productId}`).then((res) => setProduct(res.data));
+        axios.get(`/guest/product/${productId}`).then((res) => {
+            if (res.data == null) {
+                window.location = '/notfound';
+            } else {
+                setProduct(res.data);
+            }
+        });
     }, []);
     useEffect(() => {
         getRating(user);

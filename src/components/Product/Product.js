@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useCallback } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { changeNumberCart, getNumber, useStore } from '../../Store';
@@ -17,6 +19,7 @@ export default function Product({ product, type }) {
     const naviga = useNavigate();
     //
     const [productCurrent, setProductCurrent] = useState(product);
+    const [listFavorite, setListFavorite] = useState([]);
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -54,7 +57,7 @@ export default function Product({ product, type }) {
     //
     const isFavorite = (listFavoriteByUser, user, productUnlike, product) => {
         for (var i = 0; i < listFavoriteByUser.length; i++) {
-            if (listFavoriteByUser[i].user.userId == user.userId) {
+            if (listFavoriteByUser[i].userId == user.userId) {
                 for (var j = 0; j < productUnlike.length; j++) {
                     if (productUnlike[j] == product.productId) {
                         return false;
@@ -66,15 +69,16 @@ export default function Product({ product, type }) {
         return false;
     };
     //
-    const addHeart = (user, product, productUnlike) => {
-        if (product.favorites.length != 0 && user.length != 0) {
-            if (isFavorite(product.favorites, user, productUnlike, product)) {
-                return <Like product={product} setProductCurrent={setProductCurrent} />;
-            } else {
-                return <Unlike product={product} setProductCurrent={setProductCurrent} />;
-            }
+    const addHeart = (user, product, productUnlike, listFavorite) => {
+        if (listFavorite.length != 0&&user.length != 0) {
+           
+                if (isFavorite(listFavorite, user, productUnlike, product)) {
+                    return <Like product={product} setListFavorite={setListFavorite} />;
+                } else {
+                    return <Unlike product={product} setListFavorite={setListFavorite} />;
+                }
         } else {
-            return <Unlike product={product} setProductCurrent={setProductCurrent} />;
+            return <Unlike product={product} setListFavorite={setListFavorite} />;
         }
     };
     const getProductPrice = () => {
@@ -103,6 +107,9 @@ export default function Product({ product, type }) {
             return null;
         }
     };
+    useEffect(() => {
+        axios.get(`/guest/getFavoritesByProduct/${product.productId}`).then((res) => setListFavorite(res.data));
+    }, []);
     return (
         <div id="product" className="product">
             <div id="type-product" className="type-product">
@@ -138,11 +145,11 @@ export default function Product({ product, type }) {
                         </svg>
                     </button>
                     <button className="btn-product btn-like-product">
-                        {addHeart(user, productCurrent, productUnlike)}
+                        {addHeart(user, productCurrent, productUnlike, listFavorite)}
                     </button>
                 </div>
                 <label className="number-favorite">
-                    {productCurrent.favorites.length != 0 ? productCurrent.favorites.length + ' lượt thích' : null}
+                    {listFavorite.length != 0 ? listFavorite.length + ' lượt thích' : null}
                 </label>
                 <label className="number-quantity">
                     {productCurrent.quantity != 0 ? 'còn lại ' + productCurrent.quantity : null}

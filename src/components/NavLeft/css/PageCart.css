@@ -68,15 +68,15 @@
 .buy-in-cart button {
     font-size: 11px;
     border-radius: 5px;
-    background-color: white;
+    background-color: black;
     padding: 5px 10px;
-    color: black;
+    color: white;
     border: 1px solid #dfdfe2;
 }
 
 .buy-in-cart button:hover {
-    color: white;
-    background-color: black;
+    color: black;
+    background-color: white;
 }
 .buy-in-cart input {
     font-size: 11px;

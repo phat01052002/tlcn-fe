@@ -29,7 +29,7 @@ export default function ListCategoryRow() {
     }, []);
     //
     const handleClickNext = useCallback((currentProduct) => {
-        if (currentProduct < 24) {
+        if (currentProduct < 18) {
             document.getElementById('list-category-homepage').classList.add('go-out-next');
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-next');

@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
@@ -179,9 +180,9 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                                 </button>
                             </div>
                             <div className="col-7 buy-in-cart">
-                                <button onClickCapture={() => handleClickPay(countProduct * product.price)}>
+                                <Button onClickCapture={() => handleClickPay(countProduct * product.price)}>
                                     Thanh toán
-                                </button>
+                                </Button>
                                 <input
                                     className="price-incart"
                                     value={formatter.format(countProduct * product.price)}

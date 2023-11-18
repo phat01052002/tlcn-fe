@@ -68,14 +68,14 @@ export default function PageRoom() {
     });
     //api call first
     const getData = async () => {
-        await axios
-            .get(`/guest/room/products/${roomId}`)
-            .then((res) => setProductsInRoom(res.data))
-            .catch((err) => console.log(err));
-        await axios
-            .get(`/guest/room/${roomId}`)
-            .then((res) => setRoom(res.data))
-            .catch((err) => console.log(err));
+        await axios.get(`/guest/room/products/${roomId}`).then((res) => setProductsInRoom(res.data));
+        await axios.get(`/guest/room/${roomId}`).then((res) => {
+            if (res.data == null) {
+                window.location = '/notfound';
+            } else {
+                setRoom(res.data);
+            }
+        });
     };
     useEffect(() => {
         getData();

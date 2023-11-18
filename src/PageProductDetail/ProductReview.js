@@ -81,8 +81,8 @@ export default function ProductReview({ productId }) {
         <div>
             <div className="review-input-chat">{renderInputChat(roleState)}</div>
             <div className="review-content">
-                {listReview.map((review) => (
-                    <Review key={review.reviewId} review={review} getReview={getReview} />
+                {listReview.map((review,index) => (
+                    <Review key={index} review={review} getReview={getReview} />
                 ))}
             </div>
         </div>

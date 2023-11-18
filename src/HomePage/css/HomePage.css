@@ -24,7 +24,7 @@
 }
 .product-bestSeller {
     margin-top: 50px;
-    background-image: url('../../Image/background_login.png');
+    background-image: url('https://scr.vn/wp-content/uploads/2020/07/%E1%BA%A3nh-n%E1%BB%81n-m%C3%A1y-t%C3%ADnh-c%E1%BB%B1c-%E1%BA%A5n-t%C6%B0%E1%BB%A3ng-1536x864.jpg');
     padding-top: 3rem;
     padding-bottom: 3rem;
     background-position: 70%;
@@ -35,6 +35,7 @@
     padding: 0 !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
+    box-shadow:  rgb(255, 85, 85) 0px 0px 0px 4px;
     border-radius: 10px;
 }
 .list-product-bestSeller {
@@ -143,9 +144,7 @@
     display: grid;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
     margin: 4rem 0;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
-    padding: 0rem 2rem;
     position: relative;
 }
 @media (max-width: 420px) {
@@ -154,8 +153,7 @@
         grid-template-columns: 50% 50%;
         grid-template-rows: 33.3% 33.3% 33.3%;
         margin: 4rem 0;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        border-radius: 10px;
+            border-radius: 10px;
         padding: 1rem -10px;
         position: relative;
     }
@@ -175,8 +173,7 @@
         grid-template-columns: 33.3% 33.3% 33.3%;
         grid-template-rows: 50% 50%;
         margin: 4rem 0;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        border-radius: 10px;
+            border-radius: 10px;
         padding: 2rem 2rem;
         position: relative;
     }
@@ -205,6 +202,7 @@
     cursor: pointer;
     padding: 1rem;
     text-align: center;
+    border: 1px solid #dedede;
 }
 @keyframes overCategory {
     0% {
@@ -215,13 +213,14 @@
     }
 }
 .category-homepage:hover {
-    scale: 1.1;
+    opacity: 0.5;
 }
 
 .category-homepage img {
     width: 60%;
     object-fit: contain;
     padding: 0.2rem;
+    border-radius: 10px;
 }
 .category-homepage label {
     font-weight: bold;
@@ -233,7 +232,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: -0.5%;
+    left: -7%;
     top: 45%;
 }
 .next {
@@ -241,7 +240,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: -0.5%;
+    right: -7%;
     top: 45%;
 }
 .sanphambanchay {

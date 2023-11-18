@@ -5,7 +5,7 @@ import { notifyWarningPleaseLogin } from '../components/NotificationInPage/Notif
 import { useStore } from '../Store';
 import Response from './Response';
 
-export default function Review({review, getReview }) {
+export default function Review({ review, getReview }) {
     const [globalState, dispatch] = useStore();
     const { user } = globalState;
     const [closeResponse, setCloseResponse] = useState(false);
@@ -102,12 +102,12 @@ export default function Review({review, getReview }) {
         <div className="row review-div">
             <div className="col-2 div-input-chat">
                 <div>
-                    <img className="user-img-review" src={review.user.image}></img>
+                    <img className="user-img-review" src={review.image}></img>
                 </div>
             </div>
             <div className="col-10 review-product-content">
                 <div className="review-product-user-name">
-                    {user ? (user.userId == review.user.userId ? 'Bạn' : review.user.name) : review.user.name} :
+                    {user ? (user.userId == review.userId ? 'Bạn' : review.name) : review.name} :
                 </div>
                 <div>
                     <label>{review.content}</label>
@@ -119,7 +119,7 @@ export default function Review({review, getReview }) {
                             Phản hồi({listResponse.length == 0 ? null : listResponse.length})
                         </label>
                     }
-                    {user.userId == review.user.userId ? <label onClick={handleDeleteReview}>Xoá</label> : null}
+                    {user.userId == review.userId ? <label onClick={handleDeleteReview}>Xoá</label> : null}
                     &nbsp; &nbsp;
                     {review.date.substr(0, 10)}
                 </span>

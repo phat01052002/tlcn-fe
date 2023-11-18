@@ -1,3 +1,6 @@
+#root {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
 body {
     overflow-x: hidden;
 }
@@ -145,7 +148,7 @@ body {
 .listcategory-visible {
     visibility: visible;
     animation-name: all-category;
-    animation-duration: 1s;
+    animation-duration: 0.75s;
 }
 
 .listcategory-hidden {
@@ -163,7 +166,7 @@ body {
 .list-room-visible {
     visibility: visible;
     animation-name: all-category;
-    animation-duration: 1s;
+    animation-duration: 0.75s;
 }
 
 .list-room-hidden {
