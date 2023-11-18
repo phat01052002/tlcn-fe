@@ -14,9 +14,9 @@ import ForgotPasswordPage from './ForgotPasswordPage/ForgotPasswordPage';
 import ProductAdmin from './Admin/Pages/ProductAdmin/ProductAdmin';
 import UserAdmin from './Admin/Pages/UsersAdmin/UserAdmin';
 import CategoryAdmin from './Admin/Pages/CategoryAdmin/CategoryAdmin';
-import EditProduct from './Admin/Pages/ProductAdmin/EditProduct';
 import PageOrder from './PageOrder/PageOrder';
 import CreateForm from './Admin/Pages/UsersAdmin/CreateForm';
+import UserDetail from './Admin/Pages/UsersAdmin/UserDetail';
 function App() {
     return (
         <BrowserRouter>
@@ -37,7 +37,7 @@ function App() {
                 <Route path="/admin/products" element={<ProductAdmin />}></Route>
                 <Route path="/admin/categories" element={<CategoryAdmin />}></Route>
                 <Route path="/admin/users" element={<UserAdmin />}></Route>
-                <Route path="/admin/users/edit/:id" element={<EditProduct />}></Route>
+                <Route path="/admin/users/detail/:id" element={<UserDetail />}></Route>
                 <Route path="/admin/users/create" element={<CreateForm />}></Route>
             </Routes>
         </BrowserRouter>

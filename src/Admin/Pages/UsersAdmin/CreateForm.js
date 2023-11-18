@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { ColorModeContext, useMode } from '../../theme';
-import { CssBaseline, IconButton, Link, Stack, ThemeProvider } from '@mui/material';
+import React, { useState } from 'react';
+import { ColorModeContext, tokens, useMode } from '../../theme';
+import { CssBaseline, IconButton, Modal, Stack, ThemeProvider, Typography } from '@mui/material';
 import axios from 'axios';
-import { changeRole, useStore } from '../../../Store';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
 import '../../PageAdmin.css';
@@ -15,71 +14,82 @@ import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { storage } from '../../../setupFirebase/setupFirebase';
-import { ref, uploadBytes, getDownloadURL, list } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import { styleBox } from '../../Scenes/ManageUser/ManageUser';
+import { useEffect } from 'react';
 
 //Validate
 const phoneRegExp = /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 const passwordRegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{6,20}$/;
 
 const checkoutSchema = yup.object().shape({
-    fullName: yup.string().required('bắt buộc'),
+    name: yup.string().required('bắt buộc'),
     password: yup.string().matches(passwordRegExp, 'mật khẩu không hợp lệ').required('bắt buộc'),
     phone: yup.string().matches(phoneRegExp, 'số điện thoại không hợp lệ').required('bắt buộc'),
     address: yup.string().required('bắt buộc'),
 });
 //Field values
 const initialValues = {
-    fullName: '',
+    name: '',
     phone: '',
     image: '',
     password: '',
     address: '',
 };
 
-export default function CreateForm() {    
+export default function CreateForm() {
     const [theme, colorMode] = useMode();
+    const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
-    //Submit 
-    const handleFormSubmit = async (values) => {
-        uploadImage()
-        if (urlImage == undefined)
-            values.image = "https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png";
-        else
-            values.image = urlImage;
-        console.log('value');
-        console.log(values);
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: '/admin/createUser',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                data: values,
-            };
-            const respone = (await axios.request(config)).data;
-            console.log('thanhcong');
-            console.log(respone);
-        } catch {
-            console.log('thatbai');
-        }
-    };
+    //Submit
     //Upload Image
     const [imageUpload, setImageUpload] = useState(null);
-    const [urlImage, setUrlImage] = useState();
-    const uploadImage = () => {
+    const [message, setMessage] = useState(null);
+    const [fileName, setFileName] = useState(null);
+    
+    const uploadImage_Submit = async (values) => {
         if (imageUpload == null) return;
+
         const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-        uploadBytes(imageRef, imageUpload).then((snapshot)=>{
-            
-            getDownloadURL(snapshot.ref).then((url) =>{setUrlImage(url); console.log("url"+ url); console.log("res"+ urlImage);})
-            
-            
-        }) 
+        uploadBytes(imageRef, imageUpload).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then(async (url) => {
+                console.log("url: "+url)
+                if (url == null)
+                    values.image = 'https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png';
+                else values.image = url;
+                console.log('value');
+                console.log(values);
+                try {
+                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                    let config = {
+                        method: 'post',
+                        maxBodyLength: Infinity,
+                        url: '/admin/createUser',
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                        data: values,
+                    };
+                    const respone = (await axios.request(config)).data;
+                    setMessage(respone.message);
+                    handleOpen();
+                    console.log('thanhcong');
+                    console.log(respone);
+                } catch {
+                    console.log('thatbai');
+                }
+            });
+        });
+    };
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+        
+    };
+    const handleClose = () => {
+        setOpen(false);
     };
     return (
         <ColorModeContext.Provider value={colorMode}>
@@ -93,7 +103,7 @@ export default function CreateForm() {
                             <HeaderAdmin title="THÊM NGƯỜI DÙNG" subtitle="Thêm hồ sơ người dùng mới" />
 
                             <Formik
-                                onSubmit={handleFormSubmit}
+                                onSubmit={uploadImage_Submit}
                                 initialValues={initialValues}
                                 validationSchema={checkoutSchema}
                             >
@@ -114,10 +124,10 @@ export default function CreateForm() {
                                                 label="Họ và tên"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.fullName}
-                                                name="fullName"
-                                                error={!!touched.fullName && !!errors.fullName}
-                                                helperText={touched.fullName && errors.fullName}
+                                                value={values.name}
+                                                name="name"
+                                                error={!!touched.name && !!errors.name}
+                                                helperText={touched.name && errors.name}
                                                 sx={{ gridColumn: 'span 4' }}
                                             />
                                             <TextField
@@ -133,14 +143,26 @@ export default function CreateForm() {
                                                 helperText={touched.phone && errors.phone}
                                                 sx={{ gridColumn: 'span 4' }}
                                             />
-                                            <Button color="secondary" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                                                Chọn file
-                                                <VisuallyHiddenInput 
-                                                    type="file" 
-                                                    onChange={(event)=> {setImageUpload(event.target.files[0]);}} 
-                                                />
-                                            </Button>
+                                            <Stack spacing={2} direction="row" height={35}>
+                                                <Button
+                                                    color="secondary"
+                                                    component="label"
+                                                    variant="contained"
+                                                    startIcon={<CloudUploadIcon />}
+                                                >
+                                                    Chọn file
+                                                    <VisuallyHiddenInput
+                                                        type="file"
+                                                        onChange={(event) => {
+                                                            setImageUpload(event.target.files[0]);
+                                                            setFileName(event.target.files[0].name);
+                                                        }}
+                                                    />
+                                                </Button>
+                                                <Typography>{fileName}</Typography>
+                                            </Stack>
                                             
+
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
@@ -170,11 +192,11 @@ export default function CreateForm() {
                                         </Box>
 
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">
-                                            <Link to={`/admin/users`}>
-                                                <IconButton>
-                                                    <ArrowBackIcon/>
-                                                </IconButton>
-                                            </Link>
+                                            
+                                            <IconButton onClick={()=> {window.location = "/admin/users"}}>
+                                                <ArrowBackIcon />
+                                            </IconButton>
+                                            
                                             <Button type="submit" color="secondary" variant="contained">
                                                 Create New User
                                             </Button>
@@ -182,6 +204,31 @@ export default function CreateForm() {
                                     </form>
                                 )}
                             </Formik>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box
+                                    sx={styleBox}
+                                >
+                                    <Typography
+                                        id="modal-modal-title"
+                                        variant="h2"
+                                        color={colors.grey[100]}
+                                        fontWeight="bold"
+                                        sx={{ mb: '5px' }}
+                                    >
+                                        {message}
+                                    </Typography>
+                                    <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
+                                        <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleClose}>
+                                            OK
+                                        </Button>
+                                    </Stack>
+                                </Box>
+                            </Modal>
                         </Box>
                     </main>
                 </div>

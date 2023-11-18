@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const ManageUsers = () => {
+const ManageProducts = () => {
     //Theme
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
