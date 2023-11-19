@@ -23,7 +23,7 @@ export default function ListCategoryRow() {
             document.getElementById('list-category-homepage').classList.add('go-out-back');
             setTimeout(() => {
                 document.getElementById('list-category-homepage').classList.remove('go-out-back');
-                setCurrentProduct(24);
+                setCurrentProduct(18);
             }, 500);
         }
     }, []);

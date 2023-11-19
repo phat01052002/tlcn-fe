@@ -136,8 +136,8 @@ export default function PageOrder() {
                         </div>
                     </div>
                     <div className="list-product-order">
-                        {listOrder.map((order, index) => (
-                            <ProductOrder key={index} order={order} />
+                        {listOrder.map((order) => (
+                            <ProductOrder key={order.orderId} order={order} />
                         ))}
                     </div>
                 </div>

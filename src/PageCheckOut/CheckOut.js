@@ -61,6 +61,7 @@ export default function CheckOut() {
                     .request(config)
                     .then((response) => {
                         notifyUpdateSussess();
+                        dispatch(changeUser(response.data));
                     })
                     .catch((error) => {
                         console.log(error);
@@ -110,11 +111,11 @@ export default function CheckOut() {
                 return;
             }
             if (user.length != 0 && listProductCheckOut.length != 0) {
-                if (user.phone == null) {
+                if (user.phone == '') {
                     notifyErrorLeakPhone();
                     return;
                 }
-                if (user.address == null) {
+                if (user.address == '') {
                     notifyErrorLeakAddress();
                     return;
                 }
@@ -258,9 +259,8 @@ export default function CheckOut() {
                             <label>Địa chỉ:</label>
                             <input
                                 className="input-checkout input-user-address"
-                                value={user.address}
+                                value={user.address != '' && user.address != null ? user.address : null}
                                 placeholder="Vui lòng cập nhật thông tin"
-                                readOnly={user.address ? true : false}
                                 onKeyDown={(e) => handleEnterInputAddress(e, user)}
                             ></input>
                         </div>

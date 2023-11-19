@@ -7,18 +7,20 @@ import {
     notifySuccessCanceledOrder,
     notifySuccessOrder,
 } from '../components/NotificationInPage/NotificationInPage';
-import { formatter } from '../Store';
+import { changeListNotify, changeNumberNotify, formatter, useStore } from '../Store';
 
 export default function ProductOrder({ order }) {
     const [productOrder, setProductOrder] = useState([]);
     const [orderState, setOrderState] = useState(order.state);
+    const [globalState, dispatch] = useStore();
+    const { user } = globalState;
     //
     const jump = (h) => {
         const url = window.location.href;
         window.location.href = '#' + h;
         window.history.replaceState(null, null, url);
     };
-    const handleCancelOrder = useCallback(async () => {
+    const handleCancelOrder = useCallback(async (user) => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
@@ -35,8 +37,35 @@ export default function ProductOrder({ order }) {
         } catch {
             notifyErrorCanceledOrder();
         }
+        try {
+            if (user.length != 0) {
+                var numberNotifyCurrent = 0;
+                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: '/user/getNotification',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                await axios
+                    .request(config)
+                    .then((res) => {
+                        for (var i = 0; i < res.data.length; i++) {
+                            if (!res.data[i].state) {
+                                numberNotifyCurrent += 1;
+                            }
+                        }
+                        dispatch(changeNumberNotify(numberNotifyCurrent));
+                        dispatch(changeListNotify(res.data));
+                    })
+            }
+        } catch {
+            window.location = '/login';
+        }
     }, []);
-    const handleRestoreOrder = useCallback(async () => {
+    const handleRestoreOrder = useCallback(async (user) => {
         const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
         var config = {
             method: 'post',
@@ -53,6 +82,33 @@ export default function ProductOrder({ order }) {
                 notifyInfoOrder();
             }
         });
+        try {
+            if (user.length != 0) {
+                var numberNotifyCurrent = 0;
+                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: '/user/getNotification',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                await axios
+                    .request(config)
+                    .then((res) => {
+                        for (var i = 0; i < res.data.length; i++) {
+                            if (!res.data[i].state) {
+                                numberNotifyCurrent += 1;
+                            }
+                        }
+                        dispatch(changeNumberNotify(numberNotifyCurrent));
+                        dispatch(changeListNotify(res.data));
+                    })
+            }
+        } catch {
+            window.location = '/login';
+        }
     }, []);
     useEffect(() => {
         try {
@@ -195,11 +251,11 @@ export default function ProductOrder({ order }) {
                         <div className="productOrder-date">{order.date.substr(0, 10)}</div>
                         {orderState != 'canceled' ? (
                             <div className="btn-order-product">
-                                <button onClick={handleCancelOrder}>Hủy</button>
+                                <button onClick={()=>handleCancelOrder(user)}>Hủy</button>
                             </div>
                         ) : (
                             <div className="btn-order-product restore">
-                                <button onClick={handleRestoreOrder}>Đặt lại</button>
+                                <button onClick={()=>handleRestoreOrder(user)}>Đặt lại</button>
                             </div>
                         )}
                     </div>

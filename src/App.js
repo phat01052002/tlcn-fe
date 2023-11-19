@@ -29,7 +29,7 @@ function App() {
                 <Route path="/checkout" element={<CheckOut />}></Route>
                 <Route path="/design" exact element={<DesignPage />}></Route>
                 <Route path="/category/:categoryId" element={<PageCategory />}></Route>
-                <Route path="/productdetail/:productId" exact element={<PageProductDetail />}></Route>
+                <Route path="/productdetail/:productId" element={<PageProductDetail />}></Route>
                 <Route path="/room/:roomId" element={<PageRoom/>}></Route>
                 <Route path="/login" element={<PageLogin />}></Route>
                 <Route path="/ForgotPassword" element={<ForgotPasswordPage />}></Route>

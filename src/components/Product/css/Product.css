@@ -22,6 +22,7 @@
 }
 .product-content {
     font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .product-content label {
     display: block;
@@ -43,7 +44,8 @@
     right: 0;
     left: 0;
     height: 55px !important;
-    font-weight: 400;
+    font-weight: bold;
+    font-size: 14px;
 }
 .btn-product {
     display: block;
@@ -155,6 +157,7 @@
     left: -1%;
     text-decoration: line-through;
     font-weight: normal !important;
+    color: black;
 }
 .price-new {
     position: absolute;

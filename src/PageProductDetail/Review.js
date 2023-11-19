@@ -138,7 +138,7 @@ export default function Review({ review, getReview }) {
                         </div>
                     </div>
                     {listResponse.map((response) => (
-                        <Response response={response} getResponseReview={getResponseReview} />
+                        <Response key={response.reponseReviewId} response={response} getResponseReview={getResponseReview} />
                     ))}
                 </div>
             </div>
