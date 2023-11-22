@@ -33,7 +33,7 @@ export default function Notify({ notify, deletePageNotify }) {
                 .then((notify.state = true));
             document.body.style.pointerEvents = 'auto';
             sessionStorage.setItem('orderFocus', notify.order.orderId);
-            nav('/order');
+            window.location = '/order';
             if (sessionStorage.getItem('orderFocus')) {
                 try {
                     jump(`order-${sessionStorage.getItem('orderFocus')}`);

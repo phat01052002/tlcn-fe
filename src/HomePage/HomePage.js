@@ -15,7 +15,7 @@ export default function HomePage() {
                     <Banner />
                 </div>
                 <div className="col-12 col-lg-4 row banner-noslide">
-                    <div className=''>
+                    <div className="">
                         <img src="https://nhaxinh.com/wp-content/uploads/2021/10/nha-xinh-phong-khach-sofa-jazz-mau-cognac-phong-cach.jpg" />
                     </div>
                     <div>

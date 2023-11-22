@@ -13,9 +13,10 @@
     width: 25%;
     text-align: center;
     position: relative;
+    border: 1px solid white;
 }
 .img-product {
-    width: 70%;
+    width: 60%;
     object-fit: cover;
     margin-top: 2rem;
     padding: 0.4rem;
@@ -57,9 +58,15 @@
     margin-left: 5px;
     color: black;
 }
-.img-product:hover {
-    transform: scale(1.1);
+.product:hover {
+    border: 1px solid #dedede;
+    transition: border 1s;
+    border-radius: 10px;
+}
+.product:hover .img-product {
+    scale: 1.1;
     cursor: pointer;
+    transition: scale 1s;
 }
 .product:hover .btn-product {
     visibility: visible;

@@ -29,7 +29,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserProcessing',
+                url: '/user/findOrdersByUserAndState/processing',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -44,7 +44,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserProcessed',
+                url: '/user/findOrdersByUserAndState/processed',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -59,7 +59,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserDelivered',
+                url: '/user/findOrdersByUserAndState/delivered',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -74,7 +74,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserCanceled',
+                url: '/user/findOrdersByUserAndState/canceled',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

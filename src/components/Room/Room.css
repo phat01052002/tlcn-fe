@@ -13,4 +13,6 @@
     font-weight: bold;
     background-color: gray;
     border-radius: 10px;
+    transition: background-color 1s;
+
 }

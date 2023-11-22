@@ -21,22 +21,23 @@ export default function ProductOrder({ order }) {
         window.history.replaceState(null, null, url);
     };
     const handleCancelOrder = useCallback(async (user) => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            var config = {
-                method: 'post',
-                url: `/user/canceledOrder/${order.orderId}`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            await axios.request(config).then((res) => {
+        const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+        var config = {
+            method: 'post',
+            url: `/user/canceledOrder/${order.orderId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+        await axios.request(config).then((res) => {
+            console.log(res.data);
+            if (res.data == 'canceled success') {
                 setOrderState('canceled');
-            });
-            notifySuccessCanceledOrder();
-        } catch {
-            notifyErrorCanceledOrder();
-        }
+                notifySuccessCanceledOrder();
+            } else {
+                notifyErrorCanceledOrder();
+            }
+        });
         try {
             if (user.length != 0) {
                 var numberNotifyCurrent = 0;
@@ -49,17 +50,15 @@ export default function ProductOrder({ order }) {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 };
-                await axios
-                    .request(config)
-                    .then((res) => {
-                        for (var i = 0; i < res.data.length; i++) {
-                            if (!res.data[i].state) {
-                                numberNotifyCurrent += 1;
-                            }
+                await axios.request(config).then((res) => {
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (!res.data[i].state) {
+                            numberNotifyCurrent += 1;
                         }
-                        dispatch(changeNumberNotify(numberNotifyCurrent));
-                        dispatch(changeListNotify(res.data));
-                    })
+                    }
+                    dispatch(changeNumberNotify(numberNotifyCurrent));
+                    dispatch(changeListNotify(res.data));
+                });
             }
         } catch {
             window.location = '/login';
@@ -75,7 +74,7 @@ export default function ProductOrder({ order }) {
             },
         };
         await axios.request(config).then((res) => {
-            if (res.status == 204) {
+            if (res.data == 'restore success') {
                 setOrderState('processing');
                 notifySuccessOrder();
             } else {
@@ -94,17 +93,15 @@ export default function ProductOrder({ order }) {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 };
-                await axios
-                    .request(config)
-                    .then((res) => {
-                        for (var i = 0; i < res.data.length; i++) {
-                            if (!res.data[i].state) {
-                                numberNotifyCurrent += 1;
-                            }
+                await axios.request(config).then((res) => {
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (!res.data[i].state) {
+                            numberNotifyCurrent += 1;
                         }
-                        dispatch(changeNumberNotify(numberNotifyCurrent));
-                        dispatch(changeListNotify(res.data));
-                    })
+                    }
+                    dispatch(changeNumberNotify(numberNotifyCurrent));
+                    dispatch(changeListNotify(res.data));
+                });
             }
         } catch {
             window.location = '/login';
@@ -251,11 +248,11 @@ export default function ProductOrder({ order }) {
                         <div className="productOrder-date">{order.date.substr(0, 10)}</div>
                         {orderState != 'canceled' ? (
                             <div className="btn-order-product">
-                                <button onClick={()=>handleCancelOrder(user)}>Hủy</button>
+                                <button onClick={() => handleCancelOrder(user)}>Hủy</button>
                             </div>
                         ) : (
                             <div className="btn-order-product restore">
-                                <button onClick={()=>handleRestoreOrder(user)}>Đặt lại</button>
+                                <button onClick={() => handleRestoreOrder(user)}>Đặt lại</button>
                             </div>
                         )}
                     </div>
