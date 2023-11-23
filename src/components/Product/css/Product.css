@@ -8,18 +8,28 @@
         opacity: 1;
     }
 }
+@keyframes move-number-quantity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
 .product {
     display: inline-block;
     width: 25%;
     text-align: center;
     position: relative;
-    border: 1px solid white;
+    border: 1px dotted white;
+    background-color: white;
 }
 .img-product {
-    width: 60%;
+    width: 80%;
     object-fit: cover;
     margin-top: 2rem;
     padding: 0.4rem;
+
 }
 .product-content {
     font-size: 13px;
@@ -31,8 +41,9 @@
 }
 .product-price {
     margin-top: 6rem;
-    color: #ee4d2d;
+    color: #eda500;
     font-weight: bold;
+    text-align: center;
 }
 .product-content-btn {
     display: block;
@@ -41,12 +52,12 @@
 }
 .product-name {
     position: absolute;
-    bottom: 25%;
+    bottom: 22%;
     right: 0;
     left: 0;
     height: 55px !important;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
 }
 .btn-product {
     display: block;
@@ -59,9 +70,14 @@
     color: black;
 }
 .product:hover {
-    border: 1px solid #dedede;
-    transition: border 1s;
+    border: 1px dotted #dfdfe2;
+    transition: border 0.5s;
     border-radius: 10px;
+}
+.product:hover .number-quantity {
+    visibility: visible !important;
+    animation-name: move-number-quantity;
+    animation-duration: 1s;
 }
 .product:hover .img-product {
     scale: 1.1;
@@ -71,7 +87,7 @@
 .product:hover .btn-product {
     visibility: visible;
     animation-name: move-btn-product;
-    animation-duration: 0.3s;
+    animation-duration: 0.5s;
 }
 .product:hover .product-hot-badge {
     scale: 1.1;
@@ -122,14 +138,32 @@
         transform: rotate(0);
     }
 }
+@media (max-width: 1360px) {
+    .img-product {
+        width: 90% !important;
+    }
+    .number-favorite {
+        left: 38% !important;
+    }
+}
 @media (max-width: 1200px) {
+    .img-product {
+        width: 100% !important;
+    }
     .product-name {
-        bottom: 30% !important;
+        bottom: 25% !important;
+        font-size: 12px;
+    }
+    .number-favorite {
+        left: 35% !important;
     }
 }
 @media (max-width: 768px) {
     .product {
         width: 50% !important;
+    }
+    .number-favorite {
+        left: 43% !important;
     }
 }
 
@@ -170,7 +204,7 @@
     position: absolute;
     right: -1%;
     font-weight: bold;
-    color: red;
+    color: #eda500;
 }
 .number-favorite {
     position: absolute;
@@ -185,4 +219,5 @@
     bottom: 7%;
     right: 2%;
     font-size: 11px;
+    visibility: hidden;
 }

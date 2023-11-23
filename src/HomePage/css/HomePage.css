@@ -23,8 +23,7 @@
     }
 }
 .product-bestSeller {
-    margin-top: 50px;
-    background-image: url('https://scr.vn/wp-content/uploads/2020/07/%E1%BA%A3nh-n%E1%BB%81n-m%C3%A1y-t%C3%ADnh-c%E1%BB%B1c-%E1%BA%A5n-t%C6%B0%E1%BB%A3ng-1536x864.jpg');
+    margin-top: 1rem;
     padding-top: 3rem;
     padding-bottom: 3rem;
     background-position: 70%;
@@ -35,8 +34,7 @@
     padding: 0 !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
-    box-shadow: gray 0px 0px 0px 4px;
-    border-radius: 10px;
+    border-bottom: double;
 }
 .list-product-bestSeller {
     display: flex;
@@ -143,8 +141,6 @@
 .list-category-homepage {
     display: grid;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
-    margin: 4rem 0;
-    border-radius: 10px;
     position: relative;
 }
 @media (max-width: 420px) {
@@ -190,10 +186,6 @@
     animation-duration: 0.5s;
     animation-iteration-count: infinite;
 }
-.list-category-homepage svg:hover {
-    scale: 1.05;
-    cursor: pointer;
-}
 
 .list-category-homepage svg {
     margin: 0 1rem;
@@ -234,23 +226,53 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: -7%;
-    top: 45%;
+    left: -5%;
+    top: 55%;
 }
 .next {
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: -7%;
-    top: 45%;
+    right: -5%;
+    top: 55%;
 }
-.sanphambanchay {
+.title-top-product {
     font-size: 25px;
     font-weight: bold;
-    text-align: center;
+    padding: 4rem 0 2rem 0;
+    border-top: double;
 }
-
+.title-top-product label {
+    border-bottom: 3px solid white;
+    position: relative;
+}
+.visible-arrow-bottom {
+    border-bottom: 3px solid black !important;
+}
+.visible-arrow-bottom::after {
+    border-top: 10px solid black !important;
+}
+.title-top-product label::after {
+    content: '';
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    bottom: -30%;
+    height: 10px;
+    width: 1%;
+    border-top: 10px solid white;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+.title-top-product label:hover::after {
+    border-top: 10px solid black;
+    cursor: pointer;
+}
+.title-top-product label:hover {
+    cursor: pointer;
+    border-bottom: 3px solid black;
+}
 .load-row-cate {
     text-align: center;
 }
@@ -292,4 +314,33 @@
         margin-top: 120px;
         height: auto;
     }
+    .back {
+        left: -7%;
+    }
+    .next {
+        right: -7%;
+    }
+}
+
+.title-top-product-style i {
+    color: red;
+    font-size: 25px;
+    margin: 0 0.5rem;
+}
+.title-top-product-style {
+    padding: 0 1rem;
+}
+.title-product-sale-off {
+    border-left: 1px solid #dedede;
+}
+.list-category-homepage-content {
+    position: relative;
+    border-top: double;
+    padding: 4rem 0 0 0;
+    margin: 4rem 0;
+    margin-top: 6rem;
+}
+.list-category-homepage-content svg:hover {
+    scale: 1.05;
+    cursor: pointer;
 }

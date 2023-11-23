@@ -28,9 +28,20 @@ export default function HomePage() {
                 <div className="col-1"></div>
                 <div className="col-10">
                     <ListCategoryRow />
+                    <div className="title-top-product">
+                        <label className="title-top-product-style visible-arrow-bottom ">
+                            <i class="fa fa-bolt fa-fw fa-2x"></i>
+                            Bán Chạy
+                            <i class="fa fa-bolt fa-fw fa-2x"></i>
+                        </label>
+                        <label className="title-top-product-style title-product-sale-off">
+                            <i class="fa-solid fa-percent"></i>
+                            Sale Off
+                            <i class="fa-solid fa-percent"></i>
+                        </label>
+                    </div>
                 </div>
                 <div className="col-1"></div>
-                <div className="sanphambanchay">Sản Phẩm Bán Chạy</div>
                 <div className="row product-bestSeller">
                     <div className="col-1"></div>
                     <div className="col-10" id="product-bestSeller">
