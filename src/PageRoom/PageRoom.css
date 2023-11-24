@@ -1,5 +1,6 @@
 .page-room-content{
     margin-top: 100px;
+    background-color: #f8f8f8;
     
 }
 
@@ -13,6 +14,7 @@
 
 .list-product-by-room{
     margin-top: 4rem;
+    padding-left: 4rem;
 }
 .banner-room{
     padding: 1rem;

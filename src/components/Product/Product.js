@@ -70,13 +70,12 @@ export default function Product({ product, type }) {
     };
     //
     const addHeart = (user, product, productUnlike, listFavorite) => {
-        if (listFavorite.length != 0&&user.length != 0) {
-           
-                if (isFavorite(listFavorite, user, productUnlike, product)) {
-                    return <Like product={product} setListFavorite={setListFavorite} />;
-                } else {
-                    return <Unlike product={product} setListFavorite={setListFavorite} />;
-                }
+        if (listFavorite.length != 0 && user.length != 0) {
+            if (isFavorite(listFavorite, user, productUnlike, product)) {
+                return <Like product={product} setListFavorite={setListFavorite} />;
+            } else {
+                return <Unlike product={product} setListFavorite={setListFavorite} />;
+            }
         } else {
             return <Unlike product={product} setListFavorite={setListFavorite} />;
         }
@@ -111,19 +110,21 @@ export default function Product({ product, type }) {
         axios.get(`/guest/getFavoritesByProduct/${product.productId}`).then((res) => setListFavorite(res.data));
     }, []);
     return (
-        <div id="product" className="product">
+        <div
+            id="product"
+            className={`product ${type == 'sale' ? 'width100' : null}`}
+            onClickCapture={() => handleClickProduct(productCurrent.productId)}
+        >
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
             {addDiscount()}
             <div className="product-content">
-                <img
-                    className="img-product"
-                    src={productCurrent.image}
-                    onClick={() => handleClickProduct(productCurrent.productId)}
-                />
-                <label className="product-price">{getProductPrice()}</label>
-                <label className="product-name">{productCurrent.name}</label>
+                <img className="img-product" src={productCurrent.image} />
+                <div className="info-product-content">
+                    <label className="product-name">{productCurrent.name}</label>
+                    <label className="product-price">{getProductPrice()}</label>
+                </div>
                 <div className="product-content-btn">
                     <button
                         className="btn-product btn-addtocart-product"

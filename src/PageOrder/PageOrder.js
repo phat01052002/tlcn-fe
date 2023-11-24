@@ -99,7 +99,7 @@ export default function PageOrder() {
         <div className="page-order">
             <Header />
             {listOrder.length}
-            <div className="title-page-order">Đơn hàng của tôi</div>
+            <div className="title-page-order">ĐƠN HÀNG CỦA TÔI</div>
             <div className="page-order-content row">
                 <div className="col-1"></div>
                 <div className="col-10">
