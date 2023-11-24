@@ -13,6 +13,8 @@ import {
 } from '../components/NotificationInPage/NotificationInPage';
 import ReactStars from 'react-rating-stars-component';
 import { ColorRing, ProgressBar } from 'react-loader-spinner';
+import ListProductNear from './ListProductNear';
+import Footer from '../components/Footer/Footer';
 
 export default function PageProductDetail() {
     /////
@@ -162,7 +164,7 @@ export default function PageProductDetail() {
     return (
         <div>
             <Header />
-            <div className="row">
+            <div className="row page-product-detail">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">
                     {product.image == null ? (
@@ -223,33 +225,37 @@ export default function PageProductDetail() {
                                 <br />
                                 <br />
                                 <h8>{product.description}</h8>
-                                <div className="behind-productdetail-content">
-                                    <span
-                                        id="review"
-                                        className="behind-productdetail behind-productdetail-current review-product"
-                                        onClick={handleClickReview}
-                                    >
-                                        Đánh Giá
-                                    </span>
-                                    <span
-                                        id="insuranse"
-                                        className="behind-productdetail insuranse-product"
-                                        onClick={handleClickInsuranse}
-                                    >
-                                        Bảo Hành
-                                    </span>
-                                    <span
-                                        id="transport"
-                                        className="behind-productdetail transport-product"
-                                        onClick={handleClickTransport}
-                                    >
-                                        Vận Chuyển
-                                    </span>
-                                </div>
-                                <BenhindProductDetail currentBehind={currentBehind} productId={productId} />
                             </div>
+                            <div className="behind-productdetail-content">
+                                <span
+                                    id="review"
+                                    className="behind-productdetail behind-productdetail-current review-product"
+                                    onClick={handleClickReview}
+                                >
+                                    Đánh Giá
+                                </span>
+                                <span
+                                    id="insuranse"
+                                    className="behind-productdetail insuranse-product"
+                                    onClick={handleClickInsuranse}
+                                >
+                                    Bảo Hành
+                                </span>
+                                <span
+                                    id="transport"
+                                    className="behind-productdetail transport-product"
+                                    onClick={handleClickTransport}
+                                >
+                                    Vận Chuyển
+                                </span>
+                            </div>
+                            <BenhindProductDetail currentBehind={currentBehind} productId={productId} />
                         </>
                     )}
+                    <div className='tittle-near-product'>Sản phẩm tương tự</div>
+                    <div className="near-product">
+                        <ListProductNear productId={productId}/>
+                    </div>
                 </div>
                 <div className="col-1">
                     <div className="star">
@@ -269,6 +275,7 @@ export default function PageProductDetail() {
                     </div>
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

@@ -1,3 +1,77 @@
-.footer{
+.footer {
+    width: 101%;
+    background-color: white;
     text-align: center;
+    padding: 2rem 0;
+    font-size: 13px;
+    position: relative;
+}
+.info-web {
+    margin-top: 2rem;
+    text-align: start;
+}
+.info-web div{
+    padding-left: 2rem;
+}
+.info-web h3 {
+    text-align: center;
+    color: #c4123f;
+}
+.info-web i {
+    color: #c4123f;
+    margin: 0.5rem 0;
+}
+.made-by {
+    margin-top: 2rem;
+}
+.chinhsach {
+    font-size: 16px;
+    margin-top: 2rem;
+}
+.chinhsach h3 {
+    color: #c4123f;
+}
+.register-follow {
+    margin-bottom: 2.5rem;
+    text-align:start !important;
+    position: relative;
+    padding-left: 4rem;
+}
+.input-register-follow{
+    font-size: 20px;
+}
+.input-register-follow label {
+    margin-right: 2rem;
+    color: #c4123f;
+    font-weight: bold;
+}
+.input-register-follow button {
+    color: #c4123f;
+    margin-left: 2rem;
+    font-weight: bold;
+}
+.contact {
+    font-size: 16px;
+    margin-top: 2rem;
+}
+.contact h3 {
+    color: #c4123f;
+}
+.contact i {
+    color: #c4123f;
+}
+.contact label {
+    display: block;
+    cursor: pointer;
+    margin: 0.5rem 0;
+}
+.pay-method img {
+    object-fit: contain;
+    width: 80%;
+}
+.register-follow i{
+    color: #c4123f;
+    position: absolute;
+    right: 15%;
+    top: 50%;
 }

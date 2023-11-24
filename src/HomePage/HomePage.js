@@ -88,9 +88,9 @@ export default function HomePage() {
                     <ListCategoryRow />
                     <div className="title-top-product">
                         <label className="title-top-product-style visible-arrow-bottom ">
-                            <i class="fa fa-bolt fa-fw fa-2x"></i>
+                            <i class="fa fa-bolt fa-beat fa-2x"></i>
                             Bán Chạy
-                            <i class="fa fa-bolt fa-fw fa-2x"></i>
+                            <i class="fa fa-bolt fa-beat fa-2x"></i>
                         </label>
                     </div>
                     <div className="product-bestSeller">

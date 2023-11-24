@@ -1,5 +1,5 @@
 #root {
-    font-family: Inter !important;
+    font-family: "Quicksand", sans-serif !important;
     background-color: #f8f8f8;
 }
 body {
@@ -179,7 +179,8 @@ body {
     visibility: hidden;
 }
 .logo-img {
-    height: 50px;
+    height: 48px;
+    object-fit: contain;
 }
 .iconUser {
     display: flex;

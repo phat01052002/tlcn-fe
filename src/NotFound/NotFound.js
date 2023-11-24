@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import React from 'react';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import './NotFound.css';
 export default function NotFound() {
@@ -28,6 +29,7 @@ export default function NotFound() {
                 <Button onClick={handleClickHomePage}>Trang chủ</Button>
             </div>
             <div className="col-3"></div>
+            <Footer></Footer>
         </div>
     );
 }

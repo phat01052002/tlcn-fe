@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
 import './PageOrder.css';
@@ -143,6 +144,7 @@ export default function PageOrder() {
                 </div>
                 <div className="col-1"></div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

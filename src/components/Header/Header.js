@@ -30,7 +30,8 @@ import NavLeftFavorite from '../NavLeft/NavLeftFavorite';
 import NavLeftNotify from '../NavLeft/NavLeftNotify';
 import ChatMessage from '../ChatMessage/ChatMessage';
 import { useLayoutEffect } from 'react';
-
+import logo from './logo.png';
+var limitNotify = 5;
 export default function Header() {
     //
     var timeRender = 0;
@@ -44,6 +45,12 @@ export default function Header() {
     const [listProductCart, setListProductCart] = useState([]);
     ///
     const [inputSearch, setInputSearch] = useState('');
+    //click more-notification
+    const handleClickMoreNotify = useCallback(() => {
+        limitNotify += 5;
+        console.log(limitNotify)
+        getNotify(user);
+    });
     //input search onChange
     const handleChangeInputSearch = useCallback((e) => {
         var string = e.target.value
@@ -119,76 +126,82 @@ export default function Header() {
     }, []);
     //get favorite by user
     const getFavorite = (user) => {
-        try {
-            if (user.length != 0) {
-                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-                let config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: `/user/favoriteByUser/${user.userId}`,
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                };
-                axios
-                    .request(config)
-                    .then((res) => {
-                        dispatch(changeNumberFavorite(res.data.length));
-                        dispatch(changeListFavorite(res.data));
-                    })
-                    .catch();
+        if (user.length != 0) {
+            try {
+                if (user.length != 0) {
+                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                    let config = {
+                        method: 'get',
+                        maxBodyLength: Infinity,
+                        url: `/user/favoriteByUser/${user.userId}`,
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    };
+                    axios
+                        .request(config)
+                        .then((res) => {
+                            dispatch(changeNumberFavorite(res.data.length));
+                            dispatch(changeListFavorite(res.data));
+                        })
+                        .catch();
+                }
+            } catch {
+                window.location = '/login';
             }
-        } catch {
-            window.location = '/login';
         }
     };
     //get nottify
     const getNotify = (user) => {
-        try {
-            if (user.length != 0) {
-                var numberNotifyCurrent = 0;
-                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-                let config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: '/user/getNotification',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                };
-                axios
-                    .request(config)
-                    .then((res) => {
-                        for (var i = 0; i < res.data.length; i++) {
-                            if (!res.data[i].state) {
-                                numberNotifyCurrent += 1;
+        if (user.length != 0) {
+            try {
+                if (user.length != 0) {
+                    var numberNotifyCurrent = 0;
+                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                    let config = {
+                        method: 'get',
+                        maxBodyLength: Infinity,
+                        url: `/user/getNotification/${limitNotify}`,
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    };
+                    axios
+                        .request(config)
+                        .then((res) => {
+                            for (var i = 0; i < res.data.length; i++) {
+                                if (!res.data[i].state) {
+                                    numberNotifyCurrent += 1;
+                                }
                             }
-                        }
-                        dispatch(changeNumberNotify(numberNotifyCurrent));
-                        dispatch(changeListNotify(res.data));
-                    })
-                    .catch();
+                            dispatch(changeNumberNotify(numberNotifyCurrent));
+                            dispatch(changeListNotify(res.data));
+                        })
+                        .catch();
+                }
+            } catch {
+                window.location = '/login';
             }
-        } catch {
-            window.location = '/login';
         }
     };
     //get username (if state is user or admin)
     const getUserName = async () => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: '/user/findByName',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
+        if (user.length == 0) {
+            try {
+                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: '/user/findByName',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
 
-            await axios.request(config).then((res) => dispatch(changeUser(res.data)));
-        } catch {
-            window.location = '/login';
+                await axios.request(config).then((res) => dispatch(changeUser(res.data)));
+            } catch {
+                window.location = '/login';
+            }
         }
     };
     //click order
@@ -396,10 +409,7 @@ export default function Header() {
                 </div>
                 <div className="col-md-1 icon-page-guest">
                     <a href="/">
-                        <img
-                            src={'https://i.pinimg.com/originals/69/34/73/693473a49f5048dd83077eb82b4513f9.jpg'}
-                            className="logo-img"
-                        ></img>
+                        <img src={logo} className="logo-img"></img>
                     </a>
                 </div>
                 <div className="col-9 naviga-header">
@@ -461,7 +471,11 @@ export default function Header() {
             </div>
             <div id="over-navleft-notify">
                 <div id="page-navleft-notify" className="page-navleft-hidden">
-                    <NavLeftNotify listNotify={listNotify} />
+                    <NavLeftNotify
+                        key={listNotify.length}
+                        listNotify={listNotify}
+                        handleClickMoreNotify={handleClickMoreNotify}
+                    />
                 </div>
             </div>
             <NotificationInPage />

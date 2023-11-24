@@ -28,10 +28,10 @@ export default function Response({ response, getResponseReview }) {
     }, []);
     return (
         <div className="row  margin-top-1rem">
-            <div className="col-2 response-img height-3rem">
+            <div className="col-1 response-img height-3rem">
                 <img src={response.image}></img>
             </div>
-            <div className="col-10 review-product-content">
+            <div className="col-11 review-product-content">
                 <div className="review-product-user-name">
                     {user ? (user.userId == response.userId ? 'Bạn' : response.name) : response.name}:
                 </div>

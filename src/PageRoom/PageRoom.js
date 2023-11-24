@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
 import './PageRoom.css';
@@ -131,6 +132,7 @@ export default function PageRoom() {
                     <ListProductByCategory listProduct={productsInRoom} />
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

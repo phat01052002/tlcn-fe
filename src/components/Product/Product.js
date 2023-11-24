@@ -110,17 +110,17 @@ export default function Product({ product, type }) {
         axios.get(`/guest/getFavoritesByProduct/${product.productId}`).then((res) => setListFavorite(res.data));
     }, []);
     return (
-        <div
-            id="product"
-            className={`product ${type == 'sale' ? 'width100' : null}`}
-            onClickCapture={() => handleClickProduct(productCurrent.productId)}
-        >
+        <div id="product" className={`product ${type == 'sale' ? 'width100' : null}`}>
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
             {addDiscount()}
             <div className="product-content">
-                <img className="img-product" src={productCurrent.image} />
+                <img
+                    className="img-product"
+                    src={productCurrent.image}
+                    onClickCapture={() => handleClickProduct(productCurrent.productId)}
+                />
                 <div className="info-product-content">
                     <label className="product-name">{productCurrent.name}</label>
                     <label className="product-price">{getProductPrice()}</label>

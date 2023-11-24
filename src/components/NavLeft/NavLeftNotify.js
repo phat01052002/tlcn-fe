@@ -1,7 +1,8 @@
+import { Button } from '@mui/material';
 import React from 'react';
 import { useCallback } from 'react';
 import Notify from './Notify';
-export default function NavLeftNotify({ listNotify }) {
+export default function NavLeftNotify({ listNotify,handleClickMoreNotify }) {
     //delete page favorite function
     const handleClickDeletePageNotify = useCallback((e) => {
         document.getElementById('page-navleft-notify').classList.remove('page-navleft-visible');
@@ -25,8 +26,11 @@ export default function NavLeftNotify({ listNotify }) {
                 </div>
                 <h5>THÔNG BÁO</h5>
                 {listNotify.map((notify) => (
-                    <Notify notify={notify} deletePageNotify={handleClickDeletePageNotify}/>
+                    <Notify notify={notify} deletePageNotify={handleClickDeletePageNotify} />
                 ))}
+                <div className="more-notify-btn" onClickCapture={handleClickMoreNotify}>
+                    <Button>Xem thêm</Button>
+                </div>
             </div>
         </div>
     );

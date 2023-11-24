@@ -1,3 +1,6 @@
+.page-cart {
+    position: relative;
+}
 .page-cart h5 {
     border-bottom: 1px solid #dfdfe2;
     padding: 10px 0;
@@ -122,7 +125,6 @@
 
 .delete-item-cart {
     text-align: right;
-
 }
 
 .delete-item-cart svg {
@@ -231,9 +233,19 @@
     background-color: #dfdfe2;
 }
 
-.notthing-cart{
+.notthing-cart {
     text-align: center;
     margin-top: 300px;
     margin-bottom: 300px;
     font-weight: bold;
+}
+.more-notify-btn {
+    position: absolute;
+    bottom: -5rem;
+    width: 100%;
+}
+.more-notify-btn button {
+    color: #c31425 !important;
+    width: 100%;
+    background-color: #f8f8f8;
 }

@@ -100,12 +100,12 @@ export default function Review({ review, getReview }) {
     }, [user]);
     return (
         <div className="row review-div">
-            <div className="col-2 div-input-chat">
+            <div className="col-1 div-input-chat">
                 <div>
                     <img className="user-img-review" src={review.image}></img>
                 </div>
             </div>
-            <div className="col-10 review-product-content">
+            <div className="col-11 review-product-content">
                 <div className="review-product-user-name">
                     {user ? (user.userId == review.userId ? 'Bạn' : review.name) : review.name} :
                 </div>
@@ -125,10 +125,10 @@ export default function Review({ review, getReview }) {
                 </span>
                 <div id={`response-${review.reviewId}`} className="hidden">
                     <div className="response row">
-                        <div className="col-2 response-img height-3rem">
+                        <div className="col-1 response-img height-3rem">
                             <img src={user.image}></img>
                         </div>
-                        <div className="col-10 response-input height-3rem">
+                        <div className="col-11 response-input height-3rem">
                             <input
                                 onKeyDown={(e) => handleEnterResponseReview(e, response, user)}
                                 placeholder="Thêm bình luận"
