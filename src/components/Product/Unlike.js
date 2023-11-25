@@ -45,9 +45,15 @@ export default function Unlike({ product, setListFavorite }) {
                 },
             };
             await axios.request(configPost).catch();
-            await axios
-                .get(`/guest/getFavoritesByProduct/${product.productId}`)
-                .then((res) => setListFavorite(res.data));
+            let configGet = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getFavoritesByProduct/${product.productId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            await axios.request(configGet).then((res) => setListFavorite(res.data));
 
             await getFavorite(user, productUnlike);
         } else {

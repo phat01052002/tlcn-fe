@@ -40,11 +40,16 @@ export default function Like({ product, setListFavorite }) {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
+            let configGet = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getFavoritesByProduct/${product.productId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
             await axios.request(configPost).catch();
-            await axios
-                .get(`/guest/getFavoritesByProduct/${product.productId}`)
-                .then((res) => setListFavorite(res.data));
-
+            await axios.request(configGet).then((res) => setListFavorite(res.data));
             await getFavorite(user);
         } else {
             notifyWarningPleaseLogin();

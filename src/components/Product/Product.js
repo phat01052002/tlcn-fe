@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { changeNumberCart, getNumber, useStore } from '../../Store';
+import { appendListProductJustView, changeNumberCart, getNumber, useStore } from '../../Store';
 import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 import './css/Product.css';
 import Like from './Like';
@@ -15,8 +15,6 @@ export default function Product({ product, type }) {
     const [globalState, dispatch] = useStore();
     ///////
     const { numberCart, user, productUnlike } = globalState;
-    //naviga
-    const naviga = useNavigate();
     //
     const [productCurrent, setProductCurrent] = useState(product);
     const [listFavorite, setListFavorite] = useState([]);
@@ -48,8 +46,27 @@ export default function Product({ product, type }) {
         }
     }, []);
     //handle click product
-    const handleClickProduct = useCallback((productId) => {
-        naviga(`/productdetail/${productId}`);
+    const handleClickProduct = useCallback((productId, productCurrent) => {
+        var canAdd = true;
+        var listProductJustViewInSession = JSON.parse(sessionStorage.getItem('productJustView'));
+        if (listProductJustViewInSession) {
+            for (var i = 0; i < listProductJustViewInSession.length; i++) {
+                if (listProductJustViewInSession[i].productId == productId) {
+                    canAdd = false;
+                }
+            }
+        }
+        if (canAdd) {
+            sessionStorage.setItem(
+                'productJustView',
+                JSON.stringify([
+                    ...(sessionStorage.getItem('productJustView') == null ? [] : listProductJustViewInSession),
+                    productCurrent,
+                ]),
+            );
+        }
+
+        window.location = `/productdetail/${productId}`;
     }, []);
     const addType = () => {
         if (type == 'hot') return <ProductHot />;
@@ -107,8 +124,19 @@ export default function Product({ product, type }) {
         }
     };
     useEffect(() => {
-        axios.get(`/guest/getFavoritesByProduct/${product.productId}`).then((res) => setListFavorite(res.data));
-    }, []);
+        if (user.length != 0) {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getFavoritesByProduct/${product.productId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            axios.request(config).then((res) => setListFavorite(res.data));
+        }
+    }, [user]);
     return (
         <div id="product" className={`product ${type == 'sale' ? 'width100' : null}`}>
             <div id="type-product" className="type-product">
@@ -119,7 +147,7 @@ export default function Product({ product, type }) {
                 <img
                     className="img-product"
                     src={productCurrent.image}
-                    onClickCapture={() => handleClickProduct(productCurrent.productId)}
+                    onClickCapture={() => handleClickProduct(productCurrent.productId, productCurrent)}
                 />
                 <div className="info-product-content">
                     <label className="product-name">{productCurrent.name}</label>

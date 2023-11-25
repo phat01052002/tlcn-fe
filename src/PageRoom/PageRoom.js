@@ -18,6 +18,7 @@ export default function PageRoom() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
+            
                 .get(`/guest/room/products/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));

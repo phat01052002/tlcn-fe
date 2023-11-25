@@ -9,7 +9,6 @@ import './css/PageCart.css';
 export default function Notify({ notify, deletePageNotify }) {
     const [productOrder, setProductOrder] = useState([]);
     const [globalState, dispatch] = useStore();
-    const nav = useNavigate();
     //
     const jump = (h) => {
         const url = window.location.href;

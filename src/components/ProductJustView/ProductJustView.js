@@ -1,12 +1,10 @@
-import axios from 'axios';
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import 'react-multi-carousel/lib/styles.css';
+import Product from '../Product/Product';
 import Carousel from 'react-multi-carousel';
-import Product from '../components/Product/Product';
-
-export default function ListProductNear({ productId }) {
-    const [listProduxt, setListProduct] = useState([]);
+import './ProductJustView.css';
+export default function ProductJustView() {
+    const listProductJustView = JSON.parse(sessionStorage.getItem('productJustView'));
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -24,12 +22,12 @@ export default function ListProductNear({ productId }) {
             slidesToSlide: 1, // optional, default to 1.
         },
     };
-    useEffect(() => {
-        axios.get(`/guest/getProductNearProduct/${productId}`).then((res) => setListProduct(res.data));
-    }, []);
     return (
-        <div>
-            {listProduxt.length != 0 ? (
+        <div className="product-just-view">
+            <i class="fa-solid fa-eye fa-fade fa-2xl left-i"></i>
+            <i class="fa-solid fa-eye fa-fade fa-2xl right-i"></i>
+            <div className="product-just-view-tittle">Các sản phẩm vừa xem</div>
+            {listProductJustView != null ? (
                 <Carousel
                     swipeable={true}
                     draggable={true}
@@ -42,8 +40,8 @@ export default function ListProductNear({ productId }) {
                     customTransition="all 1s"
                     transitionDuration={1000}
                 >
-                    {listProduxt.map((product, index) => (
-                        <Product key={product.productId} product={product} type={'sale'} />
+                    {listProductJustView.map((product, index) => (
+                        <Product key={product.productId + index} product={product} type={'sale'} />
                     ))}
                 </Carousel>
             ) : null}

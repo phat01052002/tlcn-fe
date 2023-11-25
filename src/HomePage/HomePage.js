@@ -10,6 +10,7 @@ import room2 from './img/room2.webp';
 import room3 from './img/room3.webp';
 import room4 from './img/room4.webp';
 import ListProductSale from './ListProductSale';
+import ProductJustView from '../components/ProductJustView/ProductJustView';
 export default function HomePage() {
     return (
         <div className="home-page">
@@ -100,8 +101,8 @@ export default function HomePage() {
                             </div>
                         </div>
                     </div>
+                    <ProductJustView />
                 </div>
-
                 <div className="col-1"></div>
             </div>
             <Footer />
