@@ -22,7 +22,7 @@ import { useParams } from 'react-router-dom';
 import { Image } from '@mui/icons-material';
 
 
-export default function UserDetail() {
+export default function ProductDetail() {
     const { id } = useParams();
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);

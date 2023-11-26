@@ -19,6 +19,8 @@ import CreateForm from './Admin/Pages/UsersAdmin/CreateForm';
 import UserDetail from './Admin/Pages/UsersAdmin/UserDetail';
 import CreateProduct from './Admin/Pages/ProductAdmin/CreateProduct';
 import NotFound from './NotFound/NotFound';
+import ProductDetail from './Admin/Pages/ProductAdmin/ProductDetail';
+import EditProduct from './Admin/Pages/ProductAdmin/EditProduct';
 
 function App() {
     return (
@@ -42,10 +44,9 @@ function App() {
                 <Route path="/admin/users" element={<UserAdmin />}></Route>
                 <Route path="/admin/users/detail/:id" element={<UserDetail />}></Route>
                 <Route path="/admin/users/create" element={<CreateForm />}></Route>
-
-                <Route path="/admin/products/edit/:id" element={<ProductAdmin />}></Route>
+                <Route path="/admin/products/edit/:id" element={<EditProduct />}></Route>
                 <Route path="/admin/products/create" element={<CreateProduct />}></Route>
-                <Route path="/admin/products/detail/:id" element={<ProductAdmin />}></Route>
+                <Route path="/admin/products/detail/:id" element={<ProductDetail />}></Route>
                 <Route path="/notfound" element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ColorModeContext, tokens, useMode } from '../../theme';
-import { CssBaseline, IconButton, Modal, Stack, ThemeProvider, Typography } from '@mui/material';
+import { CssBaseline, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, ThemeProvider, Typography } from '@mui/material';
 import axios from 'axios';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
@@ -44,7 +44,28 @@ export default function CreateProduct() {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
-
+    const [categoryNameList, setCategoryNameList] = useState([]);
+    const loadCategoryNameList = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/admin/getCategoryList',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            const response = await axios.request(config);
+            setCategoryNameList(response.data)
+        } catch {
+            window.location = '/login';
+        }
+    }
+    useEffect(() => {
+        loadCategoryNameList();
+    }, []);
+    
     //Submit
     //Upload Image
     const [imageUpload, setImageUpload] = useState(null);
@@ -218,19 +239,21 @@ export default function CreateProduct() {
                                             />
                                             
                                             
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Loại sản phẩm"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
+                                            <FormControl variant="filled" sx={{ gridColumn: 'span 1' }}>
+                                            <InputLabel>Loại sản phẩm</InputLabel>
+                                            <Select
+                                                variant='filled'
                                                 value={values.categoryName}
-                                                name="categoryName"
-                                                error={!!touched.categoryName && !!errors.categoryName}
-                                                helperText={touched.categoryName && errors.categoryName}
-                                                sx={{ gridColumn: 'span 2' }}
-                                            />
+                                                onChange={handleChange}
+                                                name='categoryName'
+                                                >
+                                                {
+                                                    categoryNameList.map(
+                                                        item => (<MenuItem value={item}>{item}</MenuItem>)
+                                                    )
+                                                }
+                                            </Select>
+                                            </FormControl>
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
