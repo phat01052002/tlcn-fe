@@ -28,7 +28,7 @@ function NavLeftFavorite({ listProductFavorite }) {
                 </div>
                 <h5>YÊU THÍCH</h5>
                 {listProductFavorite.map((favorite, index) => (
-                    <ProductInFavorite key={index} favorite={favorite} />
+                    <ProductInFavorite key={favorite.favoriteId} favorite={favorite} />
                 ))}
             </div>
         </div>

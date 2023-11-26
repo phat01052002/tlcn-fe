@@ -1,8 +1,12 @@
+.page-order {
+    background-color: white;
+}
 .title-page-order {
     margin-top: 130px;
     font-weight: bold;
     text-align: center;
     font-size: large;
+    color: #c4123f;
 }
 
 .page-order-content {
@@ -22,13 +26,14 @@
     cursor: pointer;
     width: 20%;
     border-bottom: 3px solid white;
+    color: #c4123f;
 }
 
 .header-page-content-nav:hover {
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid #c4123f;
 }
 .focus-order {
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid #c4123f;
 }
 .list-product-order {
     margin-top: 40px;

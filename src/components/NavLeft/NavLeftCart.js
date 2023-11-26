@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -145,7 +146,7 @@ export default function PageCart({ listProductCart }) {
                 )}
                 <div className="buyAll-in-cart">
                     <input id="input-price-all" value={formatter.format(priceAll)}></input>
-                    <button onClickCapture={() => handleClickPayAll(priceAll, roleState)}>Thanh Toán</button>
+                    <Button onClickCapture={() => handleClickPayAll(priceAll, roleState)}>Thanh Toán</Button>
                 </div>
             </div>
         </>

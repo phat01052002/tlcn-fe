@@ -95,7 +95,7 @@
     border-radius: 10px;
     border: 1px solid #dfdfe2;
     color: white;
-    background-color: black;
+    background-color: #ee4d2d;
     font-size: 1.25rem;
     padding: 5px 2rem;
 }
@@ -217,10 +217,10 @@
     width: 2px;
 }
 .btn-update {
-    background-color: black;
+    background-color: #ee4d2d;
     color: white;
 }
-.btn-update:hover{
+.btn-update:hover {
     cursor: pointer;
     background-color: #dfdfe2;
     color: black;

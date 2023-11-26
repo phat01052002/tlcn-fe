@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
+import Footer from '../components/Footer/Footer';
 export default function PageCategory() {
     const { categoryId } = useParams();
     const [category, setCategory] = useState([]);
@@ -128,6 +129,7 @@ export default function PageCategory() {
             <div className="product-by-category">
                 <ListProductByCategory listProduct={listProduct} />
             </div>
+            <Footer></Footer>
         </div>
     );
 }

@@ -4,6 +4,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    color: #c4123f;
 }
 #info-user > label:first-child {
     font-size: 2rem;
@@ -37,7 +38,7 @@
     padding: 0.3rem 2rem;
     border-radius: 10px;
     border: 1px solid #dfdfe2;
-    background-color: black;
+    background-color: #c4123f;
     color: white;
 }
 .btn-save button:hover {
@@ -67,7 +68,7 @@
     padding: 0.3rem 2rem;
     border-radius: 10px;
     border: 1px solid #dfdfe2;
-    background-color: black;
+    background-color: #c4123f;
     color: white;
     position: absolute;
     right: 2%;
@@ -81,7 +82,7 @@
     padding: 0.3rem 2rem;
     border-radius: 10px;
     border: 1px solid #dfdfe2;
-    background-color: black;
+    background-color: #c4123f;
     color: white;
     position: absolute;
     right: 2%;

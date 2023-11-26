@@ -3,6 +3,7 @@ import axios from 'axios';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AlertLoginFalse } from '../components/Alert/Alert';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import {
     notifyErrorGetOTPPhone,
@@ -347,6 +348,7 @@ export default function PageInfoUser() {
                     </div>
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

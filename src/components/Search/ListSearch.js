@@ -14,7 +14,13 @@ export default function ListSearch({ inputSearch }) {
     useEffect(() => {
         typingTimeoutRef.current = setTimeout(() => {
             if (inputSearch) {
-                axios.get(`/guest/product/containing/${inputSearch}`).then((res) => setListProduct(res.data));
+                axios.get(`/guest/product/containing/${inputSearch}`).then((res) => {
+                    if(res.data==null){
+
+                    }else{
+                        setListProduct(res.data);
+                    }
+                });
             }
         }, 500);
     }, [inputSearch]);

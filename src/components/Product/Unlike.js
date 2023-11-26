@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { changeListFavorite, changeNumberFavorite, changeProductUnlike, useStore } from '../../Store';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
-export default function Unlike({ product, setProductCurrent }) {
+export default function Unlike({ product, setListFavorite }) {
     const [globalState, dispatch] = useStore();
     const { user, productUnlike } = globalState;
     const getFavorite = async (user, productUnlike) => {
@@ -45,10 +45,16 @@ export default function Unlike({ product, setProductCurrent }) {
                 },
             };
             await axios.request(configPost).catch();
-            await axios
-                .get(`/guest/product/${product.productId}`)
-                .then((res) => setProductCurrent(res.data))
-                .catch();
+            let configGet = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getFavoritesByProduct/${product.productId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            await axios.request(configGet).then((res) => setListFavorite(res.data));
+
             await getFavorite(user, productUnlike);
         } else {
             notifyWarningPleaseLogin();

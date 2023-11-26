@@ -1,0 +1,21 @@
+.product-just-view-tittle {
+    font-weight: bold;
+    font-size: 20px;
+    color: #c4123f;
+    text-align: center;
+}
+.right-i {
+    color: #c4123f;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+.left-i{
+    color: #c4123f;
+    position: absolute;
+    top: 2%;
+    left: 2%;
+}
+.product-just-view{
+    position: relative;
+}

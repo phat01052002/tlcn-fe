@@ -1,7 +1,9 @@
+import axios from 'axios';
 import React, { useCallback } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { changeNumberCart, getNumber, useStore } from '../../Store';
+import { appendListProductJustView, changeNumberCart, getNumber, useStore } from '../../Store';
 import { notifyAddToCartSussess } from '../NotificationInPage/NotificationInPage';
 import './css/Product.css';
 import Like from './Like';
@@ -13,10 +15,9 @@ export default function Product({ product, type }) {
     const [globalState, dispatch] = useStore();
     ///////
     const { numberCart, user, productUnlike } = globalState;
-    //naviga
-    const naviga = useNavigate();
     //
     const [productCurrent, setProductCurrent] = useState(product);
+    const [listFavorite, setListFavorite] = useState([]);
     //format
     const formatter = new Intl.NumberFormat('vi', {
         style: 'currency',
@@ -45,8 +46,27 @@ export default function Product({ product, type }) {
         }
     }, []);
     //handle click product
-    const handleClickProduct = useCallback((productId) => {
-        naviga(`/productdetail/${productId}`);
+    const handleClickProduct = useCallback((productId, productCurrent) => {
+        var canAdd = true;
+        var listProductJustViewInSession = JSON.parse(sessionStorage.getItem('productJustView'));
+        if (listProductJustViewInSession) {
+            for (var i = 0; i < listProductJustViewInSession.length; i++) {
+                if (listProductJustViewInSession[i].productId == productId) {
+                    canAdd = false;
+                }
+            }
+        }
+        if (canAdd) {
+            sessionStorage.setItem(
+                'productJustView',
+                JSON.stringify([
+                    ...(sessionStorage.getItem('productJustView') == null ? [] : listProductJustViewInSession),
+                    productCurrent,
+                ]),
+            );
+        }
+
+        window.location = `/productdetail/${productId}`;
     }, []);
     const addType = () => {
         if (type == 'hot') return <ProductHot />;
@@ -54,7 +74,7 @@ export default function Product({ product, type }) {
     //
     const isFavorite = (listFavoriteByUser, user, productUnlike, product) => {
         for (var i = 0; i < listFavoriteByUser.length; i++) {
-            if (listFavoriteByUser[i].user.userId == user.userId) {
+            if (listFavoriteByUser[i].userId == user.userId) {
                 for (var j = 0; j < productUnlike.length; j++) {
                     if (productUnlike[j] == product.productId) {
                         return false;
@@ -66,15 +86,15 @@ export default function Product({ product, type }) {
         return false;
     };
     //
-    const addHeart = (user, product, productUnlike) => {
-        if (product.favorites.length != 0 && user.length != 0) {
-            if (isFavorite(product.favorites, user, productUnlike, product)) {
-                return <Like product={product} setProductCurrent={setProductCurrent} />;
+    const addHeart = (user, product, productUnlike, listFavorite) => {
+        if (listFavorite.length != 0 && user.length != 0) {
+            if (isFavorite(listFavorite, user, productUnlike, product)) {
+                return <Like product={product} setListFavorite={setListFavorite} />;
             } else {
-                return <Unlike product={product} setProductCurrent={setProductCurrent} />;
+                return <Unlike product={product} setListFavorite={setListFavorite} />;
             }
         } else {
-            return <Unlike product={product} setProductCurrent={setProductCurrent} />;
+            return <Unlike product={product} setListFavorite={setListFavorite} />;
         }
     };
     const getProductPrice = () => {
@@ -103,8 +123,22 @@ export default function Product({ product, type }) {
             return null;
         }
     };
+    useEffect(() => {
+        if (user.length != 0) {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `/user/getFavoritesByProduct/${product.productId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            axios.request(config).then((res) => setListFavorite(res.data));
+        }
+    }, [user]);
     return (
-        <div id="product" className="product">
+        <div id="product" className={`product ${type == 'sale' ? 'width100' : null}`}>
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
@@ -113,10 +147,12 @@ export default function Product({ product, type }) {
                 <img
                     className="img-product"
                     src={productCurrent.image}
-                    onClick={() => handleClickProduct(productCurrent.productId)}
+                    onClickCapture={() => handleClickProduct(productCurrent.productId, productCurrent)}
                 />
-                <label className="product-price">{getProductPrice()}</label>
-                <label className="product-name">{productCurrent.name}</label>
+                <div className="info-product-content">
+                    <label className="product-name">{productCurrent.name}</label>
+                    <label className="product-price">{getProductPrice()}</label>
+                </div>
                 <div className="product-content-btn">
                     <button
                         className="btn-product btn-addtocart-product"
@@ -138,11 +174,11 @@ export default function Product({ product, type }) {
                         </svg>
                     </button>
                     <button className="btn-product btn-like-product">
-                        {addHeart(user, productCurrent, productUnlike)}
+                        {addHeart(user, productCurrent, productUnlike, listFavorite)}
                     </button>
                 </div>
                 <label className="number-favorite">
-                    {productCurrent.favorites.length != 0 ? productCurrent.favorites.length + ' lượt thích' : null}
+                    {listFavorite.length != 0 ? listFavorite.length + ' lượt thích' : null}
                 </label>
                 <label className="number-quantity">
                     {productCurrent.quantity != 0 ? 'còn lại ' + productCurrent.quantity : null}

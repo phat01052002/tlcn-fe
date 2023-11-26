@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListProductByCategory from '../components/Category/ListProductByCategory';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
 import './PageRoom.css';
@@ -17,6 +18,7 @@ export default function PageRoom() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
+            
                 .get(`/guest/room/products/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
@@ -68,14 +70,14 @@ export default function PageRoom() {
     });
     //api call first
     const getData = async () => {
-        await axios
-            .get(`/guest/room/products/${roomId}`)
-            .then((res) => setProductsInRoom(res.data))
-            .catch((err) => console.log(err));
-        await axios
-            .get(`/guest/room/${roomId}`)
-            .then((res) => setRoom(res.data))
-            .catch((err) => console.log(err));
+        await axios.get(`/guest/room/products/${roomId}`).then((res) => setProductsInRoom(res.data));
+        await axios.get(`/guest/room/${roomId}`).then((res) => {
+            if (res.data == null) {
+                window.location = '/notfound';
+            } else {
+                setRoom(res.data);
+            }
+        });
     };
     useEffect(() => {
         getData();
@@ -131,6 +133,7 @@ export default function PageRoom() {
                     <ListProductByCategory listProduct={productsInRoom} />
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

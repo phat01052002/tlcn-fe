@@ -1,0 +1,16 @@
+.notfound{
+    text-align: center;
+    margin-top: 10rem;
+    font-size: 30px;
+}
+.noidungkhongcosan{
+    margin-top: 2rem;
+}
+.notfound button{
+    background-color: black;
+    color: white;
+    margin-top: 2rem;
+}
+.notfound button:hover{
+    color: black;
+}

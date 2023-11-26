@@ -5,6 +5,9 @@
 .product-detail {
     margin-top: 150px;
 }
+.page-product-detail{
+    background-color: #f8f8f8;
+}
 .product-detail img {
     border: 1px solid #dfdfe2;
     border-radius: 10px;
@@ -54,12 +57,12 @@
     border-top-right-radius: 5px;
 }
 .decrease-btn:hover {
-    background-color: black;
+    background-color: #c4123f;
     opacity: 0.8;
     color: white;
 }
 .increase-btn:hover {
-    background-color: black;
+    background-color: #c4123f;
     opacity: 0.8;
     color: white;
 }
@@ -72,7 +75,7 @@
     justify-content: center;
 }
 .btn-buynow {
-    background-color: black;
+    background-color: #c4123f;
     border-radius: 5px;
     color: white;
     width: 100%;
@@ -203,4 +206,10 @@
     top: 12%;
     position: absolute;
     left: 10%;
+}
+.tittle-near-product{
+    margin-top: 2rem;
+    font-size: 20px;
+    color: #c4123f;
+    font-weight: bold;
 }

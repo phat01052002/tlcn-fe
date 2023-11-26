@@ -18,6 +18,8 @@ import PageOrder from './PageOrder/PageOrder';
 import CreateForm from './Admin/Pages/UsersAdmin/CreateForm';
 import UserDetail from './Admin/Pages/UsersAdmin/UserDetail';
 import CreateProduct from './Admin/Pages/ProductAdmin/CreateProduct';
+import NotFound from './NotFound/NotFound';
+
 function App() {
     return (
         <BrowserRouter>
@@ -29,7 +31,7 @@ function App() {
                 <Route path="/checkout" element={<CheckOut />}></Route>
                 <Route path="/design" exact element={<DesignPage />}></Route>
                 <Route path="/category/:categoryId" element={<PageCategory />}></Route>
-                <Route path="/productdetail/:productId" exact element={<PageProductDetail />}></Route>
+                <Route path="/productdetail/:productId" element={<PageProductDetail />}></Route>
                 <Route path="/room/:roomId" element={<PageRoom/>}></Route>
                 <Route path="/login" element={<PageLogin />}></Route>
                 <Route path="/ForgotPassword" element={<ForgotPasswordPage />}></Route>
@@ -40,9 +42,11 @@ function App() {
                 <Route path="/admin/users" element={<UserAdmin />}></Route>
                 <Route path="/admin/users/detail/:id" element={<UserDetail />}></Route>
                 <Route path="/admin/users/create" element={<CreateForm />}></Route>
+
                 <Route path="/admin/products/edit/:id" element={<ProductAdmin />}></Route>
                 <Route path="/admin/products/create" element={<CreateProduct />}></Route>
                 <Route path="/admin/products/detail/:id" element={<ProductAdmin />}></Route>
+                <Route path="/notfound" element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>
     );

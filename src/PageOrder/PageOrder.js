@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
 import './PageOrder.css';
@@ -29,7 +30,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserProcessing',
+                url: '/user/findOrdersByUserAndState/processing',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -44,7 +45,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserProcessed',
+                url: '/user/findOrdersByUserAndState/processed',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -59,7 +60,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserDelivered',
+                url: '/user/findOrdersByUserAndState/delivered',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -74,7 +75,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserCanceled',
+                url: '/user/findOrdersByUserAndState/canceled',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -99,7 +100,7 @@ export default function PageOrder() {
         <div className="page-order">
             <Header />
             {listOrder.length}
-            <div className="title-page-order">Đơn hàng của tôi</div>
+            <div className="title-page-order">ĐƠN HÀNG CỦA TÔI</div>
             <div className="page-order-content row">
                 <div className="col-1"></div>
                 <div className="col-10">
@@ -136,13 +137,14 @@ export default function PageOrder() {
                         </div>
                     </div>
                     <div className="list-product-order">
-                        {listOrder.map((order, index) => (
-                            <ProductOrder key={index} order={order} />
+                        {listOrder.map((order) => (
+                            <ProductOrder key={order.orderId} order={order} />
                         ))}
                     </div>
                 </div>
                 <div className="col-1"></div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

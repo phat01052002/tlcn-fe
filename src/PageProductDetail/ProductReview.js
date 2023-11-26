@@ -43,12 +43,12 @@ export default function ProductReview({ productId }) {
         } else {
             return (
                 <div className="row">
-                    <div className="col-2 div-input-chat">
+                    <div className="col-1 div-input-chat">
                         <div>
                             <img className="user-img-review" src={user.image}></img>
                         </div>
                     </div>
-                    <div className="col-10">
+                    <div className="col-11">
                         <input
                             type="text"
                             onKeyDown={(e) => handleEnterInputReview(e, user, productId, review)}

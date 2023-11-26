@@ -19,8 +19,9 @@
     opacity: 0.8;
     cursor: pointer;
     font-weight: bold;
-    background-color: gray;
+    background-color: rgb(255, 238, 240);
     border-radius: 10px;
+    transition: background-color 1s;
 }
 
 .page-category-img img{
