@@ -7,7 +7,9 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import BuildIcon from '@mui/icons-material/Build';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
@@ -21,42 +23,42 @@ const ManageCategories = () => {
     //Theme
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [users, setUsers] = useState([]);
-    const [userId, setUserId] = useState();
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState();
     const [message, setMessage] = useState();
 
     //Load data from server
-    const loadUsers = () => {
+    const loadCategories = () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/getUsers',
+                url: '/admin/categories',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            axios.request(config).then((res) => setUsers(res.data));
+            axios.request(config).then((res) => setCategories(res.data));
         } catch {
             window.location = '/login';
         }
     };
 
     useEffect(() => {
-        loadUsers();
+        loadCategories();
     }, []);
 
     //Modal delete open, close
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
         setOpen(true);
-        setUserId(id);
-        console.log('open' + userId);
+        setCategoryId(id);
+        console.log('open' + categoryId);
     };
     const handleClose = () => {
         setOpen(false);
-        console.log('close' + userId);
+        console.log('close' + categoryId);
     };
 
     const handleDelete = async () => {
@@ -65,7 +67,7 @@ const ManageCategories = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/deleteUser/${userId}`,
+                url: `/admin/deleteCategory/${categoryId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -74,48 +76,13 @@ const ManageCategories = () => {
             setMessage(response.data.message);
             handleClose();
             handleOpenNotification();
-            loadUsers();
-            //axios.request(config).then((res) => setUsers(res.data));
+            loadCategories();
+            //axios.request(config).then((res) => setCategories(res.data));
         } catch {
             window.location = '/login';
         }
 
-        console.log(userId);
-    };
-
-    //Modal status open, close
-    const [openStatus, setOpenStatus] = useState(false);
-    const handleOpenStatus = (id) => {
-        setOpenStatus(true);
-        setUserId(id);
-        console.log('open' + userId);
-    };
-    const handleCloseStatus = () => {
-        setOpenStatus(false);
-        console.log('close' + userId);
-    };
-    const handleUpdateStatus = async () => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: `/admin/updateUserStatus/${userId}`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            const response = await axios.request(config);
-            setMessage(response.data.message);
-            handleCloseStatus();
-            handleOpenNotification();
-            loadUsers();
-            //axios.request(config).then((res) => setUsers(res.data));
-        } catch {
-            window.location = '/login';
-        }
-
-        console.log(userId);
+        console.log(categoryId);
     };
     // Notification Modal
     const [openNotification, setOpenNotification] = useState(false);
@@ -128,16 +95,16 @@ const ManageCategories = () => {
 
     //Data of Grid
     const columns = [
-        { field: 'userId', headerName: 'ID', flex: 0.2 },
+        { field: 'categoryId', headerName: 'ID', flex: 0.2 },
         {
             field: 'name',
-            headerName: 'Name',
+            headerName: 'Tên',
             flex: 1,
             cellClassName: 'name-column--cell',
         },
         {
             field: 'image',
-            headerName: 'Image',
+            headerName: 'Ảnh',
             type: 'image',
             headerAlign: 'center',
             align: 'center',
@@ -147,120 +114,23 @@ const ManageCategories = () => {
             },
         },
         {
-            field: 'phone',
-            headerName: 'Phone Number',
-            flex: 1,
-        },
-        {
-            field: 'address',
-            headerName: 'Address',
-            flex: 1,
-        },
-        {
-            field: 'username',
-            headerName: 'Username',
-            flex: 1,
-        },
-        {
-            field: 'role',
-            headerName: 'Role',
-            flex: 0.5,
-            renderCell: ({ row: { role } }) => {
-                return (
-                    <Box
-                        width="100%"
-                        m="0 auto"
-                        p="5px"
-                        display="flex"
-                        justifyContent="center"
-                        backgroundColor={role === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
-                        borderRadius="4px"
-                    >
-                        {role === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-                        {role === 'USER' && <AccountCircleOutlinedIcon />}
-                        <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                            {role}
-                        </Typography>
-                    </Box>
-                );
-            },
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            flex: 0.5,
-            renderCell: ({ row: { status } }) => {
-                return [
-                    <>
-                        <Box
-                            width="100%"
-                            m="0 auto"
-                            p="5px"
-                            display="flex"
-                            justifyContent="center"
-                            backgroundColor={status === 'active' ? colors.blueAccent[600] : colors.redAccent[600]}
-                            borderRadius="4px"
-                        >
-                            {status === 'active' && <MoodOutlinedIcon />}
-                            {status === 'inactive' && <SentimentDissatisfiedOutlinedIcon />}
-                            <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                                {status}
-                            </Typography>
-                            <Modal
-                                open={openStatus}
-                                onClose={handleCloseStatus}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={styleBox}>
-                                    <Typography
-                                        id="modal-modal-title"
-                                        variant="h2"
-                                        color={colors.grey[100]}
-                                        fontWeight="bold"
-                                        sx={{ mb: '5px' }}
-                                    >
-                                        Thay đổi trạng thái người dùng ?
-                                    </Typography>
-                                    <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
-                                        <Button
-                                            variant="contained"
-                                            sx={{ backgroundColor: '#3e4396' }}
-                                            onClick={() => handleUpdateStatus()}
-                                        >
-                                            Có
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            sx={{ backgroundColor: '#3e4396' }}
-                                            onClick={handleCloseStatus}
-                                        >
-                                            Không
-                                        </Button>
-                                    </Stack>
-                                </Box>
-                            </Modal>
-                        </Box>
-                    </>,
-                ];
-            },
-        },
-        {
             field: 'actions',
             type: 'actions',
-            headerName: 'Actions',
+            headerName: 'Hành động',
             flex: 0.75,
             getActions: ({ id }) => {
                 return [
                     <>
                         {/** Edit button */}
 
-                        <IconButton onClick={() => handleOpenStatus(id)}>
-                            <LockOpenOutlinedIcon />
+                        <Link to={`/admin/categories/edit/${id}`}>
+                        <IconButton>
+                            <BuildIcon />
                         </IconButton>
+                        </Link>
 
                         {/** Detail button */}
-                        <Link to={`/admin/users/detail/${id}`}>
+                        <Link to={`/admin/categories/detail/${id}`}>
                             <IconButton>
                                 <ErrorOutlineOutlinedIcon />
                             </IconButton>
@@ -283,7 +153,7 @@ const ManageCategories = () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Xóa người dùng này ?
+                                    Xóa loại sản phẩm này ?
                                 </Typography>
                                 <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button
@@ -311,11 +181,11 @@ const ManageCategories = () => {
 
     return (
         <Box m="20px">
-            <HeaderAdmin title="USER" subtitle="Managing users" />
+            <HeaderAdmin title="LOẠI SẢN PHẨM" subtitle="Quản lý loại sản phẩm" />
             {/** Add button */}
-            <Link to={`/admin/users/create`} m="0px">
+            <Link to={`/admin/categories/create`} m="0px">
                 <IconButton>
-                    <PersonAddOutlinedIcon />
+                    <AddCircleOutlineIcon />
                 </IconButton>
             </Link>
             <Box
@@ -353,9 +223,9 @@ const ManageCategories = () => {
                 <DataGrid
                     slots={{ toolbar: GridToolbar }}
                     rowHeight={90}
-                    rows={users}
+                    rows={categories}
                     columns={columns}
-                    getRowId={(row) => row.userId}
+                    getRowId={(row) => row.categoryId}
                 />
             </Box>
             <Modal

@@ -3,12 +3,13 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import BuildIcon from '@mui/icons-material/Build';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
@@ -231,10 +232,12 @@ const ManageProducts = () => {
                     <>
                         {/** Edit button */}
 
-                        <IconButton onClick={() => handleOpenStatus(id)}>
-                            <LockOpenOutlinedIcon />
+                        {/** Edit button */}
+                        <Link to={`/admin/products/edit/${id}`}>
+                        <IconButton>
+                            <BuildIcon />
                         </IconButton>
-
+                        </Link>
                         {/** Detail button */}
                         <Link to={`/admin/products/detail/${id}`}>
                             <IconButton>
@@ -291,7 +294,7 @@ const ManageProducts = () => {
             {/** Add button */}
             <Link to={`/admin/products/create`} m="0px">
                 <IconButton>
-                    <PersonAddOutlinedIcon />
+                    <AddCircleOutlineIcon />
                 </IconButton>
             </Link>
             <Box

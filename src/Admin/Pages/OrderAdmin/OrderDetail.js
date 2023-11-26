@@ -6,67 +6,57 @@ import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
 import '../../PageAdmin.css';
 import { Box, Button, TextField } from '@mui/material';
-import { Formik } from 'formik';
-import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import { styled } from '@mui/material/styles';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { storage } from '../../../setupFirebase/setupFirebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { v4 } from 'uuid';
-import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Image } from '@mui/icons-material';
 
 
-export default function ProductDetail() {
+export default function OrderDetail() {
     const { id } = useParams();
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
-    const [product, setProduct] = useState({
-        name: '',
-        price: '',
-        image: '',
-        description: '',
-        material: '',
-        quantity: '',
-        size: '',
-        categoryName: '',
-        percentDiscount: '',
-        numberRating: '',
-        numberFavorite: '',
-        status: '',
-        numberProductSold: '',
+    const [order, setOrder] = useState({
+        orderId: '',
+        date: '',
+        dateUpdate: '',
+        paid: '',
+        nowDelivery: '',
+        productId: '',
+        productName: '',
+        imageProduct: '',
+        productPrice: '',
+        total: '',
+        userName: '',
+        colorProduct: '',
     });
 
-    const loadProductDetail = async () => {
+    const loadOrderDetail = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/getProductById/${id}`,
+                url: `/admin/getOrderById/${id}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
             const respone = (await axios.request(config)).data;
-            setProduct(respone.object);
+            setOrder(respone.object);
             
             console.log(respone);
             console.log('thanhcong');
-            console.log(product);
+            console.log(order);
         } catch {
             console.log('thatbai');
         }
     };
     useEffect(() => {
-		loadProductDetail();
+		loadOrderDetail();
 	}, []);
     return (
         <ColorModeContext.Provider value={colorMode}>
@@ -77,7 +67,7 @@ export default function ProductDetail() {
                     <main className="content" style={{ columnWidth: '75vw' }}>
                         <Topbar></Topbar>
                         <Box m="20px">
-                            <HeaderAdmin title="CHI TIẾT SẢN PHẨM" subtitle="Xem chi tiết thông tin sản phẩm" />
+                            <HeaderAdmin title="CHI TIẾT ĐƠN HÀNG" subtitle="Xem chi tiết thông tin đơn hàng" />
 
                             <Box>
                                         <Box
@@ -93,169 +83,151 @@ export default function ProductDetail() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
+                                                label="ID đơn hàng"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={order.orderId}
+                                                name="orderId"
+                                                sx={{ gridColumn: 'span 1' }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Người mua"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={order.userName}
+                                                name="userName"
+                                                sx={{ gridColumn: 'span 1' }}
+                                            />
+                                            <TextField
+                                                id="outlined-read-only-input"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Thời gian đặt hàng"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={order.date}
+                                                name="date"
+                                                sx={{ gridColumn: 'span 2' }}
+                                            />
+                                            <TextField
+                                                id="outlined-read-only-input"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="ID sản phẩm"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={order.productId}
+                                                name="productId"
+                                                sx={{ gridColumn: 'span 1' }}
+                                            />
+                                            <TextField
+                                                id="outlined-read-only-input"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
                                                 label="Tên sản phẩm"
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={product.name}
-                                                name="name"
-                                                sx={{ gridColumn: 'span 2' }}
-                                            />
-                                            <TextField
-                                                id="outlined-read-only-input"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Loại sản phẩm"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.categoryName}
-                                                name="categoryName"
+                                                value={order.productName}
+                                                name="productName"
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-
-                                            <TextField
-                                                id="outlined-read-only-input"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Trạng thái"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.status}
-                                                name="status"
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            
-                                            <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={product.image}></Avatar>
+                                            <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={order.imageProduct}></Avatar>
                                             
                                             
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Giá"
+                                                label="Giá sản phẩm"
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={product.price}
-                                                name="price"
+                                                value={order.productPrice}
+                                                name="productPrice"
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Số lượng"
+                                                label="Màu sản phẩm"
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={product.quantity}
-                                                name="quantity"
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Kích thước"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.size}
-                                                name="size"
+                                                value={order.colorProduct}
+                                                name="colorProduct"
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Mô tả"
+                                                label="Thanh toán"
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={product.description}
-                                                name="description"
-                                                sx={{ gridColumn: 'span 2' }}
+                                                value={order.paid === true && "Đã thanh toán" ||"Chưa thanh toán" }
+                                                name="paid"
+                                                sx={{ gridColumn: 'span 1' }}
                                             />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Vận chuyển nhanh"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={order.nowDelivery === true && "Có" ||"Không"}
+                                                name="nowDelivery"
+                                                sx={{ gridColumn: 'span 1' }}
+                                            />
+                                            <TextField
+                                                
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Trạng thái đơn hàng"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={order.state === "processing" && "Đang chờ xử lý" ||
+                                                order.state === "processed" && "Đã xử lý" ||
+                                                order.state === "delivering" && "Đang vận chuyển" ||
+                                                order.state === "delivered" && "Đã giao" ||
+                                                order.state === "canceled" && "Đã hủy"
+                                            }
+                                                name="state"
+                                                sx={{ gridColumn: 'span 1' }}
+                                            />
+                                        
                                             
                                             
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Nguyên liệu"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.material}
-                                                name="material"
-                                                sx={{ gridColumn: 'span 2' }}
-                                            />
                                             
-                                            
-                                            
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Giảm giá"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={`${product.percentDiscount*100}%`}
-                                                name="percentDiscount"
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Số lượng đã bán"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.numberProductSold}
-                                                name="numberProductSold"
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Số lượt thích"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.numberFavorite}
-                                                name="numberFavorite"
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Số lượt đánh giá"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={product.numberRating}
-                                                name="numberRating"
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
                                             <Box sx={{ gridColumn: '4' }} display="flex" justifyContent="end" mt="20px" gap="20px">
                                             <IconButton size='large'
                                                 onClick={() => {
-                                                    window.location = '/admin/products';
+                                                    window.location = '/admin/orders';
                                                 }}
-                                            > 
+                                            >
+                                                
                                                 <ArrowBackIcon />
                                             </IconButton>
                                         </Box>
                                         </Box>
+
+                                        
                             </Box>
                         </Box>
                     </main>

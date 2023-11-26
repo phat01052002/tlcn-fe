@@ -10,7 +10,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../../PageAdmin.css'
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
 import ManageCategories from '../../Scenes/ManageCategory/ManageCategory';
-export default function CategoryAdmin() {
+import ManageOrders from '../../Scenes/ManageOrder/ManageOrder';
+export default function OrderAdmin() {
     
     const [theme, colorMode] = useMode();
 
@@ -22,7 +23,7 @@ export default function CategoryAdmin() {
                 <main className='content'>
                     <Topbar></Topbar>
                     <Box >
-                        <ManageCategories></ManageCategories>
+                        <ManageOrders></ManageOrders>
                     </Box>   
                 </main>
             </div>

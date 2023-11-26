@@ -19,6 +19,8 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import axios from 'axios'
+import { useEffect } from 'react'
 
 const Item = ({ title, to, icon, selected, setSelected}) =>
 {
@@ -38,6 +40,27 @@ const SidebarAdmin = () => {
     const colors = tokens(theme.palette.mode);
     const [ isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] =  useState("Dashboard")
+
+    const [admin, setAdmin] = useState([]);
+    const getAdmin = async() => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/admin/findByName',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            await axios.request(config).then((res) => setAdmin(res.data));
+        } catch {
+            window.location = '/login';
+        }
+    };
+    useEffect(()=>{
+        getAdmin();
+    },[]);
     return (
         <Box sx={{
             "& .pro-sidebar-inner": {
@@ -76,7 +99,7 @@ const SidebarAdmin = () => {
                         ml="15px"
                     >
                         <Typography variant="h3" color={colors.grey[100]}>
-                        ADMIN
+                        {admin.name}
                         </Typography>
                         <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                         <MenuOutlinedIcon />
@@ -92,7 +115,7 @@ const SidebarAdmin = () => {
                         alt="profile-user"
                         width="100px"
                         height="100px"
-                        src={`../../../logo512.png`}
+                        src={admin.image}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                     </Box>
@@ -144,23 +167,15 @@ const SidebarAdmin = () => {
                     />
                     <Item 
                         title="Quản lý đơn hàng"
-                        to="/admin/contact"
+                        to="/admin/orders"
                         icon={<ContactsOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                     />
                     <Item 
                         title="Quản lý banner"
-                        to="/admin/calendar"
+                        to="/admin/banners"
                         icon={<CalendarTodayOutlinedIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                    />
-                    <Typography variant='h6' color={colors.grey[300]} sx={{ m: "15px 0 5px 20px"}}>Chart</Typography>
-                    <Item 
-                        title="Bar chart"
-                        to="/admin/barchart"
-                        icon={<BarChartOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                     />

@@ -21,26 +21,14 @@ import { useEffect } from 'react';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('bắt buộc'),
-    description: yup.string().required('bắt buộc'),
-    price: yup.number().required('bắt buộc'),
-    categoryName: yup.string().required('bắt buộc'),
-    quantity: yup.number().required('bắt buộc'),
-    size: yup.string().required('bắt buộc'),
 });
 //Field values
 const initialValues = {
     name: '',
-    price: '',
     image: '',
-    description: '',
-    material: '',
-    quantity: '',
-    size: '',
-    categoryName: '',
-    percentDiscount: '',
 };
 
-export default function CreateProduct() {
+export default function CreateCategory() {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
@@ -62,27 +50,10 @@ export default function CreateProduct() {
             window.location = '/login';
         }
     }
-    const loadDiscountList = async () => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: '/admin/getDiscountList',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            const response = await axios.request(config);
-            setCategoryNameList(response.data)
-        } catch {
-            window.location = '/login';
-        }
-    }
     useEffect(() => {
         loadCategoryNameList();
     }, []);
-    
+
     //Submit
     //Upload Image
     const [imageUpload, setImageUpload] = useState(null);
@@ -90,15 +61,14 @@ export default function CreateProduct() {
     const [fileName, setFileName] = useState(null);
     
     const uploadImage_Submit = async (values) => {
+        console.log(values);
         if (imageUpload == null) return;
 
-        const imageRef = ref(storage, `imageProducts/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage, `imageCNPM/categories/${imageUpload.name + v4()}`);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
             getDownloadURL(snapshot.ref).then(async (url) => {
                 console.log("url: "+url)
-                if (url == null)
-                    values.image = 'https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png';
-                else values.image = url;
+                values.image = url;
                 console.log('value');
                 console.log(values);
                 try {
@@ -106,7 +76,7 @@ export default function CreateProduct() {
                     let config = {
                         method: 'post',
                         maxBodyLength: Infinity,
-                        url: '/admin/createProduct',
+                        url: '/admin/createCategory',
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -139,8 +109,8 @@ export default function CreateProduct() {
                     <SidebarAdmin />
                     <main className="content" style={{ columnWidth: '75vw' }}>
                         <Topbar></Topbar>
-                        <Box m="20px">
-                            <HeaderAdmin title="THÊM SẢN PHẨM" subtitle="Thêm sản phẩm mới vào cửa hàng" />
+                        <Box m="30px">
+                            <HeaderAdmin title="THÊM LOẠI SẢN PHẨM" subtitle="Thêm loại sản phẩm mới vào cửa hàng" />
 
                             <Formik
                                 onSubmit={uploadImage_Submit}
@@ -161,7 +131,7 @@ export default function CreateProduct() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Tên sản phẩm"
+                                                label="Tên loại sản phẩm"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -169,45 +139,6 @@ export default function CreateProduct() {
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
                                                 sx={{ gridColumn: 'span 4' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Giá"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.price}
-                                                name="price"
-                                                error={!!touched.price && !!errors.price}
-                                                helperText={touched.price && errors.price}
-                                                sx={{ gridColumn: 'span 2' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Số lượng"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.quantity}
-                                                name="quantity"
-                                                error={!!touched.quantity && !!errors.quantity}
-                                                helperText={touched.quantity && errors.quantity}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Kích cỡ"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.size}
-                                                name="size"
-                                                error={!!touched.size && !!errors.size}
-                                                helperText={touched.size && errors.size}
-                                                sx={{ gridColumn: 'span 1' }}
                                             />
                                             <Stack spacing={2} direction="row" height={35}>
                                                 <Button
@@ -227,73 +158,16 @@ export default function CreateProduct() {
                                                 </Button>
                                                 <Typography>{fileName}</Typography>
                                             </Stack>
-                                            
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Mô tả"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.description}
-                                                name="description"
-                                                error={!!touched.description && !!errors.description}
-                                                helperText={touched.description && errors.description}
-                                                sx={{ gridColumn: 'span 4' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Nguyên liệu"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.material}
-                                                name="material"
-                                                error={!!touched.material && !!errors.material}
-                                                helperText={touched.material && errors.material}
-                                                sx={{ gridColumn: 'span 4' }}
-                                            />
-                                            
-                                            
-                                            <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
-                                            <InputLabel>Loại sản phẩm</InputLabel>
-                                            <Select
-                                                variant='filled'
-                                                value={values.categoryName}
-                                                onChange={handleChange}
-                                                name='categoryName'
-                                                >
-                                                {
-                                                    categoryNameList.map(
-                                                        item => (<MenuItem value={item}>{item}</MenuItem>)
-                                                    )
-                                                }
-                                            </Select>
-                                            </FormControl>
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Giảm giá"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.percentDiscount}
-                                                name="percentDiscount"
-                                                error={!!touched.percentDiscount && !!errors.percentDiscount}
-                                                helperText={touched.percentDiscount && errors.percentDiscount}
-                                                sx={{ gridColumn: 'span 2' }}
-                                            />
                                         </Box>
 
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">
                                             
-                                            <IconButton onClick={()=> {window.location = "/admin/users"}}>
+                                            <IconButton onClick={()=> {window.location = "/admin/categories"}}>
                                                 <ArrowBackIcon />
                                             </IconButton>
                                             
                                             <Button type="submit" color="secondary" variant="contained">
-                                                Tạo Sản Phẩm
+                                                Tạo Loại Sản Phẩm
                                             </Button>
                                         </Box>
                                     </form>

@@ -33,16 +33,7 @@ const checkoutSchema = yup.object().shape({
 const initialValues = {
   productId: '',
         name: '',
-        os: '',
-        screen: '',
-        rearCamera: '',
-        frontCamera: '',
-        cpu: '',
-        ram: '',
-        internalMemory: '',
-        sim: '',
-        pin: '',
-        colorProduct: '',
+        description: '',
         price: '',
         image: '',
         material: '',
@@ -246,13 +237,13 @@ export default function EditProduct() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Hệ điều hành"
+                                                label="Mô tả"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.os}
-                                                name="os"
-                                                error={!!touched.os && !!errors.os}
-                                                helperText={touched.os && errors.os}
+                                                value={values.description}
+                                                name="description"
+                                                error={!!touched.des && !!errors.description}
+                                                helperText={touched.description && errors.description}
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
                                             <Avatar sx={{ gridColumn: 'span 1', justifySelf: "center",width:'100px', maxWidth: '150px', height: 'auto', maxHeight: '150px'}} variant='square' src={values.image}></Avatar>
@@ -313,110 +304,7 @@ export default function EditProduct() {
                                                 helperText={touched.quantity && errors.quantity}
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Ram"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.ram}
-                                                name="ram"
-                                                error={!!touched.ram && !!errors.ram}
-                                                helperText={touched.ram && errors.ram}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Bộ nhớ trong"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.internalMemory}
-                                                name="internalMemory"
-                                                error={!!touched.internalMemory && !!errors.internalMemory}
-                                                helperText={touched.internalMemory && errors.internalMemory}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Cam trước"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.frontCamera}
-                                                name="frontCamera"
-                                                error={!!touched.frontCamera && !!errors.frontCamera}
-                                                helperText={touched.frontCamera && errors.frontCamera}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Cam sau"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.rearCamera}
-                                                name="rearCamera"
-                                                error={!!touched.rearCamera && !!errors.rearCamera}
-                                                helperText={touched.rearCamera && errors.rearCamera}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="CPU"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.cpu}
-                                                name="cpu"
-                                                error={!!touched.cpu && !!errors.cpu}
-                                                helperText={touched.cpu && errors.cpu}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Pin"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.pin}
-                                                name="pin"
-                                                error={!!touched.pin && !!errors.pin}
-                                                helperText={touched.pin && errors.pin}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Sim"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.sim}
-                                                name="sim"
-                                                error={!!touched.sim && !!errors.sim}
-                                                helperText={touched.sim && errors.sim}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Màn hình"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.screen}
-                                                name="screen"
-                                                error={!!touched.screen && !!errors.screen}
-                                                helperText={touched.screen && errors.screen}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
+                                            
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
@@ -443,20 +331,6 @@ export default function EditProduct() {
                                                 helperText={touched.size && errors.size}
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Màu sản phẩm"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.colorProduct*100}
-                                                name="colorProduct"
-                                                error={!!touched.colorProduct && !!errors.colorProduct}
-                                                helperText={touched.colorProduct && errors.colorProduct}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
-                                            
                                             
                                             <TextField
                                                 fullWidth
