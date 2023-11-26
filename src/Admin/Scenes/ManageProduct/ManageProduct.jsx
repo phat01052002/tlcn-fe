@@ -21,42 +21,42 @@ const ManageProducts = () => {
     //Theme
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [users, setUsers] = useState([]);
-    const [userId, setUserId] = useState();
+    const [products, setProducts] = useState([]);
+    const [productId, setProductId] = useState();
     const [message, setMessage] = useState();
 
     //Load data from server
-    const loadUsers = () => {
+    const loadProducts = () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/getUsers',
+                url: '/admin/products',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            axios.request(config).then((res) => setUsers(res.data));
+            axios.request(config).then((res) => setProducts(res.data));
         } catch {
             window.location = '/login';
         }
     };
 
     useEffect(() => {
-        loadUsers();
+        loadProducts();
     }, []);
 
     //Modal delete open, close
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
         setOpen(true);
-        setUserId(id);
-        console.log('open' + userId);
+        setProductId(id);
+        console.log('open' + productId);
     };
     const handleClose = () => {
         setOpen(false);
-        console.log('close' + userId);
+        console.log('close' + productId);
     };
 
     const handleDelete = async () => {
@@ -65,7 +65,7 @@ const ManageProducts = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/deleteUser/${userId}`,
+                url: `/admin/deleteProduct/${productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -74,25 +74,25 @@ const ManageProducts = () => {
             setMessage(response.data.message);
             handleClose();
             handleOpenNotification();
-            loadUsers();
+            loadProducts();
             //axios.request(config).then((res) => setUsers(res.data));
         } catch {
             window.location = '/login';
         }
 
-        console.log(userId);
+        console.log(productId);
     };
 
     //Modal status open, close
     const [openStatus, setOpenStatus] = useState(false);
     const handleOpenStatus = (id) => {
         setOpenStatus(true);
-        setUserId(id);
-        console.log('open' + userId);
+        setProductId(id);
+        console.log('open' + productId);
     };
     const handleCloseStatus = () => {
         setOpenStatus(false);
-        console.log('close' + userId);
+        console.log('close' + productId);
     };
     const handleUpdateStatus = async () => {
         try {
@@ -100,7 +100,7 @@ const ManageProducts = () => {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `/admin/updateUserStatus/${userId}`,
+                url: `/admin/updateUserStatus/${productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -109,13 +109,13 @@ const ManageProducts = () => {
             setMessage(response.data.message);
             handleCloseStatus();
             handleOpenNotification();
-            loadUsers();
+            loadProducts();
             //axios.request(config).then((res) => setUsers(res.data));
         } catch {
             window.location = '/login';
         }
 
-        console.log(userId);
+        console.log(productId);
     };
     // Notification Modal
     const [openNotification, setOpenNotification] = useState(false);
@@ -128,16 +128,16 @@ const ManageProducts = () => {
 
     //Data of Grid
     const columns = [
-        { field: 'userId', headerName: 'ID', flex: 0.2 },
+        { field: 'productId', headerName: 'ID', flex: 0.2 },
         {
             field: 'name',
-            headerName: 'Name',
+            headerName: 'Tên',
             flex: 1,
             cellClassName: 'name-column--cell',
         },
         {
             field: 'image',
-            headerName: 'Image',
+            headerName: 'Ảnh',
             type: 'image',
             headerAlign: 'center',
             align: 'center',
@@ -147,43 +147,19 @@ const ManageProducts = () => {
             },
         },
         {
-            field: 'phone',
-            headerName: 'Phone Number',
-            flex: 1,
-        },
-        {
-            field: 'address',
-            headerName: 'Address',
-            flex: 1,
-        },
-        {
-            field: 'username',
-            headerName: 'Username',
-            flex: 1,
-        },
-        {
-            field: 'role',
-            headerName: 'Role',
+            field: 'price',
+            headerName: 'Giá',
             flex: 0.5,
-            renderCell: ({ row: { role } }) => {
-                return (
-                    <Box
-                        width="100%"
-                        m="0 auto"
-                        p="5px"
-                        display="flex"
-                        justifyContent="center"
-                        backgroundColor={role === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
-                        borderRadius="4px"
-                    >
-                        {role === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-                        {role === 'USER' && <AccountCircleOutlinedIcon />}
-                        <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                            {role}
-                        </Typography>
-                    </Box>
-                );
-            },
+        },
+        {
+            field: 'quantity',
+            headerName: 'Số lượng',
+            flex: 0.5,
+        },
+        {
+            field: 'categoryName',
+            headerName: 'Loại sản phẩm',
+            flex: 0.5,
         },
         {
             field: 'status',
@@ -220,7 +196,7 @@ const ManageProducts = () => {
                                         fontWeight="bold"
                                         sx={{ mb: '5px' }}
                                     >
-                                        Thay đổi trạng thái người dùng ?
+                                        Thay đổi trạng thái sản phẩm ?
                                     </Typography>
                                     <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                         <Button
@@ -260,7 +236,7 @@ const ManageProducts = () => {
                         </IconButton>
 
                         {/** Detail button */}
-                        <Link to={`/admin/users/detail/${id}`}>
+                        <Link to={`/admin/products/detail/${id}`}>
                             <IconButton>
                                 <ErrorOutlineOutlinedIcon />
                             </IconButton>
@@ -283,7 +259,7 @@ const ManageProducts = () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Xóa người dùng này ?
+                                    Xóa sản phẩm này ?
                                 </Typography>
                                 <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button
@@ -311,9 +287,9 @@ const ManageProducts = () => {
 
     return (
         <Box m="20px">
-            <HeaderAdmin title="USER" subtitle="Managing users" />
+            <HeaderAdmin title="SẢN PHẨM" subtitle="Quản lý sản phẩm" />
             {/** Add button */}
-            <Link to={`/admin/users/create`} m="0px">
+            <Link to={`/admin/products/create`} m="0px">
                 <IconButton>
                     <PersonAddOutlinedIcon />
                 </IconButton>
@@ -353,9 +329,9 @@ const ManageProducts = () => {
                 <DataGrid
                     slots={{ toolbar: GridToolbar }}
                     rowHeight={90}
-                    rows={users}
+                    rows={products}
                     columns={columns}
-                    getRowId={(row) => row.userId}
+                    getRowId={(row) => row.productId}
                 />
             </Box>
             <Modal
@@ -401,4 +377,4 @@ export const styleBox = {
     boxShadow: 24,
     p: 4,
 };
-export default ManageUsers;
+export default ManageProducts;

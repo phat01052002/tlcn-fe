@@ -9,6 +9,7 @@ import Dashboard from '../../Scenes/Dashboard';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../../PageAdmin.css'
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
+import ManageCategories from '../../Scenes/ManageCategory/ManageCategory';
 export default function CategoryAdmin() {
     
     const [theme, colorMode] = useMode();
@@ -22,6 +23,7 @@ export default function CategoryAdmin() {
                     <Topbar></Topbar>
                     <Box m="20px">
                         <HeaderAdmin title='Manageing categories' subtitle="CRUD category"></HeaderAdmin>
+                        <ManageCategories></ManageCategories>
                     </Box>   
                 </main>
             </div>

@@ -401,4 +401,4 @@ export const styleBox = {
     boxShadow: 24,
     p: 4,
 };
-export default ManageUsers;
+export default ManageCategories;
