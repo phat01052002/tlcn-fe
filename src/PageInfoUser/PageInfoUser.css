@@ -5,6 +5,7 @@
     display: flex;
     justify-content: center;
     color: #c4123f;
+    background-color: #f8f8f8;
 }
 #info-user > label:first-child {
     font-size: 2rem;

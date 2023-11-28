@@ -29,40 +29,38 @@ export default function ProductOrder({ order }) {
                 Authorization: `Bearer ${accessToken}`,
             },
         };
-        await axios.request(config).then((res) => {
+        await axios.request(config).then(async (res) => {
             console.log(res.data);
             if (res.data == 'canceled success') {
                 setOrderState('canceled');
                 notifySuccessCanceledOrder();
+                try {
+                    if (user.length != 0) {
+                        var numberNotifyCurrent = 0;
+                        const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                        let config = {
+                            method: 'get',
+                            maxBodyLength: Infinity,
+                            url: '/user/getNotification',
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        };
+                        await axios.request(config).then((res) => {
+                            for (var i = 0; i < res.data.length; i++) {
+                                if (!res.data[i].state) {
+                                    numberNotifyCurrent += 1;
+                                }
+                            }
+                            dispatch(changeNumberNotify(numberNotifyCurrent));
+                            dispatch(changeListNotify(res.data));
+                        });
+                    }
+                } catch {}
             } else {
                 notifyErrorCanceledOrder();
             }
         });
-        try {
-            if (user.length != 0) {
-                var numberNotifyCurrent = 0;
-                const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-                let config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: '/user/getNotification',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                };
-                await axios.request(config).then((res) => {
-                    for (var i = 0; i < res.data.length; i++) {
-                        if (!res.data[i].state) {
-                            numberNotifyCurrent += 1;
-                        }
-                    }
-                    dispatch(changeNumberNotify(numberNotifyCurrent));
-                    dispatch(changeListNotify(res.data));
-                });
-            }
-        } catch {
-            window.location = '/login';
-        }
     }, []);
     const handleRestoreOrder = useCallback(async (user) => {
         const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -103,9 +101,7 @@ export default function ProductOrder({ order }) {
                     dispatch(changeListNotify(res.data));
                 });
             }
-        } catch {
-            window.location = '/login';
-        }
+        } catch {}
     }, []);
     useEffect(() => {
         try {
