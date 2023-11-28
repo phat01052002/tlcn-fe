@@ -7,6 +7,7 @@ import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
 import Dashboard from '../../Scenes/Dashboard';
 import '../../PageAdmin.css'
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
+import ManageProducts from '../../Scenes/ManageProduct/ManageProduct';
 export default function ProductAdmin() {
     
     const [theme, colorMode] = useMode();
@@ -14,13 +15,11 @@ export default function ProductAdmin() {
     return (<ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <div className='app'>
+            <div className='app' style={{display: 'flex', flexDirection: 'row'}}>
             <SidebarAdmin/>
-                <main className='content'>
+                <main className='content' style={{columnWidth: '75vw'}}>
                     <Topbar></Topbar>
-                    <Box m="20px">
-                        <HeaderAdmin title='Manageing products' subtitle="CRUD product"></HeaderAdmin>
-                    </Box>   
+                    <ManageProducts></ManageProducts>  
                 </main>
             </div>
         </ThemeProvider>

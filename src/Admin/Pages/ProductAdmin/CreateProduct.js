@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ColorModeContext, tokens, useMode } from '../../theme';
-import { CssBaseline, IconButton, Modal, Stack, ThemeProvider, Typography } from '@mui/material';
+import { CssBaseline, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, ThemeProvider, Typography } from '@mui/material';
 import axios from 'axios';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
@@ -19,30 +19,70 @@ import { v4 } from 'uuid';
 import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
 
-//Validate
-const phoneRegExp = /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-const passwordRegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{6,20}$/;
-
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('bắt buộc'),
-    password: yup.string().matches(passwordRegExp, 'mật khẩu không hợp lệ').required('bắt buộc'),
-    phone: yup.string().matches(phoneRegExp, 'số điện thoại không hợp lệ').required('bắt buộc'),
-    address: yup.string().required('bắt buộc'),
+    description: yup.string().required('bắt buộc'),
+    price: yup.number().required('bắt buộc'),
+    categoryName: yup.string().required('bắt buộc'),
+    quantity: yup.number().required('bắt buộc'),
+    size: yup.string().required('bắt buộc'),
 });
 //Field values
 const initialValues = {
     name: '',
-    phone: '',
+    price: '',
     image: '',
-    password: '',
-    address: '',
+    description: '',
+    material: '',
+    quantity: '',
+    size: '',
+    categoryName: '',
+    percentDiscount: '',
 };
 
-export default function CreateForm() {
+export default function CreateProduct() {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
-
+    const [categoryNameList, setCategoryNameList] = useState([]);
+    const loadCategoryNameList = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/admin/getCategoryList',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            const response = await axios.request(config);
+            setCategoryNameList(response.data)
+        } catch {
+            window.location = '/login';
+        }
+    }
+    const loadDiscountList = async () => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: '/admin/getDiscountList',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+            const response = await axios.request(config);
+            setCategoryNameList(response.data)
+        } catch {
+            window.location = '/login';
+        }
+    }
+    useEffect(() => {
+        loadCategoryNameList();
+    }, []);
+    
     //Submit
     //Upload Image
     const [imageUpload, setImageUpload] = useState(null);
@@ -52,7 +92,7 @@ export default function CreateForm() {
     const uploadImage_Submit = async (values) => {
         if (imageUpload == null) return;
 
-        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage, `imageProducts/${imageUpload.name + v4()}`);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
             getDownloadURL(snapshot.ref).then(async (url) => {
                 console.log("url: "+url)
@@ -66,7 +106,7 @@ export default function CreateForm() {
                     let config = {
                         method: 'post',
                         maxBodyLength: Infinity,
-                        url: '/admin/createUser',
+                        url: '/admin/createProduct',
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -100,7 +140,7 @@ export default function CreateForm() {
                     <main className="content" style={{ columnWidth: '75vw' }}>
                         <Topbar></Topbar>
                         <Box m="20px">
-                            <HeaderAdmin title="THÊM NGƯỜI DÙNG" subtitle="Thêm hồ sơ người dùng mới" />
+                            <HeaderAdmin title="THÊM SẢN PHẨM" subtitle="Thêm sản phẩm mới vào cửa hàng" />
 
                             <Formik
                                 onSubmit={uploadImage_Submit}
@@ -111,7 +151,7 @@ export default function CreateForm() {
                                     <form onSubmit={handleSubmit}>
                                         <Box
                                             display="grid"
-                                            gap="30px"
+                                            gap="20px"
                                             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                                             sx={{
                                                 '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
@@ -121,7 +161,7 @@ export default function CreateForm() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Họ và tên"
+                                                label="Tên sản phẩm"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -134,14 +174,40 @@ export default function CreateForm() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Số điện thoại"
+                                                label="Giá"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.phone}
-                                                name="phone"
-                                                error={!!touched.phone && !!errors.phone}
-                                                helperText={touched.phone && errors.phone}
-                                                sx={{ gridColumn: 'span 4' }}
+                                                value={values.price}
+                                                name="price"
+                                                error={!!touched.price && !!errors.price}
+                                                helperText={touched.price && errors.price}
+                                                sx={{ gridColumn: 'span 2' }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Số lượng"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.quantity}
+                                                name="quantity"
+                                                error={!!touched.quantity && !!errors.quantity}
+                                                helperText={touched.quantity && errors.quantity}
+                                                sx={{ gridColumn: 'span 1' }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Kích cỡ"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.size}
+                                                name="size"
+                                                error={!!touched.size && !!errors.size}
+                                                helperText={touched.size && errors.size}
+                                                sx={{ gridColumn: 'span 1' }}
                                             />
                                             <Stack spacing={2} direction="row" height={35}>
                                                 <Button
@@ -162,32 +228,61 @@ export default function CreateForm() {
                                                 <Typography>{fileName}</Typography>
                                             </Stack>
                                             
-
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Mật khẩu"
+                                                label="Mô tả"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.password}
-                                                name="password"
-                                                error={!!touched.password && !!errors.password}
-                                                helperText={touched.password && errors.password}
+                                                value={values.description}
+                                                name="description"
+                                                error={!!touched.description && !!errors.description}
+                                                helperText={touched.description && errors.description}
                                                 sx={{ gridColumn: 'span 4' }}
                                             />
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Địa chỉ"
+                                                label="Nguyên liệu"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.address}
-                                                name="address"
-                                                error={!!touched.address && !!errors.address}
-                                                helperText={touched.address && errors.address}
+                                                value={values.material}
+                                                name="material"
+                                                error={!!touched.material && !!errors.material}
+                                                helperText={touched.material && errors.material}
                                                 sx={{ gridColumn: 'span 4' }}
+                                            />
+                                            
+                                            
+                                            <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
+                                            <InputLabel>Loại sản phẩm</InputLabel>
+                                            <Select
+                                                variant='filled'
+                                                value={values.categoryName}
+                                                onChange={handleChange}
+                                                name='categoryName'
+                                                >
+                                                {
+                                                    categoryNameList.map(
+                                                        item => (<MenuItem value={item}>{item}</MenuItem>)
+                                                    )
+                                                }
+                                            </Select>
+                                            </FormControl>
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Giảm giá"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.percentDiscount}
+                                                name="percentDiscount"
+                                                error={!!touched.percentDiscount && !!errors.percentDiscount}
+                                                helperText={touched.percentDiscount && errors.percentDiscount}
+                                                sx={{ gridColumn: 'span 2' }}
                                             />
                                         </Box>
 
@@ -198,7 +293,7 @@ export default function CreateForm() {
                                             </IconButton>
                                             
                                             <Button type="submit" color="secondary" variant="contained">
-                                                Tạo người dùng mới
+                                                Tạo Sản Phẩm
                                             </Button>
                                         </Box>
                                     </form>
@@ -237,7 +332,7 @@ export default function CreateForm() {
     );
 }
 
-const VisuallyHiddenInput = styled('input')({
+export const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
     height: 1,

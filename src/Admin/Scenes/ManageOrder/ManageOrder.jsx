@@ -7,7 +7,11 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import BuildIcon from '@mui/icons-material/Build';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import NoCrashOutlinedIcon from '@mui/icons-material/NoCrashOutlined';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
@@ -17,46 +21,93 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const ManageUsers = () => {
+const ManageOrders = () => {
     //Theme
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [users, setUsers] = useState([]);
-    const [userId, setUserId] = useState();
+    const [orders, setOrders] = useState([]);
+    const [orderId, setOrderId] = useState();
     const [message, setMessage] = useState();
+    const [ask, setAsk] = useState();
+    const handleConfirm = ()=>
+    {
+        setAsk("Xác nhận đơn hàng");
+        console.log("confirm");
+    }
+    const handleDelivery = ()=>
+    {
+        setAsk("Bắt đầu vận chuyển đơn hàng");
+    }
+    const handleDelivered = ()=>
+    {
+        setAsk("Xác nhận đã giao");
+    }
 
     //Load data from server
-    const loadUsers = () => {
+    const loadOrders = () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/getUsers',
+                url: '/admin/orders',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            axios.request(config).then((res) => setUsers(res.data));
+            axios.request(config).then((res) => setOrders(res.data));
         } catch {
             window.location = '/login';
         }
     };
 
     useEffect(() => {
-        loadUsers();
+        loadOrders();
     }, []);
+//Modal status open, close
+const [openStatus, setOpenStatus] = useState(false);
+const handleOpenStatus = (id) => {
+    setOpenStatus(true);
+    setOrderId(id);
+    console.log('open' + orderId);
+};
+const handleCloseStatus = () => {
+    setOpenStatus(false);
+    console.log('close' + orderId);
+};
+const handleUpdateStatus = async () => {
+    try {
+        const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `/admin/updateOrderState/${orderId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+        const response = await axios.request(config);
+        setMessage(response.data.message);
+        handleCloseStatus();
+        handleOpenNotification();
+        loadOrders();
+        //axios.request(config).then((res) => setUsers(res.data));
+    } catch {
+        window.location = '/login';
+    }
 
+    console.log(orderId);
+};
     //Modal delete open, close
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
         setOpen(true);
-        setUserId(id);
-        console.log('open' + userId);
+        setOrderId(id);
+        console.log('open' + orderId);
     };
     const handleClose = () => {
         setOpen(false);
-        console.log('close' + userId);
+        console.log('close' + orderId);
     };
 
     const handleDelete = async () => {
@@ -65,7 +116,7 @@ const ManageUsers = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/deleteUser/${userId}`,
+                url: `/admin/deleteOrder/${orderId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -74,48 +125,13 @@ const ManageUsers = () => {
             setMessage(response.data.message);
             handleClose();
             handleOpenNotification();
-            loadUsers();
-            //axios.request(config).then((res) => setUsers(res.data));
+            loadOrders();
+            //axios.request(config).then((res) => setOrders(res.data));
         } catch {
             window.location = '/login';
         }
 
-        console.log(userId);
-    };
-
-    //Modal status open, close
-    const [openStatus, setOpenStatus] = useState(false);
-    const handleOpenStatus = (id) => {
-        setOpenStatus(true);
-        setUserId(id);
-        console.log('open' + userId);
-    };
-    const handleCloseStatus = () => {
-        setOpenStatus(false);
-        console.log('close' + userId);
-    };
-    const handleUpdateStatus = async () => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: `/admin/updateUserStatus/${userId}`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            const response = await axios.request(config);
-            setMessage(response.data.message);
-            handleCloseStatus();
-            handleOpenNotification();
-            loadUsers();
-            //axios.request(config).then((res) => setUsers(res.data));
-        } catch {
-            window.location = '/login';
-        }
-
-        console.log(userId);
+        console.log(orderId);
     };
     // Notification Modal
     const [openNotification, setOpenNotification] = useState(false);
@@ -128,85 +144,80 @@ const ManageUsers = () => {
 
     //Data of Grid
     const columns = [
-        { field: 'userId', headerName: 'ID', flex: 0.2 },
+        { field: 'orderId', headerName: 'ID', flex: 0.2 },
         {
-            field: 'name',
-            headerName: 'Tên',
+            field: 'productName',
+            headerName: 'Sản phẩm',
             flex: 1,
             cellClassName: 'name-column--cell',
         },
         {
-            field: 'image',
-            headerName: 'Ảnh đại diện',
+            field: 'imageProduct',
+            headerName: 'Ảnh sản phẩm',
             type: 'image',
             headerAlign: 'center',
             align: 'center',
 
-            renderCell: ({ row: { image } }) => {
-                return <img width="auto" height="80%" src={image}></img>;
+            renderCell: ({ row: { imageProduct } }) => {
+                return <img width="auto" height="80%" src={imageProduct}></img>;
             },
         },
         {
-            field: 'phone',
-            headerName: 'Số điện thoại',
-            flex: 1,
+            field: 'count',
+            headerName: 'Số lượng',
+            flex: 0.3,
         },
         {
-            field: 'address',
-            headerName: 'Địa chỉ',
-            flex: 1,
+            field: 'total',
+            headerName: 'Tổng cộng',
+            flex: 0.3,
         },
+        
         {
-            field: 'username',
-            headerName: 'Tên tài khoản',
-            flex: 1,
-        },
-        {
-            field: 'role',
-            headerName: 'Quyền',
-            flex: 0.5,
-            renderCell: ({ row: { role } }) => {
-                return (
-                    <Box
-                        width="100%"
-                        m="0 auto"
-                        p="5px"
-                        display="flex"
-                        justifyContent="center"
-                        backgroundColor={role === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
-                        borderRadius="4px"
-                    >
-                        {role === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-                        {role === 'USER' && <AccountCircleOutlinedIcon />}
-                        <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                            {role}
-                        </Typography>
-                    </Box>
-                );
+            field: 'paid',
+            headerName: 'Thanh toán',
+            flex: 0.5, 
+            renderCell: ({ row: { paid } }) => {
+                return <>{paid === false && "Chưa thanh toán"}
+                {paid === true && "Đã thanh toán"}</>;
             },
         },
         {
-            field: 'status',
+            field: 'state',
             headerName: 'Trạng thái',
-            flex: 0.5,
-            renderCell: ({ row: { status } }) => {
+            flex: 0.3,
+            renderCell: ({ row: { state } }) => {
+                return <>{state === "processing" && "Đang chờ xử lý" ||
+                state === "processed" && "Đã xử lý" ||
+                state === "delivering" && "Đang vận chuyển" ||
+                state === "delivered" && "Đã giao" ||
+                state === "canceled" && "Đã hủy"}
+                
+                </>;
+            },
+        },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'Hành động',
+            align: 'right',
+            flex: 0.75,
+            getActions: ({ id, row: {state} }) => {
                 return [
                     <>
-                        <Box
-                            width="100%"
-                            m="0 auto"
-                            p="5px"
-                            display="flex"
-                            justifyContent="center"
-                            backgroundColor={status === 'active' ? colors.blueAccent[600] : colors.redAccent[600]}
-                            borderRadius="4px"
+                        {/** Edit button */}
+
+                        <IconButton 
+                            disabled={state === "delivered" && 'true' || state === "canceled" && 'true'}
+                            onClick={() => handleOpenStatus(id)}
                         >
-                            {status === 'active' && <MoodOutlinedIcon />}
-                            {status === 'inactive' && <SentimentDissatisfiedOutlinedIcon />}
-                            <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                                {status}
-                            </Typography>
-                            <Modal
+                            {state === "processing" && <CheckOutlinedIcon onClick={()=>handleConfirm()}/> ||
+                            state === "processed" && <LocalShippingOutlinedIcon onClick={()=>handleDelivery()}/> ||
+                            state === "delivering" && <NoCrashOutlinedIcon onClick={()=>handleDelivered()}/> ||
+                            state === "delivered" && "" ||
+                            state === "canceled" && ""}
+                        </IconButton>
+                        <Modal
                                 open={openStatus}
                                 onClose={handleCloseStatus}
                                 aria-labelledby="modal-modal-title"
@@ -220,7 +231,7 @@ const ManageUsers = () => {
                                         fontWeight="bold"
                                         sx={{ mb: '5px' }}
                                     >
-                                        Thay đổi trạng thái người dùng ?
+                                        {ask}
                                     </Typography>
                                     <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                         <Button
@@ -240,27 +251,8 @@ const ManageUsers = () => {
                                     </Stack>
                                 </Box>
                             </Modal>
-                        </Box>
-                    </>,
-                ];
-            },
-        },
-        {
-            field: 'actions',
-            type: 'actions',
-            headerName: 'Hành động',
-            flex: 0.75,
-            getActions: ({ id }) => {
-                return [
-                    <>
-                        {/** Edit button */}
-
-                        <IconButton onClick={() => handleOpenStatus(id)}>
-                            <LockOpenOutlinedIcon />
-                        </IconButton>
-
                         {/** Detail button */}
-                        <Link to={`/admin/users/detail/${id}`}>
+                        <Link to={`/admin/orders/detail/${id}`}>
                             <IconButton>
                                 <ErrorOutlineOutlinedIcon />
                             </IconButton>
@@ -283,7 +275,7 @@ const ManageUsers = () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Xóa người dùng này ?
+                                    Xóa loại sản phẩm này ?
                                 </Typography>
                                 <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button
@@ -311,13 +303,7 @@ const ManageUsers = () => {
 
     return (
         <Box m="20px">
-            <HeaderAdmin title="NGƯỜI DÙNG" subtitle="Quản lý người dùng" />
-            {/** Add button */}
-            <Link to={`/admin/users/create`} m="0px">
-                <IconButton>
-                    <PersonAddOutlinedIcon />
-                </IconButton>
-            </Link>
+            <HeaderAdmin title="ĐƠN HÀNG" subtitle="Quản lý đơn hàng" />
             <Box
                 m="10px 0 0 0"
                 height="65vh"
@@ -353,9 +339,9 @@ const ManageUsers = () => {
                 <DataGrid
                     slots={{ toolbar: GridToolbar }}
                     rowHeight={90}
-                    rows={users}
+                    rows={orders}
                     columns={columns}
-                    getRowId={(row) => row.userId}
+                    getRowId={(row) => row.orderId}
                 />
             </Box>
             <Modal
@@ -401,4 +387,4 @@ export const styleBox = {
     boxShadow: 24,
     p: 4,
 };
-export default ManageUsers;
+export default ManageOrders;
