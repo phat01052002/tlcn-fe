@@ -40,6 +40,7 @@ export default function ProductJustView() {
                         keyBoardControl={true}
                         customTransition="all 1s"
                         transitionDuration={1000}
+                        removeArrowOnDeviceType={['mobile']}
                     >
                         {listProductJustView.map((product, index) => (
                             <Product key={product.productId + index} product={product} type={'sale'} />

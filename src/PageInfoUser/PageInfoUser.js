@@ -1,33 +1,63 @@
 import { async } from '@firebase/util';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import React, { useCallback, useEffect, useState } from 'react';
-import { AlertLoginFalse } from '../components/Alert/Alert';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+
 import {
     notifyErrorGetOTPPhone,
     notifyErrorIsNotVerify,
     notifyErrorPassword,
     notifyErrorPhoneIsPresent,
     notifyOTPSussess,
+    notifyUpdateImgFail,
+    notifyUpdateImgSussess,
     notifyUpdateSussess,
     notifyVerifySussess,
     notifyWarningUpdateInfoUser,
 } from '../components/NotificationInPage/NotificationInPage';
-import { auth } from '../setupFirebase/setupFirebase';
+import { auth, storage } from '../setupFirebase/setupFirebase';
 import { addLoad, changeUser, removeLoad, useStore } from '../Store';
 import './PageInfoUser.css';
+import Swal from 'sweetalert2';
+import { v4 } from 'uuid';
+//input file
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 export default function PageInfoUser() {
     const [globalState, dispatch] = useStore();
     const { roleState, user } = globalState;
     const [isChange, setIsChange] = useState(false);
+    const [name, setName] = useState('');
     //update phone and password variable
     const [phone, setPhone] = useState(null);
     const [password, setPassword] = useState('');
     const [passwordOld, setPasswordOld] = useState('');
     const [comfirm, setComfirm] = useState(null);
     const [otp, setOtp] = useState(null);
+    //address
+    const [listCity, setListCity] = useState([]);
+    const [city, setCity] = useState(0);
+    const [listDistrict, setListDictrict] = useState([]);
+    const [district, setDistrict] = useState(0);
+    const [listWards, setListWards] = useState([]);
+    const [wards, setWards] = useState(0);
+    const [apartmentNumber, setApartmentNumber] = useState('');
     const getPhoneUser = (user) => {
         if (user.phone) {
             return user.phone;
@@ -35,25 +65,23 @@ export default function PageInfoUser() {
             return <label>Chưa có</label>;
         }
     };
-    const handleChangeUserName = useCallback((e, user) => {
-        let newUserCurrent = user;
-        newUserCurrent.name = e.target.value;
-        dispatch(changeUser(newUserCurrent));
-        console.log(newUserCurrent);
+    const handleChangeUserName = useCallback((e) => {
+        setName(e.target.value);
         setIsChange(true);
     }, []);
-    const handleChangeUserAddress = useCallback((e, user) => {
-        let newUserCurrent = user;
-        newUserCurrent.address = e.target.value;
-        dispatch(changeUser(newUserCurrent));
+    const handleChangeUserApartmentNumber = useCallback((e) => {
+        setApartmentNumber(e.target.value);
         setIsChange(true);
     }, []);
-    const handleSave = useCallback((user, isChange) => {
-        if (isChange && user.name.length > 0 && user.address.length > 0) {
+    const handleSave = useCallback((name, apartmentNumber, city, district, ward, isChange) => {
+        if (isChange && name.length > 0 && apartmentNumber != '' && city != 0 && ward != 0 && district != 0) {
             let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let data = {
-                name: user.name,
-                address: user.address,
+                name: name,
+                apartmentNumber: apartmentNumber,
+                city: city,
+                district: district,
+                ward: ward,
             };
             let config = {
                 method: 'patch',
@@ -65,15 +93,14 @@ export default function PageInfoUser() {
                 data: data,
             };
 
-            axios
-                .request(config)
-                .then((response) => {
-                    notifyUpdateSussess();
-                    setIsChange(false);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            axios.request(config).then((response) => {
+                dispatch(changeUser(response.data));
+                notifyUpdateSussess();
+                setIsChange(false);
+            });
+            if (sessionStorage.getItem('checkout')) {
+                window.location = '/checkout';
+            }
         } else {
             notifyWarningUpdateInfoUser();
         }
@@ -179,6 +206,9 @@ export default function PageInfoUser() {
         document.getElementById('verify-phone').classList.add('hidden');
         document.getElementById('update-phone').classList.add('hidden');
         removeLoad();
+        if (sessionStorage.getItem('/checkout')) {
+            window.location = '/checkout';
+        }
     }, []);
     const handleUpdatePhone = useCallback(() => {
         document.getElementById('update-phone').classList.remove('hidden');
@@ -186,11 +216,77 @@ export default function PageInfoUser() {
     const handleChangePassword = useCallback(() => {
         document.getElementById('change-password').classList.remove('hidden');
     }, []);
+    const handleUploadImg = useCallback((e) => {
+        Swal.fire({
+            title: 'Chọn ảnh này làm ảnh đại diện ?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const imageUpload = e.target.files[0];
+                const imageRef = ref(storage, `imagesUser/${imageUpload.name + v4()}`);
+                let imgData = 'https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png';
+                uploadBytes(imageRef, imageUpload).then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then(async (url) => {
+                        console.log(url);
+                        if (url == null) {
+                        } else {
+                            imgData = url;
+                        }
+                        try {
+                            let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+                            let data = {
+                                image: imgData,
+                            };
+                            let config = {
+                                method: 'patch',
+                                maxBodyLength: Infinity,
+                                url: '/user/saveImgUser',
+                                headers: {
+                                    Authorization: `Bearer ${accessToken}`,
+                                },
+                                data: data,
+                            };
+                            await axios.request(config).then((res) => dispatch(changeUser(res.data)));
+                            notifyUpdateImgSussess();
+                        } catch {
+                            notifyUpdateImgFail();
+                        }
+                    });
+                });
+            } else if (result.isDenied) {
+            }
+        });
+    }, []);
+    ///
     useEffect(() => {
         if (sessionStorage.getItem('USER') == null) {
             window.location = '/login';
         }
+        axios.get('https://vapi.vnappmob.com/api/province').then((res) => setListCity(res.data.results));
     }, []);
+    useEffect(() => {
+        setName(user.name);
+        setCity(user.city == null ? 0 : user.city);
+        setDistrict(user.district == null ? 0 : user.district);
+        setWards(user.ward == null ? 0 : user.ward);
+        setApartmentNumber(user.apartmentNumber == null ? '' : user.apartmentNumber);
+    }, [user]);
+    useEffect(() => {
+        if (city != 0) {
+            axios
+                .get(`https://vapi.vnappmob.com/api/province/district/${city}`)
+                .then((res) => setListDictrict(res.data.results));
+        }
+    }, [city]);
+    useEffect(() => {
+        if (district != 0) {
+            axios
+                .get(`https://vapi.vnappmob.com/api/province/ward/${district}`)
+                .then((res) => setListWards(res.data.results));
+        }
+    }, [district]);
     return (
         <div>
             <Header />
@@ -199,28 +295,79 @@ export default function PageInfoUser() {
                 <div className="basic-info col-lg-6 col-12">
                     <span>
                         <label>Ảnh đại diện:</label>
-                        <div class="avatar-view">
+                        <div
+                            class={
+                                user.image == 'https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png'
+                                    ? 'avatar-view'
+                                    : 'avatar-view-new'
+                            }
+                        >
                             <img src={user.image} alt="avatar" class="default" />
-                            <div class="edit">
-                                <img
-                                    src="https://frontend.tikicdn.com/_desktop-next/static/img/account/edit.png"
-                                    class="edit_img"
-                                    alt=""
-                                />
+                            <div className="edit">
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                    <VisuallyHiddenInput type="file" onChange={(e) => handleUploadImg(e)} />
+                                </Button>
                             </div>
                         </div>
                     </span>
-                    <span>
-                        <label>Họ và tên:</label>
-                        <input value={user.name} onChange={(e) => handleChangeUserName(e, user)}></input>
-                    </span>
-                    <span>
-                        <label>Địa chỉ</label>
-                        <input value={user.address} onChange={(e) => handleChangeUserAddress(e, user)}></input>
-                    </span>
-                    <div className="btn-save">
-                        <button onClick={() => handleSave(user, isChange)}>Lưu thay đổi</button>
-                    </div>
+                    <iframe name="votar" className="hidden"></iframe>
+                    <form target="votar">
+                        <span>
+                            <label>Họ và tên:</label>
+                            <input value={name} onChange={handleChangeUserName} required></input>
+                        </span>
+                        <span>
+                            <label>Số nhà:</label>
+                            <input value={apartmentNumber} onChange={handleChangeUserApartmentNumber} required></input>
+                        </span>
+                        <FormControl className="form-address">
+                            <InputLabel className="input-label-address">Tỉnh thành</InputLabel>
+                            <Select
+                                className="select-address"
+                                label="City"
+                                value={city}
+                                required
+                                onChange={(e) => setCity(e.target.value)}
+                            >
+                                {listCity.map((city) => (
+                                    <MenuItem value={city.province_id}>{city.province_name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl className="form-address">
+                            <InputLabel className="input-label-address">Quận huyện</InputLabel>
+                            <Select
+                                className="select-address"
+                                label="District"
+                                required
+                                value={district}
+                                onChange={(e) => setDistrict(e.target.value)}
+                            >
+                                {listDistrict.map((district) => (
+                                    <MenuItem value={district.district_id}>{district.district_name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl className="form-address">
+                            <InputLabel className="input-label-address">Phường xã</InputLabel>
+                            <Select
+                                className="select-address"
+                                label="District"
+                                required
+                                value={wards}
+                                onChange={(e) => setWards(e.target.value)}
+                            >
+                                {listWards.map((ward) => (
+                                    <MenuItem value={ward.ward_id}>{ward.ward_name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <div className="btn-save">
+                            <button onClick={() => handleSave(name, apartmentNumber, city, district, wards, isChange)}>
+                                Lưu thay đổi
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div className="authen-info col-lg-6 col-12">
                     <div className="phone-info-user">

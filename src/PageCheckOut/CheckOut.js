@@ -38,6 +38,9 @@ export default function CheckOut() {
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [globalState, dispatch] = useStore();
     const { roleState, listProductCheckOut, listCountProductCheckOut, totalPrice, user } = globalState;
+    const [city, setCity] = useState(null);
+    const [district, setDistrict] = useState(null);
+    const [ward, setWard] = useState(null);
     const handleEnterInputAddress = useCallback((e, user) => {
         var keycode = e.keyCode ? e.keyCode : e.which;
         if (keycode == '13') {
@@ -211,6 +214,17 @@ export default function CheckOut() {
             }, 3000);
         }
     }, []);
+    useEffect(() => {
+        if (user.city) {
+            axios.get(`https://provinces.open-api.vn/api/p/${user.city}`).then((res) => setCity(res.data.name));
+        }
+        if (user.district) {
+            axios.get(`https://provinces.open-api.vn/api/d/${user.district}`).then((res) => setDistrict(res.data.name));
+        }
+        if (user.ward) {
+            axios.get(`https://provinces.open-api.vn/api/w/${user.ward}`).then((res) => setWard(res.data.name));
+        }
+    }, [user]);
     return (
         <div>
             <Header />
@@ -256,13 +270,19 @@ export default function CheckOut() {
                             )}
                         </div>
                         <div className="div-input">
-                            <label>Địa chỉ:</label>
-                            <input
-                                className="input-checkout input-user-address"
-                                value={user.address != '' && user.address != null ? user.address : null}
-                                placeholder="Vui lòng cập nhật thông tin"
-                                onKeyDown={(e) => handleEnterInputAddress(e, user)}
-                            ></input>
+                            <label>Giao đến:</label>
+                            {user.apartmentNumber && city && district && ward ? (
+                                <input
+                                    className="input-checkout input-user-address"
+                                    value={`${user.apartmentNumber},${ward},${district},${city}`}
+                                    placeholder="Vui lòng cập nhật thông tin"
+                                    onKeyDown={(e) => handleEnterInputAddress(e, user)}
+                                ></input>
+                            ) : (
+                                <button className="input-checkout btn-update" onClick={handleClickUpdatePhone}>
+                                    Cập nhật
+                                </button>
+                            )}
                         </div>
                         <div className="div-input-code">
                             <svg
