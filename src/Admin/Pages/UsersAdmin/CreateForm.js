@@ -180,7 +180,7 @@ export default function CreateForm() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Địa chỉ 1"
+                                                label="Địa chỉ"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.address}
@@ -198,7 +198,7 @@ export default function CreateForm() {
                                             </IconButton>
                                             
                                             <Button type="submit" color="secondary" variant="contained">
-                                                Create New User
+                                                Tạo người dùng mới
                                             </Button>
                                         </Box>
                                     </form>

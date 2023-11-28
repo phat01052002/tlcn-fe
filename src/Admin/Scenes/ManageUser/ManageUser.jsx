@@ -131,13 +131,13 @@ const ManageUsers = () => {
         { field: 'userId', headerName: 'ID', flex: 0.2 },
         {
             field: 'name',
-            headerName: 'Name',
+            headerName: 'Tên',
             flex: 1,
             cellClassName: 'name-column--cell',
         },
         {
             field: 'image',
-            headerName: 'Image',
+            headerName: 'Ảnh đại diện',
             type: 'image',
             headerAlign: 'center',
             align: 'center',
@@ -148,22 +148,22 @@ const ManageUsers = () => {
         },
         {
             field: 'phone',
-            headerName: 'Phone Number',
+            headerName: 'Số điện thoại',
             flex: 1,
         },
         {
             field: 'address',
-            headerName: 'Address',
+            headerName: 'Địa chỉ',
             flex: 1,
         },
         {
             field: 'username',
-            headerName: 'Username',
+            headerName: 'Tên tài khoản',
             flex: 1,
         },
         {
             field: 'role',
-            headerName: 'Role',
+            headerName: 'Quyền',
             flex: 0.5,
             renderCell: ({ row: { role } }) => {
                 return (
@@ -187,7 +187,7 @@ const ManageUsers = () => {
         },
         {
             field: 'status',
-            headerName: 'Status',
+            headerName: 'Trạng thái',
             flex: 0.5,
             renderCell: ({ row: { status } }) => {
                 return [
@@ -248,7 +248,7 @@ const ManageUsers = () => {
         {
             field: 'actions',
             type: 'actions',
-            headerName: 'Actions',
+            headerName: 'Hành động',
             flex: 0.75,
             getActions: ({ id }) => {
                 return [
