@@ -48,7 +48,7 @@ export default function Header() {
     //click more-notification
     const handleClickMoreNotify = useCallback(() => {
         limitNotify += 5;
-        console.log(limitNotify)
+        console.log(limitNotify);
         getNotify(user);
     });
     //input search onChange
@@ -59,7 +59,8 @@ export default function Header() {
             .replace('>', '')
             .replace(';', '')
             .replace(':', '')
-            .replace('.', '');
+            .replace('.', '')
+            .replace('?', '');
         setInputSearch(string);
     }, []);
 

@@ -41,6 +41,7 @@ export default function ListProductSale() {
                     keyBoardControl={true}
                     customTransition="all 1s"
                     transitionDuration={1000}
+                    removeArrowOnDeviceType={['mobile']}
                 >
                     {listProductSale.map((product) => (
                         <Product key={product.productId} product={product} type={'sale'} />

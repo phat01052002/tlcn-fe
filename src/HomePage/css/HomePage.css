@@ -22,6 +22,32 @@
         position: static !important;
     }
 }
+.react-multi-carousel-list {
+    z-index: 1;
+    padding-top: 50px;
+}
+.react-multiple-carousel__arrow {
+    position: absolute !important;
+    top: 50%;
+    z-index: 1;
+}
+.react-multiple-carousel__arrow--left {
+    left: calc(94% + 1px) !important;
+    top: 4%;
+    background-color: #c4123f !important;
+}
+.react-multiple-carousel__arrow--right {
+    right: calc(0% + 1px) !important;
+    top: 4%;
+    background-color: #c4123f !important;
+}
+.react-multiple-carousel__arrow::before {
+    font-size: 13px !important;
+}
+.react-multiple-carousel__arrow {
+    min-width: 30px !important;
+    min-height: 30px !important;
+}
 .home-page {
     background-color: #f8f8f8;
 }
@@ -211,7 +237,21 @@
     align-items: start;
     height: 54%;
 }
+@media (max-width: 1368px) {
+    .react-multiple-carousel__arrow--left {
+        left: calc(91.5% + 1px) !important;
+    }
+    .react-multiple-carousel__arrow--right {
+        right: calc(0% + 1px) !important;
+    }
+}
 @media (max-width: 991px) {
+    .react-multiple-carousel__arrow--left {
+        left: calc(85% + 1px) !important;
+    }
+    .react-multiple-carousel__arrow--right {
+        right: calc(2% + 1px) !important;
+    }
     .banner-noslide > div {
         width: 50%;
         margin-top: 20px;
@@ -301,22 +341,6 @@
     color: gray;
     text-align: center;
     padding-right: 1rem;
-}
-.react-multi-carousel-list {
-    z-index: 1;
-}
-.react-multiple-carousel__arrow {
-    position: absolute !important;
-    top: 50%;
-    z-index: 1;
-}
-.react-multiple-carousel__arrow--left {
-    left: calc(0% + 1px) !important;
-    background-color: #c4123f !important;
-}
-.react-multiple-carousel__arrow--right {
-    right: calc(0% + 1px) !important;
-    background-color: #c4123f !important;
 }
 .carousel-product-sale {
     background-color: rgb(255, 238, 240);

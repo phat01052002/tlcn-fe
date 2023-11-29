@@ -4,6 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export const notifyAddToCartSussess = () => toast.success('Thêm thành công');
 export const notifyUpdateSussess = () => toast.success('Cập nhật thành công');
+export const notifyUpdateImgSussess = () => toast.success('Cập nhật hình đại diện thành công');
+export const notifyUpdateImgFail = () => toast.error('Cập nhật hình đại diện thất bại');
 export const notifyOTPSussess = () => toast.success('Đã gửi OTP');
 export const notifyVerifySussess = () => toast.success('Verify thành công');
 export const notifyWarningChooseProduct = () => toast.warning('Vui lòng chọn sản phẩm');

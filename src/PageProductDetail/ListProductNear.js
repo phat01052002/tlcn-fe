@@ -41,6 +41,7 @@ export default function ListProductNear({ productId }) {
                     keyBoardControl={true}
                     customTransition="all 1s"
                     transitionDuration={1000}
+                    removeArrowOnDeviceType={['mobile']}
                 >
                     {listProduxt.map((product, index) => (
                         <Product key={product.productId} product={product} type={'sale'} />
