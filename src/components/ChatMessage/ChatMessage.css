@@ -53,8 +53,8 @@
     border-radius: 5px;
     border: 1px solid gray;
     padding: 0 1rem;
-}receivedMessage.userIdc
-.input-message {
+}
+receivedMessage.userIdc .input-message {
     position: absolute;
     width: 100%;
     top: 91%;
@@ -105,22 +105,22 @@
 }
 .img-user-chat-admin {
     object-fit: contain;
-    width: 13%;
+    width: 50px;
+    height: 50px;
     padding: 0.2rem;
     transform: translateY(-130%);
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 50%;
 }
-
 .img-user-chat-admin:hover {
     scale: 1.1;
     cursor: pointer;
 }
-.onFocus{
+.onFocus {
     background-color: #abcdef;
 }
-.img-no-message{
+.img-no-message {
     object-fit: contain;
     width: 348px;
     transform: translateY(30%);

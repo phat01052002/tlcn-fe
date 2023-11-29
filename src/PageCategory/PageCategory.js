@@ -79,7 +79,7 @@ export default function PageCategory() {
         document.getElementById('sort1-cate').classList.add('border-bottom-current');
     }, [categoryId]);
     return (
-        <div>
+        <div className='page-category'>
             <Header />
             <div className="page-category">
                 <div className="page-category-img">
@@ -126,9 +126,14 @@ export default function PageCategory() {
                     </div>
                 </div>
             </div>
-            <div className="product-by-category">
-                <ListProductByCategory listProduct={listProduct} />
+            <div className="row">
+                <div className="col-1"></div>
+                <div className="product-by-category col-10">
+                    <ListProductByCategory listProduct={listProduct} />
+                </div>
+                <div className="col-1"></div>
             </div>
+
             <Footer></Footer>
         </div>
     );

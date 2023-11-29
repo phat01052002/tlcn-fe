@@ -10,6 +10,9 @@
     margin-top: 3rem;
     background-color: #f8f8f8;
 }
+.page-category {
+    background-color: #f8f8f8;
+}
 .category {
     display: inline-table;
     position: relative;
@@ -55,7 +58,7 @@
     font-size: 1.25rem;
     margin: 0 2rem;
     font-weight: bold;
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid #f8f8f8;
     color: gray;
 }
 .sort-select > div:hover {

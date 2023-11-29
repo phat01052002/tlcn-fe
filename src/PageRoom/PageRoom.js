@@ -18,7 +18,7 @@ export default function PageRoom() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-            
+
                 .get(`/guest/room/products/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
@@ -129,8 +129,12 @@ export default function PageRoom() {
                         </span>
                     </div>
                 </div>
-                <div className="list-product-by-room">
-                    <ListProductByCategory listProduct={productsInRoom} />
+                <div className="row">
+                    <div className="col-1"></div>
+                    <div className="list-product-by-room col-10">
+                        <ListProductByCategory listProduct={productsInRoom} />
+                    </div>
+                    <div className="col-1"></div>
                 </div>
             </div>
             <Footer></Footer>

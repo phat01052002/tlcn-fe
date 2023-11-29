@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import { decreaseNumerNotify, formatter, useStore } from '../../Store';
 import './css/PageCart.css';
@@ -70,16 +71,33 @@ export default function Notify({ notify, deletePageNotify }) {
             className={`row product-notify ${!notify.state ? 'uncheck-notify' : 'checked-notify'}`}
             onClickCapture={handleClickNotify}
         >
-            <div className="col-4 product-notify-img">
-                <img src={productOrder.image}></img>
-            </div>
-            <div className="col-8">
-                <div className="product-name-notify">{productOrder.name}</div>
-                <div className="total-notify">Tổng : {formatter.format(productOrder.price * notify.order.count)}</div>
-                <div className="notify-description">{notify.description}</div>
-                <div className="date-notify">{notify.date.substr(0, 10)}</div>
-                <div className="code-order">Mã đơn hàng : {notify.order.orderId}</div>
-            </div>
+            {productOrder.length == 0 ? (
+                <ColorRing
+                    visible={true}
+                    height="40"
+                    width="40"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                />
+            ) : (
+                <>
+                    {' '}
+                    <div className="col-4 product-notify-img">
+                        <img src={productOrder.imageProducts[0].image}></img>
+                    </div>
+                    <div className="col-8">
+                        <div className="product-name-notify">{productOrder.name}</div>
+                        <div className="total-notify">
+                            Tổng : {formatter.format(productOrder.price * notify.order.count)}
+                        </div>
+                        <div className="notify-description">{notify.description}</div>
+                        <div className="date-notify">{notify.date.substr(0, 10)}</div>
+                        <div className="code-order">Mã đơn hàng : {notify.order.orderId}</div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

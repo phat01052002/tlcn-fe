@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/Header/Header';
 import BenhindProductDetail from './BenhindProductDetail';
 import { changeNumberCart, formatter, getNumber, useStore } from '../Store';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 import {
     notifyAddToCartSussess,
     notifyInfoThanks,
@@ -167,7 +169,7 @@ export default function PageProductDetail() {
             <div className="row page-product-detail">
                 <div className="col-1"></div>
                 <div className="col-10 row product-detail">
-                    {product.image == null ? (
+                    {product.length == 0 ? (
                         <ProgressBar
                             height="80"
                             width="160"
@@ -179,9 +181,20 @@ export default function PageProductDetail() {
                         />
                     ) : (
                         <>
-                            {' '}
                             <div className="col-12 col-lg-7">
-                                <img className="image-product" src={product.image}></img>
+                                <Carousel
+                                    autoPlay={true}
+                                    infiniteLoop={true}
+                                    interval={5000}
+                                    stopOnHover={false}
+                                    showStatus={false}
+                                    showThumbs={true}
+                                    showArrows={false}
+                                >
+                                    {product.imageProducts.map((imgProduct) => (
+                                        <img className="image-product" src={imgProduct.image}></img>
+                                    ))}
+                                </Carousel>
                             </div>
                             <div className="col-12 col-lg-5 info-product">
                                 <h2> {product.name}</h2>
@@ -252,9 +265,9 @@ export default function PageProductDetail() {
                             <BenhindProductDetail currentBehind={currentBehind} productId={productId} />
                         </>
                     )}
-                    <div className='tittle-near-product'>Sản phẩm tương tự</div>
+                    <div className="tittle-near-product">Sản phẩm tương tự</div>
                     <div className="near-product">
-                        <ListProductNear productId={productId}/>
+                        <ListProductNear productId={productId} />
                     </div>
                 </div>
                 <div className="col-1">

@@ -134,7 +134,7 @@ export default function ProductOrder({ order }) {
     });
     return (
         <div id={`order-${order.orderId}`} className="border-bottom order row">
-            {productOrder.image == null ? (
+            {productOrder.length == 0 ? (
                 <>
                     <div className="col-6"></div>
                     <div className="col-1">
@@ -152,9 +152,8 @@ export default function ProductOrder({ order }) {
                 </>
             ) : (
                 <>
-                    {' '}
                     <div className="col-xl-4 col-3 product-order">
-                        <img src={productOrder.image}></img>
+                        <img src={productOrder.imageProducts[0].image}></img>
                     </div>
                     <span className="product-order-content col-xl-5 col-3">
                         <span>
@@ -165,7 +164,6 @@ export default function ProductOrder({ order }) {
                     </span>
                     <div className=" col-xl-3 col-6">
                         <div className="productOrder-total">
-                            Tổng:{' '}
                             {formatter.format(
                                 order.count * productOrder.price + parseInt(order.nowDelivery ? 30000 : 0),
                             )}

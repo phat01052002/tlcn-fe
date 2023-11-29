@@ -10,7 +10,7 @@ import Like from './Like';
 import ProductHot from './ProductHot';
 import ProductSale from './ProductSale';
 import Unlike from './Unlike';
-export default function Product({ product, type }) {
+export default function Product({ key, product, type }) {
     /////
     const [globalState, dispatch] = useStore();
     ///////
@@ -138,7 +138,7 @@ export default function Product({ product, type }) {
         }
     }, [user]);
     return (
-        <div id="product" className={`product ${type == 'sale' ? 'width100' : null}`}>
+        <div key={key} id="product" className={`product ${type == 'sale' ? 'width100' : null}`}>
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
@@ -146,7 +146,16 @@ export default function Product({ product, type }) {
             <div className="product-content">
                 <img
                     className="img-product"
-                    src={productCurrent.image}
+                    src={productCurrent.imageProducts.length > 0 ? productCurrent.imageProducts[0].image : null}
+                    onClickCapture={() => handleClickProduct(productCurrent.productId, productCurrent)}
+                />
+                <img
+                    className="img-product-new hidden"
+                    src={
+                        productCurrent.imageProducts.length > 0
+                            ? productCurrent.imageProducts[product.imageProducts.length - 1].image
+                            : null
+                    }
                     onClickCapture={() => handleClickProduct(productCurrent.productId, productCurrent)}
                 />
                 <div className="info-product-content">

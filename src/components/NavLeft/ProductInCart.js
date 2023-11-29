@@ -110,7 +110,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     if (render == true) {
         return (
             <div id={productId} className="row product-in-cart">
-                {product.image == null ? (
+                {product.length == 0 ? (
                     <ColorRing
                         visible={true}
                         height="40"
@@ -138,7 +138,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                             </svg>
                         </div>
                         <div className="product-in-cart-img col-4">
-                            <img src={product.image}></img>
+                            <img src={product.imageProducts[0].image}></img>
                             <input
                                 onClickCapture={() => {
                                     handleCheck(product.productId, product.price, isChecked, chageChecked);
