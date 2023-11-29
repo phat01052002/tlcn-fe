@@ -61,7 +61,6 @@ export default function ProductOrder({ order }) {
                 });
             }
         } catch {
-            window.location = '/login';
         }
     }, []);
     const handleRestoreOrder = useCallback(async (user) => {
@@ -104,7 +103,6 @@ export default function ProductOrder({ order }) {
                 });
             }
         } catch {
-            window.location = '/login';
         }
     }, []);
     useEffect(() => {

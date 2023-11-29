@@ -1,6 +1,6 @@
 import React from 'react'
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin'
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControlLabel, IconButton, Radio, RadioGroup, Typography, useTheme } from "@mui/material";
 import { tokens } from '../../theme'
 import { mockTransactions } from '../../Data/mockData'
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -17,14 +17,20 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { mockLineData as dataMockLine} from '../../Data/mockData';
 import { mockBarData as dataBarLine} from '../../Data/mockData';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [dataCard, setDataCard] = useState([])
-  const [lineChartData, setLineChartData] = useState([]);
+  const [chartData, setChartData] = useState([]);
   const [top10RecentOrder, setTop10RecentOrder] = useState([]);
   const [top3BestUser, setTop3BestUser] = useState([]);
+
+  const formatter = new Intl.NumberFormat('vi', {
+    style: 'currency',
+    currency: 'VND',
+  });
   //Load data from server
   const loadDataCard = () => {
     try {
@@ -42,18 +48,18 @@ const Dashboard = () => {
         window.location = '/login';
     }
 };
-const loadLineChartData = () => {
+const loadChartData = () => {
   try {
       const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
       let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: '/admin/dataLineChart',
+          url: '/admin/dataChart',
           headers: {
               Authorization: `Bearer ${accessToken}`,
           },
       };
-      axios.request(config).then((res) => setLineChartData(res.data.object));
+      axios.request(config).then((res) => setChartData(res.data.object));
   } catch {
       window.location = '/login';
   }
@@ -93,11 +99,11 @@ const loadTop3BestUser = () => {
 
 useEffect(() => {
   loadDataCard();
-  loadLineChartData();
+  loadChartData();
   loadRecent10OrderData();
   loadTop3BestUser();
 }, []);
-  const data = lineChartData.map((product,index)=>({
+  const data = chartData.map((product,index)=>({
     x: product.productId,
     y: product.revenue,
   }))
@@ -106,21 +112,31 @@ useEffect(() => {
     color: tokens("dark").redAccent[200], 
     data
   }]
-  const dataBarChart = lineChartData.map((product,index)=>({
+  const dataBarChart = chartData.map((product,index)=>({
     id: `product_${index + 1}`,
     name: product.productId,
     revenue: product.revenue,
     revenueColor: "hsl(340, 70%, 50%)",
   }))
+  const dataPieChart = chartData.map((product,index)=>({
+    id: index + 1,
+    value: product.revenue,
+    label: product.productName,
+  }))
     
-  console.log(data)
+  console.log(chartData)
   console.log(dataLineChart)
-  console.log(dataBarLine)
-  console.log(top10RecentOrder)
-  console.log(top3BestUser)
-  
+  console.log(dataPieChart)
+  //Radio
+  const [value, setValue] = React.useState('line');
+
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+  };
+
   return (
     <Box m="20px">
+      
       {/* GRID & CHARTS */}
       <Box
         display="grid"
@@ -130,7 +146,7 @@ useEffect(() => {
       >
         {/* ROW 1 */}
         <Box
-          gridColumn="span 3"
+          gridColumn="span 2"
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -149,14 +165,14 @@ useEffect(() => {
           />
         </Box>
         <Box
-          gridColumn="span 3"
+          gridColumn="span 2"
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
-            title={dataCard.totalRevenue  + " VNĐ"}
+            title={formatter.format(dataCard.totalRevenue)}
             subtitle="Doanh thu"
             progress="0.50"
             increase="+21%"
@@ -185,6 +201,19 @@ useEffect(() => {
               />
             }
           />
+        </Box>
+        <Box
+          gridColumn="span 2"
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <RadioGroup value={value} onChange={handleRadioChange}>
+            <FormControlLabel value="day"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}} />} label="Ngày" />
+            <FormControlLabel value="month" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Tháng" />
+            <FormControlLabel value="year" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Năm" />
+          </RadioGroup>
         </Box>
         <Box
           gridColumn="span 4"
@@ -271,9 +300,26 @@ useEffect(() => {
             <Box>
             </Box>
           </Box>
-          <Box height="230px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} data={dataLineChart}/>
+          <Box height="230px"  m="-20px 0 0 0" display="flex" >
+            {value === 'bar' && <BarChart isDashboard={true} data={dataBarChart} />}
+            {value === 'line' && <LineChart isDashboard={true} data={dataLineChart}/>}
+            {value === 'pie' && <PieChart
+              series={[
+                {
+                  data: dataPieChart,
+                  highlightScope: { faded: 'global', highlighted: 'item' },
+                  faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                },
+              ]}
+            />}
+            
+            <RadioGroup value={value} onChange={handleRadioChange}>
+            <FormControlLabel value="line"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}} />} label="Line" />
+            <FormControlLabel value="bar" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Bar" />
+            <FormControlLabel value="pie" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Pie" />
+          </RadioGroup>
           </Box>
+          
         </Box>
         <Box
           gridColumn="span 4"
@@ -323,7 +369,7 @@ useEffect(() => {
                 p="5px 10px"
                 borderRadius="4px"
               >
-                {transaction.total} VND
+                {formatter.format(transaction.total)}
               </Box>
             </Box>
           ))}
@@ -337,7 +383,7 @@ useEffect(() => {
           p="20px"
         >
           <Typography variant="h5" fontWeight="600">
-            Hãng điện thoại
+            
           </Typography>
           <Box
             display="flex"
@@ -345,13 +391,13 @@ useEffect(() => {
             alignItems="center"
             mt="10px"
           >
-            <ProgressCircle size="125" />
+            <ProgressCircle size='125'></ProgressCircle>
             <Typography
               variant="h5"
               color={colors.greenAccent[500]}
               sx={{ mt: "10px" }}
             >
-              Doanh thu hãng Iphone chiếm 75 %
+              
             </Typography>
             <Typography></Typography>
           </Box>

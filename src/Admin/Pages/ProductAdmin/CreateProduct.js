@@ -25,6 +25,7 @@ const checkoutSchema = yup.object().shape({
     price: yup.number().required('bắt buộc'),
     categoryName: yup.string().required('bắt buộc'),
     quantity: yup.number().required('bắt buộc'),
+    categoryName: yup.string().required('bắt buộc'),
     size: yup.string().required('bắt buộc'),
 });
 //Field values
@@ -257,12 +258,14 @@ export default function CreateProduct() {
                                             
                                             
                                             <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
-                                            <InputLabel>Loại sản phẩm</InputLabel>
+                                            <InputLabel >Loại sản phẩm</InputLabel>
                                             <Select
                                                 variant='filled'
                                                 value={values.categoryName}
                                                 onChange={handleChange}
                                                 name='categoryName'
+                                                error={!!touched.categoryName && !!errors.categoryName}
+                                                helperText={touched.categoryName && errors.categoryName}
                                                 >
                                                 {
                                                     categoryNameList.map(

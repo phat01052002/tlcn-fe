@@ -35,13 +35,13 @@ export default function PageInfoUser() {
             return <label>Chưa có</label>;
         }
     };
-    const handleChangeUserName = useCallback((e) => {
+    const handleChangeUserName = useCallback((e,user) => {
         let newUserCurrent = user;
         newUserCurrent.name = e.target.value;
         dispatch(changeUser(newUserCurrent));
-        setIsChange(true);
+        setIsChange(true);      
     }, []);
-    const handleChangeUserAddress = useCallback((e) => {
+    const handleChangeUserAddress = useCallback((e,user) => {
         let newUserCurrent = user;
         newUserCurrent.address = e.target.value;
         dispatch(changeUser(newUserCurrent));
@@ -211,11 +211,11 @@ export default function PageInfoUser() {
                     </span>
                     <span>
                         <label>Họ và tên:</label>
-                        <input value={user.name} onChange={handleChangeUserName}></input>
+                        <input value={user.name} onChange={(e)=>handleChangeUserName(e,user)}></input>
                     </span>
                     <span>
                         <label>Địa chỉ</label>
-                        <input value={user.address} onChange={handleChangeUserAddress}></input>
+                        <input value={user.address} onChange={(e)=>handleChangeUserAddress(e,user)}></input>
                     </span>
                     <div className="btn-save">
                         <button onClick={() => handleSave(user, isChange)}>Lưu thay đổi</button>
