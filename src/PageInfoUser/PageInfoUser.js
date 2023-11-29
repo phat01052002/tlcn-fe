@@ -52,11 +52,11 @@ export default function PageInfoUser() {
     const [otp, setOtp] = useState(null);
     //address
     const [listCity, setListCity] = useState([]);
-    const [city, setCity] = useState(0);
+    const [city, setCity] = useState('');
     const [listDistrict, setListDictrict] = useState([]);
-    const [district, setDistrict] = useState(0);
+    const [district, setDistrict] = useState('');
     const [listWards, setListWards] = useState([]);
-    const [wards, setWards] = useState(0);
+    const [wards, setWards] = useState('');
     const [apartmentNumber, setApartmentNumber] = useState('');
     const getPhoneUser = (user) => {
         if (user.phone) {
@@ -74,7 +74,7 @@ export default function PageInfoUser() {
         setIsChange(true);
     }, []);
     const handleSave = useCallback((name, apartmentNumber, city, district, ward, isChange) => {
-        if (isChange && name.length > 0 && apartmentNumber != '' && city != 0 && ward != 0 && district != 0) {
+        if (isChange && name.length > 0 && apartmentNumber != '' && city != '' && ward != '' && district != '') {
             let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let data = {
                 name: name,
@@ -268,9 +268,9 @@ export default function PageInfoUser() {
     }, []);
     useEffect(() => {
         setName(user.name);
-        setCity(user.city == null ? 0 : user.city);
-        setDistrict(user.district == null ? 0 : user.district);
-        setWards(user.ward == null ? 0 : user.ward);
+        setCity(user.city == null ? '' : user.city);
+        setDistrict(user.district == null ? '' : user.district);
+        setWards(user.ward == null ? '' : user.ward);
         setApartmentNumber(user.apartmentNumber == null ? '' : user.apartmentNumber);
     }, [user]);
     useEffect(() => {
@@ -327,7 +327,11 @@ export default function PageInfoUser() {
                                 label="City"
                                 value={city}
                                 required
-                                onChange={(e) => setCity(e.target.value)}
+                                onChange={(e) => {
+                                    setCity(e.target.value);
+                                    setDistrict('');
+                                    setIsChange(true);
+                                }}
                             >
                                 {listCity.map((city) => (
                                     <MenuItem value={city.province_id}>{city.province_name}</MenuItem>
@@ -341,7 +345,11 @@ export default function PageInfoUser() {
                                 label="District"
                                 required
                                 value={district}
-                                onChange={(e) => setDistrict(e.target.value)}
+                                onChange={(e) => {
+                                    setDistrict(e.target.value);
+                                    setWards('');
+                                    setIsChange(true);
+                                }}
                             >
                                 {listDistrict.map((district) => (
                                     <MenuItem value={district.district_id}>{district.district_name}</MenuItem>
@@ -355,7 +363,10 @@ export default function PageInfoUser() {
                                 label="District"
                                 required
                                 value={wards}
-                                onChange={(e) => setWards(e.target.value)}
+                                onChange={(e) => {
+                                    setWards(e.target.value);
+                                    setIsChange(true);
+                                }}
                             >
                                 {listWards.map((ward) => (
                                     <MenuItem value={ward.ward_id}>{ward.ward_name}</MenuItem>
