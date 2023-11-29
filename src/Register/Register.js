@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import axios from 'axios';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import React, { useCallback } from 'react';
@@ -111,7 +112,7 @@ export default function Register() {
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                 ></input>
-                                <button onClick={() => handleSendOTP(phone)}>Lấy OTP</button>
+                                <Button onClick={() => handleSendOTP(phone)}>Lấy OTP</Button>
                             </div>
                             <div id="recaptcha"></div>
                             <div className="input input-phone-verify">
@@ -121,7 +122,7 @@ export default function Register() {
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value)}
                                 ></input>
-                                <button onClick={() => handleVerifyOTP(otp, comfirm)}>Verify</button>
+                                <Button onClick={() => handleVerifyOTP(otp, comfirm)}>Verify</Button>
                             </div>
                             <div className="input input-password-register">
                                 <input id="password-register" type="password" placeholder="Mật khẩu"></input>

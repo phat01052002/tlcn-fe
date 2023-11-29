@@ -83,56 +83,64 @@ input[type='number']::-webkit-outer-spin-button {
     top: 2.1%;
     cursor: pointer;
 }
-.back-icon:hover{
+.back-icon:hover {
     opacity: 0.8;
 }
 
-@media (max-width:980px) {
-    .form-register{
+@media (max-width: 980px) {
+    .form-register {
         width: 65% !important;
         transform: translateX(28%);
     }
 }
 
-@media (max-width:600px) {
-    .form-register{
+@media (max-width: 600px) {
+    .form-register {
         width: 90% !important;
         transform: translateX(5%);
     }
 }
 
-.input-phone-register{
+.input-phone-register {
     position: relative;
 }
-.input-phone-register button{
+.input-phone-register button {
     position: absolute;
     top: 3%;
-    right: 20%;
+    right: 5%;
     width: 50px;
     height: 50px;
     font-size: 0.75rem;
     border: 1px solid #dfdfe2;
-    border-radius: 50%;
-    background-color: gray;
+    border-radius: 5%;
+    background-color: black;
+    color: white;
 }
-.input-phone-verify{
+.input-phone-verify {
     position: relative;
 }
-.input-phone-verify button{
+.input-phone-verify button {
     position: absolute;
     top: 6%;
-    right: 20%;
+    right: 5%;
     width: 50px;
     height: 50px;
     font-size: 0.75rem;
     border: 1px solid #dfdfe2;
-    border-radius: 50%;
-    background-color: gray;
+    border-radius: 5%;
+    background-color: black;
+    color: white;
 }
-#phone-verify{
+#phone-verify {
     margin-top: 0.5rem !important;
 }
-#recaptcha{
+.input-phone-verify button:hover{
+    color:black
+}
+.input-phone-register button:hover{
+    color: black;
+}
+#recaptcha {
     display: flex;
     justify-content: center;
     margin-top: 0.25rem;
