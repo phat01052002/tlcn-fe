@@ -176,6 +176,7 @@ export default function CheckOut() {
                                     ///////////
                                     localStorage.removeItem(productId);
                                     dispatch(changeNumberCart(getNumber()));
+                                    notifySuccessOrder();
                                 } else {
                                     notifyInfoOrder();
                                     clearTimeout(redirectAfterCheckOutSuccess);
@@ -183,7 +184,7 @@ export default function CheckOut() {
                             });
                         });
                         removeLoad();
-                        notifySuccessOrder();
+
                         const redirectAfterCheckOutSuccess = setTimeout(() => {
                             dispatch(changeListProductCheckOut([]));
                             dispatch(changeListCountProductCheckOut([]));
