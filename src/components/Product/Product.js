@@ -10,6 +10,7 @@ import Like from './Like';
 import ProductHot from './ProductHot';
 import ProductSale from './ProductSale';
 import Unlike from './Unlike';
+import soldout from './img/soldout.png';
 export default function Product({ key, product, type }) {
     /////
     const [globalState, dispatch] = useStore();
@@ -165,6 +166,7 @@ export default function Product({ key, product, type }) {
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
+            {product.quantity == 0 ? <img className="img-sold-out" src={soldout} /> : null}
             {addDiscount()}
             <div className="product-content">
                 <img
