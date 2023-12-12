@@ -184,4 +184,15 @@
         width: 30%;
     }
 }
-
+.img-rank-user{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+.div-rank-user{
+    text-align: center;
+}
+.div-rank-user label{
+    display: block;
+    font-weight: bold;
+}

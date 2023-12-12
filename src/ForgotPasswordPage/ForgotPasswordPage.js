@@ -12,7 +12,7 @@ import NotificationInPage, {
     notifyErrorVerifyPhone,
 } from '../components/NotificationInPage/NotificationInPage';
 import { auth } from '../setupFirebase/setupFirebase';
-import { handleClickBack, useStore } from '../Store';
+import { handleClickBack, handleClickBackLogin, useStore } from '../Store';
 import './ForgotPasswordPage.css';
 export default function ForgotPasswordPage() {
     const [globalState, dispatch] = useStore();
@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
                         <div className="col-lg-2 col-1"></div>
                         <div className="col-lg-8 col-10 ">
                             <div className="form-register">
-                                <div className="back-icon" onClick={handleClickBack}>
+                                <div className="back-icon" onClick={handleClickBackLogin}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="20"

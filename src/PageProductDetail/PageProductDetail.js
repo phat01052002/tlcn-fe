@@ -17,12 +17,13 @@ import ReactStars from 'react-rating-stars-component';
 import { ColorRing, ProgressBar } from 'react-loader-spinner';
 import ListProductNear from './ListProductNear';
 import Footer from '../components/Footer/Footer';
+import { AlertPleaseLogin } from '../components/Alert/Alert';
 
 export default function PageProductDetail() {
     /////
     const [globalState, dispatch] = useStore();
     ///////
-    const { numberCart, user } = globalState;
+    const { numberCart, user, roleState } = globalState;
     //
     const { productId } = useParams();
     //the product for this page
@@ -35,8 +36,64 @@ export default function PageProductDetail() {
     const [rating, setRating] = useState(0);
     //this vars to set color behind product detail
     //handle buy now
-    const handleClickBuyNow = useCallback((e) => {
-        console.log('buynow');
+    const handleClickBuyNow = useCallback((number,product,roleState) => {
+        let totalPrice = 0;
+        if (product.discount) {
+            totalPrice = product.price * number - product.price * number * product.discount.percentDiscount;
+        } else {
+            totalPrice = product.price * number;
+        }
+        if (roleState == 'guest') {
+            document.body.style.pointerEvents = 'auto';
+            notifyWarningPleaseLogin();
+            product.discount
+                ? sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: number,
+                              price: product.price - product.discount.percentDiscount * product.price,
+                          },
+                      ]),
+                  )
+                : sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: number,
+                              price: product.price,
+                          },
+                      ]),
+                  );
+            sessionStorage.setItem('totalPrice', totalPrice);
+            AlertPleaseLogin();
+        } else {
+            product.discount
+                ? sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: number,
+                              price: product.price - product.discount.percentDiscount * product.price,
+                          },
+                      ]),
+                  )
+                : sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: number,
+                              price: product.price,
+                          },
+                      ]),
+                  );
+            sessionStorage.setItem('totalPrice', totalPrice);
+            window.location = '/checkout';
+        }
     }, []);
     //rating
     const ratingChanged = async (newRating, user) => {
@@ -222,7 +279,10 @@ export default function PageProductDetail() {
                                         </button>
                                     </div>
                                     <div className="col-4 buynow">
-                                        <button className="btn-buynow" onClick={handleClickBuyNow}>
+                                        <button
+                                            className="btn-buynow"
+                                            onClick={() => handleClickBuyNow(number, product,roleState)}
+                                        >
                                             {' '}
                                             Mua Ngay
                                         </button>

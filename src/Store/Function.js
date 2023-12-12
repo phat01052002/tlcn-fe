@@ -82,6 +82,7 @@ export const changeCheckToFalse = () => {
             JSON.stringify({
                 count: JSON.parse(localStorage.getItem(localStorage.key(i))).count,
                 check: false,
+                price: JSON.parse(localStorage.getItem(localStorage.key(i))).price,
             }),
         );
     }
@@ -103,6 +104,7 @@ export const getToCheckOut = () => {
                 {
                     productId: JSON.parse(localStorage.key(i)),
                     count: JSON.parse(localStorage.getItem(localStorage.key(i))).count,
+                    price: JSON.parse(localStorage.getItem(localStorage.key(i))).price,
                 },
                 ...productInCartCheck,
             ];
@@ -117,6 +119,9 @@ export const removeAllSession = () => {
 
 export const handleClickBack = () => {
     window.location = '/';
+};
+export const handleClickBackLogin = () => {
+    window.location = '/login';
 };
 
 export const addLoad = () => {
@@ -133,48 +138,47 @@ export const removeLoad = () => {
     }, 500);
 };
 
-
 export function normalizeVietnameseText(text) {
     const map = {
-      a: "aáàảãạăắằẳẵặâấầẩẫậ",
-      d: "dđ",
-      e: "eéèẻẽẹêếềểễệ",
-      i: "iíìỉĩị",
-      o: "oóòỏõọôốồổỗộơớờởỡợ",
-      u: "uúùủũụưứừửữự",
-      y: "yýỳỷỹỵ"
+        a: 'aáàảãạăắằẳẵặâấầẩẫậ',
+        d: 'dđ',
+        e: 'eéèẻẽẹêếềểễệ',
+        i: 'iíìỉĩị',
+        o: 'oóòỏõọôốồổỗộơớờởỡợ',
+        u: 'uúùủũụưứừửữự',
+        y: 'yýỳỷỹỵ',
     };
-  
-    let result = "";
-    let prevChar = "";
-    let consonant = "";
+
+    let result = '';
+    let prevChar = '';
+    let consonant = '';
     for (let i = 0; i < text.length; i++) {
-      let char = text.charAt(i);
-      let found = false;
-      let isS = false;
-      if (char.toLowerCase() === "s") {
-        isS = true;
-      }
-      for (let key in map) {
-        if (map[key].includes(prevChar + char)) {
-          if (isS) {
-            consonant = key;
-          } else {
-            result = result.slice(0, -1) + key;
-          }
-          found = true;
-          break;
+        let char = text.charAt(i);
+        let found = false;
+        let isS = false;
+        if (char.toLowerCase() === 's') {
+            isS = true;
         }
-      }
-      if (!found) {
-        if (isS) {
-          result += consonant;
-          consonant = "";
+        for (let key in map) {
+            if (map[key].includes(prevChar + char)) {
+                if (isS) {
+                    consonant = key;
+                } else {
+                    result = result.slice(0, -1) + key;
+                }
+                found = true;
+                break;
+            }
         }
-        result += char;
-      }
-      prevChar = char;
+        if (!found) {
+            if (isS) {
+                result += consonant;
+                consonant = '';
+            }
+            result += char;
+        }
+        prevChar = char;
     }
-  
+
     return result;
-  }
+}

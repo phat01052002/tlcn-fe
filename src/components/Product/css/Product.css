@@ -251,3 +251,15 @@
     padding: 0 0.5rem;
     padding-top: 1.5rem;
 }
+.img-sold-out{
+    object-fit: contain;
+    width: 100%;
+    opacity: 0.4;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 25%;
+    z-index: 1;
+    padding-left: 30%;
+    padding-right: 30%;
+}

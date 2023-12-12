@@ -14,7 +14,7 @@ import NotificationInPage, {
     notifyVerifySussess,
 } from '../components/NotificationInPage/NotificationInPage';
 import { auth } from '../setupFirebase/setupFirebase';
-import { changeRole, handleClickBack, useStore } from '../Store';
+import { changeRole, handleClickBack, handleClickBackLogin, useStore } from '../Store';
 import './Register.css';
 export default function Register() {
     const [globalState, dispatch] = useStore();
@@ -91,7 +91,7 @@ export default function Register() {
                     <div className="col-lg-2 col-1"></div>
                     <div className="col-lg-8 col-10 ">
                         <div className="form-register">
-                            <div className="back-icon" onClick={handleClickBack}>
+                            <div className="back-icon" onClick={handleClickBackLogin}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="20"

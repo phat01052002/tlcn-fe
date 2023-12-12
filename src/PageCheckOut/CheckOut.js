@@ -30,6 +30,7 @@ import {
     useStore,
 } from '../Store';
 import './CheckOut.css';
+import CheckOutRank from './CheckOutRank';
 import ListProductCheckOut from './ListProductCheckOut';
 export default function CheckOut() {
     //constant price of delivery,contructor is 0 for delivery (giao hàng tiết kiệm)
@@ -41,6 +42,22 @@ export default function CheckOut() {
     const [city, setCity] = useState(null);
     const [district, setDistrict] = useState(null);
     const [ward, setWard] = useState(null);
+    let percentRank = 1;
+    if (user.rankUser == 'BRONZE') {
+        percentRank = 0.99;
+    }
+    if (user.rankUser == 'SILVER') {
+        percentRank = 0.98;
+    }
+    if (user.rankUser == 'GOLD') {
+        percentRank = 0.97;
+    }
+    if (user.rankUser == 'PLATINUM') {
+        percentRank = 0.96;
+    }
+    if (user.rankUser == 'DIAMOND') {
+        percentRank = 0.95;
+    }
     const handleEnterInputAddress = useCallback((e, user) => {
         var keycode = e.keyCode ? e.keyCode : e.which;
         if (keycode == '13') {
@@ -127,6 +144,22 @@ export default function CheckOut() {
                     let nowDelivery = priceDelivery != 0 ? true : false;
                     let paid = paymentMethod == 'online' ? true : false;
                     if (paid == true && paidParams.state == undefined) {
+                        let totalPrice = JSON.parse(sessionStorage.getItem('totalPrice'));
+                        if (user.rankUser == 'BRONZE') {
+                            totalPrice = totalPrice * 0.99;
+                        }
+                        if (user.rankUser == 'SILVER') {
+                            totalPrice = totalPrice * 0.98;
+                        }
+                        if (user.rankUser == 'GOLD') {
+                            totalPrice = totalPrice * 0.97;
+                        }
+                        if (user.rankUser == 'PLATINUM') {
+                            totalPrice = totalPrice * 0.96;
+                        }
+                        if (user.rankUser == 'DIAMOND') {
+                            totalPrice = totalPrice * 0.95;
+                        }
                         let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
                         let data = JSON.stringify({
                             productIds: listProductCheckOut,
@@ -136,7 +169,7 @@ export default function CheckOut() {
                         let config = {
                             method: 'post',
                             maxBodyLength: Infinity,
-                            url: `/user/pay/${sessionStorage.getItem('totalPrice')}`,
+                            url: `/user/pay/${totalPrice}`,
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                                 'Content-Type': 'application/json',
@@ -155,11 +188,29 @@ export default function CheckOut() {
                         }
                         let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
                         listProductCheckOut.map(async (productId, index) => {
+                            let price = JSON.parse(localStorage.getItem(productId)).price;
+                            if (user.rankUser == 'BRONZE') {
+                                price = price * 0.99;
+                            }
+                            if (user.rankUser == 'SILVER') {
+                                price = price * 0.98;
+                            }
+                            if (user.rankUser == 'GOLD') {
+                                price = price * 0.97;
+                            }
+                            if (user.rankUser == 'PLATINUM') {
+                                price = price * 0.96;
+                            }
+                            if (user.rankUser == 'DIAMOND') {
+                                price = price * 0.95;
+                            }
+                            console.log(price);
                             ///////////
                             let data = JSON.stringify({
                                 nowDelivery: nowDelivery,
                                 paid: paid,
                                 count: listCountProductCheckOut[index],
+                                price: price,
                             });
                             let config = {
                                 method: 'post',
@@ -239,7 +290,7 @@ export default function CheckOut() {
                         </span>
                         <div className="list-checkout">
                             <label>Sản phẩm</label>
-                            <ListProductCheckOut />
+                            {user ? <ListProductCheckOut rankUser={user.rankUser} /> : null}
                         </div>
                         <div className="policy-payment"></div>
                     </div>
@@ -407,7 +458,7 @@ export default function CheckOut() {
                         </div>
                         <span className="price-checkout">
                             Thành tiền
-                            <label className="price-checkout-label">{formatter.format(totalPrice)}</label>
+                            <label className="price-checkout-label">{formatter.format(totalPrice * percentRank)}</label>
                         </span>
                         <span className="price-delivery price-checkout">
                             Phí giao hàng
@@ -419,9 +470,10 @@ export default function CheckOut() {
                             Tổng
                             <label className="price-checkout-label">
                                 {priceDelivery
-                                    ? formatter.format(parseInt(totalPrice) + priceDelivery)
-                                    : formatter.format(parseInt(totalPrice))}
+                                    ? formatter.format(parseInt(totalPrice) * percentRank + priceDelivery)
+                                    : formatter.format(parseInt(totalPrice) * percentRank)}
                             </label>
+                            {user.rankUser ? <CheckOutRank rankUser={user.rankUser} /> : null}
                         </span>
                         <div className="pay-checkout">
                             <button

@@ -46,6 +46,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                 JSON.stringify({
                     count: parseInt(JSON.parse(localStorage.getItem(productId)).count) - 1,
                     check: JSON.parse(localStorage.getItem(productId)).check,
+                    price: JSON.parse(localStorage.getItem(productId)).price,
                 }),
             );
             setCountProduct(parseInt(JSON.parse(localStorage.getItem(productId)).count));
@@ -57,6 +58,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
             JSON.stringify({
                 count: parseInt(JSON.parse(localStorage.getItem(productId)).count) + 1,
                 check: JSON.parse(localStorage.getItem(productId)).check,
+                price: JSON.parse(localStorage.getItem(productId)).price,
             }),
         );
         setCountProduct(parseInt(JSON.parse(localStorage.getItem(productId)).count));
@@ -69,6 +71,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
             JSON.stringify({
                 count: parseInt(JSON.parse(localStorage.getItem(productId)).count),
                 check: !JSON.parse(localStorage.getItem(productId)).check,
+                price: JSON.parse(localStorage.getItem(productId)).price,
             }),
         );
     }, []);
@@ -79,25 +82,55 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
     }, []);
 
     //handle click pay(if state is guest must be login,admin cant not buy because cant redirect this)
-    const handleClickPay = useCallback((totalPrice) => {
+    const handleClickPay = useCallback((totalPrice, product) => {
         if (roleState == 'guest') {
             document.body.style.pointerEvents = 'auto';
             notifyWarningPleaseLogin();
-            sessionStorage.setItem(
-                'checkout',
-                JSON.stringify([
-                    { productId: productId, count: JSON.parse(localStorage.getItem(`${productId}`)).count },
-                ]),
-            );
+            product.discount
+                ? sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: JSON.parse(localStorage.getItem(`${productId}`)).count,
+                              price: product.price - product.discount.percentDiscount * product.price,
+                          },
+                      ]),
+                  )
+                : sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: JSON.parse(localStorage.getItem(`${productId}`)).count,
+                              price: product.price,
+                          },
+                      ]),
+                  );
             sessionStorage.setItem('totalPrice', totalPrice);
             AlertPleaseLogin();
         } else {
-            sessionStorage.setItem(
-                'checkout',
-                JSON.stringify([
-                    { productId: productId, count: JSON.parse(localStorage.getItem(`${productId}`)).count },
-                ]),
-            );
+            product.discount
+                ? sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: JSON.parse(localStorage.getItem(`${productId}`)).count,
+                              price: product.price - product.discount.percentDiscount * product.price,
+                          },
+                      ]),
+                  )
+                : sessionStorage.setItem(
+                      'checkout',
+                      JSON.stringify([
+                          {
+                              productId: productId,
+                              count: JSON.parse(localStorage.getItem(`${productId}`)).count,
+                              price: product.price,
+                          },
+                      ]),
+                  );
             changeCheckToFalse();
             sessionStorage.setItem('totalPrice', totalPrice);
             window.location = '/checkout';
@@ -125,7 +158,19 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                         <div className="delete-item-cart">
                             <svg
                                 onClickCapture={() =>
-                                    deleteItem(product.productId, product.price, isChecked, deleteItemProductIncart)
+                                    product.discount
+                                        ? deleteItem(
+                                              product.productId,
+                                              product.price - product.discount.percentDiscount * product.price,
+                                              isChecked,
+                                              deleteItemProductIncart,
+                                          )
+                                        : deleteItem(
+                                              product.productId,
+                                              product.price,
+                                              isChecked,
+                                              deleteItemProductIncart,
+                                          )
                                 }
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="18"
@@ -141,7 +186,15 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                             <img src={product.imageProducts[0].image}></img>
                             <input
                                 onClickCapture={() => {
-                                    handleCheck(product.productId, product.price, isChecked, chageChecked);
+                                    product.discount
+                                        ? handleCheck(
+                                              product.productId,
+                                              countProduct * product.price -
+                                                  countProduct * product.price * product.discount.percentDiscount,
+                                              isChecked,
+                                              chageChecked,
+                                          )
+                                        : handleCheck(product.productId, product.price, isChecked, chageChecked);
                                 }}
                                 className="checkbox-cart"
                                 type="checkbox"
@@ -154,13 +207,21 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                             <div className="col-5 count-product-cart">
                                 <button
                                     onClickCapture={() =>
-                                        decreaseCount(
-                                            product.productId,
-                                            product.price,
-                                            isChecked,
-                                            handleClickDecreaseProductInCart,
-                                            deleteItemProductIncart,
-                                        )
+                                        product.discount
+                                            ? decreaseCount(
+                                                  product.productId,
+                                                  product.price - product.discount.percentDiscount * product.price,
+                                                  isChecked,
+                                                  handleClickDecreaseProductInCart,
+                                                  deleteItemProductIncart,
+                                              )
+                                            : decreaseCount(
+                                                  product.productId,
+                                                  product.price,
+                                                  isChecked,
+                                                  handleClickDecreaseProductInCart,
+                                                  deleteItemProductIncart,
+                                              )
                                     }
                                 >
                                     -
@@ -168,24 +229,48 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
                                 <input id="input-count-product-in-cart" value={countProduct}></input>
                                 <button
                                     onClickCapture={() =>
-                                        increaseCount(
-                                            product.productId,
-                                            product.price,
-                                            isChecked,
-                                            handleClickIncreaseProductInCart,
-                                        )
+                                        product.discount
+                                            ? increaseCount(
+                                                  product.productId,
+                                                  product.price - product.price * product.discount.percentDiscount,
+                                                  isChecked,
+                                                  handleClickIncreaseProductInCart,
+                                              )
+                                            : increaseCount(
+                                                  product.productId,
+                                                  product.price,
+                                                  isChecked,
+                                                  handleClickIncreaseProductInCart,
+                                              )
                                     }
                                 >
                                     +
                                 </button>
                             </div>
                             <div className="col-7 buy-in-cart">
-                                <Button onClickCapture={() => handleClickPay(countProduct * product.price)}>
+                                <Button
+                                    onClickCapture={() =>
+                                        handleClickPay(
+                                            product.discount
+                                                ? countProduct * product.price -
+                                                      countProduct * product.price * product.discount.percentDiscount
+                                                : countProduct * product.price,
+                                            product,
+                                        )
+                                    }
+                                >
                                     Thanh toán
                                 </Button>
                                 <input
                                     className="price-incart"
-                                    value={formatter.format(countProduct * product.price)}
+                                    value={
+                                        product.discount
+                                            ? formatter.format(
+                                                  countProduct * product.price -
+                                                      countProduct * product.price * product.discount.percentDiscount,
+                                              )
+                                            : formatter.format(countProduct * product.price)
+                                    }
                                 ></input>
                             </div>
                         </div>
