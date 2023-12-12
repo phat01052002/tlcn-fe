@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ColorModeContext, tokens, useMode } from '../../theme';
-import { CssBaseline, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, ThemeProvider, Typography } from '@mui/material';
+import { Avatar, CssBaseline, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, ThemeProvider, Typography } from '@mui/material';
 import axios from 'axios';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
@@ -32,13 +32,15 @@ const checkoutSchema = yup.object().shape({
 const initialValues = {
     name: '',
     price: '',
-    image: '',
+    image1: '',
+    image2: '',
+    image3: '',
     description: '',
     material: '',
     quantity: '',
     size: '',
     categoryName: '',
-    percentDiscount: '',
+    discountName: '',
 };
 
 export default function CreateProduct() {
@@ -46,6 +48,7 @@ export default function CreateProduct() {
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
     const [categoryNameList, setCategoryNameList] = useState([]);
+    const [discountList, setDiscountList] = useState([]);
     const loadCategoryNameList = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -75,55 +78,87 @@ export default function CreateProduct() {
                 },
             };
             const response = await axios.request(config);
-            setCategoryNameList(response.data)
+            setDiscountList(response.data)
         } catch {
             window.location = '/login';
         }
     }
     useEffect(() => {
         loadCategoryNameList();
+        loadDiscountList();
     }, []);
     
     //Submit
     //Upload Image
-    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUpload, setImageUpload] = useState([null, null, null]);
     const [message, setMessage] = useState(null);
-    const [fileName, setFileName] = useState(null);
+    const [fileName, setFileName] = useState([null, null, null]);
+    const [imagePreview, setImagePreview] = useState(["", "", ""]);
+    const setImageUploadItem = (index, value) => {
+        setImageUpload((prevImageUpload) => {
+            const newImageUpload = [...prevImageUpload];
+            newImageUpload[index] = value;
+            return newImageUpload;
+        });
+    };
+    const setFileNameItem = (index, value) => {
+        setFileName((prevFileName) => {
+            const newFileName = [...prevFileName];
+            newFileName[index] = value;
+            return newFileName;
+        });
+    };
+    const setImagePreviewItem = (index, value) => {
+        setImagePreview((prevImagePreview) => {
+            const newImagePreview = [...prevImagePreview];
+            newImagePreview[index] = value;
+            return newImagePreview;
+        });
+    };
     
     const uploadImage_Submit = async (values) => {
         if (imageUpload == null) return;
 
-        const imageRef = ref(storage, `imageProducts/${imageUpload.name + v4()}`);
-        uploadBytes(imageRef, imageUpload).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then(async (url) => {
-                console.log("url: "+url)
-                if (url == null)
-                    values.image = 'https://frontend.tikicdn.com/_desktop-next/static/img/account/avatar.png';
-                else values.image = url;
-                console.log('value');
-                console.log(values);
-                try {
-                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-                    let config = {
-                        method: 'post',
-                        maxBodyLength: Infinity,
-                        url: '/admin/createProduct',
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                        data: values,
-                    };
-                    const respone = (await axios.request(config)).data;
-                    setMessage(respone.message);
-                    handleOpen();
-                    console.log('thanhcong');
-                    console.log(respone);
-                } catch {
-                    console.log('thatbai');
-                }
-            });
-        });
+        const uploadPromises = imageUpload.map((item, index) => {
+            if(item)
+            {
+                const imageRef = ref(storage, `imageProducts/${item.name + v4()}`);
+                uploadBytes(imageRef, item).then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then(async (url) => {
+                        console.log('url: ' + url);
+                        if (url != null)
+                            values[`image${index + 1}`] = url;
+                        console.log('value');
+                        console.log(values);
+                    });
+                });
+            }
+        })
+        Promise.all(uploadPromises).then(() => {
+            createProduct(values);
+          });
     };
+    const createProduct = async (values) => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: '/admin/createProduct',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                data: values,
+            };
+            const respone = (await axios.request(config)).data;
+            setMessage(respone.message);
+            handleOpen();
+            console.log('thanhcong');
+            console.log(respone);
+        } catch {
+            console.log('thatbai');
+        }
+    }
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -210,24 +245,47 @@ export default function CreateProduct() {
                                                 helperText={touched.size && errors.size}
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-                                            <Stack spacing={2} direction="row" height={35}>
-                                                <Button
-                                                    color="secondary"
-                                                    component="label"
-                                                    variant="contained"
-                                                    startIcon={<CloudUploadIcon />}
-                                                >
-                                                    Chọn file
-                                                    <VisuallyHiddenInput
-                                                        type="file"
-                                                        onChange={(event) => {
-                                                            setImageUpload(event.target.files[0]);
-                                                            setFileName(event.target.files[0].name);
+                                            {[1,2,3].map((item, index) => (
+                                                <Box>
+                                                    <Typography>Ảnh {item}</Typography>
+                                                    <Stack spacing={2} direction="row" height={35} margin="5px 5px 5px 0px">
+                                                        <Button
+                                                            color="secondary"
+                                                            component="label"
+                                                            variant="contained"
+                                                            startIcon={<CloudUploadIcon />}
+                                                        >
+                                                            Chọn file
+                                                            <VisuallyHiddenInput
+                                                                type="file"
+                                                                onChange={(event) => {
+                                                                    const temporaryImageUrl = URL.createObjectURL(
+                                                                        event.target.files[0],
+                                                                    );
+
+                                                                    setImagePreviewItem(index, temporaryImageUrl);
+                                                                    setImageUploadItem(index, event.target.files[0]);
+                                                                    setFileNameItem(index, event.target.files[0].name);
+                                                                }}
+                                                            />
+                                                        </Button>
+                                                        
+                                                        <Typography>{fileName[index]}</Typography>
+                                                    </Stack>
+                                                    {imagePreview[index] && <Avatar
+                                                        sx={{
+                                                            gridColumn: 'span 1',
+                                                            justifySelf: 'center',
+                                                            width: '100px',
+                                                            maxWidth: '150px',
+                                                            height: 'auto',
+                                                            maxHeight: '150px',
                                                         }}
-                                                    />
-                                                </Button>
-                                                <Typography>{fileName}</Typography>
-                                            </Stack>
+                                                        variant="square"
+                                                        src={imagePreview[index]}
+                                                    ></Avatar>}
+                                                </Box>
+                                            ))}
                                             
                                             <TextField
                                                 fullWidth
@@ -240,7 +298,7 @@ export default function CreateProduct() {
                                                 name="description"
                                                 error={!!touched.description && !!errors.description}
                                                 helperText={touched.description && errors.description}
-                                                sx={{ gridColumn: 'span 4' }}
+                                                sx={{ gridColumn: 'span 2' }}
                                             />
                                             <TextField
                                                 fullWidth
@@ -253,7 +311,7 @@ export default function CreateProduct() {
                                                 name="material"
                                                 error={!!touched.material && !!errors.material}
                                                 helperText={touched.material && errors.material}
-                                                sx={{ gridColumn: 'span 4' }}
+                                                sx={{ gridColumn: 'span 2' }}
                                             />
                                             
                                             
@@ -274,6 +332,23 @@ export default function CreateProduct() {
                                                 }
                                             </Select>
                                             </FormControl>
+                                            <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
+                                            <InputLabel >Giảm giá</InputLabel>
+                                            <Select
+                                                variant='filled'
+                                                value={values.discountName}
+                                                onChange={handleChange}
+                                                name='discountName'
+                                                error={!!touched.discountName && !!errors.discountName}
+                                                helperText={touched.discountName && errors.discountName}
+                                                >
+                                                {
+                                                    discountList.map(
+                                                        item => (<MenuItem value={item}>{item}</MenuItem>)
+                                                    )
+                                                }
+                                            </Select>
+                                            </FormControl>
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
@@ -281,10 +356,10 @@ export default function CreateProduct() {
                                                 label="Giảm giá"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.percentDiscount}
-                                                name="percentDiscount"
-                                                error={!!touched.percentDiscount && !!errors.percentDiscount}
-                                                helperText={touched.percentDiscount && errors.percentDiscount}
+                                                value={values.discountName}
+                                                name="discountName"
+                                                error={!!touched.discountName && !!errors.discountName}
+                                                helperText={touched.discountName && errors.discountName}
                                                 sx={{ gridColumn: 'span 2' }}
                                             />
                                         </Box>

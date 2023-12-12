@@ -137,14 +137,14 @@ const ManageProducts = () => {
             cellClassName: 'name-column--cell',
         },
         {
-            field: 'image',
+            field: 'image1',
             headerName: 'Ảnh',
             type: 'image',
             headerAlign: 'center',
             align: 'center',
 
-            renderCell: ({ row: { image } }) => {
-                return <img width="auto" height="80%" src={image}></img>;
+            renderCell: ({ row: { image1 } }) => {
+                return <img width="auto" height="80%" src={image1}></img>;
             },
         },
         {

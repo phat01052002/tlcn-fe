@@ -31,13 +31,15 @@ export default function ProductDetail() {
     const [product, setProduct] = useState({
         name: '',
         price: '',
-        image: '',
+        image1: '',
+        image2: '',
+        image3: '',
         description: '',
         material: '',
         quantity: '',
         size: '',
         categoryName: '',
-        percentDiscount: '',
+        discountName: '',
         numberRating: '',
         numberFavorite: '',
         status: '',
@@ -129,9 +131,17 @@ export default function ProductDetail() {
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
                                             
-                                            <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={product.image}></Avatar>
-                                            
-                                            
+                                            <Box sx={{ gridColumn: 'span 1'}}>
+                                                <Typography>Ảnh 1</Typography>
+                                                <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={product.image1}></Avatar></Box>
+                                            <Box sx={{ gridColumn: 'span 1'}}>
+                                                <Typography>Ảnh 2</Typography>
+                                                <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={product.image2}></Avatar>
+                                            </Box>
+                                            <Box sx={{ gridColumn: 'span 1'}}>
+                                                <Typography>Ảnh 3</Typography>
+                                                <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={product.image3}></Avatar>
+                                             </Box>
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
@@ -206,8 +216,8 @@ export default function ProductDetail() {
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={`${product.percentDiscount*100}%`}
-                                                name="percentDiscount"
+                                                value={product.discountName}
+                                                name="discountName"
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
                                             <TextField
