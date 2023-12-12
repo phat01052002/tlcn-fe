@@ -158,15 +158,13 @@ export default function ProductOrder({ order }) {
                     <span className="product-order-content col-xl-5 col-3">
                         <span>
                             <label className="productOrder-name"> {productOrder.name}</label>
-                            <label className="productOrder-price">{formatter.format(productOrder.price)}</label>
+                            <label className="productOrder-price">{formatter.format(order.price)}</label>
                             <label> x {order.count}</label>
                         </span>
                     </span>
                     <div className=" col-xl-3 col-6">
                         <div className="productOrder-total">
-                            {formatter.format(
-                                order.count * productOrder.price + parseInt(order.nowDelivery ? 30000 : 0),
-                            )}
+                            {formatter.format(order.count * order.price + parseInt(order.nowDelivery ? 30000 : 0))}
                         </div>
                         <div className="productOrder-state">
                             {orderState == 'processing' ? (
@@ -240,15 +238,15 @@ export default function ProductOrder({ order }) {
                             {order.nowDelivery ? 'Giao hàng nhanh' : 'Giao hàng tiết kiệm'}
                         </div>
                         <div className="productOrder-date">{order.date.substr(0, 10)}</div>
-                        {orderState != 'canceled' ? (
+                        {orderState == 'processing' ? (
                             <div className="btn-order-product">
                                 <button onClick={() => handleCancelOrder(user)}>Hủy</button>
                             </div>
-                        ) : (
+                        ) : orderState == 'canceled' ? (
                             <div className="btn-order-product restore">
                                 <button onClick={() => handleRestoreOrder(user)}>Đặt lại</button>
                             </div>
-                        )}
+                        ) : null}
                     </div>
                 </>
             )}

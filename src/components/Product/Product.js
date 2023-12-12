@@ -24,23 +24,46 @@ export default function Product({ key, product, type }) {
         currency: 'VND',
     });
     //add to cart
-    const handleClickAddToCart = useCallback((productId) => {
-        if (localStorage.getItem(productId)) {
+    const handleClickAddToCart = useCallback((productCurrent) => {
+        if (localStorage.getItem(productCurrent.productId)) {
             try {
-                localStorage.setItem(
-                    productId,
-                    JSON.stringify({
-                        count: parseInt(JSON.parse(localStorage.getItem(productId)).count) + 1,
-                        check: JSON.parse(localStorage.getItem(productId)).check,
-                    }),
-                );
+                productCurrent.discount
+                    ? localStorage.setItem(
+                          productCurrent.productId,
+                          JSON.stringify({
+                              count: parseInt(JSON.parse(localStorage.getItem(productCurrent.productId)).count) + 1,
+                              check: JSON.parse(localStorage.getItem(productCurrent.productId)).check,
+                              price:
+                                  productCurrent.price - productCurrent.price * productCurrent.discount.percentDiscount,
+                          }),
+                      )
+                    : localStorage.setItem(
+                          productCurrent.productId,
+                          JSON.stringify({
+                              count: parseInt(JSON.parse(localStorage.getItem(productCurrent.productId)).count) + 1,
+                              check: JSON.parse(localStorage.getItem(productCurrent.productId)).check,
+                              price: productCurrent.price,
+                          }),
+                      );
                 notifyAddToCartSussess();
                 dispatch(changeNumberCart(getNumber()));
             } catch (e) {
                 console.log(e);
             }
         } else {
-            localStorage.setItem(productId, JSON.stringify({ count: 1, check: false }));
+            productCurrent.discount
+                ? localStorage.setItem(
+                      productCurrent.productId,
+                      JSON.stringify({
+                          count: 1,
+                          check: false,
+                          price: productCurrent.price - productCurrent.price * productCurrent.discount.percentDiscount,
+                      }),
+                  )
+                : localStorage.setItem(
+                      productCurrent.productId,
+                      JSON.stringify({ count: 1, check: false, price: productCurrent.price }),
+                  );
             dispatch(changeNumberCart(getNumber()));
             notifyAddToCartSussess();
         }
@@ -165,7 +188,7 @@ export default function Product({ key, product, type }) {
                 <div className="product-content-btn">
                     <button
                         className="btn-product btn-addtocart-product"
-                        onClick={() => handleClickAddToCart(productCurrent.productId)}
+                        onClick={() => handleClickAddToCart(productCurrent)}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

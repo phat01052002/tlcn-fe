@@ -3,7 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { formatter } from '../Store';
 
-export default function ProductCheckOut({ productId, count }) {
+export default function ProductCheckOut({ productId, count, rankUser }) {
+    let percentRank = 1;
+    if (rankUser == 'BRONZE') {
+        percentRank = 0.99;
+    }
+    if (rankUser == 'SILVER') {
+        percentRank = 0.98;
+    }
+    if (rankUser == 'GOLD') {
+        percentRank = 0.97;
+    }
+    if (rankUser == 'PLATINUM') {
+        percentRank = 0.96;
+    }
+    if (rankUser == 'DIAMOND') {
+        percentRank = 0.95;
+    }
     const [product, setProduct] = useState([]);
     useEffect(() => {
         axios.get(`/guest/product/${productId}`).then((res) => setProduct(res.data));
@@ -34,13 +50,23 @@ export default function ProductCheckOut({ productId, count }) {
                     <div className="col-5 inf-product">
                         <label className="label-product-name">{product.name}</label>
                         <label className="label-product-price">
-                            {formatter.format(product.price)} x {count}
+                            {product.discount
+                                ? formatter.format(product.price - product.price * product.discount.percentDiscount)
+                                : formatter.format(product.price)}
+                            x {count}
                         </label>
                     </div>
                     <div className="col-3">
                         <label className="total-price-product-checkout">
-                            {formatter.format(product.price * count)}
+                            {product.discount
+                                ? formatter.format(
+                                      (product.price * count -
+                                          product.price * count * product.discount.percentDiscount) *
+                                          percentRank,
+                                  )
+                                : formatter.format(product.price * count * percentRank)}
                         </label>
+                        {percentRank == 1 ? null : <label className='rank-info'>- {Math.round((1 - percentRank) * 100)} %</label>}
                     </div>
                 </>
             )}

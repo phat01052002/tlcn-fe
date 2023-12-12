@@ -225,3 +225,9 @@
     background-color: #dfdfe2;
     color: black;
 }
+.rank-info{
+    font-size: 13px;
+    color: #ee4d2d;
+    font-style: italic;
+    margin-left: 20px;
+}

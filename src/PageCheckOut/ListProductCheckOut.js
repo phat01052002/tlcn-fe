@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { changeListCountProductCheckOut, changeListProductCheckOut, useStore } from '../Store';
 import ProductCheckOut from './ProductCheckOut';
 
-export default function ListProductCheckOut() {
+export default function ListProductCheckOut({ rankUser }) {
     const [globalState, dispatch] = useStore();
     const { listCountProductCheckOut, listProductCheckOut } = globalState;
     const getProduct = () => {
@@ -22,7 +22,7 @@ export default function ListProductCheckOut() {
     return (
         <div className="list-product-checkout">
             {listProductCheckOut.map((product, index) => (
-                <ProductCheckOut productId={product} count={listCountProductCheckOut.at(index)} />
+                <ProductCheckOut productId={product} count={listCountProductCheckOut.at(index)} rankUser={rankUser} />
             ))}
         </div>
     );

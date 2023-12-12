@@ -9,7 +9,6 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-
 import {
     notifyErrorGetOTPPhone,
     notifyErrorIsNotVerify,
@@ -27,6 +26,8 @@ import { addLoad, changeUser, removeLoad, useStore } from '../Store';
 import './PageInfoUser.css';
 import Swal from 'sweetalert2';
 import { v4 } from 'uuid';
+import ImgRankUser from './ImgRankUser';
+import UserPoint from './UserPoint';
 //input file
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -502,9 +503,10 @@ export default function PageInfoUser() {
                                 <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                             </svg>
                         </span>
-
                         <button onClick={handleChangePassword}>Thay đổi</button>
                     </div>
+                    {user.rankUser ? <ImgRankUser rankUser={user.rankUser} /> : null}
+                    {user.point ? <UserPoint userPoint={user.point} /> : null}
                 </div>
             </div>
             <Footer></Footer>
