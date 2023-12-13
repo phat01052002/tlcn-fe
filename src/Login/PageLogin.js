@@ -171,7 +171,7 @@ export default function PageLogin() {
     }, []);
     //function login
     const handleClickBtnLoginGmail = useCallback((e) => {
-        window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:3000/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
+        window.location = `https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://tlcn-fe.vercel.app/login&response_type=code&client_id=${GOOGLE_CLIENT_ID}&approval_prompt=force`;
     }, []);
     const handleClickLogin = useCallback(async (e) => {
         var username = document.getElementById('name').value;
