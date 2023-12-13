@@ -18,10 +18,11 @@ export const CHANGE_NUMBER_MESSAGES_To_0 = 'change-number-messages_To_0';
 export const CHANGE_CLIENTSTOMP = 'change-client-stomp';
 export const CHANGE_LIST_USERID_CHAT = 'change-list-userid-chat';
 export const CHANGE_USERFOCUS = 'change-userfocus';
-export const DECREASE_NUMBER_NOTIFY='decrease-number-notify'
-export const CHANGE_COLOR_THEME='change-color-theme';
+export const DECREASE_NUMBER_NOTIFY = 'decrease-number-notify';
+export const CHANGE_COLOR_THEME = 'change-color-theme';
 /////
-export const HEADER_API='https://furniturebackend.azurewebsites.net'
-export const HEADER_API_SOCKET='https://furniturebackend.azurewebsites.net'
+export const HEADER_API = 'https://furniturebackend.azurewebsites.net';
+export const HEADER_API_SOCKET = 'https://furniturebackend.azurewebsites.net';
+export const COOKIE =
+    'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3';
 ///
-

@@ -31,7 +31,7 @@ import NavLeftNotify from '../NavLeft/NavLeftNotify';
 import ChatMessage from '../ChatMessage/ChatMessage';
 import { useLayoutEffect } from 'react';
 import logo from './logo.png';
-import { HEADER_API } from '../../Store/Contants';
+import { COOKIE, HEADER_API } from '../../Store/Contants';
 var limitNotify = 5;
 export default function Header() {
     //
@@ -249,6 +249,7 @@ export default function Header() {
                     url: `${HEADER_API}/admin/check`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                        Cookie: COOKIE,
                     },
                 };
 
@@ -269,6 +270,7 @@ export default function Header() {
                     url: `${HEADER_API}/user/check`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                        Cookie: COOKIE,
                     },
                 };
                 const request = await axios.request(config);
