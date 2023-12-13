@@ -15,7 +15,6 @@ import ProductAdmin from './Admin/Pages/ProductAdmin/ProductAdmin';
 import UserAdmin from './Admin/Pages/UsersAdmin/UserAdmin';
 import CategoryAdmin from './Admin/Pages/CategoryAdmin/CategoryAdmin';
 import PageOrder from './PageOrder/PageOrder';
-import CreateForm from './Admin/Pages/UsersAdmin/CreateForm';
 import UserDetail from './Admin/Pages/UsersAdmin/UserDetail';
 import CreateProduct from './Admin/Pages/ProductAdmin/CreateProduct';
 import NotFound from './NotFound/NotFound';
@@ -30,6 +29,10 @@ import DiscountAdmin from './Admin/Pages/DiscountAdmin.js/DiscountAdmin';
 import CreateDiscount from './Admin/Pages/DiscountAdmin.js/CreateDiscount';
 import EditDiscount from './Admin/Pages/DiscountAdmin.js/EditDiscount';
 import DiscountDetail from './Admin/Pages/DiscountAdmin.js/DiscountDetail';
+import CreateBanner from './Admin/Pages/BannerAdmin/CreateBanner';
+import BannerAdmin from './Admin/Pages/BannerAdmin/BannerAdmin';
+import EditBanner from './Admin/Pages/BannerAdmin/EditBanner';
+import BannerDetail from './Admin/Pages/BannerAdmin/BannerDetail';
 
 function App() {
     return (
@@ -52,7 +55,6 @@ function App() {
                 <Route path="/admin/categories" element={<CategoryAdmin />}></Route>
                 <Route path="/admin/users" element={<UserAdmin />}></Route>
                 <Route path="/admin/users/detail/:id" element={<UserDetail />}></Route>
-                <Route path="/admin/users/create" element={<CreateForm />}></Route>
                 <Route path="/admin/products/edit/:id" element={<EditProduct />}></Route>
                 <Route path="/admin/products/create" element={<CreateProduct />}></Route>
                 <Route path="/admin/products/detail/:id" element={<ProductDetail />}></Route>
@@ -65,6 +67,10 @@ function App() {
                 <Route path="/admin/discounts/create" element={<CreateDiscount />}></Route>
                 <Route path="/admin/discounts/edit/:id" element={<EditDiscount />}></Route>
                 <Route path="/admin/discounts/detail/:id" element={<DiscountDetail />}></Route>
+                <Route path="/admin/banners" element={<BannerAdmin />}></Route>
+                <Route path="/admin/banners/create" element={<CreateBanner />}></Route>
+                <Route path="/admin/banners/edit/:id" element={<EditBanner />}></Route>
+                <Route path="/admin/banners/detail/:id" element={<BannerDetail />}></Route>
                 <Route path="/notfound" element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>

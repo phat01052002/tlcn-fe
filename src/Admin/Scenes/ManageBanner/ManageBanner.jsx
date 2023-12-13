@@ -1,56 +1,56 @@
-import { Box, IconButton, Typography, Modal, useTheme, Button, Stack } from '@mui/material';
+import { Box, IconButton, Typography, Modal, useTheme, Button, Stack, styled } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
 import BuildIcon from '@mui/icons-material/Build';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const ManageCategories = () => {
+const ManageBanners = () => {
     //Theme
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [categories, setCategories] = useState([]);
-    const [categoryId, setCategoryId] = useState();
+    const [banners, setBanners] = useState([]);
+    const [bannerId, setBannerId] = useState();
     const [message, setMessage] = useState();
 
     //Load data from server
-    const loadCategories = () => {
+    const loadBanners = () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/categories',
+                url: '/admin/banners',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            axios.request(config).then((res) => setCategories(res.data));
+            axios.request(config).then((res) => setBanners(res.data));
         } catch {
             window.location = '/login';
         }
     };
 
     useEffect(() => {
-        loadCategories();
+        loadBanners();
     }, []);
 
     //Modal delete open, close
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
         setOpen(true);
-        setCategoryId(id);
-        console.log('open' + categoryId);
+        setBannerId(id);
+        console.log('open' + bannerId);
     };
     const handleClose = () => {
         setOpen(false);
-        console.log('close' + categoryId);
+        console.log('close' + bannerId);
     };
 
     const handleDelete = async () => {
@@ -59,7 +59,7 @@ const ManageCategories = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/deleteCategory/${categoryId}`,
+                url: `/admin/deleteBanner/${bannerId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -68,13 +68,13 @@ const ManageCategories = () => {
             setMessage(response.data.message);
             handleClose();
             handleOpenNotification();
-            loadCategories();
-            //axios.request(config).then((res) => setCategories(res.data));
+            loadBanners();
+            //axios.request(config).then((res) => setBanners(res.data));
         } catch {
             window.location = '/login';
         }
 
-        console.log(categoryId);
+        console.log(bannerId);
     };
     // Notification Modal
     const [openNotification, setOpenNotification] = useState(false);
@@ -87,7 +87,7 @@ const ManageCategories = () => {
 
     //Data of Grid
     const columns = [
-        { field: 'categoryId', headerName: 'ID', flex: 0.2 },
+        { field: 'bannerId', headerName: 'ID', flex: 0.2 },
         {
             field: 'name',
             headerName: 'Tên',
@@ -106,13 +106,22 @@ const ManageCategories = () => {
             },
         },
         {
-            field: 'roomName',
-            headerName: 'Phòng',
+            field: 'title',
+            headerName: 'Tiêu đề',
             flex: 1,
             headerAlign: 'center',
             align: 'center',
             cellClassName: 'name-column--cell',
         },
+        {
+            field: 'productName',
+            headerName: 'Tên sản phẩm trong banner',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            cellClassName: 'name-column--cell',
+        },
+        
         {
             field: 'actions',
             type: 'actions',
@@ -123,14 +132,14 @@ const ManageCategories = () => {
                     <>
                         {/** Edit button */}
 
-                        <Link to={`/admin/categories/edit/${id}`}>
+                        <Link to={`/admin/banners/edit/${id}`}>
                         <IconButton>
                             <BuildIcon />
                         </IconButton>
                         </Link>
 
                         {/** Detail button */}
-                        <Link to={`/admin/categories/detail/${id}`}>
+                        <Link to={`/admin/banners/detail/${id}`}>
                             <IconButton>
                                 <ErrorOutlineOutlinedIcon />
                             </IconButton>
@@ -153,7 +162,7 @@ const ManageCategories = () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Xóa loại sản phẩm này ?
+                                    Xóa banner này ?
                                 </Typography>
                                 <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button
@@ -181,9 +190,9 @@ const ManageCategories = () => {
 
     return (
         <Box m="20px">
-            <HeaderAdmin title="LOẠI SẢN PHẨM" subtitle="Quản lý loại sản phẩm" />
+            <HeaderAdmin title="BANNER" subtitle="Quản lý banner" />
             {/** Add button */}
-            <Link to={`/admin/categories/create`} m="0px">
+            <Link to={`/admin/banners/create`} m="0px">
                 <IconButton>
                     <AddCircleOutlineIcon />
                 </IconButton>
@@ -223,9 +232,9 @@ const ManageCategories = () => {
                 <DataGrid
                     slots={{ toolbar: GridToolbar }}
                     rowHeight={90}
-                    rows={categories}
+                    rows={banners}
                     columns={columns}
-                    getRowId={(row) => row.categoryId}
+                    getRowId={(row) => row.bannerId}
                 />
             </Box>
             <Modal
@@ -271,4 +280,4 @@ export const styleBox = {
     boxShadow: 24,
     p: 4,
 };
-export default ManageCategories;
+export default ManageBanners;

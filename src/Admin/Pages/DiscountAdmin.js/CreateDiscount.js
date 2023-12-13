@@ -16,7 +16,8 @@ import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 
 
 const checkoutSchema = yup.object().shape({
-    name: yup.string().required('bắt buộc'),
+    discountName: yup.string().required('bắt buộc'),
+    percentDiscount: yup.number().required('bắt buộc')
 });
 //Field values
 const initialValues = {
@@ -34,7 +35,7 @@ export default function CreateDiscount() {
     const [message, setMessage] = useState(null);
     
     const uploadImage_Submit = async (values) => {
-                try {
+        try {
                     const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
                     let config = {
                         method: 'post',
@@ -50,9 +51,9 @@ export default function CreateDiscount() {
                     handleOpen();
                     console.log('thanhcong');
                     console.log(respone);
-                } catch {
-                    console.log('thatbai');
-                }
+        } catch {
+            console.log('thatbai');
+        }
     };
     const [open, setOpen] = useState(false);
     const handleOpen = () => {

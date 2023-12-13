@@ -22,7 +22,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { storage } from '../../../setupFirebase/setupFirebase';
@@ -30,41 +29,58 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { VisuallyHiddenInput } from './CreateBanner';
 
 const checkoutSchema = yup.object().shape({
-    name: yup.string().required('bắt buộc'),
+    title: yup.string().required('bắt buộc'),
+    productId: yup.number().required('bắt buộc'),
 });
-//Field values
 const initialValues = {
-    name: '',
+    bannerId: '',
+    title: '',
     image: '',
-    roomName: '',
+    productId: '',
 };
-
-export default function CreateCategory() {
+export default function EditBanner() {
+    const { id } = useParams();
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
-    const [roomList, setRoomList] = useState([]);
-    const loadRoomList = async () => {
+
+    const [banner, setBanner] = useState({
+        bannerId: '',
+        title: '',
+        image: '',
+        productId: '',
+    });
+
+    const loadBannerDetail = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/getRoomList',
+                url: `/admin/getBannerById/${id}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            const response = await axios.request(config);
-            setRoomList(response.data);
+            const respone = (await axios.request(config)).data;
+            setBanner(respone.object);
+
+            for (let key in respone.object) {
+                initialValues[key] = respone.object[key] || ''; // Gán giá trị từ dữ liệu API hoặc một giá trị mặc định nếu không có giá trị
+            }
+            console.log(initialValues);
+            console.log(respone);
+            console.log('thanhcong');
         } catch {
-            window.location = '/login';
+            console.log('thatbai');
         }
     };
     useEffect(() => {
-        loadRoomList();
+        loadBannerDetail();
     }, []);
 
     //Submit
@@ -75,37 +91,42 @@ export default function CreateCategory() {
     const [imagePreview, setImagePreview] = useState('');
 
     const uploadImage_Submit = async (values) => {
-        console.log(values);
-        if (imageUpload == null) return;
+        if (imageUpload == null) {
+            updatebanner(values);
+            return;
+        }
 
-        const imageRef = ref(storage, `categories/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage, `banners/${imageUpload.name + v4()}`);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
             getDownloadURL(snapshot.ref).then(async (url) => {
                 console.log('url: ' + url);
                 values.image = url;
                 console.log('value');
                 console.log(values);
-                try {
-                    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-                    let config = {
-                        method: 'post',
-                        maxBodyLength: Infinity,
-                        url: '/admin/createCategory',
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                        data: values,
-                    };
-                    const respone = (await axios.request(config)).data;
-                    setMessage(respone.message);
-                    handleOpen();
-                    console.log('thanhcong');
-                    console.log(respone);
-                } catch {
-                    console.log('thatbai');
-                }
+                updatebanner(values);
             });
         });
+    };
+    const updatebanner = async (values) => {
+        try {
+            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: '/admin/updateBanner',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                data: values,
+            };
+            const respone = (await axios.request(config)).data;
+            setMessage(respone.message);
+            handleOpen();
+            console.log('thanhcong');
+            console.log(respone);
+        } catch {
+            console.log('thatbai');
+        }
     };
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -122,8 +143,11 @@ export default function CreateCategory() {
                     <SidebarAdmin />
                     <main className="content" style={{ columnWidth: '75vw' }}>
                         <Topbar></Topbar>
-                        <Box m="30px">
-                            <HeaderAdmin title="THÊM LOẠI SẢN PHẨM" subtitle="Thêm loại sản phẩm mới vào cửa hàng" />
+                        <Box m="20px">
+                            <HeaderAdmin
+                                title="CẬP NHẬT BANNER"
+                                subtitle="Cập nhật banner trong cửa hàng"
+                            />
 
                             <Formik
                                 onSubmit={uploadImage_Submit}
@@ -134,7 +158,7 @@ export default function CreateCategory() {
                                     <form onSubmit={handleSubmit}>
                                         <Box
                                             display="grid"
-                                            gap="20px"
+                                            gap="15px"
                                             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                                             sx={{
                                                 '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
@@ -144,31 +168,42 @@ export default function CreateCategory() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Tên loại sản phẩm"
+                                                label="tiêu đề"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
+                                                value={values.title}
+                                                name="title"
+                                                error={!!touched.title && !!errors.title}
+                                                helperText={touched.title && errors.title}
                                                 sx={{ gridColumn: 'span 2' }}
                                             />
-                                            <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
-                                                <InputLabel>Phòng</InputLabel>
-                                                <Select
-                                                    variant="filled"
-                                                    value={values.roomName}
-                                                    onChange={handleChange}
-                                                    name="roomName"
-                                                    error={!!touched.roomName && !!errors.roomName}
-                                                    helperText={touched.roomName && errors.roomName}
-                                                >
-                                                    {roomList.map((item) => (
-                                                        <MenuItem value={item}>{item}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Id sản phẩm"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.productId}
+                                                name="productId"
+                                                error={!!touched.productId && !!errors.productId}
+                                                helperText={touched.productId && errors.productId}
+                                                sx={{ gridColumn: 'span 2' }}
+                                            />
                                             <Box>
+                                                <Avatar
+                                                    sx={{
+                                                        gridColumn: 'span 1',
+                                                        justifySelf: 'center',
+                                                        width: '100px',
+                                                        maxWidth: '150px',
+                                                        height: 'auto',
+                                                        maxHeight: '150px',
+                                                        margin: '0px 0px 10px 0px',
+                                                    }}
+                                                    variant="square"
+                                                    src={values.image}
+                                                ></Avatar>
                                                 <Stack spacing={2} direction="row" height={35}>
                                                     <Button
                                                         color="secondary"
@@ -187,7 +222,6 @@ export default function CreateCategory() {
                                                                             event.target.files[0],
                                                                         );
                                                                     }
-
                                                                 setImagePreview(temporaryImageUrl);
                                                                 setImageUpload(event.target.files[0]);
                                                                 setFileName(event.target.files[0].name);
@@ -214,17 +248,23 @@ export default function CreateCategory() {
                                             </Box>
                                         </Box>
 
-                                        <Box display="flex" justifyContent="end" mt="20px" gap="20px">
+                                        <Box
+                                            sx={{ gridColumn: '4' }}
+                                            display="flex"
+                                            justifyContent="end"
+                                            mt="20px"
+                                            gap="20px"
+                                        >
                                             <IconButton
                                                 onClick={() => {
-                                                    window.location = '/admin/categories';
+                                                    window.location = '/admin/banners';
                                                 }}
                                             >
                                                 <ArrowBackIcon />
                                             </IconButton>
 
                                             <Button type="submit" color="secondary" variant="contained">
-                                                Tạo Loại Sản Phẩm
+                                                Cập Nhật Banner
                                             </Button>
                                         </Box>
                                     </form>
@@ -264,15 +304,3 @@ export default function CreateCategory() {
         </ColorModeContext.Provider>
     );
 }
-
-export const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});

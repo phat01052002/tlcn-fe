@@ -272,9 +272,13 @@ export default function CreateProduct() {
                                                             <VisuallyHiddenInput
                                                                 type="file"
                                                                 onChange={(event) => {
-                                                                    const temporaryImageUrl = URL.createObjectURL(
-                                                                        event.target.files[0],
-                                                                    );
+                                                                    var temporaryImageUrl = '';
+                                                                    if(event.target.files[0])
+                                                                    {
+                                                                        temporaryImageUrl = URL.createObjectURL(
+                                                                            event.target.files[0],
+                                                                        );
+                                                                    }
 
                                                                     setImagePreviewItem(index, temporaryImageUrl);
                                                                     setImageUploadItem(index, event.target.files[0]);
@@ -359,25 +363,13 @@ export default function CreateProduct() {
                                                     ))}
                                                 </Select>
                                             </FormControl>
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Giảm giá"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.discountName}
-                                                name="discountName"
-                                                error={!!touched.discountName && !!errors.discountName}
-                                                helperText={touched.discountName && errors.discountName}
-                                                sx={{ gridColumn: 'span 2' }}
-                                            />
+                                            
                                         </Box>
 
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">
                                             <IconButton
                                                 onClick={() => {
-                                                    window.location = '/admin/users';
+                                                    window.location = '/admin/products';
                                                 }}
                                             >
                                                 <ArrowBackIcon />

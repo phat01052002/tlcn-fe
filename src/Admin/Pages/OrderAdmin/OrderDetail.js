@@ -27,7 +27,7 @@ export default function OrderDetail() {
         nowDelivery: '',
         productId: '',
         productName: '',
-        imageProduct: '',
+        image1: '',
         productPrice: '',
         total: '',
         userName: '',
@@ -142,7 +142,7 @@ export default function OrderDetail() {
                                                 name="productName"
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-                                            <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={order.imageProduct}></Avatar>
+                                            <Avatar sx={{ gridColumn: 'span 1', width:'100px', height:'auto' }} variant='square' src={order.image1}></Avatar>
                                             
                                             
                                             <TextField

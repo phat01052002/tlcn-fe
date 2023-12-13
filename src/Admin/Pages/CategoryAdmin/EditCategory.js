@@ -238,9 +238,13 @@ export default function EditCategory() {
                                                         <VisuallyHiddenInput
                                                             type="file"
                                                             onChange={(event) => {
-                                                                const temporaryImageUrl = URL.createObjectURL(
-                                                                    event.target.files[0],
-                                                                );
+                                                                var temporaryImageUrl = '';
+                                                                    if(event.target.files[0])
+                                                                    {
+                                                                        temporaryImageUrl = URL.createObjectURL(
+                                                                            event.target.files[0],
+                                                                        );
+                                                                    }
                                                                 setImagePreview(temporaryImageUrl);
                                                                 setImageUpload(event.target.files[0]);
                                                                 setFileName(event.target.files[0].name);
