@@ -194,7 +194,7 @@ export default function Header() {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `/user/findByName`,
+                    url: `${HEADER_API}/user/findByName`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -262,12 +262,16 @@ export default function Header() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/user/check`,
+                url: `${HEADER_API}/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            const request = await axios.request(config);
+            const axiosIntances = axios.create({
+                baseURL: `${HEADER_API}/user/check`,
+            });
+            axiosIntances.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            const request = await axiosIntances.get();
             dispatch(changeRole('user'));
         } catch {}
     };
