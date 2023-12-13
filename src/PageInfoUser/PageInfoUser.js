@@ -28,6 +28,7 @@ import Swal from 'sweetalert2';
 import { v4 } from 'uuid';
 import ImgRankUser from './ImgRankUser';
 import UserPoint from './UserPoint';
+import { HEADER_API } from '../Store/Contants';
 //input file
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -87,7 +88,7 @@ export default function PageInfoUser() {
             let config = {
                 method: 'patch',
                 maxBodyLength: Infinity,
-                url: '/user/saveUser',
+                url: `${HEADER_API}/user/saveUser`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -115,7 +116,7 @@ export default function PageInfoUser() {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `/api/v1/auth/resetPassword/${username}`,
+            url: `${HEADER_API}/api/v1/auth/resetPassword/${username}`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -143,7 +144,7 @@ export default function PageInfoUser() {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: '/api/v1/auth/check',
+            url: `${HEADER_API}/api/v1/auth/check`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -181,7 +182,7 @@ export default function PageInfoUser() {
                     let config = {
                         method: 'post',
                         maxBodyLength: Infinity,
-                        url: `/user/addPhone/${phone}`,
+                        url: `${HEADER_API}/user/addPhone/${phone}`,
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -243,7 +244,7 @@ export default function PageInfoUser() {
                             let config = {
                                 method: 'patch',
                                 maxBodyLength: Infinity,
-                                url: '/user/saveImgUser',
+                                url: `${HEADER_API}/user/saveImgUser`,
                                 headers: {
                                     Authorization: `Bearer ${accessToken}`,
                                 },

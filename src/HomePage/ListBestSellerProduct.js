@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Product from '../components/Product/Product';
+import { HEADER_API } from '../Store/Contants';
 
 export default function ListBestSellerProduct() {
     const [listProductBestSeller, setListProductBestSeller] = useState([]);
     useEffect(() => {
-        axios.get('https://furniturebackend.azurewebsites.net/guest/product/top8Product').then((res) => {
+        axios.get(`${HEADER_API}/guest/product/top8Product`).then((res) => {
             if (res.data == null) {
                 window.location = '/';
             }

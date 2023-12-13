@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import Product from '../components/Product/Product';
+import { HEADER_API } from '../Store/Contants';
 
 export default function ListProductNear({ productId }) {
     const [listProduxt, setListProduct] = useState([]);
@@ -25,7 +26,7 @@ export default function ListProductNear({ productId }) {
         },
     };
     useEffect(() => {
-        axios.get(`/guest/getProductNearProduct/${productId}`).then((res) => setListProduct(res.data));
+        axios.get(`${HEADER_API}/guest/getProductNearProduct/${productId}`).then((res) => setListProduct(res.data));
     }, []);
     return (
         <div>

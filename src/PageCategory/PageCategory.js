@@ -6,6 +6,7 @@ import ListProductByCategory from '../components/Category/ListProductByCategory'
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
 import Footer from '../components/Footer/Footer';
+import { HEADER_API } from '../Store/Contants';
 export default function PageCategory() {
     const { categoryId } = useParams();
     const [category, setCategory] = useState([]);
@@ -17,7 +18,7 @@ export default function PageCategory() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-                .get(`/guest/productsByCategory/${categoryId}`)
+                .get(`${HEADER_API}/guest/productsByCategory/${categoryId}`)
                 .then((res) => setListProduct(res.data))
                 .catch((err) => console.log(err));
             setSort(1);
@@ -30,7 +31,7 @@ export default function PageCategory() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-                .get(`/guest/productsByCategoryOrderDiscount/${categoryId}`)
+                .get(`${HEADER_API}/guest/productsByCategoryOrderDiscount/${categoryId}`)
                 .then((res) => setListProduct(res.data))
                 .catch((err) => console.log(err));
             setSort(2);
@@ -43,7 +44,7 @@ export default function PageCategory() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-                .get(`/guest/productsByCategoryDesc/${categoryId}`)
+                .get(`${HEADER_API}/guest/productsByCategoryDesc/${categoryId}`)
                 .then((res) => setListProduct(res.data))
                 .catch((err) => console.log(err));
             setSort(4);
@@ -56,7 +57,7 @@ export default function PageCategory() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             axios
-                .get(`/guest/productsByCategoryAsc/${categoryId}`)
+                .get(`${HEADER_API}/guest/productsByCategoryAsc/${categoryId}`)
                 .then((res) => setListProduct(res.data))
                 .catch((err) => console.log(err));
             setSort(3);
@@ -66,11 +67,11 @@ export default function PageCategory() {
     });
     const getData = async () => {
         await axios
-            .get(`/guest/getCategory/${categoryId}`)
+            .get(`${HEADER_API}/guest/getCategory/${categoryId}`)
             .then((res) => setCategory(res.data))
             .catch((err) => console.log(err));
         await axios
-            .get(`/guest/productsByCategory/${categoryId}`)
+            .get(`${HEADER_API}/guest/productsByCategory/${categoryId}`)
             .then((res) => setListProduct(res.data))
             .catch((err) => console.log(err));
     };

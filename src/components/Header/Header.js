@@ -31,6 +31,7 @@ import NavLeftNotify from '../NavLeft/NavLeftNotify';
 import ChatMessage from '../ChatMessage/ChatMessage';
 import { useLayoutEffect } from 'react';
 import logo from './logo.png';
+import { HEADER_API } from '../../Store/Contants';
 var limitNotify = 5;
 export default function Header() {
     //
@@ -134,7 +135,7 @@ export default function Header() {
                     let config = {
                         method: 'get',
                         maxBodyLength: Infinity,
-                        url: `/user/favoriteByUser/${user.userId}`,
+                        url: `${HEADER_API}/user/favoriteByUser/${user.userId}`,
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -162,7 +163,7 @@ export default function Header() {
                     let config = {
                         method: 'get',
                         maxBodyLength: Infinity,
-                        url: `/user/getNotification/${limitNotify}`,
+                        url: `${HEADER_API}/user/getNotification/${limitNotify}`,
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -193,7 +194,7 @@ export default function Header() {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: '/user/findByName',
+                    url: `${HEADER_API}/user/findByName`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -244,7 +245,7 @@ export default function Header() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/check',
+                url: `${HEADER_API}/admin/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -261,7 +262,7 @@ export default function Header() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/user/check',
+                url: `${HEADER_API}/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { formatter } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 
 export default function ProductCheckOut({ productId, count, rankUser }) {
     let percentRank = 1;
@@ -22,7 +23,7 @@ export default function ProductCheckOut({ productId, count, rankUser }) {
     }
     const [product, setProduct] = useState([]);
     useEffect(() => {
-        axios.get(`/guest/product/${productId}`).then((res) => setProduct(res.data));
+        axios.get(`${HEADER_API}/guest/product/${productId}`).then((res) => setProduct(res.data));
     }, []);
     return (
         <div className="row product-checkout">

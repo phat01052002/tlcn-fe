@@ -15,6 +15,7 @@ import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPa
 import './ChatMessage.css';
 import ContentChat from './ContentChat';
 import { useEffect } from 'react';
+import { HEADER_API_SOCKET } from '../../Store/Contants';
 
 export default function ChatMessage({ role }) {
     //
@@ -31,7 +32,7 @@ export default function ChatMessage({ role }) {
                     try {
                         clientStomp.disconnect();
                     } catch {}
-                    const socket = new SockJS('http://localhost:8000/guest/ws');
+                    const socket = new SockJS(`${HEADER_API_SOCKET}/guest/ws`);
                     const client = Stomp.over(socket);
                     client.connect({}, () => {
                         client.subscribe(`/topic/messages/AdminToUser/${user.userId}`, (message) => {
@@ -56,7 +57,7 @@ export default function ChatMessage({ role }) {
             clientStomp.disconnect();
         } catch {}
         if (role == 'admin' && timeConnect == 0) {
-            const socket = new SockJS('http://localhost:8000/guest/ws');
+            const socket = new SockJS(`${HEADER_API_SOCKET}/guest/ws`);
             const client = Stomp.over(socket);
             client.connect({}, () => {
                 client.subscribe('/topic/messages/UserToAdmin', (message) => {

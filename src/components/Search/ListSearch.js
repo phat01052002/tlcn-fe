@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProgressBar, TailSpin } from 'react-loader-spinner';
+import { HEADER_API } from '../../Store/Contants';
 import './css/Search.css';
 import ItemSearch from './ItemSearch';
 export default function ListSearch({ inputSearch }) {
@@ -14,7 +15,7 @@ export default function ListSearch({ inputSearch }) {
     useEffect(() => {
         typingTimeoutRef.current = setTimeout(() => {
             if (inputSearch) {
-                axios.get(`/guest/product/containing/${inputSearch}`).then((res) => {
+                axios.get(`${HEADER_API}/guest/product/containing/${inputSearch}`).then((res) => {
                     if(res.data==null){
 
                     }else{

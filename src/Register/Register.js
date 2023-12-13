@@ -15,6 +15,7 @@ import NotificationInPage, {
 } from '../components/NotificationInPage/NotificationInPage';
 import { auth } from '../setupFirebase/setupFirebase';
 import { changeRole, handleClickBack, handleClickBackLogin, useStore } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import './Register.css';
 export default function Register() {
     const [globalState, dispatch] = useStore();
@@ -40,7 +41,7 @@ export default function Register() {
                 let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: '/api/v1/auth/register',
+                    url: `${HEADER_API}/api/v1/auth/register`,
                     headers: {
                         'Content-Type': 'application/json',
                     },

@@ -8,6 +8,7 @@ import {
     notifySuccessOrder,
 } from '../components/NotificationInPage/NotificationInPage';
 import { changeListNotify, changeNumberNotify, formatter, useStore } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 
 export default function ProductOrder({ order }) {
     const [productOrder, setProductOrder] = useState([]);
@@ -24,7 +25,7 @@ export default function ProductOrder({ order }) {
         const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
         var config = {
             method: 'post',
-            url: `/user/canceledOrder/${order.orderId}`,
+            url: `${HEADER_API}/user/canceledOrder/${order.orderId}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -41,7 +42,7 @@ export default function ProductOrder({ order }) {
                         let config = {
                             method: 'get',
                             maxBodyLength: Infinity,
-                            url: '/user/getNotification',
+                            url: `${HEADER_API}/user/getNotification`,
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                             },
@@ -66,7 +67,7 @@ export default function ProductOrder({ order }) {
         const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
         var config = {
             method: 'post',
-            url: `/user/restoredOrder/${order.orderId}`,
+            url: `${HEADER_API}/user/restoredOrder/${order.orderId}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -86,7 +87,7 @@ export default function ProductOrder({ order }) {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: '/user/getNotification',
+                    url: `${HEADER_API}/user/getNotification`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -108,7 +109,7 @@ export default function ProductOrder({ order }) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: `/user/findProductByOrderId/${order.orderId}`,
+                url: `${HEADER_API}/user/findProductByOrderId/${order.orderId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

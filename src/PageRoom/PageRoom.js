@@ -5,6 +5,7 @@ import ListProductByCategory from '../components/Category/ListProductByCategory'
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import './PageRoom.css';
 
 export default function PageRoom() {
@@ -19,7 +20,7 @@ export default function PageRoom() {
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
 
-                .get(`/guest/room/products/${roomId}`)
+                .get(`${HEADER_API}/guest/room/products/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(1);
@@ -33,7 +34,7 @@ export default function PageRoom() {
 
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-                .get(`/guest/ProductSaleByRoom/${roomId}`)
+                .get(`${HEADER_API}/guest/ProductSaleByRoom/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(2);
@@ -47,7 +48,7 @@ export default function PageRoom() {
 
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-                .get(`/guest/ProductDescByRoom/${roomId}`)
+                .get(`${HEADER_API}/guest/ProductDescByRoom/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(4);
@@ -60,7 +61,7 @@ export default function PageRoom() {
             addLoad();
             document.getElementById(`sort${sort}-cate`).classList.remove('border-bottom-current');
             await axios
-                .get(`/guest/ProductAscByRoom/${roomId}`)
+                .get(`${HEADER_API}/guest/ProductAscByRoom/${roomId}`)
                 .then((res) => setProductsInRoom(res.data))
                 .catch((err) => console.log(err));
             setSort(3);
@@ -70,8 +71,8 @@ export default function PageRoom() {
     });
     //api call first
     const getData = async () => {
-        await axios.get(`/guest/room/products/${roomId}`).then((res) => setProductsInRoom(res.data));
-        await axios.get(`/guest/room/${roomId}`).then((res) => {
+        await axios.get(`${HEADER_API}/guest/room/products/${roomId}`).then((res) => setProductsInRoom(res.data));
+        await axios.get(`${HEADER_API}/guest/room/${roomId}`).then((res) => {
             if (res.data == null) {
                 window.location = '/notfound';
             } else {

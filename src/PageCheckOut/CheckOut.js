@@ -29,6 +29,7 @@ import {
     removeLoad,
     useStore,
 } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import './CheckOut.css';
 import CheckOutRank from './CheckOutRank';
 import ListProductCheckOut from './ListProductCheckOut';
@@ -70,7 +71,7 @@ export default function CheckOut() {
                 let config = {
                     method: 'patch',
                     maxBodyLength: Infinity,
-                    url: '/user/saveUser',
+                    url: `${HEADER_API}/user/saveUser`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -97,7 +98,7 @@ export default function CheckOut() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/user/check',
+                url: `${HEADER_API}/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -169,7 +170,7 @@ export default function CheckOut() {
                         let config = {
                             method: 'post',
                             maxBodyLength: Infinity,
-                            url: `/user/pay/${totalPrice}`,
+                            url: `${HEADER_API}/user/pay/${totalPrice}`,
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                                 'Content-Type': 'application/json',
@@ -220,7 +221,7 @@ export default function CheckOut() {
                             let config = {
                                 method: 'post',
                                 maxBodyLength: Infinity,
-                                url: `/user/saveOrder/${productId}`,
+                                url: `${HEADER_API}/user/saveOrder/${productId}`,
                                 headers: {
                                     Authorization: `Bearer ${accessToken}`,
                                     'Content-Type': 'application/json',

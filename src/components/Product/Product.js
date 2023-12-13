@@ -11,6 +11,7 @@ import ProductHot from './ProductHot';
 import ProductSale from './ProductSale';
 import Unlike from './Unlike';
 import soldout from './img/soldout.png';
+import { HEADER_API } from '../../Store/Contants';
 export default function Product({ key, product, type }) {
     /////
     const [globalState, dispatch] = useStore();
@@ -158,7 +159,7 @@ export default function Product({ key, product, type }) {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `https://furniturebackend.azurewebsites.net/user/getFavoritesByProduct/${product.productId}`,
+                url: `${HEADER_API}/user/getFavoritesByProduct/${product.productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

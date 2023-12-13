@@ -20,4 +20,8 @@ export const CHANGE_LIST_USERID_CHAT = 'change-list-userid-chat';
 export const CHANGE_USERFOCUS = 'change-userfocus';
 export const DECREASE_NUMBER_NOTIFY='decrease-number-notify'
 export const CHANGE_COLOR_THEME='change-color-theme';
+/////
+export const HEADER_API='https://furniturebackend.azurewebsites.net'
+export const HEADER_API_SOCKET='https://furniturebackend.azurewebsites.net'
+///
 

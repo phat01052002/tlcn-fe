@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 import { changeCheckToFalse, changeNumberCart, getNumber, useStore } from '../../Store';
+import { HEADER_API } from '../../Store/Contants';
 import { AlertPleaseLogin } from '../Alert/Alert';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
@@ -30,7 +31,7 @@ export default function ProductInCart({ key, productId, handleCheck, increaseCou
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `/guest/product/${productId}`,
+            url: `${HEADER_API}/guest/product/${productId}`,
             headers: {},
         };
         axios.request(config).then((res) => setProduct(res.data));

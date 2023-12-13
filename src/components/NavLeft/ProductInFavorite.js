@@ -12,6 +12,7 @@ import {
     removeLoad,
     useStore,
 } from '../../Store';
+import { HEADER_API } from '../../Store/Contants';
 export default function ProductInFavorite(favorite) {
     const [globalState, dispatch] = useStore();
     const { user, productUnlike } = globalState;
@@ -20,7 +21,7 @@ export default function ProductInFavorite(favorite) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `/user/productByFavorite/${favorite.favorite.favoriteId}`,
+            url: `${HEADER_API}/user/productByFavorite/${favorite.favorite.favoriteId}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${JSON.parse(sessionStorage.getItem('USER')).token}`,
@@ -41,7 +42,7 @@ export default function ProductInFavorite(favorite) {
             let configPost = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `/user/deleteFavorite/${user.userId}/${productId}`,
+                url: `${HEADER_API}/user/deleteFavorite/${user.userId}/${productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -53,7 +54,7 @@ export default function ProductInFavorite(favorite) {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `/user/favoriteByUser/${user.userId}`,
+                    url: `${HEADER_API}/user/favoriteByUser/${user.userId}`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
