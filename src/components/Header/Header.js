@@ -31,7 +31,7 @@ import NavLeftNotify from '../NavLeft/NavLeftNotify';
 import ChatMessage from '../ChatMessage/ChatMessage';
 import { useLayoutEffect } from 'react';
 import logo from './logo.png';
-import { COOKIE, HEADER_API } from '../../Store/Contants';
+import { HEADER_API } from '../../Store/Contants';
 var limitNotify = 5;
 export default function Header() {
     //
@@ -194,7 +194,7 @@ export default function Header() {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `${HEADER_API}/user/findByName`,
+                    url: `/user/findByName`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -242,17 +242,14 @@ export default function Header() {
     const checkAdmin = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
                 url: `${HEADER_API}/admin/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                    Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
                 },
             };
-
             const request = await axios.request(config).catch();
             dispatch(changeRole('admin'));
 
@@ -262,15 +259,12 @@ export default function Header() {
     const checkUser = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-
-            console.log('b');
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `${HEADER_API}/user/check`,
+                url: `/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                    Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
                 },
             };
             const request = await axios.request(config);
