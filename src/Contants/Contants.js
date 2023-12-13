@@ -2,7 +2,7 @@ export const GOOGLE_CLIENT_ID = '801890488909-0foc7h3q9vl47n1j5qq6ekjh7p0rc0sf.a
 
 export const GOOGLE_CLIENT_SECRET = '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';
 
-export const GOOGLE_REDIRECT_URI = 'http://localhost:3000/login';
+export const GOOGLE_REDIRECT_URI = 'https://tlcn-fe.vercel.app/login';
 
 export const GOOGLE_LINK_GET_TOKEN = 'https://accounts.google.com/o/oauth2/token';
 
