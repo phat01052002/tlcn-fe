@@ -1,7 +1,6 @@
 {
   "name": "tlcn-fe",
   "version": "0.1.0",
-  "proxy": "https://furniturebackend.azurewebsites.net/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
