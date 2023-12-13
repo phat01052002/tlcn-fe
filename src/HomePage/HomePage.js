@@ -17,7 +17,7 @@ import { handleClickBanner } from '../Store';
 export default function HomePage() {
     const [listBanner, setListBanner] = useState([]);
     useEffect(() => {
-        axios.get('/guest/getTop5Banner').then((res) => setListBanner(res.data));
+        axios.get('https://furniturebackend.azurewebsites.net/guest/getTop5Banner').then((res) => setListBanner(res.data));
     }, []);
     return (
         <div className="home-page">

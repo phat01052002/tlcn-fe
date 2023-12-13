@@ -5,7 +5,7 @@ import Product from '../components/Product/Product';
 export default function ListBestSellerProduct() {
     const [listProductBestSeller, setListProductBestSeller] = useState([]);
     useEffect(() => {
-        axios.get('/guest/product/top8Product').then((res) => {
+        axios.get('https://furniturebackend.azurewebsites.net/guest/product/top8Product').then((res) => {
             if (res.data == null) {
                 window.location = '/';
             }

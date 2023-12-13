@@ -47,7 +47,7 @@ export default function ListCategoryRow() {
     //
     useEffect(() => {
         axios
-            .get('/guest/category')
+            .get('https://furniturebackend.azurewebsites.net/guest/category')
             .then((res) => setListCategory(res.data))
             .catch((error) => {
                 console.log(error);

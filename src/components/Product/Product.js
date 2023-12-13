@@ -158,7 +158,7 @@ export default function Product({ key, product, type }) {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/user/getFavoritesByProduct/${product.productId}`,
+                url: `https://furniturebackend.azurewebsites.net/user/getFavoritesByProduct/${product.productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

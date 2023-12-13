@@ -25,7 +25,7 @@ export default function ListProductSale() {
         },
     };
     useEffect(() => {
-        axios.get('/guest/getProductByDiscountNotNull').then((res) => setListProductSale(res.data));
+        axios.get('https://furniturebackend.azurewebsites.net/guest/getProductByDiscountNotNull').then((res) => setListProductSale(res.data));
     }, []);
     return (
         <div className="carousel-product-sale">
