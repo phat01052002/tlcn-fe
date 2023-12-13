@@ -242,40 +242,39 @@ export default function Header() {
     const checkAdmin = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            if (accessToken) {
-                let config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: `${HEADER_API}/admin/check`,
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
-                    },
-                };
 
-                const request = await axios.request(config).catch();
-                dispatch(changeRole('admin'));
-            }
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${HEADER_API}/admin/check`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
+                },
+            };
+
+            const request = await axios.request(config).catch();
+            dispatch(changeRole('admin'));
+
             window.location = '/admin';
         } catch {}
     };
     const checkUser = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            if (accessToken) {
-                console.log('a');
-                let config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: `${HEADER_API}/user/check`,
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
-                    },
-                };
-                const request = await axios.request(config);
-                dispatch(changeRole('user'));
-            }
+
+            console.log('b');
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${HEADER_API}/user/check`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
+                },
+            };
+            const request = await axios.request(config);
+            dispatch(changeRole('user'));
         } catch {}
     };
 
