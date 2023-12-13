@@ -122,7 +122,7 @@ export default function PageLogin() {
                         let config = {
                             method: 'post',
                             maxBodyLength: Infinity,
-                            url: `${HEADER_API}/api/v1/auth/login-gmail`,
+                            url: `/api/v1/auth/login-gmail`,
                             headers: {
                                 'Content-Type': 'application/json',
                             },
@@ -189,7 +189,7 @@ export default function PageLogin() {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `${HEADER_API}/api/v1/auth/login`,
+                url: `/api/v1/auth/login`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
