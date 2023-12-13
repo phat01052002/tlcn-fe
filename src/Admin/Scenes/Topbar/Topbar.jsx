@@ -4,13 +4,11 @@ import { changeRole, useStore } from '../../../Store';
 import { Box, IconButton, useTheme } from '@mui/material'
 import { useContext } from 'react'
 import { ColorModeContext, tokens } from '../../theme'
-import InputBase from '@mui/material/InputBase'
+import LogoutIcon from '@mui/icons-material/Logout';
 import LightModeOutlinedICon from '@mui/icons-material/LightModeOutlined'
 import DarkModeOutlinedICon from '@mui/icons-material/DarkModeOutlined'
-import NotificationsOutlinedICon from '@mui/icons-material/NotificationsOutlined'
-import SettingsOutlinedICon from '@mui/icons-material/SettingsOutlined'
-import PersonOutlinedICon from '@mui/icons-material/PersonOutlined'
-import SearchICon from '@mui/icons-material/Search'
+import { AlertLogout } from '../../../components/Alert/Alert';
+
 
 const Topbar = () => {
     const [globalState, dispatch] = useStore();
@@ -70,17 +68,21 @@ const Topbar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
-
+    const logOut = useCallback(() => {
+        try {
+            sessionStorage.removeItem('checkout');
+            dispatch(changeRole('guest'));
+            window.location = '/login';
+        } catch {
+            window.location = '/login';
+        }
+    }, []);
+    const handleClickLogout = useCallback(() => {
+        AlertLogout(logOut);
+    });
     //Topbar
   return (
     <Box display='flex' justifyContent='space-between' p={2} >
-        {/* Search bar */}
-        <Box display='flex' backgroundColor={colors.primary[400]} borderRadius='3px'>
-        <InputBase sx={{ml: 2, flex: 1}} placeHolder="Search"/>
-        <IconButton type='button' sx={{p: 1}}>
-            <SearchICon/>
-        </IconButton>
-        </Box>
         {/*Icons */}
         <Box display='flex'>
             <IconButton onClick={colorMode.toggleColorMode}>
@@ -91,15 +93,10 @@ const Topbar = () => {
                 )}
                 
             </IconButton>
-            <IconButton>
-                <NotificationsOutlinedICon/>
+            <IconButton onClick={handleClickLogout}>
+                <LogoutIcon/>
             </IconButton>
-            <IconButton>
-                <SettingsOutlinedICon/>
-            </IconButton>
-            <IconButton>
-                <PersonOutlinedICon/>
-            </IconButton>
+
         </Box>
         
 

@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { ColorModeContext, tokens, useMode } from '../../theme';
-import { CssBaseline, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, ThemeProvider, Typography } from '@mui/material';
+import {
+    Avatar,
+    CssBaseline,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Modal,
+    Select,
+    Stack,
+    ThemeProvider,
+    Typography,
+} from '@mui/material';
 import axios from 'axios';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
@@ -26,32 +38,33 @@ const checkoutSchema = yup.object().shape({
 const initialValues = {
     name: '',
     image: '',
+    roomName: '',
 };
 
 export default function CreateCategory() {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
-    const [categoryNameList, setCategoryNameList] = useState([]);
-    const loadCategoryNameList = async () => {
+    const [roomList, setRoomList] = useState([]);
+    const loadRoomList = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/getCategoryList',
+                url: '/admin/getRoomList',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
             const response = await axios.request(config);
-            setCategoryNameList(response.data)
+            setRoomList(response.data);
         } catch {
             window.location = '/login';
         }
-    }
+    };
     useEffect(() => {
-        loadCategoryNameList();
+        loadRoomList();
     }, []);
 
     //Submit
@@ -59,7 +72,8 @@ export default function CreateCategory() {
     const [imageUpload, setImageUpload] = useState(null);
     const [message, setMessage] = useState(null);
     const [fileName, setFileName] = useState(null);
-    
+    const [imagePreview, setImagePreview] = useState('');
+
     const uploadImage_Submit = async (values) => {
         console.log(values);
         if (imageUpload == null) return;
@@ -67,7 +81,7 @@ export default function CreateCategory() {
         const imageRef = ref(storage, `imageCNPM/categories/${imageUpload.name + v4()}`);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
             getDownloadURL(snapshot.ref).then(async (url) => {
-                console.log("url: "+url)
+                console.log('url: ' + url);
                 values.image = url;
                 console.log('value');
                 console.log(values);
@@ -96,7 +110,6 @@ export default function CreateCategory() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
-        
     };
     const handleClose = () => {
         setOpen(false);
@@ -138,34 +151,74 @@ export default function CreateCategory() {
                                                 name="name"
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
-                                                sx={{ gridColumn: 'span 4' }}
+                                                sx={{ gridColumn: 'span 2' }}
                                             />
-                                            <Stack spacing={2} direction="row" height={35}>
-                                                <Button
-                                                    color="secondary"
-                                                    component="label"
-                                                    variant="contained"
-                                                    startIcon={<CloudUploadIcon />}
+                                            <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
+                                                <InputLabel>Phòng</InputLabel>
+                                                <Select
+                                                    variant="filled"
+                                                    value={values.roomName}
+                                                    onChange={handleChange}
+                                                    name="roomName"
+                                                    error={!!touched.roomName && !!errors.roomName}
+                                                    helperText={touched.roomName && errors.roomName}
                                                 >
-                                                    Chọn file
-                                                    <VisuallyHiddenInput
-                                                        type="file"
-                                                        onChange={(event) => {
-                                                            setImageUpload(event.target.files[0]);
-                                                            setFileName(event.target.files[0].name);
+                                                    {roomList.map((item) => (
+                                                        <MenuItem value={item}>{item}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                            <Box>
+                                                <Stack spacing={2} direction="row" height={35}>
+                                                    <Button
+                                                        color="secondary"
+                                                        component="label"
+                                                        variant="contained"
+                                                        startIcon={<CloudUploadIcon />}
+                                                    >
+                                                        Chọn file
+                                                        <VisuallyHiddenInput
+                                                            type="file"
+                                                            onChange={(event) => {
+                                                                const temporaryImageUrl = URL.createObjectURL(
+                                                                    event.target.files[0],
+                                                                );
+
+                                                                setImagePreview(temporaryImageUrl);
+                                                                setImageUpload(event.target.files[0]);
+                                                                setFileName(event.target.files[0].name);
+                                                            }}
+                                                        />
+                                                    </Button>
+                                                    <Typography>{fileName}</Typography>
+                                                </Stack>
+                                                {imagePreview && (
+                                                    <Avatar
+                                                        sx={{
+                                                            gridColumn: 'span 1',
+                                                            justifySelf: 'center',
+                                                            width: '100px',
+                                                            maxWidth: '150px',
+                                                            height: 'auto',
+                                                            maxHeight: '150px',
+                                                            margin: '10px 0px 0px 0px',
                                                         }}
-                                                    />
-                                                </Button>
-                                                <Typography>{fileName}</Typography>
-                                            </Stack>
+                                                        variant="square"
+                                                        src={imagePreview}
+                                                    ></Avatar>
+                                                )}
+                                            </Box>
                                         </Box>
 
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">
-                                            
-                                            <IconButton onClick={()=> {window.location = "/admin/categories"}}>
+                                            <IconButton
+                                                onClick={() => {
+                                                    window.location = '/admin/categories';
+                                                }}
+                                            >
                                                 <ArrowBackIcon />
                                             </IconButton>
-                                            
+
                                             <Button type="submit" color="secondary" variant="contained">
                                                 Tạo Loại Sản Phẩm
                                             </Button>
@@ -179,9 +232,7 @@ export default function CreateCategory() {
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
-                                <Box
-                                    sx={styleBox}
-                                >
+                                <Box sx={styleBox}>
                                     <Typography
                                         id="modal-modal-title"
                                         variant="h2"
@@ -192,7 +243,11 @@ export default function CreateCategory() {
                                         {message}
                                     </Typography>
                                     <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
-                                        <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleClose}>
+                                        <Button
+                                            variant="contained"
+                                            sx={{ backgroundColor: '#3e4396' }}
+                                            onClick={handleClose}
+                                        >
                                             OK
                                         </Button>
                                     </Stack>

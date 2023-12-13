@@ -13,42 +13,42 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 
-export default function CategoryDetail() {
+export default function DiscountDetail() {
     const { id } = useParams();
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
-    const [category, setCategory] = useState({
-        name: '',
-        image: '',
-        roomName: '',
+    const [discount, setDiscount] = useState({
+        discountId: '',
+        discountName: '',
+        percentDiscount: '',
         numberProduct: '',
     });
 
-    const loadCategoryDetail = async () => {
+    const loadDiscountDetail = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/getCategoryById/${id}`,
+                url: `/admin/getDiscountById/${id}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
             const respone = (await axios.request(config)).data;
-            setCategory(respone.object);
+            setDiscount(respone.object);
             
             console.log(respone);
             console.log('thanhcong');
-            console.log(category);
+            console.log(discount);
         } catch {
             console.log('thatbai');
         }
     };
     useEffect(() => {
-		loadCategoryDetail();
+		loadDiscountDetail();
 	}, []);
     return (
         <ColorModeContext.Provider value={colorMode}>
@@ -75,27 +75,26 @@ export default function CategoryDetail() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Tên sản phẩm"
+                                                label="Tên giảm giá"
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={category.name}
-                                                name="name"
+                                                value={discount.discountName}
+                                                name="discountName"
                                                 sx={{ gridColumn: 'span 4' }}
                                             />
                                             
-                                            <Avatar sx={{ gridColumn: 'span 2', width:'100px', height:'auto' }} variant='square' src={category.image}></Avatar>
                                             <TextField
                                                 id="outlined-read-only-input"
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Thuộc phòng"
+                                                label="Tỷ lệ giảm giá"
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={category.roomName}
-                                                name="name"
+                                                value={discount.percentDiscount}
+                                                name="percentDiscount"
                                                 sx={{ gridColumn: 'span 4' }}
                                             />
                                             
@@ -108,14 +107,14 @@ export default function CategoryDetail() {
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                value={category.numberProduct}
+                                                value={discount.numberProduct}
                                                 name="numberProduct"
                                                 sx={{ gridColumn: 'span 4' }}
                                             />
                                             <Box sx={{ gridColumn: '4' }} display="flex" justifyContent="end" mt="20px" gap="20px">
                                             <IconButton size='large'
                                                 onClick={() => {
-                                                    window.location = '/admin/categories';
+                                                    window.location = '/admin/discounts';
                                                 }}
                                             >
                                                 

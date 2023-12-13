@@ -1,5 +1,6 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
+import { changeColorTheme, useStore } from "../Store";
 
 //color design tokens
 export const tokens = (mode) => ({
@@ -199,12 +200,21 @@ export const tokens = (mode) => ({
   });
   
   export const useMode = () => {
-    const [mode, setMode] = useState("light");
+    const [globalState, dispatch] = useStore();
+    const { colorTheme } = globalState; //numberCart is state get from StoreF
+    const [mode, setMode] = useState(colorTheme);
   
     const colorMode = useMemo(
       () => ({
         toggleColorMode: () =>
-          setMode((prev) => (prev === "light" ? "dark" : "light")),
+        {
+          setMode((prev) => (prev === "light" ? "dark" : "light"));
+          if(mode == "dark")
+            dispatch(changeColorTheme("light"));
+          else
+            dispatch(changeColorTheme("dark"));
+          console.log("color theme and mode "+ colorTheme + mode)
+        }
       }),
       []
     );

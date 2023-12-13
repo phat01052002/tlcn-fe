@@ -1,64 +1,56 @@
 import { Box, IconButton, Typography, Modal, useTheme, Button, Stack, styled } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
 import BuildIcon from '@mui/icons-material/Build';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
-import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
-import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
-import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
-import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const ManageCategories = () => {
+const ManageDiscounts = () => {
     //Theme
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [categories, setCategories] = useState([]);
-    const [categoryId, setCategoryId] = useState();
+    const [discounts, setDiscounts] = useState([]);
+    const [discountId, setDiscountId] = useState();
     const [message, setMessage] = useState();
 
     //Load data from server
-    const loadCategories = () => {
+    const loadDiscounts = () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/categories',
+                url: '/admin/discounts',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            axios.request(config).then((res) => setCategories(res.data));
+            axios.request(config).then((res) => setDiscounts(res.data));
         } catch {
             window.location = '/login';
         }
     };
 
     useEffect(() => {
-        loadCategories();
+        loadDiscounts();
     }, []);
 
     //Modal delete open, close
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
         setOpen(true);
-        setCategoryId(id);
-        console.log('open' + categoryId);
+        setDiscountId(id);
+        console.log('open' + discountId);
     };
     const handleClose = () => {
         setOpen(false);
-        console.log('close' + categoryId);
+        console.log('close' + discountId);
     };
 
     const handleDelete = async () => {
@@ -67,7 +59,7 @@ const ManageCategories = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/deleteCategory/${categoryId}`,
+                url: `/admin/deleteDiscount/${discountId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -76,13 +68,12 @@ const ManageCategories = () => {
             setMessage(response.data.message);
             handleClose();
             handleOpenNotification();
-            loadCategories();
-            //axios.request(config).then((res) => setCategories(res.data));
+            loadDiscounts();
         } catch {
             window.location = '/login';
         }
 
-        console.log(categoryId);
+        console.log(discountId);
     };
     // Notification Modal
     const [openNotification, setOpenNotification] = useState(false);
@@ -95,50 +86,39 @@ const ManageCategories = () => {
 
     //Data of Grid
     const columns = [
-        { field: 'categoryId', headerName: 'ID', flex: 0.2 },
+        { field: 'discountId', headerName: 'ID', flex: 0.2 },
         {
-            field: 'name',
+            field: 'discountName',
             headerName: 'Tên',
             flex: 1,
+            align: 'center',
             cellClassName: 'name-column--cell',
         },
         {
-            field: 'image',
-            headerName: 'Ảnh',
-            type: 'image',
+            field: 'percentDiscount',
+            headerName: 'Tỷ lệ giảm',
             headerAlign: 'center',
             align: 'center',
-
-            renderCell: ({ row: { image } }) => {
-                return <img width="auto" height="80%" src={image}></img>;
-            },
-        },
-        {
-            field: 'roomName',
-            headerName: 'Phòng',
             flex: 1,
-            headerAlign: 'center',
-            align: 'center',
-            cellClassName: 'name-column--cell',
         },
         {
             field: 'actions',
             type: 'actions',
             headerName: 'Hành động',
-            flex: 0.75,
+            flex: 1,
             getActions: ({ id }) => {
                 return [
                     <>
                         {/** Edit button */}
 
-                        <Link to={`/admin/categories/edit/${id}`}>
+                        <Link to={`/admin/discounts/edit/${id}`}>
                         <IconButton>
                             <BuildIcon />
                         </IconButton>
                         </Link>
 
                         {/** Detail button */}
-                        <Link to={`/admin/categories/detail/${id}`}>
+                        <Link to={`/admin/discounts/detail/${id}`}>
                             <IconButton>
                                 <ErrorOutlineOutlinedIcon />
                             </IconButton>
@@ -161,7 +141,7 @@ const ManageCategories = () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Xóa loại sản phẩm này ?
+                                    Xóa giảm giá này ?
                                 </Typography>
                                 <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button
@@ -189,9 +169,9 @@ const ManageCategories = () => {
 
     return (
         <Box m="20px">
-            <HeaderAdmin title="LOẠI SẢN PHẨM" subtitle="Quản lý loại sản phẩm" />
+            <HeaderAdmin title="GIẢM GIÁ" subtitle="Quản lý giảm giá" />
             {/** Add button */}
-            <Link to={`/admin/categories/create`} m="0px">
+            <Link to={`/admin/discounts/create`} m="0px">
                 <IconButton>
                     <AddCircleOutlineIcon />
                 </IconButton>
@@ -231,9 +211,9 @@ const ManageCategories = () => {
                 <DataGrid
                     slots={{ toolbar: GridToolbar }}
                     rowHeight={90}
-                    rows={categories}
+                    rows={discounts}
                     columns={columns}
-                    getRowId={(row) => row.categoryId}
+                    getRowId={(row) => row.discountId}
                 />
             </Box>
             <Modal
@@ -279,4 +259,4 @@ export const styleBox = {
     boxShadow: 24,
     p: 4,
 };
-export default ManageCategories;
+export default ManageDiscounts;

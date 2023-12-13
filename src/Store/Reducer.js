@@ -1,6 +1,7 @@
 import ListProductCheckOut from '../PageCheckOut/ListProductCheckOut';
 import {
     CHANGE_CLIENTSTOMP,
+    CHANGE_COLOR_THEME,
     CHANGE_LIST_COUNT_PRODUCT_CHECKOUT,
     CHANGE_LIST_FAVORITE,
     CHANGE_LIST_NOTIFY,
@@ -41,9 +42,12 @@ const initState = {
     clientStomp: null,
     listUserIdChat: [],
     userFocus: sessionStorage.getItem('userFocus'),
+    colorTheme: 'dark',
 };
 function Reducer(state, action) {
     switch (action.type) {
+        case CHANGE_COLOR_THEME:
+            return { ...state, colorTheme: action.payload };
         case CHANGE_NUMBER_CART:
             return { ...state, numberCart: action.payload };
         case CHANGE_ROLE:
