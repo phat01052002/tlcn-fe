@@ -1,25 +1,16 @@
 import React, { useState } from 'react';
 import { ColorModeContext, tokens, useMode } from '../../theme';
-import { Avatar, CssBaseline, IconButton, Modal, Stack, ThemeProvider, Typography } from '@mui/material';
+import { Avatar, CssBaseline, IconButton, ThemeProvider, Typography } from '@mui/material';
 import axios from 'axios';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
 import '../../PageAdmin.css';
 import { Box, Button, TextField } from '@mui/material';
-import { Formik } from 'formik';
-import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import { styled } from '@mui/material/styles';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { storage } from '../../../setupFirebase/setupFirebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { v4 } from 'uuid';
-import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Image } from '@mui/icons-material';
 
 
 export default function ProductDetail() {

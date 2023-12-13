@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { ColorModeContext, tokens, useMode } from '../../theme';
-import { Avatar, CssBaseline, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, ThemeProvider, Typography } from '@mui/material';
+import {
+    Avatar,
+    CssBaseline,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Modal,
+    Select,
+    Stack,
+    ThemeProvider,
+    Typography,
+} from '@mui/material';
 import axios from 'axios';
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
@@ -25,7 +37,6 @@ const checkoutSchema = yup.object().shape({
     price: yup.number().required('bắt buộc'),
     categoryName: yup.string().required('bắt buộc'),
     quantity: yup.number().required('bắt buộc'),
-    categoryName: yup.string().required('bắt buộc'),
     size: yup.string().required('bắt buộc'),
 });
 //Field values
@@ -61,11 +72,11 @@ export default function CreateProduct() {
                 },
             };
             const response = await axios.request(config);
-            setCategoryNameList(response.data)
+            setCategoryNameList(response.data);
         } catch {
             window.location = '/login';
         }
-    }
+    };
     const loadDiscountList = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -78,22 +89,22 @@ export default function CreateProduct() {
                 },
             };
             const response = await axios.request(config);
-            setDiscountList(response.data)
+            setDiscountList(response.data);
         } catch {
             window.location = '/login';
         }
-    }
+    };
     useEffect(() => {
         loadCategoryNameList();
         loadDiscountList();
     }, []);
-    
+
     //Submit
     //Upload Image
     const [imageUpload, setImageUpload] = useState([null, null, null]);
     const [message, setMessage] = useState(null);
     const [fileName, setFileName] = useState([null, null, null]);
-    const [imagePreview, setImagePreview] = useState(["", "", ""]);
+    const [imagePreview, setImagePreview] = useState(['', '', '']);
     const setImageUploadItem = (index, value) => {
         setImageUpload((prevImageUpload) => {
             const newImageUpload = [...prevImageUpload];
@@ -115,28 +126,26 @@ export default function CreateProduct() {
             return newImagePreview;
         });
     };
-    
+
     const uploadImage_Submit = async (values) => {
         if (imageUpload == null) return;
 
         const uploadPromises = imageUpload.map((item, index) => {
-            if(item)
-            {
+            if (item) {
                 const imageRef = ref(storage, `imageProducts/${item.name + v4()}`);
                 uploadBytes(imageRef, item).then((snapshot) => {
                     getDownloadURL(snapshot.ref).then(async (url) => {
                         console.log('url: ' + url);
-                        if (url != null)
-                            values[`image${index + 1}`] = url;
+                        if (url != null) values[`image${index + 1}`] = url;
                         console.log('value');
                         console.log(values);
                     });
                 });
             }
-        })
+        });
         Promise.all(uploadPromises).then(() => {
             createProduct(values);
-          });
+        });
     };
     const createProduct = async (values) => {
         try {
@@ -158,11 +167,10 @@ export default function CreateProduct() {
         } catch {
             console.log('thatbai');
         }
-    }
+    };
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
-        
     };
     const handleClose = () => {
         setOpen(false);
@@ -245,10 +253,15 @@ export default function CreateProduct() {
                                                 helperText={touched.size && errors.size}
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-                                            {[1,2,3].map((item, index) => (
+                                            {[1, 2, 3].map((item, index) => (
                                                 <Box>
                                                     <Typography>Ảnh {item}</Typography>
-                                                    <Stack spacing={2} direction="row" height={35} margin="5px 5px 5px 0px">
+                                                    <Stack
+                                                        spacing={2}
+                                                        direction="row"
+                                                        height={35}
+                                                        margin="5px 5px 5px 0px"
+                                                    >
                                                         <Button
                                                             color="secondary"
                                                             component="label"
@@ -269,24 +282,26 @@ export default function CreateProduct() {
                                                                 }}
                                                             />
                                                         </Button>
-                                                        
+
                                                         <Typography>{fileName[index]}</Typography>
                                                     </Stack>
-                                                    {imagePreview[index] && <Avatar
-                                                        sx={{
-                                                            gridColumn: 'span 1',
-                                                            justifySelf: 'center',
-                                                            width: '100px',
-                                                            maxWidth: '150px',
-                                                            height: 'auto',
-                                                            maxHeight: '150px',
-                                                        }}
-                                                        variant="square"
-                                                        src={imagePreview[index]}
-                                                    ></Avatar>}
+                                                    {imagePreview[index] && (
+                                                        <Avatar
+                                                            sx={{
+                                                                gridColumn: 'span 1',
+                                                                justifySelf: 'center',
+                                                                width: '100px',
+                                                                maxWidth: '150px',
+                                                                height: 'auto',
+                                                                maxHeight: '150px',
+                                                            }}
+                                                            variant="square"
+                                                            src={imagePreview[index]}
+                                                        ></Avatar>
+                                                    )}
                                                 </Box>
                                             ))}
-                                            
+
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
@@ -313,41 +328,36 @@ export default function CreateProduct() {
                                                 helperText={touched.material && errors.material}
                                                 sx={{ gridColumn: 'span 2' }}
                                             />
-                                            
-                                            
+
                                             <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
-                                            <InputLabel >Loại sản phẩm</InputLabel>
-                                            <Select
-                                                variant='filled'
-                                                value={values.categoryName}
-                                                onChange={handleChange}
-                                                name='categoryName'
-                                                error={!!touched.categoryName && !!errors.categoryName}
-                                                helperText={touched.categoryName && errors.categoryName}
+                                                <InputLabel>Loại sản phẩm</InputLabel>
+                                                <Select
+                                                    variant="filled"
+                                                    value={values.categoryName}
+                                                    onChange={handleChange}
+                                                    name="categoryName"
+                                                    error={!!touched.categoryName && !!errors.categoryName}
+                                                    helperText={touched.categoryName && errors.categoryName}
                                                 >
-                                                {
-                                                    categoryNameList.map(
-                                                        item => (<MenuItem value={item}>{item}</MenuItem>)
-                                                    )
-                                                }
-                                            </Select>
+                                                    {categoryNameList.map((item) => (
+                                                        <MenuItem value={item}>{item}</MenuItem>
+                                                    ))}
+                                                </Select>
                                             </FormControl>
                                             <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
-                                            <InputLabel >Giảm giá</InputLabel>
-                                            <Select
-                                                variant='filled'
-                                                value={values.discountName}
-                                                onChange={handleChange}
-                                                name='discountName'
-                                                error={!!touched.discountName && !!errors.discountName}
-                                                helperText={touched.discountName && errors.discountName}
+                                                <InputLabel>Giảm giá</InputLabel>
+                                                <Select
+                                                    variant="filled"
+                                                    value={values.discountName}
+                                                    onChange={handleChange}
+                                                    name="discountName"
+                                                    error={!!touched.discountName && !!errors.discountName}
+                                                    helperText={touched.discountName && errors.discountName}
                                                 >
-                                                {
-                                                    discountList.map(
-                                                        item => (<MenuItem value={item}>{item}</MenuItem>)
-                                                    )
-                                                }
-                                            </Select>
+                                                    {discountList.map((item) => (
+                                                        <MenuItem value={item}>{item}</MenuItem>
+                                                    ))}
+                                                </Select>
                                             </FormControl>
                                             <TextField
                                                 fullWidth
@@ -365,11 +375,14 @@ export default function CreateProduct() {
                                         </Box>
 
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">
-                                            
-                                            <IconButton onClick={()=> {window.location = "/admin/users"}}>
+                                            <IconButton
+                                                onClick={() => {
+                                                    window.location = '/admin/users';
+                                                }}
+                                            >
                                                 <ArrowBackIcon />
                                             </IconButton>
-                                            
+
                                             <Button type="submit" color="secondary" variant="contained">
                                                 Tạo Sản Phẩm
                                             </Button>
@@ -383,9 +396,7 @@ export default function CreateProduct() {
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
-                                <Box
-                                    sx={styleBox}
-                                >
+                                <Box sx={styleBox}>
                                     <Typography
                                         id="modal-modal-title"
                                         variant="h2"
@@ -396,7 +407,11 @@ export default function CreateProduct() {
                                         {message}
                                     </Typography>
                                     <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
-                                        <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleClose}>
+                                        <Button
+                                            variant="contained"
+                                            sx={{ backgroundColor: '#3e4396' }}
+                                            onClick={handleClose}
+                                        >
                                             OK
                                         </Button>
                                     </Stack>

@@ -1,22 +1,15 @@
 import React from 'react'
-import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin'
-import { Box, Button, FormControlLabel, IconButton, Radio, RadioGroup, Typography, useTheme } from "@mui/material";
+import { Box, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from '../../theme'
-import { mockTransactions } from '../../Data/mockData'
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import LineChart from '../../../components/DashboardComponents/LineChart';
 import SmartphoneOutlinedIcon from '@mui/icons-material/SmartphoneOutlined';
 import BarChart from '../../../components/DashboardComponents/BarChart';
 import StatBox from '../../../components/DashboardComponents/StatBox';
-import ProgressCircle from '../../../components/DashboardComponents/ProgressCircle';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { mockLineData as dataMockLine} from '../../Data/mockData';
-import { mockBarData as dataBarLine} from '../../Data/mockData';
 import { PieChart } from '@mui/x-charts/PieChart';
 
 const Dashboard = () => {
@@ -26,19 +19,38 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [top10RecentOrder, setTop10RecentOrder] = useState([]);
   const [top3BestUser, setTop3BestUser] = useState([]);
+  const [revenueOfRooms, setRevenueOfRooms] = useState([]);
+  //Radio
+  const [value, setValue] = React.useState('line');
+  const [time, setTime] = React.useState('month');
 
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+  };
+  const handleRadioTimeChange = (event) => {
+    setTime(event.target.value);
+  };
+
+  const [month, setMonth] = React.useState(new Date().getMonth()+1);
+  const [year, setYear] = React.useState(new Date().getFullYear());
+  const handleChange = (event) => {
+    setMonth(event.target.value);
+  };
+  const handleChangeYear = (event) => {
+    setYear(event.target.value);
+  };
   const formatter = new Intl.NumberFormat('vi', {
     style: 'currency',
     currency: 'VND',
   });
   //Load data from server
-  const loadDataCard = () => {
+  const loadDataCardInMonth = (value) => {
     try {
         const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: '/admin/dataCardDashboard',
+            url: `/admin/dataCardDashboardInMonth/${value}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -48,13 +60,13 @@ const Dashboard = () => {
         window.location = '/login';
     }
 };
-const loadChartData = () => {
+const loadChartDataInMonth = (value) => {
   try {
       const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
       let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: '/admin/dataChart',
+          url: `/admin/dataChartInMonth/${value}`,
           headers: {
               Authorization: `Bearer ${accessToken}`,
           },
@@ -63,6 +75,38 @@ const loadChartData = () => {
   } catch {
       window.location = '/login';
   }
+};
+const loadDataCardInYear = (value) => {
+  try {
+      const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+      let config = {
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: `/admin/dataCardDashboardInYear/${value}`,
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+      axios.request(config).then((res) => setDataCard(res.data.object));
+  } catch {
+      window.location = '/login';
+  }
+};
+const loadChartDataInYear = (value) => {
+try {
+    const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `/admin/dataChartInYear/${value}`,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    };
+    axios.request(config).then((res) => setChartData(res.data.object));
+} catch {
+    window.location = '/login';
+}
 };
 const loadRecent10OrderData = () => {
   try {
@@ -96,13 +140,53 @@ const loadTop3BestUser = () => {
       window.location = '/login';
   }
 };
+const loadRevenueOfRoomInYear = (value) => {
+  try {
+      const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+      let config = {
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: `/admin/revenueOfRoomInYear/${value}`,
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+      axios.request(config).then((res) => setRevenueOfRooms(res.data.object));
+  } catch {
+      window.location = '/login';
+  }
+};
+const loadRevenueOfRoomInMonth = (value) => {
+  try {
+      const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+      let config = {
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: `/admin/revenueOfRoomInMonth/${value}`,
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+      axios.request(config).then((res) => setRevenueOfRooms(res.data.object));
+  } catch {
+      window.location = '/login';
+  }
+};
 
 useEffect(() => {
-  loadDataCard();
-  loadChartData();
+  if(time == "month")
+  {
+    loadDataCardInMonth(month);
+    loadChartDataInMonth(month);
+    loadRevenueOfRoomInMonth(month);
+  }else{
+    loadDataCardInYear(year);
+    loadChartDataInYear(year);
+    loadRevenueOfRoomInYear(year);
+  }
   loadRecent10OrderData();
   loadTop3BestUser();
-}, []);
+}, [time, month, year]);
   const data = chartData.map((product,index)=>({
     x: product.productId,
     y: product.revenue,
@@ -123,19 +207,19 @@ useEffect(() => {
     value: product.revenue,
     label: product.productName,
   }))
+
+  const dataPieRoomChart = revenueOfRooms.map((item,index)=>({
+    id: index + 1,
+    value: item.revenue,
+    label: item.roomName,
+  }))
     
   console.log(chartData)
   console.log(dataLineChart)
   console.log(dataPieChart)
-  //Radio
-  const [value, setValue] = React.useState('line');
-
-  const handleRadioChange = (event) => {
-    setValue(event.target.value);
-  };
 
   return (
-    <Box m="20px">
+    <Box m="0px 20px 20px 20px">
       
       {/* GRID & CHARTS */}
       <Box
@@ -209,10 +293,48 @@ useEffect(() => {
           alignItems="center"
           justifyContent="center"
         >
-          <RadioGroup value={value} onChange={handleRadioChange}>
-            <FormControlLabel value="day"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}} />} label="Ngày" />
-            <FormControlLabel value="month" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Tháng" />
+          <RadioGroup value={time} onChange={handleRadioTimeChange}>
+          <Box display="flex">
+            <FormControlLabel  value="month" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Tháng" />
+            <FormControl sx={{ m: 1, width: 80, height: 50 }}>
+              <InputLabel>Tháng</InputLabel>
+              <Select
+                value={month}
+                onChange={handleChange}
+                disabled = {time === "year"}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={9}>9</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={11}>11</MenuItem>
+                <MenuItem value={12}>12</MenuItem>
+              </Select>
+            </FormControl>
+            </Box>
+            <Box display="flex">
             <FormControlLabel value="year" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Năm" />
+            <FormControl sx={{ m: "0px 0px 10px 17px", width: 80, height: 50 }}>
+              <InputLabel>Năm  </InputLabel>
+              <Select
+                value={year}
+                onChange={handleChangeYear}
+                disabled = {time === "month"}
+              >
+                <MenuItem value={2023}>2023</MenuItem>
+                <MenuItem value={2024}>2024</MenuItem>
+                <MenuItem value={2025}>2025</MenuItem>
+                <MenuItem value={2026}>2026</MenuItem>
+                <MenuItem value={2027}>2027</MenuItem>
+              </Select>
+            </FormControl>
+            </Box>
           </RadioGroup>
         </Box>
         <Box
@@ -287,7 +409,7 @@ useEffect(() => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-               Top sản phẩm doanh thu cao nhất
+               Top 5 sản phẩm doanh thu cao nhất
               </Typography>
               <Typography
                 variant="h3"
@@ -311,6 +433,7 @@ useEffect(() => {
                   faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
                 },
               ]}
+              height={200}
             />}
             
             <RadioGroup value={value} onChange={handleRadioChange}>
@@ -323,7 +446,7 @@ useEffect(() => {
         </Box>
         <Box
           gridColumn="span 4"
-          gridRow="span 2"
+          gridRow="span 4"
           backgroundColor={colors.primary[400]}
           overflow="auto"
         >
@@ -377,7 +500,7 @@ useEffect(() => {
 
         {/* ROW 3 */}
         <Box
-          gridColumn="span 6"
+          gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="20px"
@@ -391,7 +514,16 @@ useEffect(() => {
             alignItems="center"
             mt="10px"
           >
-            <ProgressCircle size='125'></ProgressCircle>
+            <PieChart
+              series={[
+                {
+                  data: dataPieRoomChart,
+                  highlightScope: { faded: 'global', highlighted: 'item' },
+                  faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                },
+              ]}
+              height={200}
+            />
             <Typography
               variant="h5"
               color={colors.greenAccent[500]}
@@ -400,23 +532,6 @@ useEffect(() => {
               
             </Typography>
             <Typography></Typography>
-          </Box>
-        </Box>
-        <Box
-          gridColumn="span 6"
-          gridRow="span 2"
-          p="0 0 0 10px"
-          backgroundColor={colors.primary[400]}
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "10px 10px 0 10px" }}
-          >
-            Top sản phẩm doanh thu cao nhất
-          </Typography>
-          <Box height="250px" mt="-30px">
-            <BarChart isDashboard={true} data={dataBarChart} />
           </Box>
         </Box>
       </Box>

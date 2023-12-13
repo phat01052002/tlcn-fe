@@ -1,21 +1,11 @@
-import { Box, IconButton, Typography, Modal, useTheme, Button, Stack, styled } from '@mui/material';
+import { Box, IconButton, Typography, Modal, useTheme, Button, Stack } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import BuildIcon from '@mui/icons-material/Build';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import NoCrashOutlinedIcon from '@mui/icons-material/NoCrashOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
-import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
-import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
-import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -29,18 +19,15 @@ const ManageOrders = () => {
     const [orderId, setOrderId] = useState();
     const [message, setMessage] = useState();
     const [ask, setAsk] = useState();
-    const handleConfirm = ()=>
+    const handleConfirm = (id)=>
     {
         setAsk("Xác nhận đơn hàng");
-        console.log("confirm");
+        handleOpenStatus(id)
     }
-    const handleDelivery = ()=>
-    {
-        setAsk("Bắt đầu vận chuyển đơn hàng");
-    }
-    const handleDelivered = ()=>
+    const handleDelivered = (id)=>
     {
         setAsk("Xác nhận đã giao");
+        handleOpenStatus(id)
     }
 
     //Load data from server
@@ -152,14 +139,14 @@ const handleUpdateStatus = async () => {
             cellClassName: 'name-column--cell',
         },
         {
-            field: 'imageProduct',
+            field: 'image1',
             headerName: 'Ảnh sản phẩm',
             type: 'image',
             headerAlign: 'center',
             align: 'center',
 
-            renderCell: ({ row: { imageProduct } }) => {
-                return <img width="auto" height="80%" src={imageProduct}></img>;
+            renderCell: ({ row: { image1 } }) => {
+                return <img width="auto" height="80%" src={image1} alt='ảnh sản phẩm'></img>;
             },
         },
         {
@@ -187,11 +174,10 @@ const handleUpdateStatus = async () => {
             headerName: 'Trạng thái',
             flex: 0.3,
             renderCell: ({ row: { state } }) => {
-                return <>{state === "processing" && "Đang chờ xử lý" ||
-                state === "processed" && "Đã xử lý" ||
-                state === "delivering" && "Đang vận chuyển" ||
-                state === "delivered" && "Đã giao" ||
-                state === "canceled" && "Đã hủy"}
+                return <>{state === "processing" && "Đang chờ xử lý"}
+                {state === "processed" && "Đang vận chuyển"}
+                {state === "delivered" && "Đã giao"}
+                {state === "canceled" && "Đã hủy"}
                 
                 </>;
             },
@@ -208,14 +194,12 @@ const handleUpdateStatus = async () => {
                         {/** Edit button */}
 
                         <IconButton 
-                            disabled={state === "delivered" && 'true' || state === "canceled" && 'true'}
-                            onClick={() => handleOpenStatus(id)}
+                            disabled={state === "delivered"|| state === "canceled"}
                         >
-                            {state === "processing" && <CheckOutlinedIcon onClick={()=>handleConfirm()}/> ||
-                            state === "processed" && <LocalShippingOutlinedIcon onClick={()=>handleDelivery()}/> ||
-                            state === "delivering" && <NoCrashOutlinedIcon onClick={()=>handleDelivered()}/> ||
-                            state === "delivered" && "" ||
-                            state === "canceled" && ""}
+                            {state === "processing" && <CheckOutlinedIcon onClick={()=>handleConfirm(id)}/>}
+                            {state === "processed" && <NoCrashOutlinedIcon onClick={()=>handleDelivered(id)}/>}
+                            {state === "delivered" && ""}
+                            {state === "canceled" && ""}
                         </IconButton>
                         <Modal
                                 open={openStatus}
@@ -275,7 +259,7 @@ const handleUpdateStatus = async () => {
                                     fontWeight="bold"
                                     sx={{ mb: '5px' }}
                                 >
-                                    Xóa loại sản phẩm này ?
+                                    Xóa đơn hàng này ?
                                 </Typography>
                                 <Stack marginTop={5} spacing={2} direction="row" justifyContent="center">
                                     <Button

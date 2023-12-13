@@ -20,6 +20,7 @@ import {
     CHANGE_LIST_USERID_CHAT,
     CHANGE_USERFOCUS,
     DECREASE_NUMBER_NOTIFY,
+    CHANGE_COLOR_THEME,
 } from './Contants';
 
 export const changeNumberCart = (payload) => ({
@@ -121,5 +122,9 @@ export const changeUserFocus = (payload) => ({
 
 export const decreaseNumerNotify = (payload) => ({
     type: DECREASE_NUMBER_NOTIFY,
+    payload,
+});
+export const changeColorTheme = (payload) => ({
+    type: CHANGE_COLOR_THEME,
     payload,
 });

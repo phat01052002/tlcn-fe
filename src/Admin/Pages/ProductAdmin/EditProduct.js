@@ -22,7 +22,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
-import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { storage } from '../../../setupFirebase/setupFirebase';
@@ -31,11 +30,11 @@ import { v4 } from 'uuid';
 import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Image } from '@mui/icons-material';
 import { VisuallyHiddenInput } from './CreateProduct';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('bắt buộc'),
+    description: yup.string().required('bắt buộc'),
     price: yup.number().required('bắt buộc'),
     categoryName: yup.string().required('bắt buộc'),
     quantity: yup.number().required('bắt buộc'),
@@ -133,11 +132,11 @@ export default function EditProduct() {
                 },
             };
             const response = await axios.request(config);
-            setDiscountList(response.data)
+            setDiscountList(response.data);
         } catch {
             window.location = '/login';
         }
-    }
+    };
     useEffect(() => {
         loadCategoryNameList();
         loadDiscountList();
@@ -176,25 +175,21 @@ export default function EditProduct() {
             updateProduct(values);
             return;
         }
-        console.log(imageUpload)
+        console.log(imageUpload);
         const uploadPromises = imageUpload.map(async (item, index) => {
-            if(item)
-            {
+            if (item) {
                 const imageRef = ref(storage, `imageProducts/${item.name + v4()}`);
                 await uploadBytes(imageRef, item).then(async (snapshot) => {
                     await getDownloadURL(snapshot.ref).then(async (url) => {
                         console.log('url: ' + url);
-                        if (url != null)
-                            values[`image${index + 1}`] = url;
+                        if (url != null) values[`image${index + 1}`] = url;
                         console.log('values');
                         console.log(values);
                     });
                 });
             }
-            
-        })
-        await Promise.all(uploadPromises).then(()=> updateProduct(values));
-
+        });
+        await Promise.all(uploadPromises).then(() => updateProduct(values));
     };
     const updateProduct = async (values) => {
         try {
@@ -208,7 +203,7 @@ export default function EditProduct() {
                 },
                 data: values,
             };
-            await axios.request(config)
+            await axios.request(config);
             const respone = (await axios.request(config)).data;
             setMessage(respone.message);
             handleOpen();
@@ -293,7 +288,7 @@ export default function EditProduct() {
                                                 helperText={touched.description && errors.description}
                                                 sx={{ gridColumn: 'span 1' }}
                                             />
-                                            {[1,2,3].map((item, index) => (
+                                            {[1, 2, 3].map((item, index) => (
                                                 <Box>
                                                     <Avatar
                                                         sx={{
@@ -307,7 +302,12 @@ export default function EditProduct() {
                                                         variant="square"
                                                         src={values[`image${item}`]}
                                                     ></Avatar>
-                                                    <Stack spacing={2} direction="row" height={35} margin="5px 5px 5px 0px">
+                                                    <Stack
+                                                        spacing={2}
+                                                        direction="row"
+                                                        height={35}
+                                                        margin="5px 5px 5px 0px"
+                                                    >
                                                         <Button
                                                             color="secondary"
                                                             component="label"
@@ -328,37 +328,41 @@ export default function EditProduct() {
                                                                 }}
                                                             />
                                                         </Button>
-                                                        
+
                                                         <Typography>{fileName[index]}</Typography>
                                                     </Stack>
-                                                    {imagePreview[index] && <Avatar
-                                                        sx={{
-                                                            gridColumn: 'span 1',
-                                                            justifySelf: 'center',
-                                                            width: '100px',
-                                                            maxWidth: '150px',
-                                                            height: 'auto',
-                                                            maxHeight: '150px',
-                                                        }}
-                                                        variant="square"
-                                                        src={imagePreview[index]}
-                                                    ></Avatar>}
+                                                    {imagePreview[index] && (
+                                                        <Avatar
+                                                            sx={{
+                                                                gridColumn: 'span 1',
+                                                                justifySelf: 'center',
+                                                                width: '100px',
+                                                                maxWidth: '150px',
+                                                                height: 'auto',
+                                                                maxHeight: '150px',
+                                                            }}
+                                                            variant="square"
+                                                            src={imagePreview[index]}
+                                                        ></Avatar>
+                                                    )}
                                                 </Box>
                                             ))}
 
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Trạng thái"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.status}
-                                                name="status"
-                                                error={!!touched.status && !!errors.status}
-                                                helperText={touched.status && errors.status}
-                                                sx={{ gridColumn: 'span 1' }}
-                                            />
+                                            <FormControl variant="filled" sx={{ gridColumn: 'span 1' }}>
+                                                <InputLabel>Trạng thái</InputLabel>
+                                                <Select
+                                                    variant="filled"
+                                                    value={values.status}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    name="status"
+                                                    error={!!touched.status && !!errors.status}
+                                                    helperText={touched.status && errors.status}
+                                                >
+                                                    <MenuItem value="active">active</MenuItem>
+                                                    <MenuItem value="inactive">inactive</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                             <TextField
                                                 fullWidth
                                                 variant="filled"

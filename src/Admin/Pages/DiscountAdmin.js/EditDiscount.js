@@ -30,43 +30,41 @@ import { v4 } from 'uuid';
 import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { VisuallyHiddenInput } from './CreateCategory';
+import { VisuallyHiddenInput } from './CreateDiscount';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('bắt buộc'),
 });
 const initialValues = {
-    categoryId: '',
-    name: '',
-    image: '',
-    roomName: '',
+    discountId: '',
+    discountName: '',
+    percentDiscount: '',
 };
-export default function EditCategory() {
+export default function EditDiscount() {
     const { id } = useParams();
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
-    const [category, setCategory] = useState({
-        categoryId: '',
-        name: '',
-        image: '',
-        roomName: '',
+    const [discount, setDiscount] = useState({
+        discountId: '',
+        discountName: '',
+        percentDiscount: '',
     });
 
-    const loadCategoryDetail = async () => {
+    const loadDetail = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/admin/getCategoryById/${id}`,
+                url: `/admin/getDiscountById/${id}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
             const respone = (await axios.request(config)).data;
-            setCategory(respone.object);
+            setDiscount(respone.object);
 
             for (let key in respone.object) {
                 initialValues[key] = respone.object[key] || ''; // Gán giá trị từ dữ liệu API hoặc một giá trị mặc định nếu không có giá trị
@@ -79,61 +77,22 @@ export default function EditCategory() {
         }
     };
     useEffect(() => {
-        loadCategoryDetail();
-    }, []);
-    const [roomList, setRoomList] = useState([]);
-    const loadRoomList = async () => {
-        try {
-            const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: '/admin/getRoomList',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            const response = await axios.request(config);
-            setRoomList(response.data);
-        } catch {
-            window.location = '/login';
-        }
-    };
-    useEffect(() => {
-        loadRoomList();
+        loadDetail();
     }, []);
 
     //Submit
     //Upload Image
-    const [imageUpload, setImageUpload] = useState(null);
     const [message, setMessage] = useState(null);
-    const [fileName, setFileName] = useState(null);
-    const [imagePreview, setImagePreview] = useState('');
-
     const uploadImage_Submit = async (values) => {
-        if (imageUpload == null) {
-            updateCategory(values);
-            return;
-        }
-
-        const imageRef = ref(storage, `categories/${imageUpload.name + v4()}`);
-        uploadBytes(imageRef, imageUpload).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then(async (url) => {
-                console.log('url: ' + url);
-                values.image = url;
-                console.log('value');
-                console.log(values);
-                updateCategory(values);
-            });
-        });
+        updateDiscount(values);
     };
-    const updateCategory = async (values) => {
+    const updateDiscount = async (values) => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: '/admin/updateCategory',
+                url: '/admin/updateDiscount',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -165,8 +124,8 @@ export default function EditCategory() {
                         <Topbar></Topbar>
                         <Box m="20px">
                             <HeaderAdmin
-                                title="CẬP NHẬT LOẠI SẢN PHẨM"
-                                subtitle="Cập nhật loại sản phẩm trong cửa hàng"
+                                title="CẬP NHẬT GIẢM GIÁ"
+                                subtitle="Cập nhật giảm giá trong cửa hàng"
                             />
 
                             <Formik
@@ -188,83 +147,28 @@ export default function EditCategory() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Tên loại sản phẩm"
+                                                label="Tên giảm giá"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
+                                                value={values.discountName}
+                                                name="discountName"
+                                                error={!!touched.discountName && !!errors.discountName}
+                                                helperText={touched.discountName && errors.discountName}
                                                 sx={{ gridColumn: 'span 2' }}
                                             />
-                                            <FormControl variant="filled" sx={{ gridColumn: 'span 2' }}>
-                                                <InputLabel>Phòng</InputLabel>
-
-                                                <Select
-                                                    variant="filled"
-                                                    value={values.roomName}
-                                                    onChange={handleChange}
-                                                    name="roomName"
-                                                    error={!!touched.roomName && !!errors.roomName}
-                                                    helperText={touched.roomName && errors.roomName}
-                                                >
-                                                    {roomList.map((item) => (
-                                                        <MenuItem value={item}>{item}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                            <Box>
-                                                <Avatar
-                                                    sx={{
-                                                        gridColumn: 'span 1',
-                                                        justifySelf: 'center',
-                                                        width: '100px',
-                                                        maxWidth: '150px',
-                                                        height: 'auto',
-                                                        maxHeight: '150px',
-                                                        margin: '0px 0px 10px 0px',
-                                                    }}
-                                                    variant="square"
-                                                    src={values.image}
-                                                ></Avatar>
-                                                <Stack spacing={2} direction="row" height={35}>
-                                                    <Button
-                                                        color="secondary"
-                                                        component="label"
-                                                        variant="contained"
-                                                        startIcon={<CloudUploadIcon />}
-                                                    >
-                                                        Chọn file
-                                                        <VisuallyHiddenInput
-                                                            type="file"
-                                                            onChange={(event) => {
-                                                                const temporaryImageUrl = URL.createObjectURL(
-                                                                    event.target.files[0],
-                                                                );
-                                                                setImagePreview(temporaryImageUrl);
-                                                                setImageUpload(event.target.files[0]);
-                                                                setFileName(event.target.files[0].name);
-                                                            }}
-                                                        />
-                                                    </Button>
-                                                    <Typography>{fileName}</Typography>
-                                                </Stack>
-                                                {imagePreview && (
-                                                    <Avatar
-                                                        sx={{
-                                                            gridColumn: 'span 1',
-                                                            justifySelf: 'center',
-                                                            width: '100px',
-                                                            maxWidth: '150px',
-                                                            height: 'auto',
-                                                            maxHeight: '150px',
-                                                            margin: '10px 0px 0px 0px',
-                                                        }}
-                                                        variant="square"
-                                                        src={imagePreview}
-                                                    ></Avatar>
-                                                )}
-                                            </Box>
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Tỷ lệ giảm giá"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.percentDiscount}
+                                                name="percentDiscount"
+                                                error={!!touched.percentDiscount && !!errors.percentDiscount}
+                                                helperText={touched.percentDiscount && errors.percentDiscount}
+                                                sx={{ gridColumn: 'span 2' }}
+                                            />
                                         </Box>
 
                                         <Box
@@ -276,14 +180,14 @@ export default function EditCategory() {
                                         >
                                             <IconButton
                                                 onClick={() => {
-                                                    window.location = '/admin/products';
+                                                    window.location = '/admin/discounts';
                                                 }}
                                             >
                                                 <ArrowBackIcon />
                                             </IconButton>
 
                                             <Button type="submit" color="secondary" variant="contained">
-                                                Cập Nhật Loại Sản Phẩm
+                                                Cập Nhật Giảm Giá
                                             </Button>
                                         </Box>
                                     </form>

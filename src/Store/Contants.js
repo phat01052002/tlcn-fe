@@ -19,5 +19,5 @@ export const CHANGE_CLIENTSTOMP = 'change-client-stomp';
 export const CHANGE_LIST_USERID_CHAT = 'change-list-userid-chat';
 export const CHANGE_USERFOCUS = 'change-userfocus';
 export const DECREASE_NUMBER_NOTIFY='decrease-number-notify'
-
+export const CHANGE_COLOR_THEME='change-color-theme';
 

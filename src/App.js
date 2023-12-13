@@ -26,6 +26,10 @@ import EditCategory from './Admin/Pages/CategoryAdmin/EditCategory';
 import CategoryDetail from './Admin/Pages/CategoryAdmin/CategoryDetail';
 import OrderDetail from './Admin/Pages/OrderAdmin/OrderDetail';
 import OrderAdmin from './Admin/Pages/OrderAdmin/OrderAdmin';
+import DiscountAdmin from './Admin/Pages/DiscountAdmin.js/DiscountAdmin';
+import CreateDiscount from './Admin/Pages/DiscountAdmin.js/CreateDiscount';
+import EditDiscount from './Admin/Pages/DiscountAdmin.js/EditDiscount';
+import DiscountDetail from './Admin/Pages/DiscountAdmin.js/DiscountDetail';
 
 function App() {
     return (
@@ -57,6 +61,10 @@ function App() {
                 <Route path="/admin/categories/detail/:id" element={<CategoryDetail />}></Route>
                 <Route path="/admin/orders" element={<OrderAdmin />}></Route>
                 <Route path="/admin/orders/detail/:id" element={<OrderDetail />}></Route>
+                <Route path="/admin/discounts" element={<DiscountAdmin />}></Route>
+                <Route path="/admin/discounts/create" element={<CreateDiscount />}></Route>
+                <Route path="/admin/discounts/edit/:id" element={<EditDiscount />}></Route>
+                <Route path="/admin/discounts/detail/:id" element={<DiscountDetail />}></Route>
                 <Route path="/notfound" element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>
