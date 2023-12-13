@@ -153,7 +153,7 @@ export default function Product({ key, product, type }) {
         }
     };
     useEffect(() => {
-        if (user.length != 0) {
+        if (user.length != 0 && listFavorite.length == 0) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             let config = {
                 method: 'get',
