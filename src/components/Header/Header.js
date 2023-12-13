@@ -135,7 +135,7 @@ export default function Header() {
                     let config = {
                         method: 'get',
                         maxBodyLength: Infinity,
-                        url: `${HEADER_API}/user/favoriteByUser/${user.userId}`,
+                        url: `/user/favoriteByUser/${user.userId}`,
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -163,7 +163,7 @@ export default function Header() {
                     let config = {
                         method: 'get',
                         maxBodyLength: Infinity,
-                        url: `${HEADER_API}/user/getNotification/${limitNotify}`,
+                        url: `/user/getNotification/${limitNotify}`,
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -194,7 +194,7 @@ export default function Header() {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `${HEADER_API}/user/findByName`,
+                    url: `/user/findByName`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -245,7 +245,7 @@ export default function Header() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `${HEADER_API}/admin/check`,
+                url: `/admin/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -262,7 +262,7 @@ export default function Header() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `${HEADER_API}/user/check`,
+                url: `/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
