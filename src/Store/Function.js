@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import SockJS from 'sockjs-client';
 
 const stompClient = null;
@@ -182,3 +183,6 @@ export function normalizeVietnameseText(text) {
 
     return result;
 }
+export const handleClickBanner = (productId) => {
+    window.location = `/productDetail/${productId}`;
+};

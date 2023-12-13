@@ -12,3 +12,9 @@
         height: 350px;
     }
 }
+.center{
+    text-align: center;
+}
+.div-banner{
+    cursor: pointer;
+}
