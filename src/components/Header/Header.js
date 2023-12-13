@@ -255,7 +255,6 @@ export default function Header() {
                 const request = await axios.request(config).catch();
                 dispatch(changeRole('admin'));
             }
-
             window.location = '/admin';
         } catch {}
     };
@@ -263,6 +262,7 @@ export default function Header() {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             if (accessToken) {
+                console.log('a');
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
