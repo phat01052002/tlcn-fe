@@ -70,6 +70,8 @@
 .btn-login-gmail{
     text-align: center;
     margin-top: 4rem;
+    border-bottom: 1px solid #DFDFE2;
+    padding-bottom: 20px;
 }
 .btn-login-gmail button{
     padding: 0.35rem 0.6rem;

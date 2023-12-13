@@ -36,7 +36,7 @@ export default function PageProductDetail() {
     const [rating, setRating] = useState(0);
     //this vars to set color behind product detail
     //handle buy now
-    const handleClickBuyNow = useCallback((number,product,roleState) => {
+    const handleClickBuyNow = useCallback((number, product, roleState) => {
         let totalPrice = 0;
         if (product.discount) {
             totalPrice = product.price * number - product.price * number * product.discount.percentDiscount;
@@ -184,7 +184,7 @@ export default function PageProductDetail() {
                 <div>
                     <label className="price-product-detail-sale">{formatter.format(product.price)}</label>
                     <label className="price-product-detail-sale-new">
-                        {formatter.format(product.price * product.discount.percentDiscount)}
+                        {formatter.format(product.price - product.price * product.discount.percentDiscount)}
                     </label>
                 </div>
             );
@@ -281,7 +281,7 @@ export default function PageProductDetail() {
                                     <div className="col-4 buynow">
                                         <button
                                             className="btn-buynow"
-                                            onClick={() => handleClickBuyNow(number, product,roleState)}
+                                            onClick={() => handleClickBuyNow(number, product, roleState)}
                                         >
                                             {' '}
                                             Mua Ngay

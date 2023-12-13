@@ -11,7 +11,14 @@ import room3 from './img/room3.webp';
 import room4 from './img/room4.webp';
 import ListProductSale from './ListProductSale';
 import ProductJustView from '../components/ProductJustView/ProductJustView';
+import axios from 'axios';
+import { ColorRing } from 'react-loader-spinner';
+import { handleClickBanner } from '../Store';
 export default function HomePage() {
+    const [listBanner, setListBanner] = useState([]);
+    useEffect(() => {
+        axios.get('/guest/getTop5Banner').then((res) => setListBanner(res.data));
+    }, []);
     return (
         <div className="home-page">
             <Header />
@@ -21,12 +28,48 @@ export default function HomePage() {
                     <Banner />
                 </div>
                 <div className="col-12 col-lg-4 row banner-noslide">
-                    <div className="">
-                        <img src="https://theme.hstatic.net/200000796751/1001150659/14/slide_3_img.jpg?v=482" />
-                    </div>
-                    <div>
-                        <img src="https://theme.hstatic.net/200000796751/1001150659/14/slide_4_img.jpg?v=482" />
-                    </div>
+                    {listBanner.length < 4 ? (
+                        <div className="center">
+                            <ColorRing
+                                visible={true}
+                                height="160"
+                                width="160"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="blocks-wrapper"
+                                colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                            />
+                        </div>
+                    ) : (
+                        <div>
+                            <img
+                                className="div-banner"
+                                src={listBanner[3].image}
+                                onClick={() => handleClickBanner(listBanner[3].productId)}
+                            />
+                        </div>
+                    )}
+                    {listBanner.length < 5 ? (
+                        <div className="center">
+                            <ColorRing
+                                visible={true}
+                                height="160"
+                                width="160"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="blocks-wrapper"
+                                colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                            />
+                        </div>
+                    ) : (
+                        <div>
+                            <img
+                                className="div-banner"
+                                src={listBanner[4].image}
+                                onClick={() => handleClickBanner(listBanner[4].productId)}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className="col-1"></div>
             </div>

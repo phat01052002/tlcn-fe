@@ -147,6 +147,11 @@ export default function Product({ key, product, type }) {
             return null;
         }
     };
+    const soldOut = () => {
+        if (product.quantity == 0) {
+            return <img className="img-sold-out" src={soldout} />;
+        }
+    };
     useEffect(() => {
         if (user.length != 0) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -166,7 +171,7 @@ export default function Product({ key, product, type }) {
             <div id="type-product" className="type-product">
                 {addType()}
             </div>
-            {product.quantity == 0 ? <img className="img-sold-out" src={soldout} /> : null}
+            {soldOut()}
             {addDiscount()}
             <div className="product-content">
                 <img

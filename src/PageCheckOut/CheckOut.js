@@ -188,7 +188,12 @@ export default function CheckOut() {
                         }
                         let accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
                         listProductCheckOut.map(async (productId, index) => {
-                            let price = JSON.parse(localStorage.getItem(productId)).price;
+                            let price = null;
+                            try {
+                                price = JSON.parse(localStorage.getItem(productId)).price;
+                            } catch (e) {
+                                price = JSON.parse(sessionStorage.getItem('totalPrice'));
+                            }
                             if (user.rankUser == 'BRONZE') {
                                 price = price * 0.99;
                             }
