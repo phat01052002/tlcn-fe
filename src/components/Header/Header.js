@@ -242,33 +242,38 @@ export default function Header() {
     const checkAdmin = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `${HEADER_API}/admin/check`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
+            if (accessToken) {
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: `${HEADER_API}/admin/check`,
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
 
-            const request = await axios.request(config).catch();
-            dispatch(changeRole('admin'));
+                const request = await axios.request(config).catch();
+                dispatch(changeRole('admin'));
+            }
+
             window.location = '/admin';
         } catch {}
     };
     const checkUser = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
-            let config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `${HEADER_API}/user/check`,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-            const request = await axios.request(config);
-            dispatch(changeRole('user'));
+            if (accessToken) {
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: `${HEADER_API}/user/check`,
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const request = await axios.request(config);
+                dispatch(changeRole('user'));
+            }
         } catch {}
     };
 
