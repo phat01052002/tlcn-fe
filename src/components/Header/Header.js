@@ -249,7 +249,7 @@ export default function Header() {
                     url: `${HEADER_API}/admin/check`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
-                        Cookie: COOKIE,
+                        Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
                     },
                 };
 
@@ -270,7 +270,7 @@ export default function Header() {
                     url: `${HEADER_API}/user/check`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
-                        Cookie: COOKIE,
+                        Cookie: 'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3',
                     },
                 };
                 const request = await axios.request(config);
