@@ -242,6 +242,7 @@ export default function Header() {
     const checkAdmin = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
+
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
@@ -267,11 +268,7 @@ export default function Header() {
                     Authorization: `Bearer ${accessToken}`,
                 },
             };
-            const axiosIntances = axios.create({
-                baseURL: `${HEADER_API}/user/check`,
-            });
-            axiosIntances.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-            const request = await axiosIntances.get();
+            const request = await axios.request(config);
             dispatch(changeRole('user'));
         } catch {}
     };
