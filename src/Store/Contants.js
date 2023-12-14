@@ -22,7 +22,7 @@ export const DECREASE_NUMBER_NOTIFY = 'decrease-number-notify';
 export const CHANGE_COLOR_THEME = 'change-color-theme';
 /////
 export const HEADER_API = '';
-export const HEADER_API_SOCKET = 'https://furniturebehcmute.azurewebsites.net';
+export const HEADER_API_SOCKET = 'https://furnitureshopbe.azurewebsites.net';
 export const COOKIE =
     'ARRAffinity=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3; ARRAffinitySameSite=5c3b3eeb308eb53980891741456831fd17b082f53c89f03c9c9dcc2d905209a3';
 ///
