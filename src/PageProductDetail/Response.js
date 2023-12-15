@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useStore } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 
 export default function Response({ response, getResponseReview }) {
     const [globalState, dispatch] = useStore();
@@ -11,7 +12,7 @@ export default function Response({ response, getResponseReview }) {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `/user/deleteResponseReview/${response.responseReviewId}`,
+                url: `${HEADER_API}/user/deleteResponseReview/${response.responseReviewId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

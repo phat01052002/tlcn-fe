@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { addLoad, removeLoad } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import './PageOrder.css';
 import ProductOrder from './ProductOrder';
 export default function PageOrder() {
@@ -15,7 +16,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUser',
+                url: `${HEADER_API}/user/findOrdersByUser`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -30,7 +31,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserAndState/processing',
+                url: `${HEADER_API}/user/findOrdersByUserAndState/processing`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -45,7 +46,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserAndState/processed',
+                url: `${HEADER_API}/user/findOrdersByUserAndState/processed`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -60,7 +61,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserAndState/delivered',
+                url: `${HEADER_API}/user/findOrdersByUserAndState/delivered`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -75,7 +76,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUserAndState/canceled',
+                url: `${HEADER_API}/user/findOrdersByUserAndState/canceled`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -88,7 +89,7 @@ export default function PageOrder() {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: '/user/findOrdersByUser',
+                url: `${HEADER_API}/user/findOrdersByUser`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

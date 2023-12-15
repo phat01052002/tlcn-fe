@@ -18,6 +18,7 @@ import { ColorRing, ProgressBar } from 'react-loader-spinner';
 import ListProductNear from './ListProductNear';
 import Footer from '../components/Footer/Footer';
 import { AlertPleaseLogin } from '../components/Alert/Alert';
+import { HEADER_API } from '../Store/Contants';
 
 export default function PageProductDetail() {
     /////
@@ -104,7 +105,7 @@ export default function PageProductDetail() {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `/user/saveRating/${user.userId}/${productId}/${newRating}`,
+                url: `${HEADER_API}/user/saveRating/${user.userId}/${productId}/${newRating}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -197,7 +198,7 @@ export default function PageProductDetail() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/user/getRating/${user.userId}/${productId}`,
+                url: `${HEADER_API}/user/getRating/${user.userId}/${productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -209,7 +210,7 @@ export default function PageProductDetail() {
     };
     //get product by Id
     useEffect(() => {
-        axios.get(`/guest/product/${productId}`).then((res) => {
+        axios.get(`${HEADER_API}/guest/product/${productId}`).then((res) => {
             if (res.data == null) {
                 window.location = '/notfound';
             } else {

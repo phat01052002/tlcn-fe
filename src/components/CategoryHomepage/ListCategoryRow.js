@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
+import { HEADER_API } from '../../Store/Contants';
 import CategoryRow from './CategoryRow';
 
 export default function ListCategoryRow() {
@@ -47,7 +48,7 @@ export default function ListCategoryRow() {
     //
     useEffect(() => {
         axios
-            .get('/guest/category')
+            .get(`${HEADER_API}/guest/category`)
             .then((res) => setListCategory(res.data))
             .catch((error) => {
                 console.log(error);

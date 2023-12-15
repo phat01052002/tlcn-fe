@@ -13,6 +13,7 @@ import {
     removeAllSession,
     useStore,
 } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import './PageLogin.css';
 export default function PageLogin() {
     const nav = useNavigate();
@@ -27,7 +28,7 @@ export default function PageLogin() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/user/findByName',
+                url: `${HEADER_API}/user/findByName`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -45,7 +46,7 @@ export default function PageLogin() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/admin/check',
+                url: `${HEADER_API}/admin/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -62,7 +63,7 @@ export default function PageLogin() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/user/check',
+                url: `${HEADER_API}/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -121,7 +122,7 @@ export default function PageLogin() {
                         let config = {
                             method: 'post',
                             maxBodyLength: Infinity,
-                            url: '/api/v1/auth/login-gmail',
+                            url: `${HEADER_API}/api/v1/auth/login-gmail`,
                             headers: {
                                 'Content-Type': 'application/json',
                             },
@@ -188,7 +189,7 @@ export default function PageLogin() {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: '/api/v1/auth/login',
+                url: `${HEADER_API}/api/v1/auth/login`,
                 headers: {
                     'Content-Type': 'application/json',
                 },

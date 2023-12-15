@@ -14,10 +14,11 @@ import ProductJustView from '../components/ProductJustView/ProductJustView';
 import axios from 'axios';
 import { ColorRing } from 'react-loader-spinner';
 import { handleClickBanner } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 export default function HomePage() {
     const [listBanner, setListBanner] = useState([]);
     useEffect(() => {
-        axios.get('/guest/getTop5Banner').then((res) => setListBanner(res.data));
+        axios.get(`${HEADER_API}/guest/getTop5Banner`).then((res) => setListBanner(res.data));
     }, []);
     return (
         <div className="home-page">

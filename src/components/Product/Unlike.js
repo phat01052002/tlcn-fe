@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useCallback } from 'react';
 import { changeListFavorite, changeNumberFavorite, changeProductUnlike, useStore } from '../../Store';
+import { HEADER_API } from '../../Store/Contants';
 import { notifyWarningPleaseLogin } from '../NotificationInPage/NotificationInPage';
 
 export default function Unlike({ product, setListFavorite }) {
@@ -14,7 +15,7 @@ export default function Unlike({ product, setListFavorite }) {
                 let config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `/user/favoriteByUser/${user.userId}`,
+                    url: `${HEADER_API}/user/favoriteByUser/${user.userId}`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -39,7 +40,7 @@ export default function Unlike({ product, setListFavorite }) {
             let configPost = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `/user/saveFavorite/${user.userId}/${product.productId}`,
+                url: `${HEADER_API}/user/saveFavorite/${user.userId}/${product.productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -48,7 +49,7 @@ export default function Unlike({ product, setListFavorite }) {
             let configGet = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/user/getFavoritesByProduct/${product.productId}`,
+                url: `${HEADER_API}/user/getFavoritesByProduct/${product.productId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

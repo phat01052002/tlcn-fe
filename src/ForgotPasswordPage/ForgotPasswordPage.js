@@ -13,6 +13,7 @@ import NotificationInPage, {
 } from '../components/NotificationInPage/NotificationInPage';
 import { auth } from '../setupFirebase/setupFirebase';
 import { handleClickBack, handleClickBackLogin, useStore } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import './ForgotPasswordPage.css';
 export default function ForgotPasswordPage() {
     const [globalState, dispatch] = useStore();
@@ -67,7 +68,7 @@ export default function ForgotPasswordPage() {
         }
     }, []);
     const handleSendOTP = useCallback(async (phone) => {
-        const checkPhone = await axios.get(`guest/checkPhone/${phone}`);
+        const checkPhone = await axios.get(`${HEADER_API}/guest/checkPhone/${phone}`);
         console.log(checkPhone.data);
         if (checkPhone.data === true) {
             try {

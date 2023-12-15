@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import { decreaseNumerNotify, formatter, useStore } from '../../Store';
+import { HEADER_API } from '../../Store/Contants';
 import './css/PageCart.css';
 
 export default function Notify({ notify, deletePageNotify }) {
@@ -22,7 +23,7 @@ export default function Notify({ notify, deletePageNotify }) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'post',
-                url: `/user/checkNotification/${notify.notificationId}`,
+                url: `${HEADER_API}/user/checkNotification/${notify.notificationId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -58,7 +59,7 @@ export default function Notify({ notify, deletePageNotify }) {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
             var config = {
                 method: 'get',
-                url: `/user/findProductByOrderId/${notify.order.orderId}`,
+                url: `${HEADER_API}/user/findProductByOrderId/${notify.order.orderId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

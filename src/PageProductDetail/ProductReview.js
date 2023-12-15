@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useStore } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import Review from './Review';
 
 export default function ProductReview({ productId }) {
@@ -18,7 +19,7 @@ export default function ProductReview({ productId }) {
                 let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: `/user/saveReview/${user.userId}/${productId}`,
+                    url: `${HEADER_API}/user/saveReview/${user.userId}/${productId}`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'text/plain',
@@ -67,7 +68,7 @@ export default function ProductReview({ productId }) {
     //
     const getReview = () => {
         axios
-            .get(`/guest/reviewByProduct/${productId}`)
+            .get(`${HEADER_API}/guest/reviewByProduct/${productId}`)
             .then((res) => {
                 setListReview(res.data);
             })

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './DesignPage.css';
 import Header from '../components/Header/Header';
 import axios from 'axios';
+import { HEADER_API } from '../Store/Contants';
 export default function DesignPage() {
     const [role, setRole] = useState('');
     //check authenticate
@@ -11,7 +12,7 @@ export default function DesignPage() {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: '/user/check',
+                url: `${HEADER_API}/user/check`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { HEADER_API } from '../../Store/Contants';
 import Category from '../Category/Category';
 import './css/Category.css';
 export default function ListCategory() {
     const [listCategory, setListCategory] = useState([]);
     useEffect(() => {
-        axios.get('/guest/category').then((res) => {
+        axios.get(`${HEADER_API}/guest/category`).then((res) => {
             if (res.data == null) {
                 window.location = '/notfound';
             }

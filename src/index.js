@@ -7,11 +7,9 @@ import { StoreProvider } from './Store';
 import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <StoreProvider>
-            <App />
-        </StoreProvider>
-    </React.StrictMode>,
+    <StoreProvider>
+        <App />
+    </StoreProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

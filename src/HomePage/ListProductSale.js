@@ -4,6 +4,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 import Product from '../components/Product/Product';
+import { HEADER_API } from '../Store/Contants';
 
 export default function ListProductSale() {
     const [listProductSale, setListProductSale] = useState([]);
@@ -25,7 +26,7 @@ export default function ListProductSale() {
         },
     };
     useEffect(() => {
-        axios.get('/guest/getProductByDiscountNotNull').then((res) => setListProductSale(res.data));
+        axios.get(`${HEADER_API}/guest/getProductByDiscountNotNull`).then((res) => setListProductSale(res.data));
     }, []);
     return (
         <div className="carousel-product-sale">

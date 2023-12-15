@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { notifyWarningPleaseLogin } from '../components/NotificationInPage/NotificationInPage';
 import { useStore } from '../Store';
+import { HEADER_API } from '../Store/Contants';
 import Response from './Response';
 
 export default function Review({ review, getReview }) {
@@ -17,7 +18,7 @@ export default function Review({ review, getReview }) {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: `/user/deleteReview/${review.reviewId}`,
+                url: `${HEADER_API}/user/deleteReview/${review.reviewId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -54,7 +55,7 @@ export default function Review({ review, getReview }) {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `/user/getResponseReview/${review.reviewId}`,
+                url: `${HEADER_API}/user/getResponseReview/${review.reviewId}`,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -76,7 +77,7 @@ export default function Review({ review, getReview }) {
                 let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: `/user/saveResponseReview/${user.userId}/${review.reviewId}`,
+                    url: `${HEADER_API}/user/saveResponseReview/${user.userId}/${review.reviewId}`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'text/plain',
