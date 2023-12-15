@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useResolvedPath, useSearchParams } from 'react-router-dom';
-import { AlertDontHaveInfo, AlertLoginFalse } from '../components/Alert/Alert';
+import { AlertDontHaveInfo, AlertLoginFalse, AlertUserInActive } from '../components/Alert/Alert';
 import NotificationInPage from '../components/NotificationInPage/NotificationInPage';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_GRANT_TYPE, GOOGLE_REDIRECT_URI } from '../Contants/Contants';
 import {
@@ -195,16 +195,21 @@ export default function PageLogin() {
                 data: data,
             };
             const response = await axios.request(config);
-            //save access token to sessionStorage
-            sessionStorage.setItem('USER', JSON.stringify(response.data));
-            checkUser();
-            checkAdmin();
+            if(response.data)
+            {
+                //save access token to sessionStorage
+                sessionStorage.setItem('USER', JSON.stringify(response.data));
+                checkUser();
+                checkAdmin();
             //reload
             if (sessionStorage.getItem('checkout')) {
                 nav('/checkout');
             } else {
                 nav('/');
             }
+            }
+            else AlertUserInActive();
+            
         } catch {
             AlertLoginFalse();
         }

@@ -437,9 +437,9 @@ useEffect(() => {
             />}
             
             <RadioGroup value={value} onChange={handleRadioChange}>
-            <FormControlLabel value="line"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}} />} label="Line" />
-            <FormControlLabel value="bar" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Bar" />
-            <FormControlLabel value="pie" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14,},}}/>} label="Pie" />
+            <FormControlLabel  value="line"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}} />} label="Line" />
+            <FormControlLabel  value="bar" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}}/>} label="Bar" />
+            <FormControlLabel value="pie" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}}/>} label="Pie" />
           </RadioGroup>
           </Box>
           

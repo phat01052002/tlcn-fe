@@ -22,6 +22,14 @@ export const AlertLoginFalse = (logOut) => {
         denyButtonText: `OK`,
     });
 };
+export const AlertUserInActive = (logOut) => {
+    Swal.fire({
+        title: 'Tài khoản đã bị khóa',
+        showDenyButton: true,
+        showConfirmButton: false,
+        denyButtonText: `OK`,
+    });
+};
 export const AlertDontHaveInfo = (logOut) => {
     Swal.fire({
         title: 'Hãy nhập đủ thông tin',

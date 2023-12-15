@@ -149,16 +149,21 @@ const ManageUsers = () => {
         {
             field: 'phone',
             headerName: 'Số điện thoại',
+            headerAlign: 'center',
+            align: 'center',
             flex: 1,
         },
         {
             field: 'address',
             headerName: 'Địa chỉ',
+            headerAlign: 'center',
             flex: 1,
         },
         {
             field: 'username',
             headerName: 'Tên tài khoản',
+            headerAlign: 'center',
+            align: 'center',
             flex: 1,
         },
         {
@@ -310,16 +315,10 @@ const ManageUsers = () => {
     ];
 
     return (
-        <Box m="20px">
+        <Box m="20px 20px 20px 20px">
             <HeaderAdmin title="NGƯỜI DÙNG" subtitle="Quản lý người dùng" />
-            {/** Add button */}
-            <Link to={`/admin/users/create`} m="0px">
-                <IconButton>
-                    <PersonAddOutlinedIcon />
-                </IconButton>
-            </Link>
             <Box
-                m="10px 0 0 0"
+                m="75px 0px 0px 0px"
                 height="65vh"
                 sx={{
                     '& .MuiDataGrid-root': {
