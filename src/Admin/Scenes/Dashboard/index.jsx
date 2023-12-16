@@ -239,8 +239,6 @@ useEffect(() => {
           <StatBox
             title={dataCard.totalProductSold}
             subtitle="Tổng sản phẩm đã bán"
-            progress="0.75"
-            increase="+14%"
             icon={
               <SmartphoneOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -258,8 +256,6 @@ useEffect(() => {
           <StatBox
             title={formatter.format(dataCard.totalRevenue)}
             subtitle="Doanh thu"
-            progress="0.50"
-            increase="+21%"
             icon={
               <PointOfSaleIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -277,8 +273,6 @@ useEffect(() => {
           <StatBox
             title={dataCard.totalNewUser}
             subtitle="Người dùng mới"
-            progress="0.30"
-            increase="+5%"
             icon={
               <PersonAddIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -437,9 +431,9 @@ useEffect(() => {
             />}
             
             <RadioGroup value={value} onChange={handleRadioChange}>
-            <FormControlLabel  value="line"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}} />} label="Line" />
-            <FormControlLabel  value="bar" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}}/>} label="Bar" />
-            <FormControlLabel value="pie" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}}/>} label="Pie" />
+            <FormControlLabel  value="line"  control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}} />} label="Đường" />
+            <FormControlLabel  value="bar" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}}/>} label="Cột" />
+            <FormControlLabel value="pie" control={<Radio sx={{ '& .MuiSvgIcon-root': {fontSize: 14, color: "white"},}}/>} label="Tròn" />
           </RadioGroup>
           </Box>
           

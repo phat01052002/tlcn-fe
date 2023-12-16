@@ -33,6 +33,7 @@ import { useEffect } from 'react';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('bắt buộc'),
+    roomName: yup.string().required('bắt buộc'),
 });
 //Field values
 const initialValues = {
@@ -73,6 +74,7 @@ export default function CreateCategory() {
     const [message, setMessage] = useState(null);
     const [fileName, setFileName] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
+    const [fileFormatError, setFileFormatError] = useState('');
 
     const uploadImage_Submit = async (values) => {
         console.log(values);
@@ -180,21 +182,36 @@ export default function CreateCategory() {
                                                         <VisuallyHiddenInput
                                                             type="file"
                                                             onChange={(event) => {
-                                                                var temporaryImageUrl = '';
-                                                                    if(event.target.files[0])
-                                                                    {
-                                                                        temporaryImageUrl = URL.createObjectURL(
-                                                                            event.target.files[0],
-                                                                        );
-                                                                    }
+                                                                const selectedFile = event.target.files[0];
 
-                                                                setImagePreview(temporaryImageUrl);
-                                                                setImageUpload(event.target.files[0]);
-                                                                setFileName(event.target.files[0].name);
+                                                                const allowedExtensions =
+                                                                    /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                                                                if (!allowedExtensions.test(selectedFile.name)) {
+                                                                    setFileFormatError(
+                                                                        'Vui lòng chọn file ảnh có định dạng JPG, JPEG, PNG hoặc GIF.',
+                                                                    );
+                                                                    setImagePreview('');
+                                                                    setImageUpload(null);
+                                                                    setFileName(null);
+                                                                    return;
+                                                                }
+                                                                // Xử lý logic khi file đúng định dạng
+                                                                var temporaryImageUrl = '';
+                                                                if (selectedFile) {
+                                                                    temporaryImageUrl =
+                                                                        URL.createObjectURL(selectedFile);
+                                                                    setFileFormatError('');
+                                                                    setImagePreview(temporaryImageUrl);
+                                                                    setImageUpload(selectedFile);
+                                                                    setFileName(selectedFile.name);
+                                                                }
                                                             }}
                                                         />
                                                     </Button>
                                                     <Typography>{fileName}</Typography>
+                                                    <Typography style={{ color: 'red', fontSize: '13px' }}>
+                                                        {fileFormatError}
+                                                    </Typography>
                                                 </Stack>
                                                 {imagePreview && (
                                                     <Avatar

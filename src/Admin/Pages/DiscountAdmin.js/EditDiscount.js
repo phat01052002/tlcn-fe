@@ -33,7 +33,6 @@ import { useParams } from 'react-router-dom';
 import { VisuallyHiddenInput } from './CreateDiscount';
 
 const checkoutSchema = yup.object().shape({
-    discountId: yup.number().required('bắt buộc'),
     discountName: yup.string().required('bắt buộc'),
     percentDiscount: yup.number().required('bắt buộc'),
 });

@@ -105,6 +105,7 @@ export default function CreateProduct() {
     const [message, setMessage] = useState(null);
     const [fileName, setFileName] = useState([null, null, null]);
     const [imagePreview, setImagePreview] = useState(['', '', '']);
+    const [fileFormatError, setFileFormatError] = useState(['', '', '']);
     const setImageUploadItem = (index, value) => {
         setImageUpload((prevImageUpload) => {
             const newImageUpload = [...prevImageUpload];
@@ -126,15 +127,22 @@ export default function CreateProduct() {
             return newImagePreview;
         });
     };
+    const setFileFormatErrorItem = (index, value) => {
+        setFileFormatError((prevFileFormatError) => {
+            const newFileFormatError = [...prevFileFormatError];
+            newFileFormatError[index] = value;
+            return newFileFormatError;
+        });
+    };
 
     const uploadImage_Submit = async (values) => {
         if (imageUpload == null) return;
 
-        const uploadPromises = imageUpload.map((item, index) => {
+        const uploadPromises = imageUpload.map(async (item, index) => {
             if (item) {
                 const imageRef = ref(storage, `imageProducts/${item.name + v4()}`);
-                uploadBytes(imageRef, item).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then(async (url) => {
+                await uploadBytes(imageRef, item).then(async (snapshot) => {
+                    await getDownloadURL(snapshot.ref).then(async (url) => {
                         console.log('url: ' + url);
                         if (url != null) values[`image${index + 1}`] = url;
                         console.log('value');
@@ -143,7 +151,7 @@ export default function CreateProduct() {
                 });
             }
         });
-        Promise.all(uploadPromises).then(() => {
+        await Promise.all(uploadPromises).then(() => {
             createProduct(values);
         });
     };
@@ -272,22 +280,38 @@ export default function CreateProduct() {
                                                             <VisuallyHiddenInput
                                                                 type="file"
                                                                 onChange={(event) => {
-                                                                    var temporaryImageUrl = '';
-                                                                    if(event.target.files[0])
-                                                                    {
-                                                                        temporaryImageUrl = URL.createObjectURL(
-                                                                            event.target.files[0],
-                                                                        );
-                                                                    }
+                                                                    const selectedFile = event.target.files[0];
 
-                                                                    setImagePreviewItem(index, temporaryImageUrl);
-                                                                    setImageUploadItem(index, event.target.files[0]);
-                                                                    setFileNameItem(index, event.target.files[0].name);
+                                                                    const allowedExtensions =
+                                                                        /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                                                                    if (!allowedExtensions.test(selectedFile.name)) {
+                                                                        setFileFormatErrorItem(
+                                                                            index,
+                                                                            'Vui lòng chọn file ảnh có định dạng JPG, JPEG, PNG hoặc GIF.',
+                                                                        );
+                                                                        setImagePreviewItem(index, '');
+                                                                        setImageUploadItem(index, null);
+                                                                        setFileNameItem(index, null);
+                                                                        return;
+                                                                    }
+                                                                    // Xử lý logic khi file đúng định dạng
+                                                                    var temporaryImageUrl = '';
+                                                                    if (selectedFile) {
+                                                                        temporaryImageUrl =
+                                                                            URL.createObjectURL(selectedFile);
+                                                                        setFileFormatErrorItem(index, '');
+                                                                        setImagePreviewItem(index, temporaryImageUrl);
+                                                                        setImageUploadItem(index, selectedFile);
+                                                                        setFileNameItem(index, selectedFile.name);
+                                                                    }
                                                                 }}
                                                             />
                                                         </Button>
 
                                                         <Typography>{fileName[index]}</Typography>
+                                                        <Typography style={{ color: 'red', fontSize: '13px' }}>
+                                                            {fileFormatError[index]}
+                                                        </Typography>
                                                     </Stack>
                                                     {imagePreview[index] && (
                                                         <Avatar
@@ -363,7 +387,6 @@ export default function CreateProduct() {
                                                     ))}
                                                 </Select>
                                             </FormControl>
-                                            
                                         </Box>
 
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">

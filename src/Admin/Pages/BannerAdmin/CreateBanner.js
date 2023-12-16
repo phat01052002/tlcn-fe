@@ -33,7 +33,7 @@ import { useEffect } from 'react';
 
 const checkoutSchema = yup.object().shape({
     title: yup.string().required('bắt buộc'),
-    productId: yup.number().required('bắt buộc')
+    productId: yup.number().required('bắt buộc'),
 });
 //Field values
 const initialValues = {
@@ -53,7 +53,7 @@ export default function CreateBanner() {
     const [message, setMessage] = useState(null);
     const [fileName, setFileName] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
-
+    const [fileFormatError, setFileFormatError] = useState('');
     const uploadImage_Submit = async (values) => {
         console.log(values);
         if (imageUpload == null) return;
@@ -146,7 +146,7 @@ export default function CreateBanner() {
                                                 helperText={touched.productId && errors.productId}
                                                 sx={{ gridColumn: 'span 2' }}
                                             />
-                                            <Box >
+                                            <Box>
                                                 <Stack spacing={2} direction="row" height={35}>
                                                     <Button
                                                         color="secondary"
@@ -158,21 +158,36 @@ export default function CreateBanner() {
                                                         <VisuallyHiddenInput
                                                             type="file"
                                                             onChange={(event) => {
-                                                                var temporaryImageUrl = '';
-                                                                    if(event.target.files[0])
-                                                                    {
-                                                                        temporaryImageUrl = URL.createObjectURL(
-                                                                            event.target.files[0],
-                                                                        );
-                                                                    }
+                                                                const selectedFile = event.target.files[0];
 
-                                                                setImagePreview(temporaryImageUrl);
-                                                                setImageUpload(event.target.files[0]);
-                                                                setFileName(event.target.files[0].name);
+                                                                const allowedExtensions =
+                                                                    /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                                                                if (!allowedExtensions.test(selectedFile.name)) {
+                                                                    setFileFormatError(
+                                                                        'Vui lòng chọn file ảnh có định dạng JPG, JPEG, PNG hoặc GIF.',
+                                                                    );
+                                                                    setImagePreview('');
+                                                                    setImageUpload(null);
+                                                                    setFileName(null);
+                                                                    return;
+                                                                }
+                                                                // Xử lý logic khi file đúng định dạng
+                                                                var temporaryImageUrl = '';
+                                                                if (selectedFile) {
+                                                                    temporaryImageUrl =
+                                                                        URL.createObjectURL(selectedFile);
+                                                                    setFileFormatError('');
+                                                                    setImagePreview(temporaryImageUrl);
+                                                                    setImageUpload(selectedFile);
+                                                                    setFileName(selectedFile.name);
+                                                                }
                                                             }}
                                                         />
                                                     </Button>
                                                     <Typography>{fileName}</Typography>
+                                                    <Typography style={{ color: 'red', fontSize: '13px' }}>
+                                                        {fileFormatError}
+                                                    </Typography>
                                                 </Stack>
                                                 {imagePreview && (
                                                     <Avatar
@@ -189,11 +204,9 @@ export default function CreateBanner() {
                                                         src={imagePreview}
                                                     ></Avatar>
                                                 )}
-
                                             </Box>
-                                            
                                         </Box>
-                                        
+
                                         <Box display="flex" justifyContent="end" mt="20px" gap="20px">
                                             <IconButton
                                                 onClick={() => {

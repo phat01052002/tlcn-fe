@@ -148,7 +148,7 @@ export default function EditProduct() {
     const [message, setMessage] = useState(null);
     const [fileName, setFileName] = useState([null, null, null]);
     const [imagePreview, setImagePreview] = useState([null, null, null]);
-    const [finishFlag, setFinishFlag] = useState(false);
+    const [fileFormatError, setFileFormatError] = useState(['', '', '']);
     const setImageUploadItem = (index, value) => {
         setImageUpload((prevImageUpload) => {
             const newImageUpload = [...prevImageUpload];
@@ -168,6 +168,13 @@ export default function EditProduct() {
             const newImagePreview = [...prevImagePreview];
             newImagePreview[index] = value;
             return newImagePreview;
+        });
+    };
+    const setFileFormatErrorItem = (index, value) => {
+        setFileFormatError((prevFileFormatError) => {
+            const newFileFormatError = [...prevFileFormatError];
+            newFileFormatError[index] = value;
+            return newFileFormatError;
         });
     };
     const uploadImage_Submit = async (values) => {
@@ -318,22 +325,38 @@ export default function EditProduct() {
                                                             <VisuallyHiddenInput
                                                                 type="file"
                                                                 onChange={(event) => {
-                                                                    var temporaryImageUrl = '';
-                                                                    if(event.target.files[0])
-                                                                    {
-                                                                        temporaryImageUrl = URL.createObjectURL(
-                                                                            event.target.files[0],
-                                                                        );
-                                                                    }
+                                                                    const selectedFile = event.target.files[0];
 
-                                                                    setImagePreviewItem(index, temporaryImageUrl);
-                                                                    setImageUploadItem(index, event.target.files[0]);
-                                                                    setFileNameItem(index, event.target.files[0].name);
+                                                                    const allowedExtensions =
+                                                                        /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                                                                    if (!allowedExtensions.test(selectedFile.name)) {
+                                                                        setFileFormatErrorItem(
+                                                                            index,
+                                                                            'Vui lòng chọn file ảnh có định dạng JPG, JPEG, PNG hoặc GIF.',
+                                                                        );
+                                                                        setImagePreviewItem(index, '');
+                                                                        setImageUploadItem(index, null);
+                                                                        setFileNameItem(index, null);
+                                                                        return;
+                                                                    }
+                                                                    // Xử lý logic khi file đúng định dạng
+                                                                    var temporaryImageUrl = '';
+                                                                    if (selectedFile) {
+                                                                        temporaryImageUrl =
+                                                                            URL.createObjectURL(selectedFile);
+                                                                        setFileFormatErrorItem(index, '');
+                                                                        setImagePreviewItem(index, temporaryImageUrl);
+                                                                        setImageUploadItem(index, selectedFile);
+                                                                        setFileNameItem(index, selectedFile.name);
+                                                                    }
                                                                 }}
                                                             />
                                                         </Button>
 
                                                         <Typography>{fileName[index]}</Typography>
+                                                        <Typography style={{ color: 'red', fontSize: '13px' }}>
+                                                            {fileFormatError[index]}
+                                                        </Typography>
                                                     </Stack>
                                                     {imagePreview[index] && (
                                                         <Avatar
