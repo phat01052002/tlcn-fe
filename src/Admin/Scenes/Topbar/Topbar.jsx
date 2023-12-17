@@ -8,6 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LightModeOutlinedICon from '@mui/icons-material/LightModeOutlined'
 import DarkModeOutlinedICon from '@mui/icons-material/DarkModeOutlined'
 import { AlertLogout } from '../../../components/Alert/Alert';
+import ChatMessage from '../../../components/ChatMessage/ChatMessage';
 
 
 const Topbar = () => {
@@ -96,7 +97,6 @@ const Topbar = () => {
             <IconButton onClick={handleClickLogout}>
                 <LogoutIcon/>
             </IconButton>
-
         </Box>
         
 

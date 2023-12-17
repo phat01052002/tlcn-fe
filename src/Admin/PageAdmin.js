@@ -18,7 +18,9 @@ export default function PageAdmin() {
                 <div className="app">
                     <SidebarAdmin />
                     <main className="content">
-                        <Topbar></Topbar>
+                        <Topbar>
+                        
+                        </Topbar>
                         <Dashboard></Dashboard>
                     </main>
                     <ChatMessage role={'admin'}></ChatMessage>

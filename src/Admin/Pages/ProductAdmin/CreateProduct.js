@@ -31,12 +31,14 @@ import { v4 } from 'uuid';
 import { styleBox } from '../../Scenes/ManageUser/ManageUser';
 import { useEffect } from 'react';
 
+const regex = /^\d+$/;
+
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('bắt buộc'),
     description: yup.string().required('bắt buộc'),
-    price: yup.number().required('bắt buộc'),
+    price: yup.string().matches(regex, "số lượng không hợp lệ").required('bắt buộc'),
     categoryName: yup.string().required('bắt buộc'),
-    quantity: yup.number().required('bắt buộc'),
+    quantity: yup.string().matches(regex, "số lượng không hợp lệ").required('bắt buộc'),
     size: yup.string().required('bắt buộc'),
 });
 //Field values
