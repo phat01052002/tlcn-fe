@@ -16,7 +16,7 @@ export default function ProductAdmin() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className='app' style={{display: 'flex', flexDirection: 'row'}}>
-            <SidebarAdmin/>
+            <SidebarAdmin select="Quản lý sản phẩm"/>
                 <main className='content' style={{columnWidth: '75vw'}}>
                     <Topbar></Topbar>
                     <ManageProducts></ManageProducts>  

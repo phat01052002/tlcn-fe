@@ -17,7 +17,7 @@ export default function BannerAdmin() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className='app'>
-            <SidebarAdmin/>
+            <SidebarAdmin select="Quản lý banner"/>
                 <main className='content'>
                     <Topbar></Topbar>
                     <Box >

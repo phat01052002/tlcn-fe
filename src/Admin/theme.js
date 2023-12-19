@@ -201,7 +201,7 @@ export const tokens = (mode) => ({
   
   export const useMode = () => {
     const [globalState, dispatch] = useStore();
-    const { colorTheme } = globalState; //numberCart is state get from StoreF
+    const { colorTheme } = globalState;
     const [mode, setMode] = useState(colorTheme);
   
     const colorMode = useMemo(

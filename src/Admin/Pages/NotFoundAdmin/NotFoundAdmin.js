@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ColorModeContext, useMode } from '../../theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import axios from 'axios';
-import { changeRole, useStore } from '../../../Store';
+
 import Topbar from '../../Scenes/Topbar/Topbar';
 import SidebarAdmin from '../../Scenes/Sidebar/Sidebar';
 import '../../PageAdmin.css'
-import ManageUsers from '../../Scenes/ManageUser/ManageUser';
-export default function UserAdmin() {
+import NotFoundScene from '../../Scenes/NotFound/NotFoundScene';
+export default function NotFoundAdmin() {
     
     const [theme, colorMode] = useMode();
 
@@ -15,10 +14,10 @@ export default function UserAdmin() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className='app' style={{display: 'flex', flexDirection: 'row'}}>
-            <SidebarAdmin select="Quản lý người dùng"/>
+            <SidebarAdmin/>
                 <main className='content' style={{columnWidth: '75vw'}}>
                     <Topbar></Topbar>
-                    <ManageUsers/>
+                    <NotFoundScene/>
                 </main>
             </div>
         </ThemeProvider>

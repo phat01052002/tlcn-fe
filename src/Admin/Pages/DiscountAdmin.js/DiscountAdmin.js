@@ -9,7 +9,7 @@ import Dashboard from '../../Scenes/Dashboard';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../../PageAdmin.css'
 import ManageDiscounts from '../../Scenes/ManageDiscount/ManageDiscount';
-export default function DiscountAdmin() {
+export default function DiscountAdmin({select}) {
     
     const [theme, colorMode] = useMode();
 
@@ -17,7 +17,7 @@ export default function DiscountAdmin() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className='app'>
-            <SidebarAdmin/>
+            <SidebarAdmin select="Quản lý giảm giá"/>
                 <main className='content'>
                     <Topbar></Topbar>
                     <Box >

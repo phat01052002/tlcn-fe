@@ -11,7 +11,7 @@ import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import NotFoundAdmin from '../NotFoundAdmin/NotFoundAdmin';
 
 export default function BannerDetail() {
     const { id } = useParams();
@@ -51,6 +51,8 @@ export default function BannerDetail() {
     useEffect(() => {
 		loadBannerDetail();
 	}, []);
+    if(!banner)
+        return (<NotFoundAdmin></NotFoundAdmin>)
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>

@@ -11,7 +11,7 @@ import '../../PageAdmin.css'
 import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
 import ManageCategories from '../../Scenes/ManageCategory/ManageCategory';
 import ManageOrders from '../../Scenes/ManageOrder/ManageOrder';
-export default function OrderAdmin() {
+export default function OrderAdmin({select}) {
     
     const [theme, colorMode] = useMode();
 
@@ -19,7 +19,7 @@ export default function OrderAdmin() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className='app'>
-            <SidebarAdmin/>
+            <SidebarAdmin select="Quản lý đơn hàng"/>
                 <main className='content'>
                     <Topbar></Topbar>
                     <Box >

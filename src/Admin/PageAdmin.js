@@ -16,7 +16,7 @@ export default function PageAdmin() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <div className="app">
-                    <SidebarAdmin />
+                    <SidebarAdmin select="Dashboard"/>
                     <main className="content">
                         <Topbar>
                         

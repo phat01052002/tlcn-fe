@@ -10,15 +10,9 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
-import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
+import PercentOutlinedIcon from '@mui/icons-material/PercentOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -38,13 +32,12 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     );
 };
 
-const SidebarAdmin = () => {
+const SidebarAdmin = ({select}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState('Dashboard');
-
     const [admin, setAdmin] = useState([]);
+    const [selected, setSelected] = useState(select);
     const getAdmin = async () => {
         try {
             const accessToken = JSON.parse(sessionStorage.getItem('USER')).token;
@@ -175,7 +168,7 @@ const SidebarAdmin = () => {
                         <Item
                             title="Quản lý giảm giá"
                             to="/admin/discounts"
-                            icon={<CalendarTodayOutlinedIcon />}
+                            icon={<PercentOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />

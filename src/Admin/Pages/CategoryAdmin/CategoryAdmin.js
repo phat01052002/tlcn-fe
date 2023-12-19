@@ -18,7 +18,7 @@ export default function CategoryAdmin() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className='app'>
-            <SidebarAdmin/>
+            <SidebarAdmin select="Quản lý loại sản phẩm"/>
                 <main className='content'>
                     <Topbar></Topbar>
                     <Box >
